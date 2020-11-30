@@ -98,12 +98,14 @@ public interface Chinook {
 
   interface Genre {
     EntityType<Entity> TYPE = DOMAIN.entityType("genre@chinook");
+
     Attribute<Long> ID = TYPE.longAttribute("genreid");
     Attribute<String> NAME = TYPE.stringAttribute("name");
   }
 
   interface MediaType {
     EntityType<Entity> TYPE = DOMAIN.entityType("mediatype@chinook");
+
     Attribute<Long> ID = TYPE.longAttribute("mediatypeid");
     Attribute<String> NAME = TYPE.stringAttribute("name");
   }
