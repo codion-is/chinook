@@ -16,6 +16,12 @@ dependencies {
     runtimeOnly "is.codion.jdk11:codion-plugin-logback-proxy:${codionVersion}"
     runtimeOnly "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
     runtimeOnly "com.h2database:h2:1.4.200"
+    testRuntimeOnly project(':domain')
+}
+
+test {
+    systemProperty "codion.db.url", "jdbc:h2:mem:h2db"
+    systemProperty "codion.db.initScripts", "classpath:create_schema.sql"
 }
 
 application {

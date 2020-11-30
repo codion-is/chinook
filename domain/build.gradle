@@ -6,4 +6,14 @@ dependencies {
     api project(':domain-api')
     implementation "is.codion.jdk11:codion-common-rmi:${codionVersion}"
     implementation "is.codion.jdk11:codion-framework-db-local:${codionVersion}"
+
+    testImplementation "is.codion.jdk11:codion-framework-domain-test:${codionVersion}"
+    testRuntimeOnly "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
+    testRuntimeOnly "com.h2database:h2:1.4.200"
+}
+
+test {
+    systemProperty "codion.test.user", "scott:tiger"
+    systemProperty "codion.db.url", "jdbc:h2:mem:h2db"
+    systemProperty "codion.db.initScripts", "classpath:create_schema.sql"
 }
