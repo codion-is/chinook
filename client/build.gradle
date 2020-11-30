@@ -27,10 +27,8 @@ test {
 application {
     mainModule = "is.codion.framework.demos.chinook.client"
     mainClassName = "is.codion.framework.demos.chinook.ui.ChinookAppPanel"
-}
-
-run {
-    jvmArgs = [
+    applicationDefaultJvmArgs = [
+            //add-reads for accessing default methods for Entity types
             "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api",
             "-Dcodion.client.connectionType=local",
             "-Dcodion.db.url=jdbc:h2:mem:h2db",
