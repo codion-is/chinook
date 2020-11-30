@@ -1,0 +1,5 @@
+rootProject.name = 'chinook'
+
+include 'domain-api'
+include 'domain'
+include 'client'

@@ -1,0 +1,35 @@
+repositories {
+    mavenLocal()
+    maven {
+        url "${artifactoryHostAndPort}/artifactory/libs-release"
+        allowInsecureProtocol = true
+    }
+    maven {
+        url "${artifactoryHostAndPort}/artifactory/libs-snapshot"
+        allowInsecureProtocol = true
+    }
+}
+
+apply plugin: 'java'
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+group = 'is.codion.demos'
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.3"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.3"
+}
+
+java {
+    modularity.inferModulePath = true
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+}

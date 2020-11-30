@@ -1,0 +1,9 @@
+apply from: "../build-shared.gradle"
+
+apply plugin: 'java-library'
+
+dependencies {
+    api "is.codion.jdk11:codion-framework-domain:${codionVersion}"
+    api "is.codion.jdk11:codion-framework-db-core:${codionVersion}"
+    api "is.codion.jdk11:codion-plugin-jasperreports:${codionVersion}"
+}

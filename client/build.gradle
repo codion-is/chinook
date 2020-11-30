@@ -1,0 +1,32 @@
+apply from: "../build-shared.gradle"
+
+apply plugin: 'application'
+
+dependencies {
+    implementation project(':domain-api')
+    implementation project(':domain')
+
+    implementation "is.codion.jdk11:codion-framework-db-local:${codionVersion}"
+    implementation "is.codion.jdk11:codion-swing-framework-ui:${codionVersion}"
+    implementation "is.codion.jdk11:codion-plugin-imagepanel:${codionVersion}"
+    implementation "is.codion.jdk11:codion-plugin-ikonli-foundation:${codionVersion}"
+
+    runtimeOnly "is.codion.jdk11:codion-plugin-logback-proxy:${codionVersion}"
+    runtimeOnly "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
+    runtimeOnly "com.h2database:h2:1.4.200"
+}
+
+application {
+    mainModule = "is.codion.framework.demos.chinook.client"
+    mainClassName = "is.codion.framework.demos.chinook.ui.ChinookAppPanel"
+}
+
+run {
+    jvmArgs = [
+            "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api",
+            "-Dcodion.client.connectionType=local",
+            "-Dcodion.db.url=jdbc:h2:mem:h2db",
+            "-Dcodion.db.initScripts=classpath:create_schema.sql",
+            "-Dsun.awt.disablegrab=true"
+    ]
+}
