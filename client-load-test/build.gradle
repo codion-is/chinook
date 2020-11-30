@@ -1,0 +1,40 @@
+apply from: "../build-shared.gradle"
+
+apply plugin: 'application'
+
+dependencies {
+    implementation project(':domain-api')
+    implementation project(':client')
+
+    implementation "is.codion.jdk11:codion-swing-common-tools-ui:${codionVersion}"
+    implementation "is.codion.jdk11:codion-swing-framework-ui:${codionVersion}"
+    implementation "is.codion.jdk11:codion-swing-framework-tools:${codionVersion}"
+}
+
+application {
+    mainModule = "is.codion.framework.demos.chinook.client.loadtest"
+    mainClassName = "is.codion.framework.demos.chinook.client.loadtest.ChinookLoadTest"
+}
+
+task runRmi(type: JavaExec) {
+    group 'application'
+    main = application.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties = [
+            'codion.client.connectionType'    : 'remote',
+            'codion.server.hostname'          : 'localhost',
+            'javax.net.ssl.trustStore'        : '../server/src/main/config/truststore.jks',
+            'javax.net.ssl.trustStorePassword': 'crappypass'
+    ]
+}
+
+task runHttp(type: JavaExec) {
+    group 'application'
+    main = application.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties = [
+            'codion.client.connectionType': 'http',
+            'codion.client.http.secure'   : 'false',
+            'codion.client.http.hostname' : 'localhost'
+    ]
+}

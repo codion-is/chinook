@@ -6,5 +6,6 @@ module is.codion.framework.demos.chinook.client {
 
   requires is.codion.framework.demos.chinook.domain.api;
 
-  exports is.codion.framework.demos.chinook.ui to is.codion.swing.framework.ui;
+  exports is.codion.framework.demos.chinook.ui;
+  exports is.codion.framework.demos.chinook.model;
 }
