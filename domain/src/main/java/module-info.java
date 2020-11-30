@@ -8,4 +8,9 @@ module is.codion.framework.demos.chinook.domain {
 
   exports is.codion.framework.demos.chinook.domain;
   exports is.codion.framework.demos.chinook.server;
+
+  provides is.codion.framework.domain.Domain
+          with is.codion.framework.demos.chinook.domain.ChinookImpl;
+  provides is.codion.common.rmi.server.LoginProxy
+          with is.codion.framework.demos.chinook.server.ChinookLoginProxy;
 }

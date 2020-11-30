@@ -1,0 +1,30 @@
+apply from: "../build-shared.gradle"
+
+apply plugin: 'application'
+
+dependencies {
+    runtimeOnly "is.codion.jdk11:codion-framework-server:${codionVersion}"
+    runtimeOnly "is.codion.jdk11:codion-framework-servlet:${codionVersion}"
+
+    runtimeOnly project(":domain")
+
+    runtimeOnly "is.codion.jdk11:codion-plugin-hikari-pool:${codionVersion}"
+    runtimeOnly "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
+    runtimeOnly "com.h2database:h2:1.4.200"
+
+    //logging library, skipping the email stuff
+    runtimeOnly ("is.codion.jdk11:codion-plugin-logback-proxy:${codionVersion}") {
+        exclude group: 'com.sun.mail', module: 'javax.mail'
+    }
+}
+
+application {
+    mainClassName = "is.codion.framework.server.EntityServer"
+    applicationDefaultJvmArgs = [
+            "-Xmx256m",
+            "-Djava.rmi.server.hostname=${serverHost}",
+            "-Dcodion.configurationFile=src/main/config/h2_embedded.config",
+            "-Dlogback.configurationFile=src/main/config/logback.xml",
+            "-Djava.security.policy=src/main/config/codion_server.policy"
+    ]
+}
