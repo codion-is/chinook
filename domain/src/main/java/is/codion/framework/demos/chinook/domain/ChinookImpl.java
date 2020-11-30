@@ -207,11 +207,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     Track.ALBUM_FK, Album.ARTIST_FK)
                     .preferredColumnWidth(160),
             columnProperty(Track.ALBUM_ID),
-            // tag::fetchDepth2[]
             foreignKeyProperty(Track.ALBUM_FK, "Album")
                     .fetchDepth(2)
                     .preferredColumnWidth(160),
-            // end::fetchDepth2[]
             columnProperty(Track.NAME, "Name")
                     .searchProperty(true)
                     .nullable(false)
@@ -281,12 +279,10 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     define(InvoiceLine.TYPE, "chinook.invoiceline",
             primaryKeyProperty(InvoiceLine.ID),
             columnProperty(InvoiceLine.INVOICE_ID),
-            // tag::fetchDepth0[]
             foreignKeyProperty(InvoiceLine.INVOICE_FK, "Invoice")
                     .fetchDepth(0)
                     .nullable(false),
             columnProperty(InvoiceLine.TRACK_ID),
-            // end::fetchDepth0[]
             foreignKeyProperty(InvoiceLine.TRACK_FK, "Track")
                     .nullable(false)
                     .preferredColumnWidth(100),
