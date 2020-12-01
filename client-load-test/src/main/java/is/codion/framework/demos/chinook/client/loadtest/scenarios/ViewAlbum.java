@@ -1,21 +1,24 @@
 package is.codion.framework.demos.chinook.client.loadtest.scenarios;
 
-import is.codion.framework.demos.chinook.domain.api.Chinook;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Artist;
 import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.swing.common.tools.loadtest.ScenarioException;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.tools.loadtest.EntityLoadTestModel;
+
+import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRow;
 
 public final class ViewAlbum extends EntityLoadTestModel.AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   @Override
   protected void perform(final ChinookApplicationModel application) throws ScenarioException {
     try {
-      final SwingEntityModel artistModel = application.getEntityModel(Chinook.Artist.TYPE);
+      final SwingEntityModel artistModel = application.getEntityModel(Artist.TYPE);
       artistModel.getTableModel().refresh();
-      EntityLoadTestModel.selectRandomRow(artistModel.getTableModel());
-      final SwingEntityModel albumModel = artistModel.getDetailModel(Chinook.Album.TYPE);
-      EntityLoadTestModel.selectRandomRow(albumModel.getTableModel());
+      selectRandomRow(artistModel.getTableModel());
+      final SwingEntityModel albumModel = artistModel.getDetailModel(Album.TYPE);
+      selectRandomRow(albumModel.getTableModel());
     }
     catch (final Exception e) {
       throw new ScenarioException(e);
