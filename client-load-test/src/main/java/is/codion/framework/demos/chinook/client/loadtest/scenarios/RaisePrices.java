@@ -7,13 +7,13 @@ import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.framework.demos.chinook.model.TrackTableModel;
 import is.codion.swing.common.tools.loadtest.ScenarioException;
 import is.codion.swing.framework.model.SwingEntityModel;
-import is.codion.swing.framework.tools.loadtest.EntityLoadTestModel;
+import is.codion.swing.framework.tools.loadtest.AbstractEntityUsageScenario;
 
 import java.math.BigDecimal;
 
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRows;
 
-public final class RaisePrices extends EntityLoadTestModel.AbstractEntityUsageScenario<ChinookApplicationModel> {
+public final class RaisePrices extends AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   @Override
   protected void perform(final ChinookApplicationModel application) throws ScenarioException {

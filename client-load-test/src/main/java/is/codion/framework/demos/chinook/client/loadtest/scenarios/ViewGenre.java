@@ -5,12 +5,12 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.swing.common.tools.loadtest.ScenarioException;
 import is.codion.swing.framework.model.SwingEntityModel;
-import is.codion.swing.framework.tools.loadtest.EntityLoadTestModel;
+import is.codion.swing.framework.tools.loadtest.AbstractEntityUsageScenario;
 
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRow;
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRows;
 
-public final class ViewGenre extends EntityLoadTestModel.AbstractEntityUsageScenario<ChinookApplicationModel> {
+public final class ViewGenre extends AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   @Override
   protected void perform(final ChinookApplicationModel application) throws ScenarioException {

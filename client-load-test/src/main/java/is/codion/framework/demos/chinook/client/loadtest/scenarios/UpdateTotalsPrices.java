@@ -9,14 +9,14 @@ import is.codion.framework.domain.entity.Entity;
 import is.codion.swing.common.tools.loadtest.ScenarioException;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
-import is.codion.swing.framework.tools.loadtest.EntityLoadTestModel;
+import is.codion.swing.framework.tools.loadtest.AbstractEntityUsageScenario;
 
 import java.util.List;
 import java.util.Random;
 
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRows;
 
-public final class UpdateTotalsPrices extends EntityLoadTestModel.AbstractEntityUsageScenario<ChinookApplicationModel> {
+public final class UpdateTotalsPrices extends AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   private final Random random = new Random();
 

@@ -11,14 +11,14 @@ import is.codion.swing.common.tools.loadtest.ScenarioException;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
-import is.codion.swing.framework.tools.loadtest.EntityLoadTestModel;
+import is.codion.swing.framework.tools.loadtest.AbstractEntityUsageScenario;
 
 import java.math.BigDecimal;
 
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomItem;
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRow;
 
-public final class InsertDeleteAlbum extends EntityLoadTestModel.AbstractEntityUsageScenario<ChinookApplicationModel> {
+public final class InsertDeleteAlbum extends AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   @Override
   protected void perform(final ChinookApplicationModel application) throws ScenarioException {
