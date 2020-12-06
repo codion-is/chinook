@@ -6,7 +6,7 @@ dependencies {
     runtimeOnly "is.codion.jdk11:codion-framework-server:${codionVersion}"
     runtimeOnly "is.codion.jdk11:codion-framework-servlet:${codionVersion}"
 
-    runtimeOnly project(":domain")
+    runtimeOnly project(":chinook-domain")
 
     runtimeOnly "is.codion.jdk11:codion-plugin-hikari-pool:${codionVersion}"
     runtimeOnly "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"

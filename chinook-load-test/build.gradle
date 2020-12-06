@@ -3,8 +3,8 @@ apply from: "../build-shared.gradle"
 apply plugin: 'application'
 
 dependencies {
-    implementation project(':domain-api')
-    implementation project(':client')
+    implementation project(':chinook-domain-api')
+    implementation project(':chinook-client')
 
     implementation "is.codion.jdk11:codion-swing-common-tools-ui:${codionVersion}"
     implementation "is.codion.jdk11:codion-swing-framework-ui:${codionVersion}"

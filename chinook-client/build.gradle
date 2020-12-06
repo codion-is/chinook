@@ -9,7 +9,7 @@ configurations {
 }
 
 dependencies {
-    implementation project(':domain-api')
+    implementation project(':chinook-domain-api')
 
     implementation "is.codion.jdk11:codion-swing-framework-ui:${codionVersion}"
     implementation "is.codion.jdk11:codion-plugin-imagepanel:${codionVersion}"
@@ -17,7 +17,7 @@ dependencies {
 
     runtimeOnly "is.codion.jdk11:codion-plugin-logback-proxy:${codionVersion}"
 
-    runtimeLocal project(':domain')
+    runtimeLocal project(':chinook-domain')
     runtimeLocal "is.codion.jdk11:codion-framework-db-local:${codionVersion}"
     runtimeLocal "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
     runtimeLocal "com.h2database:h2:1.4.200"
@@ -26,7 +26,7 @@ dependencies {
 
     runtimeHttp "is.codion.jdk11:codion-framework-db-http:${codionVersion}"
 
-    testRuntimeOnly project(':domain')
+    testRuntimeOnly project(':chinook-domain')
 }
 
 test {

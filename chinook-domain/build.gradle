@@ -3,7 +3,7 @@ apply from: "../build-shared.gradle"
 apply plugin: 'java-library'
 
 dependencies {
-    api project(':domain-api')
+    api project(':chinook-domain-api')
     implementation "is.codion.jdk11:codion-common-rmi:${codionVersion}"
     implementation "is.codion.jdk11:codion-framework-db-local:${codionVersion}"
 
