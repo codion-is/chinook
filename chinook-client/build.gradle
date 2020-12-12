@@ -26,6 +26,9 @@ dependencies {
 
     runtimeHttp "is.codion.jdk11:codion-framework-db-http:${codionVersion}"
 
+    testImplementation "is.codion.jdk11:codion-framework-db-local:${codionVersion}"
+    testImplementation "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
+    testImplementation "com.h2database:h2:1.4.200"
     testRuntimeOnly project(':chinook-domain')
 }
 
