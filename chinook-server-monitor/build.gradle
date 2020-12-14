@@ -11,7 +11,7 @@ application {
     mainClassName = 'is.codion.swing.framework.server.monitor.ui.EntityServerMonitorPanel'
     applicationDefaultJvmArgs = [
             "-Dcodion.server.hostname=${serverHost}",
-            "-Djavax.net.ssl.trustStore=../server/src/main/config/truststore.jks",
+            "-Djavax.net.ssl.trustStore=../chinook-server/src/main/config/truststore.jks",
             "-Djavax.net.ssl.trustStorePassword=crappypass",
             "-Djava.security.policy=src/main/config/all_permissions.policy",
             "-Dcodion.configurationFile=src/main/config/server_monitor.config"

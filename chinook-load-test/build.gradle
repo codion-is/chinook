@@ -9,6 +9,9 @@ dependencies {
     implementation "is.codion.jdk11:codion-swing-common-tools-ui:${codionVersion}"
     implementation "is.codion.jdk11:codion-swing-framework-ui:${codionVersion}"
     implementation "is.codion.jdk11:codion-swing-framework-tools:${codionVersion}"
+
+    runtimeOnly "is.codion.jdk11:codion-framework-db-rmi:${codionVersion}"
+    runtimeOnly "is.codion.jdk11:codion-framework-db-http:${codionVersion}"
 }
 
 application {
@@ -23,7 +26,7 @@ task runRmi(type: JavaExec) {
     systemProperties = [
             'codion.client.connectionType'    : 'remote',
             'codion.server.hostname'          : 'localhost',
-            'javax.net.ssl.trustStore'        : '../server/src/main/config/truststore.jks',
+            'javax.net.ssl.trustStore'        : '../chinook-server/src/main/config/truststore.jks',
             'javax.net.ssl.trustStorePassword': 'crappypass'
     ]
 }
