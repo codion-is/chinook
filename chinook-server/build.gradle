@@ -23,8 +23,18 @@ application {
     applicationDefaultJvmArgs = [
             "-Xmx256m",
             "-Djava.rmi.server.hostname=${serverHost}",
-            "-Dcodion.configurationFile=src/main/config/h2_embedded.config",
-            "-Dlogback.configurationFile=src/main/config/logback.xml",
-            "-Djava.security.policy=src/main/config/codion_server.policy"
+            "-Dcodion.configurationFile=config/h2_embedded.config",
+            "-Dlogback.configurationFile=config/logback.xml",
+            "-Djava.security.policy=config/codion_server.policy"
     ]
+}
+
+distributions {
+    main {
+        contents {
+            from(fileTree(dir: 'config', include: '**/*')) {
+                into("bin/config")
+            }
+        }
+    }
 }

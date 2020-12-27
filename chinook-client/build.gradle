@@ -69,7 +69,7 @@ task runRmi(type: JavaExec) {
     systemProperties = [
             'codion.client.connectionType'    : 'remote',
             'codion.server.hostname'          : 'localhost',
-            'javax.net.ssl.trustStore'        : '../chinook-server/src/main/config/truststore.jks',
+            'javax.net.ssl.trustStore'        : '../chinook-server/config/truststore.jks',
             'javax.net.ssl.trustStorePassword': 'crappypass',
             'sun.awt.disablegrab'             : 'true'
     ]

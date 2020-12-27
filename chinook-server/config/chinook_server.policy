@@ -3,12 +3,8 @@ grant {
     permission java.io.FilePermission "../lib/-", "read";
     permission java.io.FilePermission "../logs/-", "read,write,delete";
     permission java.io.FilePermission "../reports/-", "read";
-    permission java.io.FilePermission "../web", "read";
-    permission java.io.FilePermission "jasperreports.properties", "read";
     permission java.io.FilePermission "mem:h2db.h2.db", "read";
     permission java.io.FilePermission "mem:h2db.mv.db", "read";
-    permission java.io.FilePermission "net/sf/jasperreports/fonts/icons/icons.ttf", "read";
-    permission java.io.FilePermission "net/sf/jasperreports/fonts/jasperreports-fonts.xml", "read";
     permission java.io.FilePermission "/tmp/*", "write,delete";
     permission java.lang.management.ManagementPermission "monitor";
     permission java.lang.reflect.ReflectPermission "suppressAccessChecks";

@@ -24,7 +24,7 @@
     </sift>
   </appender>
 
-  <root level="ERROR">
+  <root level="INFO">
     <appender-ref ref="SIFT" />
   </root>
 </configuration>
