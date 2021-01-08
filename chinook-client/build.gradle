@@ -68,7 +68,7 @@ task runRmi(type: JavaExec) {
     classpath = configurations.runtimeRmi + sourceSets.main.getRuntimeClasspath()
     systemProperties = [
             'codion.client.connectionType'    : 'remote',
-            'codion.server.hostname'          : 'localhost',
+            'codion.server.hostname'          : "${serverHost}",
             'javax.net.ssl.trustStore'        : '../chinook-server/config/truststore.jks',
             'javax.net.ssl.trustStorePassword': 'crappypass',
             'sun.awt.disablegrab'             : 'true'
@@ -82,7 +82,7 @@ task runHttp(type: JavaExec) {
     systemProperties = [
             'codion.client.connectionType' : 'http',
             'codion.client.http.secure'    : 'false',
-            'codion.client.http.hostname'  : 'localhost',
+            'codion.client.http.hostname'  : "${serverHost}",
             'sun.awt.disablegrab'          : 'true'
     ]
 }
