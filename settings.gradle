@@ -6,3 +6,17 @@ include 'chinook-client'
 include 'chinook-load-test'
 include 'chinook-server'
 include 'chinook-server-monitor'
+
+dependencyResolutionManagement {
+    repositories {
+        mavenLocal()
+        maven {
+            url "${artifactoryHostAndPort}/artifactory/libs-release"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url "${artifactoryHostAndPort}/artifactory/libs-snapshot"
+            allowInsecureProtocol = true
+        }
+    }
+}

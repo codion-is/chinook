@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
+import static is.codion.swing.common.ui.worker.ProgressWorker.runWithProgressBar;
 
 public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplicationModel> {
 

@@ -1,15 +1,3 @@
-repositories {
-    mavenLocal()
-    maven {
-        url "${artifactoryHostAndPort}/artifactory/libs-release"
-        allowInsecureProtocol = true
-    }
-    maven {
-        url "${artifactoryHostAndPort}/artifactory/libs-snapshot"
-        allowInsecureProtocol = true
-    }
-}
-
 apply plugin: 'java'
 
 sourceCompatibility = JavaVersion.VERSION_15
