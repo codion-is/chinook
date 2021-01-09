@@ -6,9 +6,8 @@ package is.codion.framework.demos.chinook.ui;
 import is.codion.common.model.CancelException;
 import is.codion.common.model.UserPreferences;
 import is.codion.common.model.table.ColumnConditionModel;
-import is.codion.common.user.Users;
+import is.codion.common.user.User;
 import is.codion.common.version.Version;
-import is.codion.common.version.Versions;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.framework.model.EntityEditModel;
@@ -41,7 +40,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
-import static is.codion.swing.common.ui.worker.ProgressWorker.runWithProgressBar;
 
 public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplicationModel> {
 
@@ -156,7 +154,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
 
   @Override
   protected Version getClientVersion() {
-    return Versions.version(0, 1, 0);
+    return Version.version(0, 1, 0);
   }
 
   @Override
@@ -219,6 +217,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     ColumnConditionModel.CASE_SENSITIVE.set(false);
     EntityConnectionProvider.CLIENT_DOMAIN_CLASS.set("is.codion.framework.demos.chinook.domain.ChinookImpl");
     new ChinookAppPanel().startApplication("Chinook", null, MaximizeFrame.NO,
-            new Dimension(1280, 720), Users.parseUser("scott:tiger"));
+            new Dimension(1280, 720), User.parseUser("scott:tiger"));
   }
 }

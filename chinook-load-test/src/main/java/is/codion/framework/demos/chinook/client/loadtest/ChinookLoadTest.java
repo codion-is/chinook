@@ -5,8 +5,7 @@ package is.codion.framework.demos.chinook.client.loadtest;
 
 import is.codion.common.model.CancelException;
 import is.codion.common.user.User;
-import is.codion.common.user.Users;
-import is.codion.framework.db.EntityConnectionProviders;
+import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.InsertDeleteAlbum;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.LogoutLogin;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.RaisePrices;
@@ -29,7 +28,7 @@ import static java.util.Arrays.asList;
 public final class ChinookLoadTest extends EntityLoadTestModel<ChinookApplicationModel> {
 
   private static final User UNIT_TEST_USER =
-          Users.parseUser(System.getProperty("codion.test.user", "scott:tiger"));
+          User.parseUser(System.getProperty("codion.test.user", "scott:tiger"));
 
   public ChinookLoadTest() {
     super(UNIT_TEST_USER, asList(new ViewGenre(), new ViewInvoice(), new ViewAlbum(),
@@ -39,7 +38,7 @@ public final class ChinookLoadTest extends EntityLoadTestModel<ChinookApplicatio
   @Override
   protected ChinookApplicationModel initializeApplication() throws CancelException {
     final ChinookApplicationModel applicationModel = new ChinookApplicationModel(
-            EntityConnectionProviders.connectionProvider().setDomainClassName("is.codion.framework.demos.chinook.domain.impl.ChinookImpl")
+            EntityConnectionProvider.connectionProvider().setDomainClassName("is.codion.framework.demos.chinook.domain.impl.ChinookImpl")
                     .setClientTypeId(ChinookAppPanel.class.getName()).setUser(getUser()));
 
     /* Add a Genre model used in the ViewGenre scenario */
