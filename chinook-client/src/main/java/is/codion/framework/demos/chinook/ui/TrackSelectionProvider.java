@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004 - 2020, Björn Darri Sigurðsson. All Rights Reserved.
+ * Copyright (c) 2004 - 2021, Björn Darri Sigurðsson. All Rights Reserved.
  */
 package is.codion.framework.demos.chinook.ui;
 
@@ -17,10 +17,10 @@ final class TrackSelectionProvider extends EntityLookupField.TableSelectionProvi
   TrackSelectionProvider(final EntityLookupModel trackLookupModel) {
     super(trackLookupModel);
     final SwingEntityTableModel tableModel = getTable().getModel();
-    tableModel.setColumns(Track.ARTIST_DENORM, Track.ALBUM_FK, Track.NAME);
-    tableModel.setSortingDirective(Track.ARTIST_DENORM, ASCENDING);
-    tableModel.addSortingDirective(Track.ALBUM_FK, ASCENDING);
-    tableModel.addSortingDirective(Track.NAME, ASCENDING);
+    tableModel.getColumnModel().setColumns(Track.ARTIST_DENORM, Track.ALBUM_FK, Track.NAME);
+    tableModel.getSortModel().setSortingDirective(Track.ARTIST_DENORM, ASCENDING);
+    tableModel.getSortModel().addSortingDirective(Track.ALBUM_FK, ASCENDING);
+    tableModel.getSortModel().addSortingDirective(Track.NAME, ASCENDING);
     setPreferredSize(new Dimension(500, 300));
   }
 }
