@@ -11,16 +11,18 @@ import is.codion.common.version.Version;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.framework.demos.chinook.model.EmployeeTableModel;
+import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.model.EntityEditModel;
 import is.codion.swing.common.ui.UiManagerDefaults;
+import is.codion.swing.common.ui.Windows;
 import is.codion.swing.common.ui.control.ControlList;
 import is.codion.swing.common.ui.control.Controls;
 import is.codion.swing.common.ui.icons.Icons;
+import is.codion.swing.common.ui.worker.ProgressWorker;
 import is.codion.swing.framework.model.SwingEntityModel;
-import is.codion.swing.framework.model.SwingEntityModelBuilder;
 import is.codion.swing.framework.ui.EntityApplicationPanel;
+import is.codion.swing.framework.ui.EntityInputComponents;
 import is.codion.swing.framework.ui.EntityPanel;
-import is.codion.swing.framework.ui.EntityPanelBuilder;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
 import is.codion.swing.framework.ui.icons.FrameworkIcons;
@@ -36,13 +38,16 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
-import static is.codion.swing.common.ui.worker.ProgressWorker.runWithProgressBar;
+import static is.codion.swing.common.ui.dialog.Dialogs.showExceptionDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplicationModel> {
 
@@ -71,33 +76,40 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
    *     INVOICELINE
    */
   @Override
-  protected void setupEntityPanelBuilders() {
-    final EntityPanelBuilder trackBuilder = new EntityPanelBuilder(Track.TYPE)
-            .editPanelClass(TrackEditPanel.class)
-            .tablePanelClass(TrackTablePanel.class);
+  protected List<EntityPanel.Builder> initializeSupportEntityPanelBuilders(final ChinookApplicationModel applicationModel) {
+    final EntityPanel.Builder trackBuilder =
+            EntityPanel.builder(SwingEntityModel.builder(Track.TYPE))
+                    .editPanelClass(TrackEditPanel.class)
+                    .tablePanelClass(TrackTablePanel.class);
 
-    final EntityPanelBuilder customerBuilder = new EntityPanelBuilder(Customer.TYPE)
-            .editPanelClass(CustomerEditPanel.class)
-            .tablePanelClass(CustomerTablePanel.class);
+    final EntityPanel.Builder customerBuilder =
+            EntityPanel.builder(SwingEntityModel.builder(Customer.TYPE))
+                    .editPanelClass(CustomerEditPanel.class)
+                    .tablePanelClass(CustomerTablePanel.class);
 
-    final EntityPanelBuilder genreBuilder = new EntityPanelBuilder(Genre.TYPE)
-            .editPanelClass(GenreEditPanel.class)
-            .detailPanelBuilder(trackBuilder)
-            .detailPanelState(EntityPanel.PanelState.HIDDEN);
+    final EntityPanel.Builder genreBuilder =
+            EntityPanel.builder(SwingEntityModel.builder(Genre.TYPE)
+                    .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
+                    .editPanelClass(GenreEditPanel.class)
+                    .detailPanelBuilder(trackBuilder)
+                    .detailPanelState(EntityPanel.PanelState.HIDDEN);
 
-    final EntityPanelBuilder mediaTypeBuilder = new EntityPanelBuilder(MediaType.TYPE)
-            .editPanelClass(MediaTypeEditPanel.class)
-            .detailPanelBuilder(trackBuilder)
-            .detailPanelState(EntityPanel.PanelState.HIDDEN);
+    final EntityPanel.Builder mediaTypeBuilder =
+            EntityPanel.builder(SwingEntityModel.builder(MediaType.TYPE)
+                    .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
+                    .editPanelClass(MediaTypeEditPanel.class)
+                    .detailPanelBuilder(trackBuilder)
+                    .detailPanelState(EntityPanel.PanelState.HIDDEN);
 
-    final SwingEntityModelBuilder employeeModelBuilder = new SwingEntityModelBuilder(Employee.TYPE)
-            .tableModelClass(EmployeeTableModel.class);
-    final EntityPanelBuilder employeeBuilder = new EntityPanelBuilder(employeeModelBuilder)
-            .editPanelClass(EmployeeEditPanel.class)
-            .tablePanelClass(EmployeeTablePanel.class)
-            .detailPanelBuilder(customerBuilder).detailPanelState(EntityPanel.PanelState.HIDDEN);
+    final EntityPanel.Builder employeeBuilder =
+            EntityPanel.builder(SwingEntityModel.builder(Employee.TYPE)
+                    .detailModelBuilder(SwingEntityModel.builder(Customer.TYPE))
+                    .tableModelClass(EmployeeTableModel.class))
+                    .editPanelClass(EmployeeEditPanel.class)
+                    .tablePanelClass(EmployeeTablePanel.class)
+                    .detailPanelBuilder(customerBuilder).detailPanelState(EntityPanel.PanelState.HIDDEN);
 
-    addSupportPanelBuilders(genreBuilder, mediaTypeBuilder, employeeBuilder);
+    return Arrays.asList(genreBuilder, mediaTypeBuilder, employeeBuilder);
   }
 
   @Override
@@ -181,8 +193,25 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   private void updateInvoiceTotals() {
-    runWithProgressBar(this, getModel()::updateInvoiceTotals, bundle.getString(UPDATING_TOTALS),
-            bundle.getString(TOTALS_UPDATED), bundle.getString(UPDATING_TOTALS_FAILED));
+    final Window dialogOwner = Windows.getParentWindow(this);
+    final ProgressWorker<List<Entity>> worker = new ProgressWorker<>(dialogOwner, bundle.getString(UPDATING_TOTALS)) {
+      @Override
+      protected List<Entity> doInBackground() throws Exception {
+        return getModel().updateInvoiceTotals();
+      }
+
+      @Override
+      protected void onException(final Throwable exception) {
+        showExceptionDialog(dialogOwner, bundle.getString(UPDATING_TOTALS_FAILED), exception);
+      }
+    };
+    worker.addOnSuccessListener(updatedInvoices -> {
+      getModel().getEntityModel(Customer.TYPE).getDetailModel(Invoice.TYPE)
+              .getTableModel().replaceEntities(updatedInvoices);
+      showMessageDialog(dialogOwner, bundle.getString(TOTALS_UPDATED));
+    });
+
+    worker.execute();
   }
 
   private void selectLanguage() {
@@ -197,11 +226,11 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     buttonPanel.add(isButton);
     enButton.setSelected(language.equals(LANGUAGE_EN));
     isButton.setSelected(language.equals(LANGUAGE_IS));
-    JOptionPane.showMessageDialog(this, buttonPanel, "Language/Tungumál", JOptionPane.QUESTION_MESSAGE);
+    showMessageDialog(this, buttonPanel, "Language/Tungumál", JOptionPane.QUESTION_MESSAGE);
     final String newLanguage = isButton.isSelected() ? LANGUAGE_IS : LANGUAGE_EN;
     if (!language.equals(newLanguage)) {
       UserPreferences.putUserPreference(LANGUAGE_PREFERENCES_KEY, newLanguage);
-      JOptionPane.showMessageDialog(this,
+      showMessageDialog(this,
               "Language has been changed, restart the application to apply the changes.\n\n" +
                       "Tungumáli hefur verið breytt, endurræstu kerfið til að virkja breytingar");
     }
@@ -214,6 +243,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     UIManager.put("Table.alternateRowColor", new Color(215, 215, 215));
     Icons.ICONS_CLASSNAME.set(IkonliFoundationIcons.class.getName());
     FrameworkIcons.FRAMEWORK_ICONS_CLASSNAME.set(IkonliFoundationFrameworkIcons.class.getName());
+    EntityInputComponents.COMBO_BOX_COMPLETION_MODE.set(EntityInputComponents.COMPLETION_MODE_AUTOCOMPLETE);
     EntityEditModel.POST_EDIT_EVENTS.set(true);
     EntityPanel.TOOLBAR_BUTTONS.set(true);
     EntityTablePanel.TABLE_AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);

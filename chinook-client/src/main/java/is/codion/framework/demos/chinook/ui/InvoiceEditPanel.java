@@ -3,6 +3,7 @@
  */
 package is.codion.framework.demos.chinook.ui;
 
+import is.codion.framework.demos.chinook.domain.api.Chinook.InvoiceLine;
 import is.codion.swing.common.ui.time.TemporalInputPanel;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
@@ -72,18 +73,18 @@ public class InvoiceEditPanel extends EntityEditPanel {
     final JPanel centerBasePanel = new JPanel(borderLayout());
     centerBasePanel.add(centerPanel, BorderLayout.CENTER);
 
-    invoiceLinePanel.setBorder(BorderFactory.createTitledBorder("Invoice lines"));
+    invoiceLinePanel.setBorder(BorderFactory.createTitledBorder(getEditModel().getEntities().getDefinition(InvoiceLine.TYPE).getCaption()));
 
     setLayout(borderLayout());
     add(centerBasePanel, BorderLayout.CENTER);
     add(invoiceLinePanel, BorderLayout.EAST);
   }
 
-  private void configureCustomerLookup(final EntityLookupField customerField) {
+  private static void configureCustomerLookup(final EntityLookupField customerField) {
     final EntityLookupField.TableSelectionProvider customerSelectionProvider =
             new EntityLookupField.TableSelectionProvider(customerField.getModel());
     final SwingEntityTableModel tableModel = customerSelectionProvider.getTable().getModel();
-    tableModel.setColumns(Customer.LASTNAME, Customer.FIRSTNAME, Customer.EMAIL);
+    tableModel.getColumnModel().setColumns(Customer.LASTNAME, Customer.FIRSTNAME, Customer.EMAIL);
     tableModel.getSortModel().setSortingDirective(Customer.LASTNAME, ASCENDING);
     customerSelectionProvider.setPreferredSize(new Dimension(500, 300));
     customerField.setSelectionProvider(customerSelectionProvider);

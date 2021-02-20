@@ -25,7 +25,7 @@ import static is.codion.common.rmi.server.RemoteClient.remoteClient;
 import static is.codion.framework.db.condition.Conditions.condition;
 import static is.codion.framework.db.local.LocalEntityConnection.localEntityConnection;
 import static is.codion.framework.domain.DomainType.domainType;
-import static is.codion.framework.domain.entity.KeyGenerators.automatic;
+import static is.codion.framework.domain.entity.KeyGenerator.identity;
 import static is.codion.framework.domain.property.Properties.columnProperty;
 import static is.codion.framework.domain.property.Properties.primaryKeyProperty;
 import static java.lang.String.valueOf;
@@ -70,7 +70,7 @@ public final class ChinookLoginProxy implements LoginProxy {
   }
 
   @Override
-  public RemoteClient doLogin(final RemoteClient remoteClient) throws LoginException {
+  public RemoteClient login(final RemoteClient remoteClient) throws LoginException {
     authenticateUser(remoteClient.getUser());
 
     //Create a new RemoteClient based on the one received
@@ -79,7 +79,7 @@ public final class ChinookLoginProxy implements LoginProxy {
   }
 
   @Override
-  public void doLogout(final RemoteClient remoteClient) {}
+  public void logout(final RemoteClient remoteClient) {}
 
   @Override
   public void close() {
@@ -89,7 +89,7 @@ public final class ChinookLoginProxy implements LoginProxy {
   private void authenticateUser(final User user) throws LoginException {
     try (final EntityConnection connection = getConnectionFromPool()) {
       final int rows = connection.rowCount(condition(Authentication.User.USERNAME)
-              .equalTo(user.getUsername()).setCaseSensitive(false)
+              .equalTo(user.getUsername()).caseSensitive(false)
                       .and(condition(Authentication.User.PASSWORD_HASH)
                               .equalTo(valueOf(user.getPassword()).hashCode())));
       if (rows == 0) {
@@ -130,7 +130,7 @@ public final class ChinookLoginProxy implements LoginProxy {
                       .maximumLength(20),
               columnProperty(User.PASSWORD_HASH)
                       .nullable(false))
-              .keyGenerator(automatic("chinook.user"));
+              .keyGenerator(identity());
     }
   }
 }
