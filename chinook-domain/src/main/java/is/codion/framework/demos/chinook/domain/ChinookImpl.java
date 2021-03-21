@@ -5,6 +5,7 @@ package is.codion.framework.demos.chinook.domain;
 
 import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.db.operation.DatabaseFunction;
+import is.codion.common.formats.LocaleDateTimePattern;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.condition.SelectCondition;
 import is.codion.framework.demos.chinook.domain.api.Chinook;
@@ -105,7 +106,11 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             columnProperty(Employee.REPORTSTO),
             foreignKeyProperty(Employee.REPORTSTO_FK),
             columnProperty(Employee.BIRTHDATE),
-            columnProperty(Employee.HIREDATE),
+            columnProperty(Employee.HIREDATE)
+                    .localeDateTimePattern(LocaleDateTimePattern.builder()
+                            .delimiterDot()
+                            .yearFourDigits()
+                            .build()),
             columnProperty(Employee.ADDRESS)
                     .maximumLength(70),
             columnProperty(Employee.CITY)
@@ -200,9 +205,11 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     Track.ALBUM_FK, Album.ARTIST_FK)
                     .preferredColumnWidth(160),
             columnProperty(Track.ALBUM_ID),
+            // tag::fetchDepth2[]
             foreignKeyProperty(Track.ALBUM_FK)
                     .fetchDepth(2)
                     .preferredColumnWidth(160),
+            // end::fetchDepth2[]
             columnProperty(Track.NAME)
                     .searchProperty()
                     .nullable(false)
@@ -241,7 +248,12 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .nullable(false),
             foreignKeyProperty(Invoice.CUSTOMER_FK),
             columnProperty(Invoice.INVOICEDATE)
-                    .nullable(false),
+                    .nullable(false)
+                    .localeDateTimePattern(LocaleDateTimePattern.builder()
+                            .delimiterDot()
+                            .yearFourDigits()
+                            .hoursMinutes()
+                            .build()),
             columnProperty(Invoice.BILLINGADDRESS)
                     .maximumLength(70),
             columnProperty(Invoice.BILLINGCITY)
@@ -270,10 +282,12 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     define(InvoiceLine.TYPE, "chinook.invoiceline",
             primaryKeyProperty(InvoiceLine.ID),
             columnProperty(InvoiceLine.INVOICE_ID),
+            // tag::fetchDepth0[]
             foreignKeyProperty(InvoiceLine.INVOICE_FK)
                     .fetchDepth(0)
                     .nullable(false),
             columnProperty(InvoiceLine.TRACK_ID),
+            // end::fetchDepth0[]
             foreignKeyProperty(InvoiceLine.TRACK_FK)
                     .nullable(false)
                     .preferredColumnWidth(100),
@@ -333,8 +347,8 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     @Override
     public List<Entity> execute(final EntityConnection entityConnection,
                                 final List<Object> arguments) throws DatabaseException {
-      return entityConnection.update(entityConnection.getEntities()
-              .castTo(Invoice.TYPE, entityConnection.select(ALL_INVOICES)).stream()
+      return entityConnection.update(Entity.castTo(Invoice.TYPE,
+              entityConnection.select(ALL_INVOICES)).stream()
               .map(Invoice::updateTotal)
               .filter(Invoice::isModified)
               .collect(Collectors.toList()));
@@ -353,8 +367,8 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
               condition(Track.ID).equalTo(trackIds).select()
                       .forUpdate();
 
-      return entityConnection.update(entityConnection.getEntities()
-              .castTo(Track.TYPE, entityConnection.select(selectCondition)).stream()
+      return entityConnection.update(Entity.castTo(Track.TYPE,
+              entityConnection.select(selectCondition)).stream()
               .map(track -> track.raisePrice(priceIncrease))
               .collect(Collectors.toList()));
     }
