@@ -16,7 +16,7 @@ import is.codion.framework.model.EntityEditModel;
 import is.codion.swing.common.ui.UiManagerDefaults;
 import is.codion.swing.common.ui.Windows;
 import is.codion.swing.common.ui.control.Control;
-import is.codion.swing.common.ui.control.ControlList;
+import is.codion.swing.common.ui.control.Controls;
 import is.codion.swing.common.ui.icons.Icons;
 import is.codion.swing.common.ui.worker.ProgressWorker;
 import is.codion.swing.framework.model.SwingEntityModel;
@@ -175,7 +175,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected ControlList getViewControls() {
+  protected Controls getViewControls() {
     return super.getViewControls()
             .addSeparator()
             .add(Control.builder()
@@ -185,7 +185,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected ControlList getToolsControls() {
+  protected Controls getToolsControls() {
     return super.getToolsControls()
             .addSeparator()
             .add(Control.builder()

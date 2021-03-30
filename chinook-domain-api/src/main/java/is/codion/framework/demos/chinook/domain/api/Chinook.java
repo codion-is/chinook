@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Function;
 
@@ -138,7 +137,7 @@ public interface Chinook {
 
     Attribute<Long> ID = TYPE.longAttribute("invoiceid");
     Attribute<Long> CUSTOMER_ID = TYPE.longAttribute("customerid");
-    Attribute<LocalDateTime> INVOICEDATE = TYPE.localDateTimeAttribute("invoicedate");
+    Attribute<LocalDate> INVOICEDATE = TYPE.localDateAttribute("invoicedate");
     Attribute<String> BILLINGADDRESS = TYPE.stringAttribute("billingaddress");
     Attribute<String> BILLINGCITY = TYPE.stringAttribute("billingcity");
     Attribute<String> BILLINGSTATE = TYPE.stringAttribute("billingstate");
