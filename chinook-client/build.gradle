@@ -1,11 +1,15 @@
+plugins {
+    id 'org.beryx.jlink' version '2.23.5'
+}
+
 apply from: "../build-shared.gradle"
 
 apply plugin: 'application'
 
 configurations {
-    runtimeLocal
-    runtimeRmi
-    runtimeHttp
+    runtimeLocal.extendsFrom runtimeClasspath
+    runtimeRmi.extendsFrom runtimeClasspath
+    runtimeHttp.extendsFrom runtimeClasspath
 }
 
 dependencies {
@@ -85,4 +89,23 @@ task runHttp(type: JavaExec) {
             'codion.client.http.hostname'  : "${serverHost}",
             'sun.awt.disablegrab'          : 'true'
     ]
+}
+
+jlink {
+    configuration = 'runtimeRmi'
+    imageName = "chinook-rmi"
+    options = ['--bind-services', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        jvmArgs = [
+                "-Dcodion.client.connectionType=remote",
+                "-Dcodion.server.hostname=${serverHost}",
+                "-Djavax.net.ssl.trustStore=../conf/truststore.jks",
+                "-Djavax.net.ssl.trustStorePassword=crappypass",
+                "--add-reads", "is.codion.swing.framework.model=is.codion.demos.merged.module"//for json
+        ]
+    }
+}
+
+tasks.jlink.doLast {
+    copy { from '../chinook-server/config/truststore.jks' into "$buildDir/$imageName/conf" }
 }
