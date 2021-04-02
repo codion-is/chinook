@@ -1,5 +1,6 @@
 plugins {
     id 'org.beryx.jlink' version '2.23.5'
+    id "de.jjohannes.extra-java-module-info" version "0.6"
 }
 
 apply from: "../build-shared.gradle"
@@ -19,7 +20,12 @@ dependencies {
     implementation "is.codion.jdk11:codion-plugin-imagepanel:${codionVersion}"
     implementation "is.codion.jdk11:codion-plugin-ikonli-foundation:${codionVersion}"
 
-    runtimeOnly "is.codion.jdk11:codion-plugin-logback-proxy:${codionVersion}"
+    implementation 'org.pushing-pixels:radiance-substance:3.5.1'
+    implementation 'org.pushing-pixels:radiance-substance-extras:3.5.1'
+
+    runtimeOnly ("is.codion.jdk11:codion-plugin-logback-proxy:${codionVersion}") {
+        exclude group: 'com.sun.mail', module: 'javax.mail'
+    }
 
     runtimeLocal project(':chinook-domain')
     runtimeLocal "is.codion.jdk11:codion-framework-db-local:${codionVersion}"
@@ -34,6 +40,13 @@ dependencies {
     testImplementation "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
     testImplementation "com.h2database:h2:1.4.200"
     testRuntimeOnly project(':chinook-domain')
+}
+
+extraJavaModuleInfo {
+    automaticModule("radiance-substance-3.5.1.jar", "radiance.substance")
+    automaticModule("radiance-substance-extras-3.5.1.jar", "radiance.substance.extras")
+    automaticModule("radiance-trident-3.5.1.jar", "radiance.trident")
+    automaticModule("radiance-neon-3.5.1.jar", "radiance.neon")
 }
 
 test {

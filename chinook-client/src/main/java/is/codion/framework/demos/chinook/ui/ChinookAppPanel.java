@@ -13,7 +13,7 @@ import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.framework.demos.chinook.model.EmployeeTableModel;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.model.EntityEditModel;
-import is.codion.swing.common.ui.UiManagerDefaults;
+import is.codion.swing.common.ui.Components;
 import is.codion.swing.common.ui.Windows;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
@@ -29,11 +29,32 @@ import is.codion.swing.framework.ui.icons.FrameworkIcons;
 import is.codion.swing.plugin.ikonli.foundation.IkonliFoundationFrameworkIcons;
 import is.codion.swing.plugin.ikonli.foundation.IkonliFoundationIcons;
 
+import org.pushingpixels.substance.api.SubstanceLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteAquaLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteChalkLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteElectricLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteGlassLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteGoldLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteSiennaLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteSunsetLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceMagellanLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceNightShadeLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceRavenLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceTwilightLookAndFeel;
+import org.pushingpixels.substance.extras.api.skinpack.SubstanceFieldOfWheatLookAndFeel;
+import org.pushingpixels.substance.extras.api.skinpack.SubstanceFindingNemoLookAndFeel;
+import org.pushingpixels.substance.extras.api.skinpack.SubstanceHarvestLookAndFeel;
+import org.pushingpixels.substance.extras.api.skinpack.SubstanceMagmaLookAndFeel;
+import org.pushingpixels.substance.extras.api.skinpack.SubstanceMangoLookAndFeel;
+import org.pushingpixels.substance.extras.api.skinpack.SubstanceStreetlightsLookAndFeel;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -45,6 +66,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
+import static is.codion.swing.common.ui.Components.addLookAndFeelProvider;
 import static is.codion.swing.common.ui.dialog.Dialogs.showExceptionDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -221,11 +243,31 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     }
   }
 
+  private static void addSubstanceLookAndFeels() {
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceTwilightLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceNightShadeLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceMagellanLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteChalkLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteAquaLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteElectricLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteGoldLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteSiennaLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteSunsetLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteGlassLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceRavenLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceFieldOfWheatLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceFindingNemoLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceHarvestLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceMagmaLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceMangoLookAndFeel.class));
+    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceStreetlightsLookAndFeel.class));
+  }
+
   public static void main(final String[] args) throws CancelException {
     final String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
-    UiManagerDefaults.initialize();
-    UIManager.put("Table.alternateRowColor", new Color(215, 215, 215));
+    addSubstanceLookAndFeels();
     Icons.ICONS_CLASSNAME.set(IkonliFoundationIcons.class.getName());
     FrameworkIcons.FRAMEWORK_ICONS_CLASSNAME.set(IkonliFoundationFrameworkIcons.class.getName());
     EntityInputComponents.COMBO_BOX_COMPLETION_MODE.set(EntityInputComponents.COMPLETION_MODE_AUTOCOMPLETE);
@@ -236,7 +278,33 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     ColumnConditionModel.AUTOMATIC_WILDCARD.set(ColumnConditionModel.AutomaticWildcard.POSTFIX);
     ColumnConditionModel.CASE_SENSITIVE.set(false);
     EntityConnectionProvider.CLIENT_DOMAIN_CLASS.set("is.codion.framework.demos.chinook.domain.ChinookImpl");
-    new ChinookAppPanel().startApplication("Chinook", null, MaximizeFrame.NO,
-            new Dimension(1280, 720), User.parseUser("scott:tiger"));
+    SwingUtilities.invokeLater(() -> new ChinookAppPanel().startApplication("Chinook", null, MaximizeFrame.NO,
+            new Dimension(1280, 720), User.parseUser("scott:tiger")));
+  }
+
+  private static final class SubstanceLookAndFeelProvider implements Components.LookAndFeelProvider {
+
+    private final Class<? extends SubstanceLookAndFeel> lookAndFeelClass;
+
+    private SubstanceLookAndFeelProvider(final Class<? extends SubstanceLookAndFeel> lookAndFeelClass) {
+      this.lookAndFeelClass = lookAndFeelClass;
+    }
+
+    @Override
+    public String getClassName() {
+      return lookAndFeelClass.getName();
+    }
+
+    @Override
+    public void configure() {
+      try {
+        UIManager.setLookAndFeel(getClassName());
+        final Color background = (Color) UIManager.get("Table.background");
+        UIManager.put("Table.alternateRowColor", background.brighter());
+      }
+      catch (final Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
   }
 }
