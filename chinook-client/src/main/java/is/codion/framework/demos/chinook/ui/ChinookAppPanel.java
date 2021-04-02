@@ -39,7 +39,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Window;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -66,15 +65,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   /* Non-static so this is not initialized before main(), which sets the locale */
   private final ResourceBundle bundle = ResourceBundle.getBundle(ChinookAppPanel.class.getName());
 
-  /* ARTIST
-   *   ALBUM
-   *     TRACK
-   * PLAYLIST
-   *   PLAYLISTTRACK
-   * CUSTOMER
-   *   INVOICE
-   *     INVOICELINE
-   */
   @Override
   protected List<EntityPanel.Builder> initializeSupportEntityPanelBuilders(final ChinookApplicationModel applicationModel) {
     final EntityPanel.Builder trackBuilder =
@@ -114,8 +104,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
 
   @Override
   protected List<EntityPanel> initializeEntityPanels(final ChinookApplicationModel applicationModel) {
-    final List<EntityPanel> panels = new ArrayList<>();
-
     final SwingEntityModel customerModel = applicationModel.getEntityModel(Customer.TYPE);
     final EntityPanel customerPanel = new EntityPanel(customerModel, new CustomerEditPanel(customerModel.getEditModel()),
             new CustomerTablePanel(customerModel.getTableModel()));
@@ -139,7 +127,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
 
     invoicePanel.addDetailPanel(invoiceLinePanel);
     customerPanel.addDetailPanel(invoicePanel);
-    panels.add(customerPanel);
 
     final SwingEntityModel artistModel = applicationModel.getEntityModel(Artist.TYPE);
     final EntityPanel artistPanel = new EntityPanel(artistModel, new ArtistEditPanel(artistModel.getEditModel()));
@@ -151,7 +138,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
 
     albumPanel.addDetailPanel(trackPanel);
     artistPanel.addDetailPanel(albumPanel);
-    panels.add(artistPanel);
 
     final SwingEntityModel playlistModel = applicationModel.getEntityModel(Playlist.TYPE);
     final EntityPanel playlistPanel = new EntityPanel(playlistModel, new PlaylistEditPanel(playlistModel.getEditModel()));
@@ -159,9 +145,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     final EntityPanel playlistTrackPanel = new EntityPanel(playlistTrackModel, new PlaylistTrackEditPanel(playlistTrackModel.getEditModel()));
 
     playlistPanel.addDetailPanel(playlistTrackPanel);
-    panels.add(playlistPanel);
 
-    return panels;
+    return Arrays.asList(customerPanel, artistPanel, playlistPanel);
   }
 
   @Override
@@ -196,7 +181,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
 
   private void updateInvoiceTotals() {
     final Window dialogOwner = Windows.getParentWindow(this);
-    final ProgressWorker<List<Entity>> worker = new ProgressWorker<List<Entity>>(dialogOwner, bundle.getString(UPDATING_TOTALS)) {
+
+    new ProgressWorker<List<Entity>>(dialogOwner, bundle.getString(UPDATING_TOTALS)) {
       @Override
       protected List<Entity> doInBackground() throws Exception {
         return getModel().updateInvoiceTotals();
@@ -206,14 +192,11 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
       protected void onException(final Throwable exception) {
         showExceptionDialog(dialogOwner, bundle.getString(UPDATING_TOTALS_FAILED), exception);
       }
-    };
-    worker.addOnSuccessListener(updatedInvoices -> {
+    }.addOnSuccessListener(updatedInvoices -> {
       getModel().getEntityModel(Customer.TYPE).getDetailModel(Invoice.TYPE)
               .getTableModel().replaceEntities(updatedInvoices);
       showMessageDialog(dialogOwner, bundle.getString(TOTALS_UPDATED));
-    });
-
-    worker.execute();
+    }).execute();
   }
 
   private void selectLanguage() {
