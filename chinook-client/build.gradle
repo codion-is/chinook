@@ -18,8 +18,8 @@ dependencies {
     implementation "is.codion.jdk11:codion-plugin-imagepanel:${codionVersion}"
     implementation "is.codion.jdk11:codion-plugin-ikonli-foundation:${codionVersion}"
 
-    implementation 'org.pushing-pixels:radiance-substance:3.5.1'
-    implementation 'org.pushing-pixels:radiance-substance-extras:3.5.1'
+    implementation "org.pushing-pixels:radiance-substance:${radianceVersion}"
+    implementation "org.pushing-pixels:radiance-substance-extras:${radianceVersion}"
 
     runtimeOnly ("is.codion.jdk11:codion-plugin-logback-proxy:${codionVersion}") {
         exclude group: 'com.sun.mail', module: 'javax.mail'
