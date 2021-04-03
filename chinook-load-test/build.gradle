@@ -2,8 +2,6 @@ plugins {
     id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
 }
 
-apply from: "../build-shared.gradle"
-
 apply plugin: 'application'
 
 dependencies {
@@ -29,6 +27,10 @@ extraJavaModuleInfo {
     automaticModule("radiance-substance-extras-${radianceVersion}.jar", "radiance.substance.extras")
     automaticModule("radiance-trident-${radianceVersion}.jar", "radiance.trident")
     automaticModule("radiance-neon-${radianceVersion}.jar", "radiance.neon")
+}
+
+java {
+    modularity.inferModulePath = true
 }
 
 application {

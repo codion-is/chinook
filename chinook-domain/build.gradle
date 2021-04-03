@@ -2,8 +2,6 @@ plugins {
     id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
 }
 
-apply from: "../build-shared.gradle"
-
 apply plugin: 'java-library'
 
 dependencies {
@@ -11,21 +9,17 @@ dependencies {
     implementation "is.codion.jdk11:codion-common-rmi:${codionVersion}"
     implementation "is.codion.jdk11:codion-framework-db-local:${codionVersion}"
 
-    testImplementation "is.codion.jdk11:codion-framework-domain-test:${codionVersion}"
-    testRuntimeOnly "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
-    testRuntimeOnly "com.h2database:h2:1.4.200"
-
     runtimeOnly "commons-logging:commons-logging:${commonsLoggingVersion}"
     runtimeOnly "commons-digester:commons-digester:${commonsDigesterVersion}"
     runtimeOnly "org.apache.commons:commons-collections4:${commonsCollectionsVersion}"
     runtimeOnly "commons-beanutils:commons-beanutils:${commonsBeanUtilsVersion}"
     runtimeOnly "org.eclipse.jdt:ecj:3.24.0"
-}
 
-test {
-    systemProperty "codion.test.user", "scott:tiger"
-    systemProperty "codion.db.url", "jdbc:h2:mem:h2db"
-    systemProperty "codion.db.initScripts", "classpath:create_schema.sql"
+    testImplementation "is.codion.jdk11:codion-framework-domain-test:${codionVersion}"
+    testRuntimeOnly "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
+    testRuntimeOnly "com.h2database:h2:1.4.200"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }
 
 extraJavaModuleInfo {
@@ -35,6 +29,17 @@ extraJavaModuleInfo {
     automaticModule("commons-collections-${commonsCollectionsVersion}.jar", "commons.collections")
     automaticModule("commons-beanutils-${commonsBeanUtilsVersion}.jar", "commons.beanutils")
     automaticModule("ecj-${ecjVersion}.jar", "ecj")
+}
+
+java {
+    modularity.inferModulePath = true
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty "codion.test.user", "scott:tiger"
+    systemProperty "codion.db.url", "jdbc:h2:mem:h2db"
+    systemProperty "codion.db.initScripts", "classpath:create_schema.sql"
 }
 
 task buildReports(dependsOn: 'compileJava') {

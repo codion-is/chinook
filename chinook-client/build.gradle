@@ -3,8 +3,6 @@ plugins {
     id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
 }
 
-apply from: "../build-shared.gradle"
-
 apply plugin: 'application'
 
 configurations {
@@ -39,6 +37,8 @@ dependencies {
     testImplementation "is.codion.jdk11:codion-framework-db-local:${codionVersion}"
     testImplementation "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
     testImplementation "com.h2database:h2:1.4.200"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
     testRuntimeOnly project(':chinook-domain')
 }
 
@@ -55,7 +55,12 @@ extraJavaModuleInfo {
     automaticModule("radiance-neon-${radianceVersion}.jar", "radiance.neon")
 }
 
+java {
+    modularity.inferModulePath = true
+}
+
 test {
+    useJUnitPlatform()
     systemProperty "codion.db.url", "jdbc:h2:mem:h2db"
     systemProperty "codion.db.initScripts", "classpath:create_schema.sql"
 }
