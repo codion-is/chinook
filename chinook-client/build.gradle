@@ -86,6 +86,7 @@ task runRmi(type: JavaExec) {
     systemProperties = [
             'codion.client.connectionType'    : 'remote',
             'codion.server.hostname'          : "${serverHost}",
+            'codion.server.registryPort'      : "${serverRegistryPort}",
             'javax.net.ssl.trustStore'        : 'truststore.jks',
             'javax.net.ssl.trustStorePassword': 'crappypass',
             'sun.awt.disablegrab'             : 'true'
@@ -100,6 +101,7 @@ task runHttp(type: JavaExec) {
             'codion.client.connectionType' : 'http',
             'codion.client.http.secure'    : 'false',
             'codion.client.http.hostname'  : "${serverHost}",
+            'codion.client.http.port'      : "${serverHttpPort}",
             'sun.awt.disablegrab'          : 'true'
     ]
 }
@@ -112,6 +114,7 @@ jlink {
         jvmArgs = [
                 "-Dcodion.client.connectionType=remote",
                 "-Dcodion.server.hostname=${serverHost}",
+                "-Dcodion.server.registryPort=${serverRegistryPort}",
                 "-Djavax.net.ssl.trustStore=truststore.jks",
                 "-Djavax.net.ssl.trustStorePassword=crappypass",
                 "--add-reads", "is.codion.swing.framework.model=is.codion.demos.merged.module"//for json
