@@ -18,9 +18,4 @@ dependencies {
 
 extraJavaModuleInfo {
     automaticModule("jasperreports-${jasperReportsVersion}.jar", "jasperreports")
-    automaticModule("commons-logging-${commonsLoggingVersion}.jar", "commons.logging")
-    automaticModule("commons-digester-${commonsDigesterVersion}.jar", "commons.digester")
-    automaticModule("commons-collections-${commonsCollectionsVersion}.jar", "commons.collections")
-    automaticModule("commons-beanutils-${commonsBeanUtilsVersion}.jar", "commons.beanutils")
-    automaticModule("ecj-${ecjVersion}.jar", "ecj")
 }
