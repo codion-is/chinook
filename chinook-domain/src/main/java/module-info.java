@@ -3,8 +3,9 @@ module is.codion.framework.demos.chinook.domain {
   requires is.codion.common.rmi;
   requires is.codion.framework.db.core;
   requires is.codion.framework.db.local;
-  requires is.codion.framework.demos.chinook.domain.api;
+  requires transitive is.codion.framework.demos.chinook.domain.api;
   requires java.desktop;
+  requires jasperreports;
 
   exports is.codion.framework.demos.chinook.domain;
   exports is.codion.framework.demos.chinook.server;

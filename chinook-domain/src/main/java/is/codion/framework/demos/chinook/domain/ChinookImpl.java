@@ -22,6 +22,7 @@ import static is.codion.framework.domain.entity.KeyGenerator.identity;
 import static is.codion.framework.domain.entity.OrderBy.orderBy;
 import static is.codion.framework.domain.entity.StringFactory.stringFactory;
 import static is.codion.framework.domain.property.Properties.*;
+import static is.codion.plugin.jasperreports.model.JasperReports.classPathReport;
 
 public final class ChinookImpl extends DefaultDomain implements Chinook {
 
@@ -170,6 +171,8 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             .keyGenerator(identity())
             .orderBy(orderBy().ascending(Customer.LASTNAME, Customer.FIRSTNAME))
             .stringFactory(new CustomerStringProvider());
+
+    defineReport(Customer.REPORT, classPathReport(ChinookImpl.class, "customer_report.jasper"));
   }
 
   void genre() {

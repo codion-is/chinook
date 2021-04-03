@@ -11,6 +11,7 @@ import is.codion.framework.demos.chinook.client.loadtest.scenarios.LogoutLogin;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.RaisePrices;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.UpdateTotalsPrices;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewAlbum;
+import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewCustomerReport;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewGenre;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewInvoice;
 import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
@@ -31,7 +32,7 @@ public final class ChinookLoadTest extends EntityLoadTestModel<ChinookApplicatio
           User.parseUser(System.getProperty("codion.test.user", "scott:tiger"));
 
   public ChinookLoadTest() {
-    super(UNIT_TEST_USER, asList(new ViewGenre(), new ViewInvoice(), new ViewAlbum(),
+    super(UNIT_TEST_USER, asList(new ViewGenre(), new ViewCustomerReport(), new ViewInvoice(), new ViewAlbum(),
             new UpdateTotalsPrices(), new InsertDeleteAlbum(), new LogoutLogin(), new RaisePrices()));
   }
 

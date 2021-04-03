@@ -1,3 +1,7 @@
+plugins {
+    id "de.jjohannes.extra-java-module-info" version "0.6"
+}
+
 apply from: "../build-shared.gradle"
 
 apply plugin: 'java-library'
@@ -10,6 +14,12 @@ dependencies {
     testImplementation "is.codion.jdk11:codion-framework-domain-test:${codionVersion}"
     testRuntimeOnly "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
     testRuntimeOnly "com.h2database:h2:1.4.200"
+
+    runtimeOnly "commons-logging:commons-logging:1.2"
+    runtimeOnly "commons-digester:commons-digester:2.1"
+    runtimeOnly "org.apache.commons:commons-collections4:4.4"
+    runtimeOnly "commons-beanutils:commons-beanutils:1.9.4"
+    runtimeOnly "org.eclipse.jdt:ecj:3.24.0"
 }
 
 test {
@@ -17,3 +27,31 @@ test {
     systemProperty "codion.db.url", "jdbc:h2:mem:h2db"
     systemProperty "codion.db.initScripts", "classpath:create_schema.sql"
 }
+
+extraJavaModuleInfo {
+    automaticModule("jasperreports-6.16.0.jar", "jasperreports")
+    automaticModule("commons-logging-1.2.jar", "commons.logging")
+    automaticModule("commons-digester-2.1.jar", "commons.digester")
+    automaticModule("commons-collections-3.2.2.jar", "commons.collections")
+    automaticModule("commons-beanutils-1.9.4.jar", "commons.beanutils")
+    automaticModule("ecj-3.24.0.jar", "ecj")
+}
+
+task buildReports(dependsOn: 'compileJava') {
+    group 'build'
+    def jasperSourceDir = file('src/main/reports')
+    def jasperTargetDir = file(sourceSets.main.output.resourcesDir.toString() + '/is/codion/framework/demos/chinook/domain')
+    inputs.dir jasperSourceDir
+    outputs.dir jasperTargetDir
+    doLast {
+        ant {
+            taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: configurations.runtimeClasspath.asPath)
+            jasperTargetDir.mkdirs()
+            jrc(srcdir: jasperSourceDir, destdir: jasperTargetDir) {
+                classpath(path: sourceSets.main.output.classesDirs)
+                include(name: '**/*.jrxml')
+            }
+        }
+    }
+}
+classes.finalizedBy buildReports

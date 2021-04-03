@@ -7,6 +7,7 @@ module is.codion.framework.demos.chinook.client {
   requires is.codion.framework.demos.chinook.domain.api;
   requires radiance.substance;
   requires radiance.substance.extras;
+  requires jasperreports;
 
   exports is.codion.framework.demos.chinook.ui;
   exports is.codion.framework.demos.chinook.model;

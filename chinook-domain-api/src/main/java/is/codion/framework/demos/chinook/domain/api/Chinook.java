@@ -12,6 +12,8 @@ import is.codion.framework.domain.entity.EntityType;
 import is.codion.framework.domain.entity.ForeignKey;
 import is.codion.framework.domain.property.DerivedProperty;
 import is.codion.framework.domain.property.Property;
+import is.codion.plugin.jasperreports.model.JRReportType;
+import is.codion.plugin.jasperreports.model.JasperReports;
 
 import javax.imageio.ImageIO;
 import java.awt.Image;
@@ -92,6 +94,8 @@ public interface Chinook {
     Attribute<Long> SUPPORTREP_ID = TYPE.longAttribute("supportrepid");
 
     ForeignKey SUPPORTREP_FK = TYPE.foreignKey("supportrep_fk", Customer.SUPPORTREP_ID, Employee.ID);
+
+    JRReportType REPORT = JasperReports.reportType("customer_report");
   }
 
   interface Genre {
