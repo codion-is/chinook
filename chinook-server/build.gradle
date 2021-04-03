@@ -1,5 +1,3 @@
-apply from: "../build-shared.gradle"
-
 apply plugin: 'application'
 
 dependencies {

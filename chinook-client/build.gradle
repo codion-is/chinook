@@ -1,6 +1,6 @@
 plugins {
-    id 'org.beryx.jlink' version '2.23.5'
-    id "de.jjohannes.extra-java-module-info" version "0.6"
+    id 'org.beryx.jlink' version "${jlinkVersion}"
+    id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
 }
 
 apply from: "../build-shared.gradle"
@@ -43,16 +43,16 @@ dependencies {
 }
 
 extraJavaModuleInfo {
-    automaticModule("jasperreports-6.16.0.jar", "jasperreports")
-    automaticModule("commons-logging-1.2.jar", "commons.logging")
-    automaticModule("commons-digester-2.1.jar", "commons.digester")
-    automaticModule("commons-collections-3.2.2.jar", "commons.collections")
-    automaticModule("commons-beanutils-1.9.4.jar", "commons.beanutils")
-    automaticModule("ecj-3.24.0.jar", "ecj")
-    automaticModule("radiance-substance-3.5.1.jar", "radiance.substance")
-    automaticModule("radiance-substance-extras-3.5.1.jar", "radiance.substance.extras")
-    automaticModule("radiance-trident-3.5.1.jar", "radiance.trident")
-    automaticModule("radiance-neon-3.5.1.jar", "radiance.neon")
+    automaticModule("jasperreports-${jasperReportsVersion}.jar", "jasperreports")
+    automaticModule("commons-logging-${commonsLoggingVersion}.jar", "commons.logging")
+    automaticModule("commons-digester-${commonsDigesterVersion}.jar", "commons.digester")
+    automaticModule("commons-collections-${commonsCollectionsVersion}.jar", "commons.collections")
+    automaticModule("commons-beanutils-${commonsBeanUtilsVersion}.jar", "commons.beanutils")
+    automaticModule("ecj-${ecjVersion}.jar", "ecj")
+    automaticModule("radiance-substance-${radianceVersion}.jar", "radiance.substance")
+    automaticModule("radiance-substance-extras-${radianceVersion}.jar", "radiance.substance.extras")
+    automaticModule("radiance-trident-${radianceVersion}.jar", "radiance.trident")
+    automaticModule("radiance-neon-${radianceVersion}.jar", "radiance.neon")
 }
 
 test {

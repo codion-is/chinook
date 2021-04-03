@@ -1,5 +1,5 @@
 plugins {
-    id "de.jjohannes.extra-java-module-info" version "0.6"
+    id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
 }
 
 apply from: "../build-shared.gradle"
@@ -11,11 +11,16 @@ dependencies {
     api "is.codion.jdk11:codion-framework-db-core:${codionVersion}"
     api "is.codion.jdk11:codion-plugin-jasperreports:${codionVersion}"
 
-    api ("net.sf.jasperreports:jasperreports:6.16.0") {
+    api ("net.sf.jasperreports:jasperreports:${jasperReportsVersion}") {
         transitive = false
     }
 }
 
 extraJavaModuleInfo {
-    automaticModule("jasperreports-6.16.0.jar", "jasperreports")
+    automaticModule("jasperreports-${jasperReportsVersion}.jar", "jasperreports")
+    automaticModule("commons-logging-${commonsLoggingVersion}.jar", "commons.logging")
+    automaticModule("commons-digester-${commonsDigesterVersion}.jar", "commons.digester")
+    automaticModule("commons-collections-${commonsCollectionsVersion}.jar", "commons.collections")
+    automaticModule("commons-beanutils-${commonsBeanUtilsVersion}.jar", "commons.beanutils")
+    automaticModule("ecj-${ecjVersion}.jar", "ecj")
 }

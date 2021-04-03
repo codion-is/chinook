@@ -1,5 +1,5 @@
 plugins {
-    id "de.jjohannes.extra-java-module-info" version "0.6"
+    id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
 }
 
 apply from: "../build-shared.gradle"
@@ -15,10 +15,10 @@ dependencies {
     testRuntimeOnly "is.codion.jdk11:codion-dbms-h2database:${codionVersion}"
     testRuntimeOnly "com.h2database:h2:1.4.200"
 
-    runtimeOnly "commons-logging:commons-logging:1.2"
-    runtimeOnly "commons-digester:commons-digester:2.1"
-    runtimeOnly "org.apache.commons:commons-collections4:4.4"
-    runtimeOnly "commons-beanutils:commons-beanutils:1.9.4"
+    runtimeOnly "commons-logging:commons-logging:${commonsLoggingVersion}"
+    runtimeOnly "commons-digester:commons-digester:${commonsDigesterVersion}"
+    runtimeOnly "org.apache.commons:commons-collections4:${commonsCollectionsVersion}"
+    runtimeOnly "commons-beanutils:commons-beanutils:${commonsBeanUtilsVersion}"
     runtimeOnly "org.eclipse.jdt:ecj:3.24.0"
 }
 
@@ -29,12 +29,12 @@ test {
 }
 
 extraJavaModuleInfo {
-    automaticModule("jasperreports-6.16.0.jar", "jasperreports")
-    automaticModule("commons-logging-1.2.jar", "commons.logging")
-    automaticModule("commons-digester-2.1.jar", "commons.digester")
-    automaticModule("commons-collections-3.2.2.jar", "commons.collections")
-    automaticModule("commons-beanutils-1.9.4.jar", "commons.beanutils")
-    automaticModule("ecj-3.24.0.jar", "ecj")
+    automaticModule("jasperreports-${jasperReportsVersion}.jar", "jasperreports")
+    automaticModule("commons-logging-${commonsLoggingVersion}.jar", "commons.logging")
+    automaticModule("commons-digester-${commonsDigesterVersion}.jar", "commons.digester")
+    automaticModule("commons-collections-${commonsCollectionsVersion}.jar", "commons.collections")
+    automaticModule("commons-beanutils-${commonsBeanUtilsVersion}.jar", "commons.beanutils")
+    automaticModule("ecj-${ecjVersion}.jar", "ecj")
 }
 
 task buildReports(dependsOn: 'compileJava') {
