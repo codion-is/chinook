@@ -8,12 +8,12 @@ dependencies {
     implementation project(':chinook-domain-api')
     implementation project(':chinook-client')
 
-    implementation "is.codion.jdk11:codion-swing-common-tools-ui:${codionVersion}"
-    implementation "is.codion.jdk11:codion-swing-framework-ui:${codionVersion}"
-    implementation "is.codion.jdk11:codion-swing-framework-tools:${codionVersion}"
+    implementation "is.codion.jdk11:codion-swing-common-tools-ui:${version}"
+    implementation "is.codion.jdk11:codion-swing-framework-ui:${version}"
+    implementation "is.codion.jdk11:codion-swing-framework-tools:${version}"
 
-    runtimeOnly "is.codion.jdk11:codion-framework-db-rmi:${codionVersion}"
-    runtimeOnly "is.codion.jdk11:codion-framework-db-http:${codionVersion}"
+    runtimeOnly "is.codion.jdk11:codion-framework-db-rmi:${version}"
+    runtimeOnly "is.codion.jdk11:codion-framework-db-http:${version}"
 }
 
 apply from: "../extra-module-info.gradle"

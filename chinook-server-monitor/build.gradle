@@ -1,8 +1,8 @@
 apply plugin: 'application'
 
 dependencies {
-    runtimeOnly "is.codion.jdk11:codion-swing-framework-server-monitor:${codionVersion}"
-    runtimeOnly "is.codion.jdk11:codion-plugin-logback-proxy:${codionVersion}"
+    runtimeOnly "is.codion.jdk11:codion-swing-framework-server-monitor:${version}"
+    runtimeOnly "is.codion.jdk11:codion-plugin-logback-proxy:${version}"
 }
 
 application {

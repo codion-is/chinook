@@ -5,9 +5,9 @@ plugins {
 apply plugin: 'java-library'
 
 dependencies {
-    api "is.codion.jdk11:codion-framework-domain:${codionVersion}"
-    api "is.codion.jdk11:codion-framework-db-core:${codionVersion}"
-    api "is.codion.jdk11:codion-plugin-jasperreports:${codionVersion}"
+    api "is.codion.jdk11:codion-framework-domain:${version}"
+    api "is.codion.jdk11:codion-framework-db-core:${version}"
+    api "is.codion.jdk11:codion-plugin-jasperreports:${version}"
 
     api ("net.sf.jasperreports:jasperreports:${jasperReportsVersion}") {
         transitive = false
