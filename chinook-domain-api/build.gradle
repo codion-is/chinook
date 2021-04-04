@@ -14,7 +14,7 @@ dependencies {
     }
 }
 
-apply from: "../extra-module-info.gradle"
+apply from: "../extra-module-info-jasperreports.gradle"
 
 java {
     modularity.inferModulePath = true

@@ -1,0 +1,6 @@
+extraJavaModuleInfo {
+    automaticModule("radiance-substance-${radianceVersion}.jar", "radiance.substance")
+    automaticModule("radiance-substance-extras-${radianceVersion}.jar", "radiance.substance.extras")
+    automaticModule("radiance-trident-${radianceVersion}.jar", "radiance.trident")
+    automaticModule("radiance-neon-${radianceVersion}.jar", "radiance.neon")
+}

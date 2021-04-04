@@ -40,7 +40,8 @@ dependencies {
     testRuntimeOnly project(':chinook-domain')
 }
 
-apply from: "../extra-module-info.gradle"
+apply from: "../extra-module-info-jasperreports.gradle"
+apply from: "../extra-module-info-radiance.gradle"
 
 java {
     modularity.inferModulePath = true
