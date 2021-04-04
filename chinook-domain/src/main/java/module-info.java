@@ -7,6 +7,7 @@ module is.codion.framework.demos.chinook.domain {
   requires java.desktop;
   requires jasperreports;
 
+  opens is.codion.framework.demos.chinook.domain;//report resource
   exports is.codion.framework.demos.chinook.domain;
   exports is.codion.framework.demos.chinook.server;
 
