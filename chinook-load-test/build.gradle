@@ -17,6 +17,7 @@ dependencies {
 }
 
 apply from: "../extra-module-info-jasperreports.gradle"
+apply from: "../extra-module-info-radiance.gradle"
 
 java {
     modularity.inferModulePath = true
