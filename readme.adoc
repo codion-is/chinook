@@ -1,0 +1,82 @@
+= Codion Chinook Demo
+
+A demo application based on the Codion application framework.
+
+== Modules
+
+=== chinook-domain-api
+
+The domain API.
+
+=== chinook-domain
+
+The domain implementation.
+
+=== chinook-client
+
+Swing client application.
+
+=== chinook-load-test
+
+Load test for the application.
+
+=== chinook-server
+
+A Codion server configured for the Chinook application.
+
+=== chinook-server-monitor
+
+A Codion server monitor configured to connect to the server.
+
+== Running
+
+=== JDBC
+
+To run the Chinook client with a local JDBC connection.
+
+[source,shell]
+----
+gradlew :chinook-client:runLocal
+----
+
+=== RMI/HTTP
+
+To run the Chinook client with a RMI or HTTP connection start by running the server.
+
+[source,shell]
+----
+gradlew :chinook-server:run
+----
+
+Then run the Chinook client.
+
+[source,shell]
+----
+gradlew :chinook-client:runRmi
+----
+or
+[source,shell]
+----
+gradlew :chinook-client:runHttp
+----
+
+Or run the Chinook load test.
+
+[source,shell]
+----
+gradlew :chinook-load-test:runRmi
+----
+or
+[source,shell]
+----
+gradlew :chinook-load-test:runHttp
+----
+
+==== Server Monitor
+
+To run the Codion server monitor.
+
+[source,shell]
+----
+gradlew :chinook-server-monitor:run
+----
