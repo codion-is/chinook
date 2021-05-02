@@ -19,10 +19,6 @@ dependencies {
 apply from: "../extra-module-info-jasperreports.gradle"
 apply from: "../extra-module-info-radiance.gradle"
 
-java {
-    modularity.inferModulePath = true
-}
-
 application {
     mainModule = "is.codion.framework.demos.chinook.client.loadtest"
     mainClassName = "is.codion.framework.demos.chinook.client.loadtest.ChinookLoadTest"

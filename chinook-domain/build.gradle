@@ -24,10 +24,6 @@ dependencies {
 
 apply from: "../extra-module-info-jasperreports.gradle"
 
-java {
-    modularity.inferModulePath = true
-}
-
 test {
     useJUnitPlatform()
     systemProperty "codion.test.user", "scott:tiger"
