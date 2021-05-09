@@ -119,7 +119,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
                     .tableModelClass(EmployeeTableModel.class))
                     .editPanelClass(EmployeeEditPanel.class)
                     .tablePanelClass(EmployeeTablePanel.class)
-                    .detailPanelBuilder(customerBuilder).detailPanelState(EntityPanel.PanelState.HIDDEN);
+                    .detailPanelBuilder(customerBuilder)
+                    .detailPanelState(EntityPanel.PanelState.HIDDEN);
 
     return Arrays.asList(genreBuilder, mediaTypeBuilder, employeeBuilder);
   }
@@ -135,15 +136,11 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     invoicePanel.setShowDetailPanelControls(false);
 
     final SwingEntityModel invoiceLineModel = invoiceModel.getDetailModel(InvoiceLine.TYPE);
-    final EntityPanel invoiceLinePanel = new EntityPanel(invoiceLineModel, new InvoiceLineEditPanel(invoiceLineModel.getEditModel()));
-    final EntityTablePanel invoiceLineTablePanel = invoiceLinePanel.getTablePanel();
-    invoiceLineTablePanel.setIncludeSouthPanel(false);
-    invoiceLineTablePanel.setIncludeConditionPanel(false);
-    invoiceLineTablePanel.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-    invoiceLineTablePanel.setPreferredSize(new Dimension(360, 40));
-    invoiceLineTablePanel.getTable().getModel().getColumnModel().hideColumn(InvoiceLine.INVOICE_FK);
+    final InvoiceLineTablePanel invoiceLineTablePanel = new InvoiceLineTablePanel(invoiceLineModel.getTableModel());
+    final InvoiceLineEditPanel invoiceLineEditPanel = new InvoiceLineEditPanel(invoiceLineModel.getEditModel(),
+            invoiceLineTablePanel.getTable().getSearchField());
+    final EntityPanel invoiceLinePanel = new EntityPanel(invoiceLineModel, invoiceLineEditPanel, invoiceLineTablePanel);
     invoiceLinePanel.setIncludeControlPanel(false);
-    ((InvoiceLineEditPanel) invoiceLinePanel.getEditPanel()).setTableSearchFeld(invoiceLinePanel.getTablePanel().getTable().getSearchField());
     invoiceLinePanel.initializePanel();
     ((InvoiceEditPanel) invoicePanel.getEditPanel()).setInvoiceLinePanel(invoiceLinePanel);
 
@@ -156,7 +153,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     final EntityPanel albumPanel = new EntityPanel(albumModel, new AlbumEditPanel(albumModel.getEditModel()));
     final SwingEntityModel trackModel = albumModel.getDetailModel(Track.TYPE);
     final EntityPanel trackPanel = new EntityPanel(trackModel,
-            new TrackEditPanel(trackModel.getEditModel()), new TrackTablePanel(trackModel.getTableModel()));
+            new TrackEditPanel(trackModel.getEditModel()),
+            new TrackTablePanel(trackModel.getTableModel()));
 
     albumPanel.addDetailPanel(trackPanel);
     artistPanel.addDetailPanel(albumPanel);
@@ -164,7 +162,9 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     final SwingEntityModel playlistModel = applicationModel.getEntityModel(Playlist.TYPE);
     final EntityPanel playlistPanel = new EntityPanel(playlistModel, new PlaylistEditPanel(playlistModel.getEditModel()));
     final SwingEntityModel playlistTrackModel = playlistModel.getDetailModel(PlaylistTrack.TYPE);
-    final EntityPanel playlistTrackPanel = new EntityPanel(playlistTrackModel, new PlaylistTrackEditPanel(playlistTrackModel.getEditModel()));
+    final EntityPanel playlistTrackPanel = new EntityPanel(playlistTrackModel,
+            new PlaylistTrackEditPanel(playlistTrackModel.getEditModel()),
+            new PlaylistTrackTablePanel(playlistTrackModel.getTableModel()));
 
     playlistPanel.addDetailPanel(playlistTrackPanel);
 

@@ -17,17 +17,14 @@ import static is.codion.swing.common.ui.Components.removeTransferFocusOnEnter;
 import static is.codion.swing.common.ui.layout.Layouts.borderLayout;
 import static is.codion.swing.common.ui.textfield.TextFields.selectAllOnFocusGained;
 
-public class InvoiceLineEditPanel extends EntityEditPanel {
+public final class InvoiceLineEditPanel extends EntityEditPanel {
 
-  private JTextField tableSearchField;
+  private final JTextField tableSearchField;
 
-  public InvoiceLineEditPanel(final SwingEntityEditModel editModel) {
+  public InvoiceLineEditPanel(final SwingEntityEditModel editModel, final JTextField tableSearchField) {
     super(editModel);
-    editModel.setPersistValue(InvoiceLine.TRACK_FK, false);
-  }
-
-  public void setTableSearchFeld(final JTextField tableSearchField) {
     this.tableSearchField = tableSearchField;
+    editModel.setPersistValue(InvoiceLine.TRACK_FK, false);
   }
 
   @Override
