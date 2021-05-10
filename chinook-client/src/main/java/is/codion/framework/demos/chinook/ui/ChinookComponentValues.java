@@ -18,11 +18,11 @@ public class ChinookComponentValues extends EntityComponentValues {
   }
 
   @Override
-  protected <T extends JComponent> ComponentValue<Entity, T> createEntityComponentValue(final ForeignKey foreignKey,
-                                                                                        final SwingEntityEditModel editModel,
-                                                                                        final Entity initialValue) {
+  protected <T extends JComponent> ComponentValue<Entity, T> createForeignKeyComponentValue(final ForeignKey foreignKey,
+                                                                                            final SwingEntityEditModel editModel,
+                                                                                            final Entity initialValue) {
     final ComponentValue<Entity, JComponent> componentValue =
-            super.createEntityComponentValue(foreignKey, editModel, initialValue);
+            super.createForeignKeyComponentValue(foreignKey, editModel, initialValue);
     if (foreignKey.equals(trackForeignKey)) {
       final EntitySearchField trackSearchField = (EntitySearchField) componentValue.getComponent();
       trackSearchField.setSelectionProvider(new TrackSelectionProvider(trackSearchField.getModel()));
