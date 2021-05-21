@@ -4,7 +4,6 @@
 package is.codion.framework.demos.chinook.ui;
 
 import is.codion.framework.demos.chinook.domain.api.Chinook.InvoiceLine;
-import is.codion.swing.common.ui.time.TemporalInputPanel;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.ui.EntityEditPanel;
@@ -13,17 +12,14 @@ import is.codion.swing.framework.ui.EntitySearchField;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.time.LocalDate;
 
 import static is.codion.common.model.table.TableSortModel.SortingDirective.ASCENDING;
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Customer;
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Invoice;
 import static is.codion.swing.common.ui.layout.Layouts.borderLayout;
 import static is.codion.swing.common.ui.layout.Layouts.gridLayout;
-import static is.codion.swing.common.ui.textfield.TextFields.selectAllOnFocusGained;
 
 public class InvoiceEditPanel extends EntityEditPanel {
 
@@ -40,26 +36,27 @@ public class InvoiceEditPanel extends EntityEditPanel {
   @Override
   protected void initializeUI() {
     setInitialFocusAttribute(Invoice.CUSTOMER_FK);
-    final EntitySearchField customerField = createForeignKeySearchField(Invoice.CUSTOMER_FK);
+    final EntitySearchField customerField = createForeignKeySearchField(Invoice.CUSTOMER_FK)
+            .columns(16)
+            .build();
     configureCustomerSearch(customerField);
-    customerField.setColumns(16);
-    final TemporalInputPanel<LocalDate> datePanel = createTemporalInputPanel(Invoice.DATE);
-    datePanel.getInputField().setColumns(12);
-    final JTextField addressField = createTextField(Invoice.BILLINGADDRESS);
-    selectAllOnFocusGained(addressField);
-    addressField.setColumns(16);
-    final JTextField cityField = createTextField(Invoice.BILLINGCITY);
-    selectAllOnFocusGained(cityField);
-    cityField.setColumns(16);
-    final JTextField stateField = createTextField(Invoice.BILLINGSTATE);
-    selectAllOnFocusGained(stateField);
-    stateField.setColumns(16);
-    final JTextField countryField = createTextField(Invoice.BILLINGCOUNTRY);
-    selectAllOnFocusGained(countryField);
-    countryField.setColumns(16);
-    final JTextField postalcodeField = createTextField(Invoice.BILLINGPOSTALCODE);
-    selectAllOnFocusGained(postalcodeField);
-    postalcodeField.setColumns(16);
+    createTemporalInputPanel(Invoice.DATE)
+            .columns(12);
+    createTextField(Invoice.BILLINGADDRESS)
+            .selectAllOnFocusGained()
+            .columns(16);
+    createTextField(Invoice.BILLINGCITY)
+            .selectAllOnFocusGained()
+            .columns(16);
+    createTextField(Invoice.BILLINGSTATE)
+            .selectAllOnFocusGained()
+            .columns(16);
+    createTextField(Invoice.BILLINGCOUNTRY)
+            .selectAllOnFocusGained()
+            .columns(16);
+    createTextField(Invoice.BILLINGPOSTALCODE)
+            .selectAllOnFocusGained()
+            .columns(16);
 
     final JPanel centerPanel = new JPanel(gridLayout(4, 2));
     centerPanel.add(createInputPanel(Invoice.CUSTOMER_FK));
