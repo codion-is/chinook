@@ -18,48 +18,41 @@ import javax.swing.JPanel;
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.layout.Layouts.flexibleGridLayout;
 import static is.codion.swing.common.ui.layout.Layouts.gridLayout;
-import static is.codion.swing.common.ui.textfield.TextFields.getPreferredTextFieldHeight;
 
 public class TrackEditPanel extends EntityEditPanel {
 
   public TrackEditPanel(final SwingEntityEditModel editModel) {
     super(editModel);
+    setDefaultTextFieldColumns(18);
   }
 
   @Override
   protected void initializeUI() {
     setInitialFocusAttribute(Track.ALBUM_FK);
 
-    createForeignKeySearchField(Track.ALBUM_FK)
-            .columns(18);
-    createTextField(Track.NAME)
-            .columns(18);
+    createForeignKeySearchField(Track.ALBUM_FK);
+    createTextField(Track.NAME);
     final EntityComboBox mediaTypeBox = createForeignKeyComboBox(Track.MEDIATYPE_FK)
-            .preferredHeight(getPreferredTextFieldHeight())
             .build();
     final Action newMediaTypeAction = EntityPanel.builder(MediaType.TYPE)
             .editPanelClass(MediaTypeEditPanel.class)
             .createEditPanelAction(mediaTypeBox);
     final JPanel mediaTypePanel = Components.createEastButtonPanel(mediaTypeBox, newMediaTypeAction);
     final EntityComboBox genreBox = createForeignKeyComboBox(Track.GENRE_FK)
-            .preferredHeight(getPreferredTextFieldHeight())
             .build();
     final Action newGenreAction = EntityPanel.builder(Genre.TYPE)
             .editPanelClass(GenreEditPanel.class)
             .createEditPanelAction(genreBox);
     final JPanel genrePanel = Components.createEastButtonPanel(genreBox, newGenreAction);
     createTextInputPanel(Track.COMPOSER)
-            .columns(18)
             .buttonFocusable(false);
     final IntegerField millisecondsField = (IntegerField) createTextField(Track.MILLISECONDS)
             .build();
     millisecondsField.setGroupingUsed(true);
     final IntegerField bytesField = (IntegerField) createTextField(Track.BYTES)
-            .columns(18)
             .build();
     bytesField.setGroupingUsed(true);
-    createTextField(Track.UNITPRICE)
-            .columns(18);
+    createTextField(Track.UNITPRICE);
 
     final ComponentValue<Integer, MinutesSecondsPanel> minutesSecondsValue = new MinutesSecondsPanelValue();
     minutesSecondsValue.link(getEditModel().value(Track.MILLISECONDS));
