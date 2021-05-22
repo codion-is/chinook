@@ -47,6 +47,7 @@ public class TrackEditPanel extends EntityEditPanel {
     createTextInputPanel(Track.COMPOSER)
             .buttonFocusable(false);
     final IntegerField millisecondsField = (IntegerField) createTextField(Track.MILLISECONDS)
+            .columns(8)
             .build();
     millisecondsField.setGroupingUsed(true);
     final IntegerField bytesField = (IntegerField) createTextField(Track.BYTES)
