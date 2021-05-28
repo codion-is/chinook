@@ -17,34 +17,50 @@ public final class ChinookApplicationModel extends SwingEntityApplicationModel {
 
   public ChinookApplicationModel(final EntityConnectionProvider connectionProvider) {
     super(connectionProvider);
+    addEntityModel(initializeArtistModel(connectionProvider));
+    addEntityModel(initializePlaylistModel(connectionProvider));
+    addEntityModel(initializeCustomerModel(connectionProvider));
+  }
+
+  public List<Entity> updateInvoiceTotals() throws DatabaseException {
+    return getConnectionProvider().getConnection().executeFunction(Invoice.UPDATE_TOTALS);
+  }
+
+  private static SwingEntityModel initializeArtistModel(final EntityConnectionProvider connectionProvider) {
     final SwingEntityModel artistModel = new SwingEntityModel(Artist.TYPE, connectionProvider);
     final SwingEntityModel albumModel = new SwingEntityModel(Album.TYPE, connectionProvider);
     final SwingEntityModel trackModel = new SwingEntityModel(new TrackTableModel(connectionProvider));
 
     albumModel.addDetailModel(trackModel);
     artistModel.addDetailModel(albumModel);
-    addEntityModel(artistModel);
 
+    artistModel.refresh();
+
+    return artistModel;
+  }
+
+  private static SwingEntityModel initializePlaylistModel(final EntityConnectionProvider connectionProvider) {
     final SwingEntityModel playlistModel = new SwingEntityModel(Playlist.TYPE, connectionProvider);
     final SwingEntityModel playlistTrackModel = new SwingEntityModel(PlaylistTrack.TYPE, connectionProvider);
 
     playlistModel.addDetailModel(playlistTrackModel);
-    addEntityModel(playlistModel);
 
+    playlistModel.refresh();
+
+    return playlistModel;
+  }
+
+  private static SwingEntityModel initializeCustomerModel(final EntityConnectionProvider connectionProvider) {
     final SwingEntityModel customerModel = new SwingEntityModel(Customer.TYPE, connectionProvider);
     final SwingEntityModel invoiceModel = new SwingEntityModel(new InvoiceEditModel(connectionProvider));
     final SwingEntityModel invoiceLineModel = new SwingEntityModel(InvoiceLine.TYPE, connectionProvider);
+
     invoiceModel.addDetailModel(invoiceLineModel);
     invoiceModel.addLinkedDetailModel(invoiceLineModel);
     customerModel.addDetailModel(invoiceModel);
-    addEntityModel(customerModel);
 
-    artistModel.refresh();
-    playlistModel.refresh();
     customerModel.refresh();
-  }
 
-  public List<Entity> updateInvoiceTotals() throws DatabaseException {
-    return getConnectionProvider().getConnection().executeFunction(Invoice.UPDATE_TOTALS);
+    return customerModel;
   }
 }
