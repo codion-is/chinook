@@ -21,7 +21,6 @@ import is.codion.framework.domain.entity.Attribute;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.EntityType;
 
-import static is.codion.common.rmi.server.RemoteClient.remoteClient;
 import static is.codion.framework.db.condition.Conditions.where;
 import static is.codion.framework.db.local.LocalEntityConnection.localEntityConnection;
 import static is.codion.framework.domain.DomainType.domainType;
@@ -74,7 +73,7 @@ public final class ChinookLoginProxy implements LoginProxy {
 
     //Create a new RemoteClient based on the one received
     //but with the actual database user
-    return remoteClient(remoteClient, databaseUser);
+    return remoteClient.withDatabaseUser(databaseUser);
   }
 
   @Override
