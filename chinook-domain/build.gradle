@@ -24,6 +24,11 @@ dependencies {
 
 apply from: "../extra-module-info-jasperreports.gradle"
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.deprecation = true
+}
+
 test {
     useJUnitPlatform()
     systemProperty "codion.test.user", "scott:tiger"

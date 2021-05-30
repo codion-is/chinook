@@ -22,7 +22,7 @@ import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.EntityType;
 
 import static is.codion.common.rmi.server.RemoteClient.remoteClient;
-import static is.codion.framework.db.condition.Conditions.condition;
+import static is.codion.framework.db.condition.Conditions.where;
 import static is.codion.framework.db.local.LocalEntityConnection.localEntityConnection;
 import static is.codion.framework.domain.DomainType.domainType;
 import static is.codion.framework.domain.entity.KeyGenerator.identity;
@@ -88,9 +88,9 @@ public final class ChinookLoginProxy implements LoginProxy {
 
   private void authenticateUser(final User user) throws LoginException {
     try (final EntityConnection connection = getConnectionFromPool()) {
-      final int rows = connection.rowCount(condition(Authentication.User.USERNAME)
+      final int rows = connection.rowCount(where(Authentication.User.USERNAME)
               .equalTo(user.getUsername()).caseSensitive(false)
-                      .and(condition(Authentication.User.PASSWORD_HASH)
+                      .and(where(Authentication.User.PASSWORD_HASH)
                               .equalTo(valueOf(user.getPassword()).hashCode())));
       if (rows == 0) {
         throw new ServerAuthenticationException("Wrong username or password");

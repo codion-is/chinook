@@ -15,3 +15,8 @@ dependencies {
 }
 
 apply from: "../extra-module-info-jasperreports.gradle"
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.deprecation = true
+}

@@ -43,6 +43,11 @@ dependencies {
 apply from: "../extra-module-info-jasperreports.gradle"
 apply from: "../extra-module-info-radiance.gradle"
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.deprecation = true
+}
+
 test {
     useJUnitPlatform()
     systemProperty "codion.db.url", "jdbc:h2:mem:h2db"
