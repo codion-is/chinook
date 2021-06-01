@@ -30,7 +30,6 @@ dependencies {
     runtimeLocal "com.h2database:h2:1.4.200"
 
     runtimeRemote "is.codion.jdk11:codion-framework-db-rmi:${version}"
-    runtimeRemote "is.codion.jdk11:codion-framework-db-http:${version}"
 
     testImplementation "is.codion.jdk11:codion-framework-db-local:${version}"
     testImplementation "is.codion.jdk11:codion-dbms-h2database:${version}"
@@ -106,49 +105,34 @@ task runHttp(type: JavaExec) {
     ]
 }
 
+//jlink {
+//    imageName = "chinook-local" + "-" + project.version
+//    configuration = 'runtimeLocal'
+//    options = ['--bind-services', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+//
+//    launcher {
+//        name = 'chinook-local'
+//        jvmArgs = [
+//                "-Dcodion.client.connectionType=local",
+//                "-Dcodion.db.url=jdbc:h2:mem:h2db",
+//                "-Dcodion.db.initScripts=classpath:create_schema.sql",
+//                "--add-reads", "is.codion.swing.framework.model=chinook.merged.module",//for json,
+//                "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api"//default methods
+//        ]
+//    }
+//
+//    jpackage {
+//        installerType = "deb"
+//        installerOptions = ['--linux-shortcut']
+//    }
+//}
+
 jlink {
-    imageName = "chinook-local"
-    configuration = 'runtimeLocal'
-    options = ['--bind-services', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
-
-    launcher {
-        name = 'chinook-local'
-        jvmArgs = [
-                "-Dcodion.client.connectionType=local",
-                "-Dcodion.db.url=jdbc:h2:mem:h2db",
-                "-Dcodion.db.initScripts=classpath:create_schema.sql",
-                "--add-reads", "is.codion.swing.framework.model=chinook.merged.module",//for json,
-                "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api"//default methods
-        ]
-    }
-
-    jpackage {
-        installerType = "deb"
-        installerOptions = ['--linux-shortcut']
-    }
-}
-
-/*jlink {
-    imageName = "chinook-remote"
+    imageName = "chinook-remote" + "-" + project.version
     configuration = 'runtimeRemote'
     options = ['--bind-services', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
 
-    mergedModule {
-        excludeRequires 'com.fasterxml.jackson.core', 'com.fasterxml.jackson.annotation', 'com.fasterxml.jackson.databind'
-    }
-
     launcher {
-        name = 'chinook-http'
-        jvmArgs = [
-                "-Dcodion.client.connectionType=http",
-                "-Dcodion.client.http.secure=false",
-                "-Dcodion.client.http.hostname=${serverHost}",
-                "-Dcodion.client.http.port=${serverHttpPort}",
-                "--add-reads", "is.codion.swing.framework.model=chinook.merged.module"//for json
-        ]
-    }
-
-    secondaryLauncher {
         name = 'chinook-rmi'
         mainClass = application.mainClassName
         jvmArgs = [
@@ -165,4 +149,4 @@ jlink {
         installerType = "deb"
         installerOptions = ['--linux-shortcut']
     }
-}*/
+}

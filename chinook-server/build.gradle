@@ -7,7 +7,6 @@ apply plugin: 'application'
 
 dependencies {
     runtimeOnly "is.codion.jdk11:codion-framework-server:${version}"
-    runtimeOnly "is.codion.jdk11:codion-framework-servlet:${version}"
 
     runtimeOnly project(":chinook-domain")
 
@@ -21,7 +20,10 @@ dependencies {
     }
 }
 
+apply from: "../extra-module-info-jasperreports.gradle"
+
 application {
+    mainModule = "is.codion.framework.server";
     mainClassName = "is.codion.framework.server.EntityServer"
     applicationDefaultJvmArgs = [
             "-Xmx256m",
@@ -45,9 +47,9 @@ distributions {
 jlink {
     options = ['--bind-services', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
 
-    mergedModule {
-        excludeRequires 'com.fasterxml.jackson.core', 'com.fasterxml.jackson.annotation', 'com.fasterxml.jackson.databind'
-    }
+    imageName = project.name + "-" + project.version
+
+    moduleName = "is.codion.framework.server"
 
     launcher {
         name = 'chinook-server'
@@ -56,7 +58,8 @@ jlink {
                 "-Djava.rmi.server.hostname=${serverHost}",
                 "-Dcodion.configurationFile=config/h2_embedded.config",
                 "-Dlogback.configurationFile=config/logback.xml",
-                "-Djava.security.policy=config/codion_server.policy"
+                "-Djava.security.policy=config/codion_server.policy",
+                "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api"
         ]
     }
 
@@ -66,24 +69,6 @@ jlink {
     }
 }
 
-apply from: "../extra-module-info-jasperreports.gradle"
-
-extraJavaModuleInfo {
-    automaticModule("jersey-container-servlet-${jerseyVersion}.jar", "jersey.container.servlet")
-    automaticModule("jersey-container-servlet-core-${jerseyVersion}.jar", "jersey.container.servlet.core")
-    automaticModule("jersey-container-jetty-servlet-${jerseyVersion}.jar", "jersey.container.jetty.servlet")
-    automaticModule("jersey-container-jetty-http-${jerseyVersion}.jar", "jersey.container.jetty.http")
-    automaticModule("jersey-media-jaxb-${jerseyVersion}.jar", "jersey.media.jaxb")
-    automaticModule("jersey-common-${jerseyVersion}.jar", "jersey.common")
-    automaticModule("jersey-server-${jerseyVersion}.jar", "jersey.server")
-    automaticModule("jersey-client-${jerseyVersion}.jar", "jersey.client")
-    automaticModule("jersey-hk2-${jerseyVersion}.jar", "jersey.hk2")
-    automaticModule("javax.servlet-api-3.1.0.jar", "javax.servlet.api")
-    automaticModule("jakarta.inject-2.6.1.jar", "jakarta.inject")
-    automaticModule("hk2-locator-2.6.1.jar", "hk2.locator")
-    automaticModule("hk2-api-2.6.1.jar", "hk2.api")
-    automaticModule("hk2-utils-2.6.1.jar", "hk2.utils")
-    automaticModule("aopalliance-repackaged-2.6.1.jar", "aopalliance.repackaged")
-    automaticModule("osgi-resource-locator-1.0.3.jar", "osgi.resource.locator")
-    automaticModule("javassist-3.25.0-GA.jar", "javassist")
+tasks.jlink.doLast {
+    copy { from 'config' into "$buildDir/$imageName/bin/config" }
 }
