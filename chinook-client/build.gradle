@@ -55,7 +55,7 @@ test {
 
 application {
     mainModule = "is.codion.framework.demos.chinook.client"
-    mainClassName = "is.codion.framework.demos.chinook.ui.ChinookAppPanel"
+    getMainClass().set("is.codion.framework.demos.chinook.ui.ChinookAppPanel")
     applicationDefaultJvmArgs = [
             //add-reads for accessing default methods for Entity types
             "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api",
@@ -68,7 +68,7 @@ application {
 
 task runLocal(type: JavaExec) {
     group 'application'
-    main = application.mainClassName
+    mainClass = application.getMainClass()
     classpath = configurations.runtimeLocal + sourceSets.main.getRuntimeClasspath()
     systemProperties = [
             'codion.client.connectionType' : 'local',
@@ -80,7 +80,7 @@ task runLocal(type: JavaExec) {
 
 task runRmi(type: JavaExec) {
     group 'application'
-    main = application.mainClassName
+    mainClass = application.getMainClass()
     classpath = configurations.runtimeRemote + sourceSets.main.getRuntimeClasspath()
     systemProperties = [
             'codion.client.connectionType'    : 'remote',
@@ -94,7 +94,7 @@ task runRmi(type: JavaExec) {
 
 task runHttp(type: JavaExec) {
     group 'application'
-    main = application.mainClassName
+    mainClass = application.getMainClass()
     classpath = configurations.runtimeRemote + sourceSets.main.getRuntimeClasspath()
     systemProperties = [
             'codion.client.connectionType' : 'http',
@@ -134,7 +134,7 @@ jlink {
 
     launcher {
         name = 'chinook-rmi'
-        mainClass = application.mainClassName
+        mainClass = application.getMainClass()
         jvmArgs = [
                 "-Dcodion.client.connectionType=remote",
                 "-Dcodion.server.hostname=${serverHost}",

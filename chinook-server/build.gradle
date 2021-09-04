@@ -24,7 +24,7 @@ apply from: "../extra-module-info-jasperreports.gradle"
 
 application {
     mainModule = "is.codion.framework.server";
-    mainClassName = "is.codion.framework.server.EntityServer"
+    getMainClass().set("is.codion.framework.server.EntityServer")
     applicationDefaultJvmArgs = [
             "-Xmx256m",
             "-Djava.rmi.server.hostname=${serverHost}",

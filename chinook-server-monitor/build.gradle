@@ -6,7 +6,7 @@ dependencies {
 }
 
 application {
-    mainClassName = 'is.codion.swing.framework.server.monitor.ui.EntityServerMonitorPanel'
+    getMainClass().set("is.codion.swing.framework.server.monitor.ui.EntityServerMonitorPanel")
     applicationDefaultJvmArgs = [
             "-Dcodion.server.hostname=${serverHost}",
             "-Dcodion.server.registryPort=${serverRegistryPort}",

@@ -54,3 +54,5 @@ task buildReports(dependsOn: 'compileJava') {
     }
 }
 classes.finalizedBy buildReports
+compileTestJava.dependsOn buildReports
+jar.dependsOn buildReports
