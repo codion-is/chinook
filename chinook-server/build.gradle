@@ -23,7 +23,7 @@ dependencies {
 apply from: "../extra-module-info-jasperreports.gradle"
 
 application {
-    mainModule = "is.codion.framework.server";
+    mainModule = "is.codion.framework.server"
     getMainClass().set("is.codion.framework.server.EntityServer")
     applicationDefaultJvmArgs = [
             "-Xmx256m",

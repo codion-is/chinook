@@ -280,13 +280,13 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   void invoiceLine() {
     define(InvoiceLine.TYPE, "chinook.invoiceline",
             primaryKeyProperty(InvoiceLine.ID),
-            columnProperty(InvoiceLine.INVOICE_ID),
-            foreignKeyProperty(InvoiceLine.INVOICE_FK)
-                    .fetchDepth(0)
+            columnProperty(InvoiceLine.INVOICE_ID)
                     .nullable(false),
-            columnProperty(InvoiceLine.TRACK_ID),
+            foreignKeyProperty(InvoiceLine.INVOICE_FK)
+                    .fetchDepth(0),
+            columnProperty(InvoiceLine.TRACK_ID)
+                    .nullable(false),
             foreignKeyProperty(InvoiceLine.TRACK_FK)
-                    .nullable(false)
                     .preferredColumnWidth(100),
             denormalizedProperty(InvoiceLine.UNITPRICE,
                     InvoiceLine.TRACK_FK, Track.UNITPRICE)
@@ -345,7 +345,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     public List<Entity> execute(final EntityConnection entityConnection,
                                 final List<Object> arguments) throws DatabaseException {
       return entityConnection.update(Entity.castTo(Invoice.TYPE,
-              entityConnection.select(ALL_INVOICES)).stream()
+                      entityConnection.select(ALL_INVOICES)).stream()
               .map(Invoice::updateTotal)
               .filter(Invoice::isModified)
               .collect(Collectors.toList()));
@@ -365,7 +365,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                       .forUpdate();
 
       return entityConnection.update(Entity.castTo(Track.TYPE,
-              entityConnection.select(selectCondition)).stream()
+                      entityConnection.select(selectCondition)).stream()
               .map(track -> track.raisePrice(priceIncrease))
               .collect(Collectors.toList()));
     }
