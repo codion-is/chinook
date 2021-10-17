@@ -23,25 +23,25 @@ public final class TrackTableModelTest {
 
   @Test
   public void raisePriceOfSelected() throws DatabaseException {
-    final EntityConnectionProvider connectionProvider = createConnectionProvider();
+    try (final EntityConnectionProvider connectionProvider = createConnectionProvider()) {
+      final Entity masterOfPuppets = connectionProvider.getConnection()
+              .selectSingle(Album.TITLE, "Master Of Puppets");
 
-    final Entity masterOfPuppets = connectionProvider.getConnection()
-            .selectSingle(Album.TITLE, "Master Of Puppets");
+      final TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
+      final ColumnConditionModel<?, Entity> albumConditionModel =
+              trackTableModel.getTableConditionModel().getConditionModel(Track.ALBUM_FK);
 
-    final TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
-    final ColumnConditionModel<?, Entity> albumConditionModel =
-            trackTableModel.getTableConditionModel().getConditionModel(Track.ALBUM_FK);
+      albumConditionModel.setEqualValue(masterOfPuppets);
 
-    albumConditionModel.setEqualValue(masterOfPuppets);
+      trackTableModel.refresh();
+      assertEquals(8, trackTableModel.getRowCount());
 
-    trackTableModel.refresh();
-    assertEquals(8, trackTableModel.getRowCount());
+      trackTableModel.getSelectionModel().selectAll();
+      trackTableModel.raisePriceOfSelected(BigDecimal.ONE);
 
-    trackTableModel.getSelectionModel().selectAll();
-    trackTableModel.raisePriceOfSelected(BigDecimal.ONE);
-
-    trackTableModel.getItems().forEach(track ->
-            assertEquals(BigDecimal.valueOf(1.99), track.get(Track.UNITPRICE)));
+      trackTableModel.getItems().forEach(track ->
+              assertEquals(BigDecimal.valueOf(1.99), track.get(Track.UNITPRICE)));
+    }
   }
 
   private EntityConnectionProvider createConnectionProvider() {
