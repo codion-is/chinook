@@ -30,7 +30,6 @@ application {
             "-Djava.rmi.server.hostname=${serverHost}",
             "-Dcodion.configurationFile=config/h2_embedded.config",
             "-Dlogback.configurationFile=config/logback.xml",
-            "-Djava.security.policy=config/codion_server.policy",
             "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api"
     ]
 }
@@ -59,7 +58,6 @@ jlink {
                 "-Djava.rmi.server.hostname=${serverHost}",
                 "-Dcodion.configurationFile=config/h2_embedded.config",
                 "-Dlogback.configurationFile=config/logback.xml",
-                "-Djava.security.policy=config/codion_server.policy",
                 "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api"
         ]
     }

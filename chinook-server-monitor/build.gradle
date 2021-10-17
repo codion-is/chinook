@@ -12,7 +12,6 @@ application {
             "-Dcodion.server.registryPort=${serverRegistryPort}",
             "-Djavax.net.ssl.trustStore=../chinook-server/config/truststore.jks",
             "-Djavax.net.ssl.trustStorePassword=crappypass",
-            "-Djava.security.policy=config/all_permissions.policy",
             "-Dcodion.configurationFile=config/server_monitor.config"
     ]
 }
