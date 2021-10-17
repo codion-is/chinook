@@ -50,6 +50,8 @@ import org.pushingpixels.substance.extras.api.skinpack.SubstanceMangoLookAndFeel
 import org.pushingpixels.substance.extras.api.skinpack.SubstanceStreetlightsLookAndFeel;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -203,8 +205,11 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     if (!language.equals(newLanguage)) {
       UserPreferences.putUserPreference(LANGUAGE_PREFERENCES_KEY, newLanguage);
       showMessageDialog(this,
-              "Language has been changed, restart the application to apply the changes.\n\n" +
-                      "Tungumáli hefur verið breytt, endurræstu kerfið til að virkja breytingar");
+              """
+                      Language has been changed, restart the application to apply the changes.
+
+                      Tungumáli hefur verið breytt, endurræstu kerfið til að virkja breytingar
+                      """);
     }
   }
 
@@ -233,6 +238,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     final String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
     addSubstanceLookAndFeels();
+    JFrame.setDefaultLookAndFeelDecorated(true);
+    JDialog.setDefaultLookAndFeelDecorated(true);
     Icons.ICONS_CLASSNAME.set(IkonliFoundationIcons.class.getName());
     FrameworkIcons.FRAMEWORK_ICONS_CLASSNAME.set(IkonliFoundationFrameworkIcons.class.getName());
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
@@ -249,13 +256,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
             .start());
   }
 
-  private static final class SubstanceLookAndFeelProvider implements Components.LookAndFeelProvider {
-
-    private final Class<? extends SubstanceLookAndFeel> lookAndFeelClass;
-
-    private SubstanceLookAndFeelProvider(final Class<? extends SubstanceLookAndFeel> lookAndFeelClass) {
-      this.lookAndFeelClass = lookAndFeelClass;
-    }
+  private record SubstanceLookAndFeelProvider(Class<? extends SubstanceLookAndFeel> lookAndFeelClass)
+          implements Components.LookAndFeelProvider {
 
     @Override
     public String getClassName() {

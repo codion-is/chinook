@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -225,6 +226,7 @@ public interface Chinook {
   final class InvoiceLineTotalProvider
           implements DerivedProperty.Provider<BigDecimal> {
 
+    @Serial
     private static final long serialVersionUID = 1;
 
     @Override
@@ -242,6 +244,7 @@ public interface Chinook {
   final class TrackMinSecProvider
           implements DerivedProperty.Provider<String> {
 
+    @Serial
     private static final long serialVersionUID = 1;
 
     @Override
@@ -259,6 +262,7 @@ public interface Chinook {
   final class CoverArtImageProvider
           implements DerivedProperty.Provider<Image> {
 
+    @Serial
     private static final long serialVersionUID = 1;
 
     @Override
@@ -280,6 +284,7 @@ public interface Chinook {
   final class CustomerStringProvider
           implements Function<Entity, String>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1;
 
     @Override

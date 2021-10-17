@@ -41,7 +41,7 @@ gradlew :chinook-client:runLocal
 
 === RMI/HTTP
 
-To run the Chinook client with a RMI or HTTP connection start by running the server.
+To run the Chinook client with an RMI or HTTP connection start by running the server.
 
 [source,shell]
 ----
