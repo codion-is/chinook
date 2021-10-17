@@ -40,7 +40,6 @@ dependencies {
 }
 
 apply from: "../extra-module-info-jasperreports.gradle"
-apply from: "../extra-module-info-radiance.gradle"
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -68,7 +67,7 @@ application {
 
 task runLocal(type: JavaExec) {
     group 'application'
-    mainClass = application.getMainClass()
+    mainClass.set(application.getMainClass())
     classpath = configurations.runtimeLocal + sourceSets.main.getRuntimeClasspath()
     systemProperties = [
             'codion.client.connectionType' : 'local',
@@ -80,7 +79,7 @@ task runLocal(type: JavaExec) {
 
 task runRmi(type: JavaExec) {
     group 'application'
-    mainClass = application.getMainClass()
+    mainClass.set(application.getMainClass())
     classpath = configurations.runtimeRemote + sourceSets.main.getRuntimeClasspath()
     systemProperties = [
             'codion.client.connectionType'    : 'remote',
@@ -94,7 +93,7 @@ task runRmi(type: JavaExec) {
 
 task runHttp(type: JavaExec) {
     group 'application'
-    mainClass = application.getMainClass()
+    mainClass.set(application.getMainClass())
     classpath = configurations.runtimeRemote + sourceSets.main.getRuntimeClasspath()
     systemProperties = [
             'codion.client.connectionType' : 'http',
@@ -134,7 +133,6 @@ jlink {
 
     launcher {
         name = 'chinook-rmi'
-        mainClass = application.getMainClass()
         jvmArgs = [
                 "-Dcodion.client.connectionType=remote",
                 "-Dcodion.server.hostname=${serverHost}",

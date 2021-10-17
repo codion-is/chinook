@@ -17,7 +17,6 @@ dependencies {
 }
 
 apply from: "../extra-module-info-jasperreports.gradle"
-apply from: "../extra-module-info-radiance.gradle"
 
 application {
     mainModule = "is.codion.framework.demos.chinook.client.loadtest"
@@ -26,7 +25,7 @@ application {
 
 task runRmi(type: JavaExec) {
     group 'application'
-    mainClass = application.getMainClass()
+    mainClass.set(application.getMainClass())
     classpath = sourceSets.main.runtimeClasspath
     systemProperties = [
             'codion.client.connectionType'    : 'remote',
@@ -39,7 +38,7 @@ task runRmi(type: JavaExec) {
 
 task runHttp(type: JavaExec) {
     group 'application'
-    mainClass = application.getMainClass()
+    mainClass.set(application.getMainClass())
     classpath = sourceSets.main.runtimeClasspath
     systemProperties = [
             'codion.client.connectionType': 'http',
