@@ -91,19 +91,6 @@ task runRmi(type: JavaExec) {
     ]
 }
 
-task runHttp(type: JavaExec) {
-    group 'application'
-    mainClass.set(application.getMainClass())
-    classpath = configurations.runtimeRemote + sourceSets.main.getRuntimeClasspath()
-    systemProperties = [
-            'codion.client.connectionType' : 'http',
-            'codion.client.http.secure'    : 'false',
-            'codion.client.http.hostname'  : "${serverHost}",
-            'codion.client.http.port'      : "${serverHttpPort}",
-            'sun.awt.disablegrab'          : 'true'
-    ]
-}
-
 //jlink {
 //    imageName = "chinook-local" + "-" + project.version
 //    configuration = 'runtimeLocal'

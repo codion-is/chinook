@@ -13,7 +13,6 @@ dependencies {
     implementation "is.codion.jdk11:codion-swing-framework-tools:${version}"
 
     runtimeOnly "is.codion.jdk11:codion-framework-db-rmi:${version}"
-    runtimeOnly "is.codion.jdk11:codion-framework-db-http:${version}"
 }
 
 apply from: "../extra-module-info-jasperreports.gradle"
@@ -33,17 +32,5 @@ task runRmi(type: JavaExec) {
             'codion.server.registryPort'      : "${serverRegistryPort}",
             'javax.net.ssl.trustStore'        : '../chinook-server/config/truststore.jks',
             'javax.net.ssl.trustStorePassword': 'crappypass'
-    ]
-}
-
-task runHttp(type: JavaExec) {
-    group 'application'
-    mainClass.set(application.getMainClass())
-    classpath = sourceSets.main.runtimeClasspath
-    systemProperties = [
-            'codion.client.connectionType': 'http',
-            'codion.client.http.secure'   : 'false',
-            'codion.client.http.hostname' : "${serverHost}",
-            'codion.client.http.port'     : "${serverHttpPort}"
     ]
 }

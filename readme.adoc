@@ -39,9 +39,9 @@ To run the Chinook client with a local JDBC connection.
 gradlew :chinook-client:runLocal
 ----
 
-=== RMI/HTTP
+=== RMI
 
-To run the Chinook client with an RMI or HTTP connection start by running the server.
+To run the Chinook client with an RMI connection start by running the server.
 
 [source,shell]
 ----
@@ -54,22 +54,12 @@ Then run the Chinook client.
 ----
 gradlew :chinook-client:runRmi
 ----
-or
-[source,shell]
-----
-gradlew :chinook-client:runHttp
-----
 
 Or run the Chinook load test.
 
 [source,shell]
 ----
 gradlew :chinook-load-test:runRmi
-----
-or
-[source,shell]
-----
-gradlew :chinook-load-test:runHttp
 ----
 
 ==== Server Monitor
