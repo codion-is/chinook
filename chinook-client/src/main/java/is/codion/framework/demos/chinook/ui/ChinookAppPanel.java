@@ -68,6 +68,7 @@ import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.Components.addLookAndFeelProvider;
+import static is.codion.swing.common.ui.Components.darker;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplicationModel> {
@@ -238,8 +239,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     final String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
     addSubstanceLookAndFeels();
-    JFrame.setDefaultLookAndFeelDecorated(true);
-    JDialog.setDefaultLookAndFeelDecorated(true);
     Icons.ICONS_CLASSNAME.set(IkonliFoundationIcons.class.getName());
     FrameworkIcons.FRAMEWORK_ICONS_CLASSNAME.set(IkonliFoundationFrameworkIcons.class.getName());
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
@@ -265,11 +264,13 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     }
 
     @Override
-    public void configure() {
+    public void enable() {
       try {
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        JDialog.setDefaultLookAndFeelDecorated(true);
         UIManager.setLookAndFeel(getClassName());
         final Color background = (Color) UIManager.get("Table.background");
-        UIManager.put("Table.alternateRowColor", background.brighter());
+        UIManager.put("Table.alternateRowColor", darker(background));
       }
       catch (final Exception e) {
         throw new RuntimeException(e);
