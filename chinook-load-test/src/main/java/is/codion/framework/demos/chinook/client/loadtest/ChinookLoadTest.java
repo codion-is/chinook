@@ -21,10 +21,10 @@ import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.tools.loadtest.EntityLoadTestModel;
 
 import javax.swing.SwingUtilities;
+import java.util.List;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Genre;
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Track;
-import static java.util.Arrays.asList;
 
 public final class ChinookLoadTest extends EntityLoadTestModel<ChinookApplicationModel> {
 
@@ -32,7 +32,7 @@ public final class ChinookLoadTest extends EntityLoadTestModel<ChinookApplicatio
           User.parseUser(System.getProperty("codion.test.user", "scott:tiger"));
 
   public ChinookLoadTest() {
-    super(UNIT_TEST_USER, asList(new ViewGenre(), new ViewCustomerReport(), new ViewInvoice(), new ViewAlbum(),
+    super(UNIT_TEST_USER, List.of(new ViewGenre(), new ViewCustomerReport(), new ViewInvoice(), new ViewAlbum(),
             new UpdateTotalsPrices(), new InsertDeleteAlbum(), new LogoutLogin(), new RaisePrices()));
   }
 

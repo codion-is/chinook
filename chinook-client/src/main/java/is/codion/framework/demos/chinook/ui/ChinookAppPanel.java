@@ -61,7 +61,6 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -127,12 +126,12 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
                     .detailPanelBuilder(customerBuilder)
                     .detailPanelState(EntityPanel.PanelState.HIDDEN);
 
-    return Arrays.asList(genreBuilder, mediaTypeBuilder, employeeBuilder);
+    return List.of(genreBuilder, mediaTypeBuilder, employeeBuilder);
   }
 
   @Override
   protected List<EntityPanel> initializeEntityPanels(final ChinookApplicationModel applicationModel) {
-    return Arrays.asList(
+    return List.of(
             new CustomerPanel(applicationModel.getEntityModel(Customer.TYPE)),
             new ArtistPanel(applicationModel.getEntityModel(Artist.TYPE)),
             new PlaylistPanel(applicationModel.getEntityModel(Playlist.TYPE))
