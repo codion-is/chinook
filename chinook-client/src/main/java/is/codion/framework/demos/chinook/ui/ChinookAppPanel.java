@@ -209,7 +209,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
               """
                       Language has been changed, restart the application to apply the changes.
 
-                      Tungumáli hefur verið breytt, endurræstu kerfið til að virkja breytingar
+                      Tungumáli hefur verið breytt, endurræstu kerfið til að virkja breytingarnar.
                       """);
     }
   }
