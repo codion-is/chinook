@@ -29,25 +29,25 @@ import is.codion.swing.framework.ui.icons.FrameworkIcons;
 import is.codion.swing.plugin.ikonli.foundation.IkonliFoundationFrameworkIcons;
 import is.codion.swing.plugin.ikonli.foundation.IkonliFoundationIcons;
 
-import org.pushingpixels.substance.api.SubstanceLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteAquaLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteChalkLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteElectricLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteGlassLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteGoldLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteSiennaLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteSunsetLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceMagellanLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceNightShadeLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceRavenLookAndFeel;
-import org.pushingpixels.substance.api.skin.SubstanceTwilightLookAndFeel;
-import org.pushingpixels.substance.extras.api.skinpack.SubstanceFieldOfWheatLookAndFeel;
-import org.pushingpixels.substance.extras.api.skinpack.SubstanceFindingNemoLookAndFeel;
-import org.pushingpixels.substance.extras.api.skinpack.SubstanceHarvestLookAndFeel;
-import org.pushingpixels.substance.extras.api.skinpack.SubstanceMagmaLookAndFeel;
-import org.pushingpixels.substance.extras.api.skinpack.SubstanceMangoLookAndFeel;
-import org.pushingpixels.substance.extras.api.skinpack.SubstanceStreetlightsLookAndFeel;
+import org.pushingpixels.radiance.theming.api.RadianceLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteAquaLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteChalkLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteElectricLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteGlassLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteGoldLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteSiennaLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteSunsetLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceMagellanLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceNightShadeLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceRavenLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceTwilightLookAndFeel;
+import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceFieldOfWheatLookAndFeel;
+import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceFindingNemoLookAndFeel;
+import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceHarvestLookAndFeel;
+import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceMagmaLookAndFeel;
+import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceMangoLookAndFeel;
+import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceStreetlightsLookAndFeel;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
@@ -213,31 +213,31 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     }
   }
 
-  private static void addSubstanceLookAndFeels() {
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceTwilightLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceNightShadeLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceMagellanLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteChalkLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteAquaLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteElectricLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteGoldLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteSiennaLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteSunsetLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceGraphiteGlassLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceRavenLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceFieldOfWheatLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceFindingNemoLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceHarvestLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceMagmaLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceMangoLookAndFeel.class));
-    addLookAndFeelProvider(new SubstanceLookAndFeelProvider(SubstanceStreetlightsLookAndFeel.class));
+  private static void addRadianceLookAndFeels() {
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceTwilightLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNightShadeLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMagellanLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteChalkLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteAquaLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteElectricLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteGoldLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteSiennaLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteSunsetLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteGlassLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceRavenLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceFieldOfWheatLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceFindingNemoLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceHarvestLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMagmaLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMangoLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceStreetlightsLookAndFeel.class));
   }
 
   public static void main(final String[] args) throws CancelException {
     final String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
-    addSubstanceLookAndFeels();
+    addRadianceLookAndFeels();
     Icons.ICONS_CLASSNAME.set(IkonliFoundationIcons.class.getName());
     FrameworkIcons.FRAMEWORK_ICONS_CLASSNAME.set(IkonliFoundationFrameworkIcons.class.getName());
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
@@ -254,7 +254,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
             .start());
   }
 
-  private record SubstanceLookAndFeelProvider(Class<? extends SubstanceLookAndFeel> lookAndFeelClass)
+  private record RadianceLookAndFeelProvider(Class<? extends RadianceLookAndFeel> lookAndFeelClass)
           implements Components.LookAndFeelProvider {
 
     @Override
