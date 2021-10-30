@@ -9,7 +9,7 @@ import is.codion.swing.framework.ui.EntitySearchField;
 
 import javax.swing.JComponent;
 
-public class ChinookComponentValues extends EntityComponentValues {
+public final class ChinookComponentValues extends EntityComponentValues {
 
   private final ForeignKey trackForeignKey;
 

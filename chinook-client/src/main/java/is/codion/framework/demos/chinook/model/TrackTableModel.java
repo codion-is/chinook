@@ -13,7 +13,7 @@ import java.util.List;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 
-public class TrackTableModel extends SwingEntityTableModel {
+public final class TrackTableModel extends SwingEntityTableModel {
 
   public TrackTableModel(final EntityConnectionProvider connectionProvider) {
     super(Track.TYPE, connectionProvider);
