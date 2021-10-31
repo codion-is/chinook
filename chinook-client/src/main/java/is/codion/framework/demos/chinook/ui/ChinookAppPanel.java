@@ -58,7 +58,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
@@ -268,8 +267,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         UIManager.setLookAndFeel(getClassName());
-        final Color background = (Color) UIManager.get("Table.background");
-        UIManager.put("Table.alternateRowColor", darker(background));
+        UIManager.put("Table.alternateRowColor", darker(UIManager.getColor("Table.background")));
       }
       catch (final Exception e) {
         throw new RuntimeException(e);
