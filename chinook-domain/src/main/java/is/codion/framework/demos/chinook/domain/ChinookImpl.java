@@ -50,15 +50,15 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .nullable(false)
                     .maximumLength(120)
                     .preferredColumnWidth(160),
-            subqueryProperty(Artist.NUMBER_OF_ALBUMS,
-                    "select count(*) " +
-                            "from chinook.album " +
-                            "where album.artistid = artist.artistid"),
-            subqueryProperty(Artist.NUMBER_OF_TRACKS,
-                    "select count(*) " +
-                            "from chinook.track " +
-                            "join chinook.album on track.albumid = album.albumid " +
-                            "where album.artistid = artist.artistid"))
+            subqueryProperty(Artist.NUMBER_OF_ALBUMS, """
+                            select count(*)
+                            from chinook.album
+                            where album.artistid = artist.artistid"""),
+            subqueryProperty(Artist.NUMBER_OF_TRACKS, """
+                            select count(*)
+                            from chinook.track
+                            join chinook.album on track.albumid = album.albumid
+                            where album.artistid = artist.artistid"""))
             .keyGenerator(identity())
             .orderBy(orderBy().ascending(Artist.NAME))
             .stringFactory(stringFactory(Artist.NAME));
@@ -80,10 +80,10 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .eagerlyLoaded(),
             derivedProperty(Album.COVERIMAGE,
                     new CoverArtImageProvider(), Album.COVER),
-            subqueryProperty(Album.NUMBER_OF_TRACKS,
-                    "select count(*) " +
-                            "from chinook.track " +
-                            "where track.albumid = album.albumid"))
+            subqueryProperty(Album.NUMBER_OF_TRACKS, """
+                            select count(*)
+                            from chinook.track
+                            where track.albumid = album.albumid"""))
             .keyGenerator(identity())
             .orderBy(orderBy().ascending(Album.ARTIST_ID, Album.TITLE))
             .stringFactory(stringFactory(Album.TITLE));
@@ -266,9 +266,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             columnProperty(Invoice.TOTAL)
                     .maximumFractionDigits(2)
                     .hidden(),
-            subqueryProperty(Invoice.TOTAL_SUBQUERY,
-                    "select sum(unitprice * quantity) from chinook.invoiceline " +
-                            "where invoiceid = invoice.invoiceid")
+            subqueryProperty(Invoice.TOTAL_SUBQUERY, """
+                            select sum(unitprice * quantity) from chinook.invoiceline
+                            where invoiceid = invoice.invoiceid""")
                     .maximumFractionDigits(2))
             .keyGenerator(identity())
             .orderBy(orderBy().ascending(Invoice.CUSTOMER_ID).descending(Invoice.DATE))
