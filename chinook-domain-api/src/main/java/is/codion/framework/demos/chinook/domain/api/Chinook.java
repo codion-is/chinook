@@ -272,8 +272,8 @@ public interface Chinook {
         return null;
       }
 
-      try {
-        return ImageIO.read(new ByteArrayInputStream(bytes));
+      try (ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes)) {
+        return ImageIO.read(inputStream);
       }
       catch (final IOException e) {
         throw new RuntimeException(e);

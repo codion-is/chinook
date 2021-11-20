@@ -70,6 +70,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             columnProperty(Album.ARTIST_ID)
                     .nullable(false),
             foreignKeyProperty(Album.ARTIST_FK)
+                    .selectAttributes(Artist.NAME)
                     .preferredColumnWidth(160),
             columnProperty(Album.TITLE)
                     .searchProperty()
@@ -103,7 +104,8 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             columnProperty(Employee.TITLE)
                     .maximumLength(30),
             columnProperty(Employee.REPORTSTO),
-            foreignKeyProperty(Employee.REPORTSTO_FK),
+            foreignKeyProperty(Employee.REPORTSTO_FK)
+                    .selectAttributes(Employee.FIRSTNAME, Employee.LASTNAME),
             columnProperty(Employee.BIRTHDATE),
             columnProperty(Employee.HIREDATE)
                     .localeDateTimePattern(LocaleDateTimePattern.builder()
@@ -165,7 +167,8 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .nullable(false)
                     .maximumLength(60),
             columnProperty(Customer.SUPPORTREP_ID),
-            foreignKeyProperty(Customer.SUPPORTREP_FK))
+            foreignKeyProperty(Customer.SUPPORTREP_FK)
+                    .selectAttributes(Employee.FIRSTNAME, Employee.LASTNAME))
             .keyGenerator(identity())
             .orderBy(orderBy().ascending(Customer.LASTNAME, Customer.FIRSTNAME))
             .stringFactory(new CustomerStringProvider());
@@ -207,6 +210,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .preferredColumnWidth(160),
             columnProperty(Track.ALBUM_ID),
             foreignKeyProperty(Track.ALBUM_FK)
+                    .selectAttributes(Album.ARTIST_FK, Album.TITLE)
                     .fetchDepth(2)
                     .preferredColumnWidth(160),
             columnProperty(Track.NAME)
@@ -245,7 +249,8 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             primaryKeyProperty(Invoice.ID),
             columnProperty(Invoice.CUSTOMER_ID)
                     .nullable(false),
-            foreignKeyProperty(Invoice.CUSTOMER_FK),
+            foreignKeyProperty(Invoice.CUSTOMER_FK)
+                    .selectAttributes(Customer.FIRSTNAME, Customer.LASTNAME),
             columnProperty(Invoice.DATE)
                     .nullable(false)
                     .defaultValueSupplier(Invoice.DATE_DEFAULT_VALUE)
@@ -287,6 +292,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             columnProperty(InvoiceLine.TRACK_ID)
                     .nullable(false),
             foreignKeyProperty(InvoiceLine.TRACK_FK)
+                    .selectAttributes(Track.NAME, Track.UNITPRICE)
                     .preferredColumnWidth(100),
             denormalizedProperty(InvoiceLine.UNITPRICE,
                     InvoiceLine.TRACK_FK, Track.UNITPRICE)
