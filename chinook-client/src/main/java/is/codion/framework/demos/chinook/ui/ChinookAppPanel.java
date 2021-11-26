@@ -13,12 +13,12 @@ import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.framework.demos.chinook.model.EmployeeTableModel;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.model.EntityEditModel;
-import is.codion.swing.common.ui.Components;
 import is.codion.swing.common.ui.combobox.Completion;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
 import is.codion.swing.common.ui.dialog.Dialogs;
 import is.codion.swing.common.ui.icons.Icons;
+import is.codion.swing.common.ui.laf.LookAndFeelProvider;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.ui.EntityApplicationPanel;
 import is.codion.swing.framework.ui.EntityPanel;
@@ -64,8 +64,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
-import static is.codion.swing.common.ui.Components.addLookAndFeelProvider;
 import static is.codion.swing.common.ui.Components.darker;
+import static is.codion.swing.common.ui.laf.LookAndFeelProvider.addLookAndFeelProvider;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplicationModel> {
@@ -253,7 +253,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   private record RadianceLookAndFeelProvider(Class<? extends RadianceLookAndFeel> lookAndFeelClass)
-          implements Components.LookAndFeelProvider {
+          implements LookAndFeelProvider {
 
     @Override
     public String getClassName() {
