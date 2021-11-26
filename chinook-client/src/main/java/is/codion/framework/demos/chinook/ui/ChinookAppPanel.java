@@ -64,7 +64,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
-import static is.codion.swing.common.ui.Components.darker;
+import static is.codion.swing.common.ui.Utilities.darker;
 import static is.codion.swing.common.ui.laf.LookAndFeelProvider.addLookAndFeelProvider;
 import static javax.swing.JOptionPane.showMessageDialog;
 
