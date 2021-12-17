@@ -51,7 +51,7 @@ jlink {
 
     imageName = project.name + "-" + project.version
 
-    moduleName = "is.codion.framework.server"
+    moduleName = application.mainModule
 
     launcher {
         name = 'chinook-server'
