@@ -9,6 +9,7 @@ import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.InsertDeleteAlbum;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.LogoutLogin;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.RaisePrices;
+import is.codion.framework.demos.chinook.client.loadtest.scenarios.RandomPlaylist;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.UpdateTotalsPrices;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewAlbum;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewCustomerReport;
@@ -33,7 +34,7 @@ public final class ChinookLoadTest extends EntityLoadTestModel<ChinookApplicatio
 
   public ChinookLoadTest() {
     super(UNIT_TEST_USER, List.of(new ViewGenre(), new ViewCustomerReport(), new ViewInvoice(), new ViewAlbum(),
-            new UpdateTotalsPrices(), new InsertDeleteAlbum(), new LogoutLogin(), new RaisePrices()));
+            new UpdateTotalsPrices(), new InsertDeleteAlbum(), new LogoutLogin(), new RaisePrices(), new RandomPlaylist()));
   }
 
   @Override
