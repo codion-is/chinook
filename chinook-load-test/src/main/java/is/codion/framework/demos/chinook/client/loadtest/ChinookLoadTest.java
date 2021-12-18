@@ -15,6 +15,12 @@ import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewAlbum;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewCustomerReport;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewGenre;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewInvoice;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Artist;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Customer;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Invoice;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist;
+import is.codion.framework.demos.chinook.domain.api.Chinook.PlaylistTrack;
 import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.framework.demos.chinook.ui.ChinookAppPanel;
 import is.codion.swing.common.tools.ui.loadtest.LoadTestPanel;
@@ -42,6 +48,21 @@ public final class ChinookLoadTest extends EntityLoadTestModel<ChinookApplicatio
     final ChinookApplicationModel applicationModel = new ChinookApplicationModel(
             EntityConnectionProvider.connectionProvider().setDomainClassName("is.codion.framework.demos.chinook.domain.impl.ChinookImpl")
                     .setClientTypeId(ChinookAppPanel.class.getName()).setUser(getUser()));
+
+    final SwingEntityModel customerModel = applicationModel.getEntityModel(Customer.TYPE);
+    final SwingEntityModel invoiceModel = customerModel.getDetailModel(Invoice.TYPE);
+    customerModel.addLinkedDetailModel(invoiceModel);
+
+    final SwingEntityModel artistModel = applicationModel.getEntityModel(Artist.TYPE);
+    final SwingEntityModel albumModel = artistModel.getDetailModel(Album.TYPE);
+    final SwingEntityModel trackModel = albumModel.getDetailModel(Track.TYPE);
+
+    artistModel.addLinkedDetailModel(albumModel);
+    albumModel.addLinkedDetailModel(trackModel);
+
+    final SwingEntityModel playlistModel = applicationModel.getEntityModel(Playlist.TYPE);
+    final SwingEntityModel playlistTrackModel = playlistModel.getDetailModel(PlaylistTrack.TYPE);
+    playlistModel.addLinkedDetailModel(playlistTrackModel);
 
     /* Add a Genre model used in the ViewGenre scenario */
     final SwingEntityModel genreModel = new SwingEntityModel(Genre.TYPE, applicationModel.getConnectionProvider());
