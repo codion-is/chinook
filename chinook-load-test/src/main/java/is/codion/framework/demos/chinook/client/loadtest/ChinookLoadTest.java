@@ -10,7 +10,7 @@ import is.codion.framework.demos.chinook.client.loadtest.scenarios.InsertDeleteA
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.LogoutLogin;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.RaisePrices;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.RandomPlaylist;
-import is.codion.framework.demos.chinook.client.loadtest.scenarios.UpdateTotalsPrices;
+import is.codion.framework.demos.chinook.client.loadtest.scenarios.UpdateTotals;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewAlbum;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewCustomerReport;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewGenre;
@@ -34,7 +34,7 @@ public final class ChinookLoadTest extends EntityLoadTestModel<ChinookApplicatio
 
   public ChinookLoadTest() {
     super(UNIT_TEST_USER, List.of(new ViewGenre(), new ViewCustomerReport(), new ViewInvoice(), new ViewAlbum(),
-            new UpdateTotalsPrices(), new InsertDeleteAlbum(), new LogoutLogin(), new RaisePrices(), new RandomPlaylist()));
+            new UpdateTotals(), new InsertDeleteAlbum(), new LogoutLogin(), new RaisePrices(), new RandomPlaylist()));
   }
 
   @Override

@@ -15,7 +15,7 @@ import java.util.Random;
 
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRows;
 
-public final class UpdateTotalsPrices extends AbstractEntityUsageScenario<ChinookApplicationModel> {
+public final class UpdateTotals extends AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   private final Random random = new Random();
 
@@ -33,8 +33,6 @@ public final class UpdateTotalsPrices extends AbstractEntityUsageScenario<Chinoo
       Entity.put(InvoiceLine.QUANTITY, random.nextInt(4) + 1, invoiceLines);
 
       invoiceLineTableModel.update(invoiceLines);
-
-      application.updateInvoiceTotals();
     }
     catch (final Exception e) {
       throw new ScenarioException(e);
