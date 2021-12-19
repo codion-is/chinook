@@ -5,9 +5,11 @@ package is.codion.framework.demos.chinook.domain;
 
 import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.db.operation.DatabaseFunction;
+import is.codion.common.db.result.ResultPacker;
 import is.codion.common.formats.LocaleDateTimePattern;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.condition.SelectCondition;
+import is.codion.framework.db.local.LocalEntityConnection;
 import is.codion.framework.demos.chinook.domain.api.Chinook;
 import is.codion.framework.domain.DefaultDomain;
 import is.codion.framework.domain.entity.Entities;
@@ -15,14 +17,15 @@ import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.Key;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
-import static is.codion.framework.db.condition.Conditions.condition;
 import static is.codion.framework.db.condition.Conditions.where;
 import static is.codion.framework.domain.entity.KeyGenerator.identity;
 import static is.codion.framework.domain.entity.OrderBy.orderBy;
@@ -368,20 +371,19 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
 
   private static final class CreateRandomPlaylistFunction implements DatabaseFunction<EntityConnection, RandomPlaylistParameters, Entity> {
 
-    private final Random random = new Random();
+    private static final ResultPacker<Long> TRACK_ID_PACKER = resultSet -> resultSet.getLong(1);
+    private static final String TRACK_ID_QUERY = """
+              select trackid
+              from chinook.track
+              order by random() limit""";
 
     @Override
     public Entity execute(final EntityConnection connection,
                           final RandomPlaylistParameters parameters) throws DatabaseException {
-      List<Long> playlistTrackIds = new ArrayList<>(parameters.noOfTracks());
-      List<Long> allTrackIds = new ArrayList<>(connection.select(Track.ID, condition(Track.TYPE)));
-      while (playlistTrackIds.size() < parameters.noOfTracks() && !allTrackIds.isEmpty()) {
-        playlistTrackIds.add(allTrackIds.remove(random.nextInt(allTrackIds.size())));
-      }
-
       connection.beginTransaction();
       try {
-        Key playlistKey = insertPlaylistTracks(connection, parameters.playlistName(), playlistTrackIds);
+        Key playlistKey = insertPlaylistTracks(connection, parameters.playlistName(),
+                getRandomTrackIds((LocalEntityConnection) connection, parameters.noOfTracks()));
 
         connection.commitTransaction();
 
@@ -390,6 +392,18 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
       catch (DatabaseException e) {
         connection.rollbackTransaction();
         throw e;
+      }
+    }
+
+    private static List<Long> getRandomTrackIds(final LocalEntityConnection entityConnection,
+                                                final int noOfTracks) throws DatabaseException {
+      Connection connection = entityConnection.getDatabaseConnection().getConnection();
+      try (Statement statement = connection.createStatement();
+           ResultSet resultSet = statement.executeQuery(TRACK_ID_QUERY + " " + noOfTracks)) {
+        return TRACK_ID_PACKER.pack(resultSet);
+      }
+      catch (final SQLException e) {
+        throw new DatabaseException(e);
       }
     }
 
