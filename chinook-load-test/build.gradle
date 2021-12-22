@@ -26,7 +26,7 @@ application {
             "-Dcodion.server.hostname=${serverHost}",
             "-Dcodion.server.registryPort=${serverRegistryPort}",
             "-Dcodion.client.connectionType=remote",
-            "-Djavax.net.ssl.trustStore=../chinook-server/config/truststore.jks",
+            "-Djavax.net.ssl.trustStore=truststore.jks",
             "-Djavax.net.ssl.trustStorePassword=crappypass"
     ]
 }

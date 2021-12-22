@@ -15,10 +15,10 @@ application {
     applicationDefaultJvmArgs = [
             "-Dcodion.server.hostname=${serverHost}",
             "-Dcodion.server.registryPort=${serverRegistryPort}",
-            "-Djavax.net.ssl.trustStore=../chinook-server/config/truststore.jks",
+            "-Djavax.net.ssl.trustStore=config/truststore.jks",
             "-Djavax.net.ssl.trustStorePassword=crappypass",
             "-Dlogback.configurationFile=config/logback.xml",
-            "-Dcodion.configurationFile=config/server_monitor.config"
+            "-Dcodion.server.admin.user=scott:tiger"
     ]
 }
 
@@ -37,7 +37,7 @@ jlink {
                 "-Djavax.net.ssl.trustStore=config/truststore.jks",
                 "-Djavax.net.ssl.trustStorePassword=crappypass",
                 "-Dlogback.configurationFile=config/logback.xml",
-                "-Dcodion.configurationFile=config/server_monitor.config"
+                "-Dcodion.server.admin.user=scott:tiger"
         ]
     }
 
@@ -49,5 +49,4 @@ jlink {
 
 tasks.jlink.doLast {
     copy { from 'config' into "$buildDir/$imageName/bin/config" }
-    copy { from '../chinook-server/config/truststore.jks' into "$buildDir/$imageName/bin/config" }
 }
