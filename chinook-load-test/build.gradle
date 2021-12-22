@@ -20,17 +20,13 @@ apply from: "../extra-module-info-jasperreports.gradle"
 application {
     mainModule = "is.codion.framework.demos.chinook.client.loadtest"
     getMainClass().set("is.codion.framework.demos.chinook.client.loadtest.ChinookLoadTest")
-}
-
-task runRmi(type: JavaExec) {
-    group 'application'
-    mainClass.set(application.getMainClass())
-    classpath = sourceSets.main.runtimeClasspath
-    systemProperties = [
-            'codion.client.connectionType'    : 'remote',
-            'codion.server.hostname'          : "${serverHost}",
-            'codion.server.registryPort'      : "${serverRegistryPort}",
-            'javax.net.ssl.trustStore'        : '../chinook-server/config/truststore.jks',
-            'javax.net.ssl.trustStorePassword': 'crappypass'
+    applicationDefaultJvmArgs = [
+            "-Xmx2048m",
+            "-Dcodion.client.connectionType=remote",
+            "-Dcodion.server.hostname=${serverHost}",
+            "-Dcodion.server.registryPort=${serverRegistryPort}",
+            "-Dcodion.client.connectionType=remote",
+            "-Djavax.net.ssl.trustStore=../chinook-server/config/truststore.jks",
+            "-Djavax.net.ssl.trustStorePassword=crappypass"
     ]
 }
