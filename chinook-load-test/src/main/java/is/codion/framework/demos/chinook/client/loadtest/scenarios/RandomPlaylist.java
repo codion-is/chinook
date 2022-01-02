@@ -4,8 +4,8 @@
 package is.codion.framework.demos.chinook.client.loadtest.scenarios;
 
 import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.demos.chinook.domain.api.Chinook.PlaylistTrack;
-import is.codion.framework.demos.chinook.domain.api.Chinook.RandomPlaylistParameters;
 import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.framework.demos.chinook.model.PlaylistTableModel;
 import is.codion.swing.framework.model.SwingEntityModel;

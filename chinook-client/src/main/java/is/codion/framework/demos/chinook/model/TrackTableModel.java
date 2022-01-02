@@ -5,6 +5,7 @@ package is.codion.framework.demos.chinook.model;
 
 import is.codion.common.db.exception.DatabaseException;
 import is.codion.framework.db.EntityConnectionProvider;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 
@@ -25,7 +26,7 @@ public final class TrackTableModel extends SwingEntityTableModel {
     if (getSelectionModel().isSelectionNotEmpty()) {
       Collection<Long> trackIds = Entity.get(Track.ID, getSelectionModel().getSelectedItems());
       List<Entity> result = getConnectionProvider().getConnection()
-              .executeFunction(Track.RAISE_PRICE, List.of(trackIds, increase));
+              .executeFunction(Track.RAISE_PRICE, new RaisePriceParameters(trackIds, increase));
       replaceEntities(result);
     }
   }

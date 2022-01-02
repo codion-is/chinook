@@ -134,11 +134,19 @@ public interface Chinook {
     ForeignKey MEDIATYPE_FK = TYPE.foreignKey("mediatype_fk", MEDIATYPE_ID, MediaType.ID);
     ForeignKey GENRE_FK = TYPE.foreignKey("genre_fk", Track.GENRE_ID, Genre.ID);
 
-    FunctionType<EntityConnection, List<Object>, List<Entity>> RAISE_PRICE = functionType("chinook.raise_price");
+    FunctionType<EntityConnection, RaisePriceParameters, List<Entity>> RAISE_PRICE = functionType("chinook.raise_price");
 
     default Track raisePrice(final BigDecimal priceIncrease) {
       put(UNITPRICE, get(UNITPRICE).add(priceIncrease));
       return this;
+    }
+
+    record RaisePriceParameters(Collection<Long> trackIds, BigDecimal priceIncrease) implements Serializable {
+
+      public RaisePriceParameters(final Collection<Long> trackIds, final BigDecimal priceIncrease) {
+        this.trackIds = requireNonNull(trackIds);
+        this.priceIncrease = requireNonNull(priceIncrease);
+      }
     }
   }
 
@@ -189,6 +197,14 @@ public interface Chinook {
     Attribute<String> NAME = TYPE.stringAttribute("name");
 
     FunctionType<EntityConnection, RandomPlaylistParameters, Entity> RANDOM_PLAYLIST = functionType("chinook.random_playlist");
+
+    record RandomPlaylistParameters(String playlistName, int noOfTracks) implements Serializable {
+
+      public RandomPlaylistParameters(final String playlistName, final int noOfTracks) {
+        this.playlistName = requireNonNull(playlistName);
+        this.noOfTracks = noOfTracks;
+      }
+    }
   }
 
   interface PlaylistTrack {
@@ -305,14 +321,6 @@ public interface Chinook {
       }
 
       return builder.toString();
-    }
-  }
-
-  record RandomPlaylistParameters(String playlistName, int noOfTracks) implements Serializable {
-
-    public RandomPlaylistParameters(final String playlistName, final int noOfTracks) {
-      this.playlistName = requireNonNull(playlistName);
-      this.noOfTracks = noOfTracks;
     }
   }
 }
