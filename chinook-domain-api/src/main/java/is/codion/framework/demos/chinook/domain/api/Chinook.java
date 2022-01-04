@@ -143,9 +143,9 @@ public interface Chinook {
 
     record RaisePriceParameters(Collection<Long> trackIds, BigDecimal priceIncrease) implements Serializable {
 
-      public RaisePriceParameters(final Collection<Long> trackIds, final BigDecimal priceIncrease) {
-        this.trackIds = requireNonNull(trackIds);
-        this.priceIncrease = requireNonNull(priceIncrease);
+      public RaisePriceParameters {
+        requireNonNull(trackIds);
+        requireNonNull(priceIncrease);
       }
     }
   }
@@ -200,9 +200,8 @@ public interface Chinook {
 
     record RandomPlaylistParameters(String playlistName, int noOfTracks) implements Serializable {
 
-      public RandomPlaylistParameters(final String playlistName, final int noOfTracks) {
-        this.playlistName = requireNonNull(playlistName);
-        this.noOfTracks = noOfTracks;
+      public RandomPlaylistParameters {
+        requireNonNull(playlistName);
       }
     }
   }
