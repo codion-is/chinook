@@ -13,19 +13,20 @@ dependencies {
 
 apply from: "../extra-module-info-jasperreports.gradle"
 
+applicationDefaultJvmArgs = [
+        //add-reads for accessing default methods for Entity types
+        "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api",
+        "-Dcodion.client.connectionType=remote",
+        "-Dcodion.server.hostname=${serverHost}",
+        "-Dcodion.server.registryPort=${serverRegistryPort}",
+        "-Djavax.net.ssl.trustStore=truststore.jks",
+        "-Djavax.net.ssl.trustStorePassword=crappypass",
+        "-Dsun.awt.disablegrab=true"
+]
+
 application {
     mainModule = "is.codion.framework.demos.chinook.client"
     getMainClass().set("is.codion.framework.demos.chinook.ui.ChinookAppPanel")
-    applicationDefaultJvmArgs = [
-            //add-reads for accessing default methods for Entity types
-            "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api",
-            "-Dcodion.client.connectionType=remote",
-            "-Dcodion.server.hostname=${serverHost}",
-            "-Dcodion.server.registryPort=${serverRegistryPort}",
-            "-Djavax.net.ssl.trustStore=truststore.jks",
-            "-Djavax.net.ssl.trustStorePassword=crappypass",
-            "-Dsun.awt.disablegrab=true"
-    ]
 }
 
 jlink {
@@ -36,14 +37,7 @@ jlink {
 
     launcher {
         name = 'chinook-remote'
-        jvmArgs = [
-                "-Dcodion.client.connectionType=remote",
-                "-Dcodion.server.hostname=${serverHost}",
-                "-Dcodion.server.registryPort=${serverRegistryPort}",
-                "-Djavax.net.ssl.trustStore=truststore.jks",
-                "-Djavax.net.ssl.trustStorePassword=crappypass",
-                "--add-reads", "is.codion.swing.framework.model=chinook.merged.module"//for json
-        ]
+        jvmArgs = applicationDefaultJvmArgs
     }
 
     jpackage {
