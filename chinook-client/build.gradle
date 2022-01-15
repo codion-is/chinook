@@ -110,6 +110,8 @@ task runRmi(type: JavaExec) {
 //    }
 //
 //    jpackage {
+//        imageName = "Chinook-Local"
+//        icon = "../chinook.ico"
 //        installerType = "deb"
 //        installerOptions = ['--linux-shortcut']
 //    }
@@ -122,7 +124,7 @@ jlink {
                'is.codion.framework.db.rmi,is.codion.plugin.logback.proxy']
 
     launcher {
-        name = 'chinook-rmi'
+        name = 'chinook-remote'
         jvmArgs = [
                 "-Dcodion.client.connectionType=remote",
                 "-Dcodion.server.hostname=${serverHost}",
@@ -134,7 +136,22 @@ jlink {
     }
 
     jpackage {
-        installerType = "deb"
-        installerOptions = ['--linux-shortcut']
+        imageName = "Chinook-Remote"
+        if (org.gradle.internal.os.OperatingSystem.current().linux) {
+            installerType = 'deb'
+            icon = "../chinook.png"
+            installerOptions = [
+                    '--resource-dir', 'build/jpackage/Chinook-Remote/lib',
+                    '--linux-shortcut'
+            ]
+        }
+        if (org.gradle.internal.os.OperatingSystem.current().windows) {
+            installerType = 'msi'
+            icon = "../chinook.ico"
+            installerOptions = [
+                    '--win-menu',
+                    '--win-shortcut'
+            ]
+        }
     }
 }
