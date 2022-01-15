@@ -63,8 +63,25 @@ jlink {
     }
 
     jpackage {
-        installerType = "deb"
-        installerOptions = ['--linux-shortcut']
+        imageName = "Chinook-Server"
+        appVersion = project.version.replace('-SNAPSHOT', '')
+        if (org.gradle.internal.os.OperatingSystem.current().linux) {
+            installerType = 'deb'
+            icon = "../chinook.png"
+            installerOptions = [
+                    '--resource-dir', 'build/jpackage/Chinook-Server/lib',
+                    '--linux-shortcut'
+            ]
+        }
+        if (org.gradle.internal.os.OperatingSystem.current().windows) {
+            installerType = 'msi'
+            icon = "../chinook.ico"
+            imageOptions = ["--win-console"]
+            installerOptions = [
+                    '--win-menu',
+                    '--win-shortcut'
+            ]
+        }
     }
 }
 
