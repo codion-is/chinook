@@ -1,4 +1,5 @@
 plugins {
+    id 'org.beryx.jlink' version "${jlinkVersion}"
     id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
 }
 
@@ -17,16 +18,51 @@ dependencies {
 
 apply from: "../extra-module-info-jasperreports.gradle"
 
+applicationDefaultJvmArgs = [
+        "-Xmx2048m",
+        "-Dcodion.client.connectionType=remote",
+        "-Dcodion.server.hostname=${serverHost}",
+        "-Dcodion.server.registryPort=${serverRegistryPort}",
+        "-Dcodion.client.connectionType=remote",
+        "-Djavax.net.ssl.trustStore=truststore.jks",
+        "-Djavax.net.ssl.trustStorePassword=crappypass",
+        "--add-reads", "is.codion.swing.framework.model=chinook.merged.module"//for json
+]
+
 application {
     mainModule = "is.codion.framework.demos.chinook.client.loadtest"
     getMainClass().set("is.codion.framework.demos.chinook.client.loadtest.ChinookLoadTest")
-    applicationDefaultJvmArgs = [
-            "-Xmx2048m",
-            "-Dcodion.client.connectionType=remote",
-            "-Dcodion.server.hostname=${serverHost}",
-            "-Dcodion.server.registryPort=${serverRegistryPort}",
-            "-Dcodion.client.connectionType=remote",
-            "-Djavax.net.ssl.trustStore=truststore.jks",
-            "-Djavax.net.ssl.trustStorePassword=crappypass"
-    ]
+}
+
+jlink {
+    imageName = project.name + "-" + project.version
+    moduleName = application.mainModule
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages', '--add-modules',
+               'is.codion.framework.db.rmi,is.codion.plugin.logback.proxy']
+
+    launcher {
+        name = 'chinook-load-test'
+        jvmArgs = applicationDefaultJvmArgs
+    }
+
+    jpackage {
+        imageName = "Chinook-Load-Test"
+        appVersion = project.version.replace('-SNAPSHOT', '')
+        if (org.gradle.internal.os.OperatingSystem.current().linux) {
+            installerType = 'deb'
+            icon = "../chinook.png"
+            installerOptions = [
+                    '--resource-dir', 'build/jpackage/Chinook-Load-Test/lib',
+                    '--linux-shortcut'
+            ]
+        }
+        if (org.gradle.internal.os.OperatingSystem.current().windows) {
+            installerType = 'msi'
+            icon = "../chinook.ico"
+            installerOptions = [
+                    '--win-menu',
+                    '--win-shortcut'
+            ]
+        }
+    }
 }

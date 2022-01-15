@@ -22,16 +22,17 @@ dependencies {
 
 apply from: "../extra-module-info-jasperreports.gradle"
 
+applicationDefaultJvmArgs = [
+        "-Xmx256m",
+        "-Djava.rmi.server.hostname=${serverHost}",
+        "-Dcodion.configurationFile=config/h2_embedded.config",
+        "-Dlogback.configurationFile=config/logback.xml",
+        "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api"
+]
+
 application {
     mainModule = "is.codion.framework.server"
     getMainClass().set("is.codion.framework.server.EntityServer")
-    applicationDefaultJvmArgs = [
-            "-Xmx256m",
-            "-Djava.rmi.server.hostname=${serverHost}",
-            "-Dcodion.configurationFile=config/h2_embedded.config",
-            "-Dlogback.configurationFile=config/logback.xml",
-            "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api"
-    ]
 }
 
 distributions {
@@ -53,35 +54,7 @@ jlink {
 
     launcher {
         name = 'chinook-server'
-        jvmArgs = [
-                "-Xmx256m",
-                "-Djava.rmi.server.hostname=${serverHost}",
-                "-Dcodion.configurationFile=config/h2_embedded.config",
-                "-Dlogback.configurationFile=config/logback.xml",
-                "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api"
-        ]
-    }
-
-    jpackage {
-        imageName = "Chinook-Server"
-        appVersion = project.version.replace('-SNAPSHOT', '')
-        if (org.gradle.internal.os.OperatingSystem.current().linux) {
-            installerType = 'deb'
-            icon = "../chinook.png"
-            installerOptions = [
-                    '--resource-dir', 'build/jpackage/Chinook-Server/lib',
-                    '--linux-shortcut'
-            ]
-        }
-        if (org.gradle.internal.os.OperatingSystem.current().windows) {
-            installerType = 'msi'
-            icon = "../chinook.ico"
-            imageOptions = ["--win-console"]
-            installerOptions = [
-                    '--win-menu',
-                    '--win-shortcut'
-            ]
-        }
+        jvmArgs = applicationDefaultJvmArgs
     }
 }
 

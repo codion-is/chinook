@@ -9,17 +9,18 @@ dependencies {
     runtimeOnly "is.codion.jdk11:codion-plugin-logback-proxy:${version}"
 }
 
+applicationDefaultJvmArgs = [
+        "-Dcodion.server.hostname=${serverHost}",
+        "-Dcodion.server.registryPort=${serverRegistryPort}",
+        "-Djavax.net.ssl.trustStore=truststore.jks",
+        "-Djavax.net.ssl.trustStorePassword=crappypass",
+        "-Dlogback.configurationFile=logback.xml",
+        "-Dcodion.server.admin.user=scott:tiger"
+]
+
 application {
     mainModule = "is.codion.swing.framework.server.monitor"
     getMainClass().set("is.codion.swing.framework.server.monitor.ui.EntityServerMonitorPanel")
-    applicationDefaultJvmArgs = [
-            "-Dcodion.server.hostname=${serverHost}",
-            "-Dcodion.server.registryPort=${serverRegistryPort}",
-            "-Djavax.net.ssl.trustStore=config/truststore.jks",
-            "-Djavax.net.ssl.trustStorePassword=crappypass",
-            "-Dlogback.configurationFile=config/logback.xml",
-            "-Dcodion.server.admin.user=scott:tiger"
-    ]
 }
 
 jlink {
@@ -30,23 +31,27 @@ jlink {
 
     launcher {
         name = 'chinook-server-monitor'
-        jvmArgs = [
-                "-Xmx512m",
-                "-Dcodion.server.hostname=${serverHost}",
-                "-Dcodion.server.registryPort=${serverRegistryPort}",
-                "-Djavax.net.ssl.trustStore=config/truststore.jks",
-                "-Djavax.net.ssl.trustStorePassword=crappypass",
-                "-Dlogback.configurationFile=config/logback.xml",
-                "-Dcodion.server.admin.user=scott:tiger"
-        ]
+        jvmArgs = applicationDefaultJvmArgs
     }
 
     jpackage {
-        installerType = "deb"
-        installerOptions = ['--linux-shortcut']
+        imageName = "Chinook-Server-Monitor"
+        appVersion = project.version.replace('-SNAPSHOT', '')
+        if (org.gradle.internal.os.OperatingSystem.current().linux) {
+            installerType = 'deb'
+            icon = "../chinook.png"
+            installerOptions = [
+                    '--resource-dir', 'build/jpackage/Chinook-Server-Monitor/lib',
+                    '--linux-shortcut'
+            ]
+        }
+        if (org.gradle.internal.os.OperatingSystem.current().windows) {
+            installerType = 'msi'
+            icon = "../chinook.ico"
+            installerOptions = [
+                    '--win-menu',
+                    '--win-shortcut'
+            ]
+        }
     }
-}
-
-tasks.jlink.doLast {
-    copy { from 'config' into "$buildDir/$imageName/bin/config" }
 }
