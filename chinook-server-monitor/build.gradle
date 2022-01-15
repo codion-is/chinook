@@ -55,3 +55,10 @@ jlink {
         }
     }
 }
+
+tasks.jpackageImage.doLast {
+    copy {
+        from "src/main/resources"
+        into "build/jpackage/Chinook-Server-Monitor/bin"
+    }
+}

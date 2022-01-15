@@ -3,7 +3,7 @@
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>${user.dir}/../logs/codion_server_monitor.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-      <fileNamePattern>${user.dir}/../logs/codion_server_monitor.%i.log.zip</fileNamePattern>
+      <fileNamePattern>${user.home}/logs/codion_server_monitor.%i.log.zip</fileNamePattern>
       <minIndex>1</minIndex>
       <maxIndex>3</maxIndex>
     </rollingPolicy>
