@@ -137,7 +137,6 @@ jlink {
 
     jpackage {
         imageName = "Chinook-Remote"
-        appVersion = project.version.replace('-SNAPSHOT', '')
         if (org.gradle.internal.os.OperatingSystem.current().linux) {
             installerType = 'deb'
             icon = "../chinook.png"
