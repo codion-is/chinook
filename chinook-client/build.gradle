@@ -111,9 +111,23 @@ task runRmi(type: JavaExec) {
 //
 //    jpackage {
 //        imageName = "Chinook-Local"
-//        icon = "../chinook.ico"
-//        installerType = "deb"
-//        installerOptions = ['--linux-shortcut']
+//        appVersion = project.version.replace('-SNAPSHOT', '')
+//        if (org.gradle.internal.os.OperatingSystem.current().linux) {
+//            installerType = 'deb'
+//            icon = "../chinook.png"
+//            installerOptions = [
+//                    '--resource-dir', 'build/jpackage/Chinook-Local/lib',
+//                    '--linux-shortcut'
+//            ]
+//        }
+//        if (org.gradle.internal.os.OperatingSystem.current().windows) {
+//            installerType = 'msi'
+//            icon = "../chinook.ico"
+//            installerOptions = [
+//                    '--win-menu',
+//                    '--win-shortcut'
+//            ]
+//        }
 //    }
 //}
 
