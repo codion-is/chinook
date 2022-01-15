@@ -45,9 +45,10 @@ distributions {
 }
 
 jlink {
+    targetPlatform('linux-aarch64', "$jdk17Aarch64")
     imageName = project.name + "-" + project.version
     moduleName = application.mainModule
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages', '--add-modules',
+    options = ['--compress', '2', '--no-header-files', '--no-man-pages', '--add-modules',
                'is.codion.framework.db.local,is.codion.dbms.h2database,is.codion.plugin.hikari.pool,' +
                        'is.codion.plugin.logback.proxy,is.codion.framework.demos.chinook.domain']
 
@@ -69,5 +70,5 @@ jlink {
 }
 
 tasks.jlink.doLast {
-    copy { from 'config' into "$buildDir/$imageName/bin/config" }
+    copy { from 'config' into "$buildDir/$imageName/chinook-server-linux-aarch64/bin/config" }
 }
