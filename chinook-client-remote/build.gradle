@@ -61,3 +61,10 @@ jlink {
         }
     }
 }
+
+prepareMergedJarsDir.doLast {
+    copy {
+        from 'config'
+        into "$jlinkBasePath/mergedjars"
+    }
+}
