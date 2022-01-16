@@ -1,5 +1,4 @@
 plugins {
-    id 'org.beryx.jlink' version "${jlinkVersion}"
     id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
 }
 
