@@ -14,8 +14,8 @@ dependencies {
 apply from: "../extra-module-info-jasperreports.gradle"
 
 applicationDefaultJvmArgs = [
-        //add-reads for accessing default methods for Entity types
-        "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api",
+        //for checking if json is on the classpath
+        "--add-reads", "is.codion.swing.framework.model=chinook.merged.module",
         "-Dcodion.client.connectionType=remote",
         "-Dcodion.server.hostname=${serverHost}",
         "-Dcodion.server.registryPort=${serverRegistryPort}",

@@ -24,10 +24,11 @@ apply from: "../extra-module-info-jasperreports.gradle"
 
 applicationDefaultJvmArgs = [
         "-Xmx256m",
+        //add-reads for accessing default methods for Entity types
+        "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api",
         "-Djava.rmi.server.hostname=${serverHost}",
         "-Dcodion.configurationFile=config/h2_embedded.config",
-        "-Dlogback.configurationFile=config/logback.xml",
-        "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api"
+        "-Dlogback.configurationFile=config/logback.xml"
 ]
 
 application {
