@@ -56,9 +56,9 @@ jlink {
     }
 }
 
-tasks.jpackageImage.doLast {
+prepareMergedJarsDir.doLast {
     copy {
-        from "src/main/resources"
-        into "build/jpackage/Chinook-Server-Monitor/bin"
+        from 'config'
+        into "$jlinkBasePath/mergedjars"
     }
 }
