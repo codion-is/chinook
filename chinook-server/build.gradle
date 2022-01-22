@@ -24,11 +24,32 @@ apply from: "../extra-module-info-jasperreports.gradle"
 
 applicationDefaultJvmArgs = [
         "-Xmx256m",
+        "-Dlogback.configurationFile=logback.xml",
         //add-reads for accessing default methods for Entity types
         "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api",
+        //RMI configuration
         "-Djava.rmi.server.hostname=${serverHost}",
-        "-Dcodion.configurationFile=classpath:h2_embedded.config",
-        "-Dlogback.configurationFile=logback.xml"
+        "-Dcodion.server.registryPort=1098",
+        "-Djava.rmi.server.randomIDs=true",
+        "-Djava.rmi.server.useCodebaseOnly=true",
+        //The serialization whitelist
+        "-Dcodion.server.serializationFilterWhitelist=classpath:serialization-whitelist.txt",
+        //SSL configuration
+        "-Dcodion.server.classpathKeyStore=keystore.jks",
+        "-Djavax.net.ssl.keyStorePassword=crappypass",
+        //The port used by clients
+        "-Dcodion.server.port=2223",
+        //The port for the admin interface, used by the server monitor
+        "-Dcodion.server.admin.port=4445",
+        //The admin user credentials, used by the server monitor application
+        "-Dcodion.server.admin.user=scott:tiger",
+        //Database configuration
+        "-Dcodion.db.url=jdbc:h2:mem:h2db",
+        "-Dcodion.db.initScripts=classpath:create_schema.sql",
+        //A connection pool based on this user is created on startup
+        "-Dcodion.server.pooling.startupPoolUsers=scott:tiger",
+        //Client logging disabled by default
+        "-Dcodion.server.clientLoggingEnabled=false"
 ]
 
 application {
