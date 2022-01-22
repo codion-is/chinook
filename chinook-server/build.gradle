@@ -27,23 +27,13 @@ applicationDefaultJvmArgs = [
         //add-reads for accessing default methods for Entity types
         "--add-reads", "is.codion.framework.domain=is.codion.framework.demos.chinook.domain.api",
         "-Djava.rmi.server.hostname=${serverHost}",
-        "-Dcodion.configurationFile=config/h2_embedded.config",
-        "-Dlogback.configurationFile=config/logback.xml"
+        "-Dcodion.configurationFile=classpath:h2_embedded.config",
+        "-Dlogback.configurationFile=logback.xml"
 ]
 
 application {
     mainModule = "is.codion.framework.server"
     getMainClass().set("is.codion.framework.server.EntityServer")
-}
-
-distributions {
-    main {
-        contents {
-            from(fileTree(dir: 'config', include: '**/*')) {
-                into("bin/config")
-            }
-        }
-    }
 }
 
 jlink {
@@ -59,6 +49,9 @@ jlink {
     }
 }
 
-tasks.jlink.doLast {
-    copy { from 'config' into "$buildDir/$imageName/bin/config" }
+prepareMergedJarsDir.doLast {
+    copy {
+        from 'src/main/resources'
+        into "$jlinkBasePath/mergedjars"
+    }
 }

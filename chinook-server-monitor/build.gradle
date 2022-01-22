@@ -58,7 +58,7 @@ jlink {
 
 prepareMergedJarsDir.doLast {
     copy {
-        from 'config'
+        from 'src/main/resources'
         into "$jlinkBasePath/mergedjars"
     }
 }
