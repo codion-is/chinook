@@ -62,6 +62,7 @@ jlink {
         if (org.gradle.internal.os.OperatingSystem.current().windows) {
             installerType = 'msi'
             icon = "../chinook.ico"
+            imageOptions += ['--win-console']
             installerOptions = [
                     '--win-menu',
                     '--win-shortcut'
