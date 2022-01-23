@@ -1,9 +1,6 @@
 plugins {
-    id 'org.beryx.jlink' version "${jlinkVersion}"
-    id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
+    id 'chinook.application'
 }
-
-apply plugin: 'application'
 
 dependencies {
     implementation project(':chinook-client')
@@ -14,8 +11,6 @@ dependencies {
     runtimeOnly "is.codion.jdk11:codion-dbms-h2database:${version}"
     runtimeOnly "com.h2database:h2:1.4.200"
 }
-
-apply from: "../extra-module-info-jasperreports.gradle"
 
 applicationDefaultJvmArgs = [
         //add-reads for accessing default methods for Entity types

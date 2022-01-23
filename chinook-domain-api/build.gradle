@@ -1,8 +1,6 @@
 plugins {
-    id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
+    id 'chinook.library'
 }
-
-apply plugin: 'java-library'
 
 dependencies {
     api "is.codion.jdk11:codion-framework-domain:${version}"
@@ -12,11 +10,4 @@ dependencies {
     api ("net.sf.jasperreports:jasperreports:${jasperReportsVersion}") {
         transitive = false
     }
-}
-
-apply from: "../extra-module-info-jasperreports.gradle"
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.deprecation = true
 }

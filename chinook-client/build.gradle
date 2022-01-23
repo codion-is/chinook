@@ -1,8 +1,6 @@
 plugins {
-    id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
+    id 'chinook.library'
 }
-
-apply plugin: 'java'
 
 dependencies {
     implementation project(':chinook-domain-api')
@@ -24,13 +22,6 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
     testRuntimeOnly project(':chinook-domain')
-}
-
-apply from: "../extra-module-info-jasperreports.gradle"
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.deprecation = true
 }
 
 test {

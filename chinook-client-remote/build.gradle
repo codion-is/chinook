@@ -1,17 +1,12 @@
 plugins {
-    id 'org.beryx.jlink' version "${jlinkVersion}"
-    id "de.jjohannes.extra-java-module-info" version "${extraJavaModuleInfoVersion}"
+    id 'chinook.application'
 }
-
-apply plugin: 'application'
 
 dependencies {
     implementation project(':chinook-client')
 
     runtimeOnly "is.codion.jdk11:codion-framework-db-rmi:${version}"
 }
-
-apply from: "../extra-module-info-jasperreports.gradle"
 
 applicationDefaultJvmArgs = [
         //for checking if json is on the classpath

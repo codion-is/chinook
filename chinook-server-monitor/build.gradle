@@ -1,8 +1,6 @@
 plugins {
-    id 'org.beryx.jlink' version "${jlinkVersion}"
+    id 'chinook.server-monitor'
 }
-
-apply plugin: 'application'
 
 dependencies {
     runtimeOnly "is.codion.jdk11:codion-swing-framework-server-monitor:${version}"

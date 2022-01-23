@@ -1,3 +1,8 @@
+plugins {
+    id 'java-library'
+    id "de.jjohannes.extra-java-module-info"
+}
+
 extraJavaModuleInfo {
     automaticModule("jasperreports-${jasperReportsVersion}.jar", "jasperreports")
     automaticModule("commons-logging-${commonsLoggingVersion}.jar", "commons.logging")
@@ -5,4 +10,9 @@ extraJavaModuleInfo {
     automaticModule("commons-collections-${commonsCollectionsVersion}.jar", "commons.collections")
     automaticModule("commons-beanutils-${commonsBeanUtilsVersion}.jar", "commons.beanutils")
     automaticModule("ecj-${ecjVersion}.jar", "ecj")
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.deprecation = true
 }
