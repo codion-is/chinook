@@ -2,6 +2,8 @@ plugins {
     id 'chinook.library'
 }
 
+apply plugin: BuildReportsPlugin
+
 dependencies {
     api project(':chinook-domain-api')
     implementation "is.codion.jdk11:codion-common-rmi:${version}"
@@ -27,23 +29,9 @@ test {
     systemProperty "codion.db.initScripts", "classpath:create_schema.sql"
 }
 
-task buildReports(dependsOn: 'compileJava') {
-    group 'build'
-    def jasperSourceDir = file('src/main/reports')
-    def jasperTargetDir = file(sourceSets.main.output.resourcesDir.toString() + '/is/codion/framework/demos/chinook/domain')
-    inputs.dir jasperSourceDir
-    outputs.dir jasperTargetDir
-    doLast {
-        ant {
-            taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: configurations.runtimeClasspath.asPath)
-            jasperTargetDir.mkdirs()
-            jrc(srcdir: jasperSourceDir, destdir: jasperTargetDir) {
-                classpath(path: sourceSets.main.output.classesDirs)
-                include(name: '**/*.jrxml')
-            }
-        }
-    }
+buildReports {
+    taskClasspath = configurations.runtimeClasspath.asPath
+    buildClasspath = sourceSets.main.output.classesDirs
+    sourceDir = file('src/main/reports')
+    targetDir = file(sourceSets.main.output.resourcesDir.toString() + '/is/codion/framework/demos/chinook/domain')
 }
-classes.finalizedBy buildReports
-compileTestJava.dependsOn buildReports
-jar.dependsOn buildReports
