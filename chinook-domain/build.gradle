@@ -30,8 +30,6 @@ test {
 }
 
 buildReports {
-    taskClasspath = configurations.runtimeClasspath.asPath
-    buildClasspath = sourceSets.main.output.classesDirs
     sourceDir = file('src/main/reports')
     targetDir = file(sourceSets.main.output.resourcesDir.toString() + '/is/codion/framework/demos/chinook/domain')
 }
