@@ -2,7 +2,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.SourceSet
 /**
  * Plugin for building JasperReports reports.
  */
@@ -16,8 +15,8 @@ class BuildReportsPlugin implements Plugin<Project> {
             inputs.dir config.sourceDir
             outputs.dir config.targetDir
             doLast {
-                final JavaPluginExtension javaPlugin = project.getExtensions().getByType(JavaPluginExtension.class);
-                final SourceSet main = javaPlugin.getSourceSets().findByName("main");
+                def javaPlugin = project.getExtensions().getByType(JavaPluginExtension.class);
+                def main = javaPlugin.getSourceSets().findByName("main");
                 ant.taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask',
                         classpath: main.getRuntimeClasspath().asPath)
                 config.targetDir.get().mkdirs()
