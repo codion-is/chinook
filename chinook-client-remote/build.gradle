@@ -9,8 +9,6 @@ dependencies {
 }
 
 applicationDefaultJvmArgs = [
-        //for checking if json is on the classpath
-        "--add-reads", "is.codion.swing.framework.model=chinook.merged.module",
         "-Dcodion.client.connectionType=remote",
         "-Dcodion.server.hostname=${serverHost}",
         "-Dcodion.server.registryPort=${serverRegistryPort}",
