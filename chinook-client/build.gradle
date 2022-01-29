@@ -7,7 +7,6 @@ dependencies {
 
     implementation "is.codion.jdk11:codion-swing-framework-ui:${version}"
     implementation "is.codion.jdk11:codion-plugin-imagepanel:${version}"
-    implementation "is.codion.jdk11:codion-plugin-ikonli-foundation:${version}"
 
     implementation "org.pushing-pixels:radiance-theming:${radianceVersion}"
     implementation "org.pushing-pixels:radiance-theming-extras:${radianceVersion}"

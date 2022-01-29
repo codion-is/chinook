@@ -15,7 +15,6 @@ import is.codion.framework.model.EntityEditModel;
 import is.codion.swing.common.ui.combobox.Completion;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
-import is.codion.swing.common.ui.icons.Icons;
 import is.codion.swing.common.ui.laf.LookAndFeelProvider;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.ui.EntityApplicationPanel;
@@ -23,9 +22,6 @@ import is.codion.swing.framework.ui.EntityPanel;
 import is.codion.swing.framework.ui.EntityTableCellRenderer;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
-import is.codion.swing.framework.ui.icons.FrameworkIcons;
-import is.codion.swing.plugin.ikonli.foundation.IkonliFoundationFrameworkIcons;
-import is.codion.swing.plugin.ikonli.foundation.IkonliFoundationIcons;
 
 import org.pushingpixels.radiance.theming.api.RadianceLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteAquaLookAndFeel;
@@ -200,8 +196,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     final String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
     addRadianceLookAndFeels();
-    Icons.ICONS_CLASSNAME.set(IkonliFoundationIcons.class.getName());
-    FrameworkIcons.FRAMEWORK_ICONS_CLASSNAME.set(IkonliFoundationFrameworkIcons.class.getName());
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
     EntityEditModel.POST_EDIT_EVENTS.set(true);
     EntityPanel.TOOLBAR_BUTTONS.set(true);
