@@ -22,7 +22,6 @@ import is.codion.swing.framework.ui.EntityPanel;
 import is.codion.swing.framework.ui.EntityTableCellRenderer;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
-import is.codion.swing.framework.ui.icons.FrameworkIcons;
 
 import org.pushingpixels.radiance.theming.api.RadianceLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteAquaLookAndFeel;
@@ -227,7 +226,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         UIManager.setLookAndFeel(getClassName());
-        FrameworkIcons.ICON_COLOR.set(UIManager.getColor("TextField.foreground"));
       }
       catch (final Exception e) {
         throw new RuntimeException(e);
