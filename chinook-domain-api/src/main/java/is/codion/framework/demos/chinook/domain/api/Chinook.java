@@ -54,7 +54,7 @@ public interface Chinook {
     Attribute<Image> COVERIMAGE = TYPE.attribute("coverimage", Image.class);
     Attribute<Integer> NUMBER_OF_TRACKS = TYPE.integerAttribute("number_of_tracks");
 
-    ForeignKey ARTIST_FK = TYPE.foreignKey("artist_fk", Album.ARTIST_ID, Artist.ID);
+    ForeignKey ARTIST_FK = TYPE.foreignKey("artist_fk", ARTIST_ID, Artist.ID);
   }
 
   interface Employee {
@@ -76,7 +76,7 @@ public interface Chinook {
     Attribute<String> FAX = TYPE.stringAttribute("fax");
     Attribute<String> EMAIL = TYPE.stringAttribute("email");
 
-    ForeignKey REPORTSTO_FK = TYPE.foreignKey("reportsto_fk", Employee.REPORTSTO, Employee.ID);
+    ForeignKey REPORTSTO_FK = TYPE.foreignKey("reportsto_fk", REPORTSTO, Employee.ID);
   }
 
   interface Customer {
@@ -96,7 +96,7 @@ public interface Chinook {
     Attribute<String> EMAIL = TYPE.stringAttribute("email");
     Attribute<Long> SUPPORTREP_ID = TYPE.longAttribute("supportrepid");
 
-    ForeignKey SUPPORTREP_FK = TYPE.foreignKey("supportrep_fk", Customer.SUPPORTREP_ID, Employee.ID);
+    ForeignKey SUPPORTREP_FK = TYPE.foreignKey("supportrep_fk", SUPPORTREP_ID, Employee.ID);
 
     JRReportType REPORT = JasperReports.reportType("customer_report");
   }
@@ -130,9 +130,9 @@ public interface Chinook {
     Attribute<Integer> BYTES = TYPE.integerAttribute("bytes");
     Attribute<BigDecimal> UNITPRICE = TYPE.bigDecimalAttribute("unitprice");
 
-    ForeignKey ALBUM_FK = TYPE.foreignKey("album_fk", Track.ALBUM_ID, Album.ID);
+    ForeignKey ALBUM_FK = TYPE.foreignKey("album_fk", ALBUM_ID, Album.ID);
     ForeignKey MEDIATYPE_FK = TYPE.foreignKey("mediatype_fk", MEDIATYPE_ID, MediaType.ID);
-    ForeignKey GENRE_FK = TYPE.foreignKey("genre_fk", Track.GENRE_ID, Genre.ID);
+    ForeignKey GENRE_FK = TYPE.foreignKey("genre_fk", GENRE_ID, Genre.ID);
 
     FunctionType<EntityConnection, RaisePriceParameters, List<Entity>> RAISE_PRICE = functionType("chinook.raise_price");
 
@@ -164,7 +164,7 @@ public interface Chinook {
     Attribute<BigDecimal> TOTAL = TYPE.bigDecimalAttribute("total");
     Attribute<BigDecimal> TOTAL_SUBQUERY = TYPE.bigDecimalAttribute("total_subquery");
 
-    ForeignKey CUSTOMER_FK = TYPE.foreignKey("customer_fk", Invoice.CUSTOMER_ID, Customer.ID);
+    ForeignKey CUSTOMER_FK = TYPE.foreignKey("customer_fk", CUSTOMER_ID, Customer.ID);
 
     FunctionType<EntityConnection, Collection<Long>, Collection<Entity>> UPDATE_TOTALS = functionType("chinook.update_totals");
 
@@ -186,8 +186,8 @@ public interface Chinook {
     Attribute<Integer> QUANTITY = TYPE.integerAttribute("quantity");
     Attribute<BigDecimal> TOTAL = TYPE.bigDecimalAttribute("total");
 
-    ForeignKey INVOICE_FK = TYPE.foreignKey("invoice_fk", InvoiceLine.INVOICE_ID, Invoice.ID);
-    ForeignKey TRACK_FK = TYPE.foreignKey("track_fk", InvoiceLine.TRACK_ID, Track.ID);
+    ForeignKey INVOICE_FK = TYPE.foreignKey("invoice_fk", INVOICE_ID, Invoice.ID);
+    ForeignKey TRACK_FK = TYPE.foreignKey("track_fk", TRACK_ID, Track.ID);
   }
 
   interface Playlist {
@@ -215,8 +215,8 @@ public interface Chinook {
     Attribute<Entity> ALBUM_DENORM = TYPE.entityAttribute("album_denorm");
     Attribute<Entity> ARTIST_DENORM = TYPE.entityAttribute("artist_denorm");
 
-    ForeignKey PLAYLIST_FK = TYPE.foreignKey("playlist_fk", PlaylistTrack.PLAYLIST_ID, Playlist.ID);
-    ForeignKey TRACK_FK = TYPE.foreignKey("track_fk", PlaylistTrack.TRACK_ID, Track.ID);
+    ForeignKey PLAYLIST_FK = TYPE.foreignKey("playlist_fk", PLAYLIST_ID, Playlist.ID);
+    ForeignKey TRACK_FK = TYPE.foreignKey("track_fk", TRACK_ID, Track.ID);
   }
 
   static Integer getMinutes(final Integer milliseconds) {

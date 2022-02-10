@@ -1,3 +1,9 @@
 plugins {
     id 'org.beryx.jlink'
 }
+
+configurations.all {
+    resolutionStrategy {
+        cacheChangingModulesFor 0, 'seconds'
+    }
+}
