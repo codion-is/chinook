@@ -36,8 +36,8 @@ jlink {
                'is.codion.framework.db.rmi,is.codion.plugin.logback.proxy']
 
     launcher {
-        name = 'chinook-load-test'
         jvmArgs = applicationDefaultJvmArgs
+        jvmArgs += ["--add-reads", "chinook.merged.module=org.slf4j"]//for sslcontext-kickstart
     }
 
     jpackage {
