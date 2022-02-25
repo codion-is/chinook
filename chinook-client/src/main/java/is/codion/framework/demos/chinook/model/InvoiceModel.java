@@ -8,12 +8,12 @@ import is.codion.swing.framework.model.SwingEntityModel;
 
 public final class InvoiceModel extends SwingEntityModel {
 
-  public InvoiceModel(final EntityConnectionProvider connectionProvider) {
+  public InvoiceModel(EntityConnectionProvider connectionProvider) {
     super(new InvoiceEditModel(connectionProvider));
 
-    final InvoiceLineEditModel invoiceLineEditModel = new InvoiceLineEditModel(connectionProvider);
+    InvoiceLineEditModel invoiceLineEditModel = new InvoiceLineEditModel(connectionProvider);
 
-    final SwingEntityModel invoiceLineModel = new SwingEntityModel(invoiceLineEditModel);
+    SwingEntityModel invoiceLineModel = new SwingEntityModel(invoiceLineEditModel);
     invoiceLineModel.getEditModel().setInitializeForeignKeyToNull(true);
 
     addDetailModel(invoiceLineModel);

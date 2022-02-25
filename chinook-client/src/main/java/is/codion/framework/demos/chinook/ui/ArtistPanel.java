@@ -10,15 +10,15 @@ import is.codion.swing.framework.ui.EntityPanel;
 
 public final class ArtistPanel extends EntityPanel {
 
-  public ArtistPanel(final SwingEntityModel artistModel) {
+  public ArtistPanel(SwingEntityModel artistModel) {
     super(artistModel, new ArtistEditPanel(artistModel.getEditModel()));
     setDetailSplitPanelResizeWeight(0.25);
 
-    final SwingEntityModel albumModel = artistModel.getDetailModel(Chinook.Album.TYPE);
-    final EntityPanel albumPanel = new EntityPanel(albumModel, new AlbumEditPanel(albumModel.getEditModel()));
+    SwingEntityModel albumModel = artistModel.getDetailModel(Chinook.Album.TYPE);
+    EntityPanel albumPanel = new EntityPanel(albumModel, new AlbumEditPanel(albumModel.getEditModel()));
 
-    final SwingEntityModel trackModel = albumModel.getDetailModel(Track.TYPE);
-    final EntityPanel trackPanel = new EntityPanel(trackModel,
+    SwingEntityModel trackModel = albumModel.getDetailModel(Track.TYPE);
+    EntityPanel trackPanel = new EntityPanel(trackModel,
             new TrackEditPanel(trackModel.getEditModel()),
             new TrackTablePanel(trackModel.getTableModel()));
 

@@ -11,11 +11,11 @@ import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selec
 public final class ViewAlbum extends AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   @Override
-  protected void perform(final ChinookApplicationModel application) throws Exception {
-    final SwingEntityModel artistModel = application.getEntityModel(Artist.TYPE);
+  protected void perform(ChinookApplicationModel application) throws Exception {
+    SwingEntityModel artistModel = application.getEntityModel(Artist.TYPE);
     artistModel.getTableModel().refresh();
     selectRandomRow(artistModel.getTableModel());
-    final SwingEntityModel albumModel = artistModel.getDetailModel(Album.TYPE);
+    SwingEntityModel albumModel = artistModel.getDetailModel(Album.TYPE);
     selectRandomRow(albumModel.getTableModel());
   }
 

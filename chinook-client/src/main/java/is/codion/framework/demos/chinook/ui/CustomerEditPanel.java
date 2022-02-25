@@ -15,7 +15,7 @@ import static is.codion.swing.common.ui.layout.Layouts.flexibleGridLayout;
 
 public final class CustomerEditPanel extends EntityEditPanel {
 
-  public CustomerEditPanel(final SwingEntityEditModel editModel) {
+  public CustomerEditPanel(SwingEntityEditModel editModel) {
     super(editModel);
     setDefaultTextFieldColumns(12);
   }
@@ -61,7 +61,7 @@ public final class CustomerEditPanel extends EntityEditPanel {
       try {
         return getEditModel().getConnectionProvider().getConnection().select(Customer.STATE);
       }
-      catch (final DatabaseException e) {
+      catch (DatabaseException e) {
         throw new RuntimeException(e);
       }
     }

@@ -14,9 +14,9 @@ import static javax.swing.SortOrder.ASCENDING;
 
 final class TrackSelectionProvider extends EntitySearchField.TableSelectionProvider {
 
-  TrackSelectionProvider(final EntitySearchModel trackSearchModel) {
+  TrackSelectionProvider(EntitySearchModel trackSearchModel) {
     super(trackSearchModel);
-    final SwingEntityTableModel tableModel = getTable().getModel();
+    SwingEntityTableModel tableModel = getTable().getModel();
     tableModel.getColumnModel().setColumns(Track.ARTIST_DENORM, Track.ALBUM_FK, Track.NAME);
     tableModel.getSortModel().setSortOrder(Track.ARTIST_DENORM, ASCENDING);
     tableModel.getSortModel().addSortOrder(Track.ALBUM_FK, ASCENDING);

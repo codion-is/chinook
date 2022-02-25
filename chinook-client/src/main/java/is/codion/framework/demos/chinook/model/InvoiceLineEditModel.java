@@ -21,51 +21,51 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
 
   private final Event<Collection<Entity>> totalsUpdatedEvent = Event.event();
 
-  public InvoiceLineEditModel(final EntityConnectionProvider connectionProvider) {
+  public InvoiceLineEditModel(EntityConnectionProvider connectionProvider) {
     super(InvoiceLine.TYPE, connectionProvider);
   }
 
-  void addTotalsUpdatedListener(final EventDataListener<Collection<Entity>> listener) {
+  void addTotalsUpdatedListener(EventDataListener<Collection<Entity>> listener) {
     totalsUpdatedEvent.addDataListener(listener);
   }
 
   @Override
-  protected List<Key> doInsert(final List<Entity> entities) throws DatabaseException {
-    final EntityConnection connection = getConnectionProvider().getConnection();
+  protected List<Key> doInsert(List<Entity> entities) throws DatabaseException {
+    EntityConnection connection = getConnectionProvider().getConnection();
     connection.beginTransaction();
     try {
-      final List<Key> keys = connection.insert(entities);
+      List<Key> keys = connection.insert(entities);
       updateTotals(entities, connection);
       connection.commitTransaction();
 
       return keys;
     }
-    catch (final DatabaseException e) {
+    catch (DatabaseException e) {
       connection.rollbackTransaction();
       throw e;
     }
   }
 
   @Override
-  protected List<Entity> doUpdate(final List<Entity> entities) throws DatabaseException {
-    final EntityConnection connection = getConnectionProvider().getConnection();
+  protected List<Entity> doUpdate(List<Entity> entities) throws DatabaseException {
+    EntityConnection connection = getConnectionProvider().getConnection();
     connection.beginTransaction();
     try {
-      final List<Entity> updated = connection.update(entities);
+      List<Entity> updated = connection.update(entities);
       updateTotals(entities, connection);
       connection.commitTransaction();
 
       return updated;
     }
-    catch (final DatabaseException e) {
+    catch (DatabaseException e) {
       connection.rollbackTransaction();
       throw e;
     }
   }
 
   @Override
-  protected List<Entity> doDelete(final List<Entity> entities) throws DatabaseException {
-    final EntityConnection connection = getConnectionProvider().getConnection();
+  protected List<Entity> doDelete(List<Entity> entities) throws DatabaseException {
+    EntityConnection connection = getConnectionProvider().getConnection();
     connection.beginTransaction();
     try {
       connection.delete(Entity.getPrimaryKeys(entities));
@@ -74,13 +74,13 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
 
       return entities;
     }
-    catch (final DatabaseException e) {
+    catch (DatabaseException e) {
       connection.rollbackTransaction();
       throw e;
     }
   }
 
-  private void updateTotals(final List<Entity> entities, final EntityConnection connection) throws DatabaseException {
+  private void updateTotals(List<Entity> entities, EntityConnection connection) throws DatabaseException {
     totalsUpdatedEvent.onEvent(connection.executeFunction(Invoice.UPDATE_TOTALS, Entity.get(InvoiceLine.INVOICE_ID, entities)));
   }
 }

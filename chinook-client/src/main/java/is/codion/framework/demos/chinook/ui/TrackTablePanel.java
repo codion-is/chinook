@@ -26,14 +26,14 @@ public final class TrackTablePanel extends EntityTablePanel {
 
   private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(TrackTablePanel.class.getName());
 
-  public TrackTablePanel(final SwingEntityTableModel tableModel) {
+  public TrackTablePanel(SwingEntityTableModel tableModel) {
     super(tableModel);
     setUpdateSelectedComponentFactory(Track.MILLISECONDS, new MinutesSecondsComponentFactory(false));
     setTableCellEditorComponentFactory(Track.MILLISECONDS, new MinutesSecondsComponentFactory(true));
   }
 
   @Override
-  protected Controls getPopupControls(final List<Controls> additionalPopupControls) {
+  protected Controls getPopupControls(List<Controls> additionalPopupControls) {
     return super.getPopupControls(additionalPopupControls)
             .addAt(0, Control.builder(this::raisePriceOfSelected)
                     .caption(BUNDLE.getString("raise_price") + "...")
@@ -43,7 +43,7 @@ public final class TrackTablePanel extends EntityTablePanel {
   }
 
   private void raisePriceOfSelected() throws DatabaseException {
-    final TrackTableModel tableModel = (TrackTableModel) getTableModel();
+    TrackTableModel tableModel = (TrackTableModel) getTableModel();
 
     tableModel.raisePriceOfSelected(getAmountFromUser());
   }
@@ -58,15 +58,15 @@ public final class TrackTablePanel extends EntityTablePanel {
 
     private final boolean horizontal;
 
-    private MinutesSecondsComponentFactory(final boolean horizontal) {
+    private MinutesSecondsComponentFactory(boolean horizontal) {
       this.horizontal = horizontal;
     }
 
     @Override
-    public ComponentValue<Integer, MinutesSecondsPanel> createComponentValue(final Attribute<Integer> attribute,
-                                                                             final SwingEntityEditModel editModel,
-                                                                             final Integer initialValue) {
-      final MinutesSecondsPanelValue minutesSecondsPanelValue = new MinutesSecondsPanelValue(horizontal);
+    public ComponentValue<Integer, MinutesSecondsPanel> createComponentValue(Attribute<Integer> attribute,
+                                                                             SwingEntityEditModel editModel,
+                                                                             Integer initialValue) {
+      MinutesSecondsPanelValue minutesSecondsPanelValue = new MinutesSecondsPanelValue(horizontal);
       minutesSecondsPanelValue.set(initialValue);
 
       return minutesSecondsPanelValue;

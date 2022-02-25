@@ -11,11 +11,11 @@ import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selec
 public final class ViewInvoice extends AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   @Override
-  protected void perform(final ChinookApplicationModel application) throws Exception {
-    final SwingEntityModel customerModel = application.getEntityModel(Customer.TYPE);
+  protected void perform(ChinookApplicationModel application) throws Exception {
+    SwingEntityModel customerModel = application.getEntityModel(Customer.TYPE);
     customerModel.getTableModel().refresh();
     selectRandomRow(customerModel.getTableModel());
-    final SwingEntityModel invoiceModel = customerModel.getDetailModel(Invoice.TYPE);
+    SwingEntityModel invoiceModel = customerModel.getDetailModel(Invoice.TYPE);
     selectRandomRow(invoiceModel.getTableModel());
   }
 

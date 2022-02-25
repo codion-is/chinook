@@ -82,31 +82,31 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected List<EntityPanel.Builder> initializeSupportEntityPanelBuilders(final ChinookApplicationModel applicationModel) {
-    final EntityPanel.Builder trackBuilder =
+  protected List<EntityPanel.Builder> initializeSupportEntityPanelBuilders(ChinookApplicationModel applicationModel) {
+    EntityPanel.Builder trackBuilder =
             EntityPanel.builder(SwingEntityModel.builder(Track.TYPE))
                     .tablePanelClass(TrackTablePanel.class);
 
-    final EntityPanel.Builder customerBuilder =
+    EntityPanel.Builder customerBuilder =
             EntityPanel.builder(SwingEntityModel.builder(Customer.TYPE))
                     .editPanelClass(CustomerEditPanel.class)
                     .tablePanelClass(CustomerTablePanel.class);
 
-    final EntityPanel.Builder genreBuilder =
+    EntityPanel.Builder genreBuilder =
             EntityPanel.builder(SwingEntityModel.builder(Genre.TYPE)
                     .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
                     .editPanelClass(GenreEditPanel.class)
                     .detailPanelBuilder(trackBuilder)
                     .detailPanelState(EntityPanel.PanelState.HIDDEN);
 
-    final EntityPanel.Builder mediaTypeBuilder =
+    EntityPanel.Builder mediaTypeBuilder =
             EntityPanel.builder(SwingEntityModel.builder(MediaType.TYPE)
                     .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
                     .editPanelClass(MediaTypeEditPanel.class)
                     .detailPanelBuilder(trackBuilder)
                     .detailPanelState(EntityPanel.PanelState.HIDDEN);
 
-    final EntityPanel.Builder employeeBuilder =
+    EntityPanel.Builder employeeBuilder =
             EntityPanel.builder(SwingEntityModel.builder(Employee.TYPE)
                     .detailModelBuilder(SwingEntityModel.builder(Customer.TYPE))
                     .tableModelClass(EmployeeTableModel.class))
@@ -119,7 +119,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected List<EntityPanel> initializeEntityPanels(final ChinookApplicationModel applicationModel) {
+  protected List<EntityPanel> initializeEntityPanels(ChinookApplicationModel applicationModel) {
     return List.of(
             new CustomerPanel(applicationModel.getEntityModel(Customer.TYPE)),
             new ArtistPanel(applicationModel.getEntityModel(Artist.TYPE)),
@@ -128,7 +128,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected ChinookApplicationModel initializeApplicationModel(final EntityConnectionProvider connectionProvider) throws CancelException {
+  protected ChinookApplicationModel initializeApplicationModel(EntityConnectionProvider connectionProvider) throws CancelException {
     return new ChinookApplicationModel(connectionProvider);
   }
 
@@ -147,19 +147,19 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   private void selectLanguage() {
-    final String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
-    final JRadioButton enButton = new JRadioButton("English");
-    final JRadioButton isButton = new JRadioButton("\u00cdslenska", language.equals(LANGUAGE_IS));
-    final ButtonGroup langButtonGroup = new ButtonGroup();
+    String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
+    JRadioButton enButton = new JRadioButton("English");
+    JRadioButton isButton = new JRadioButton("\u00cdslenska", language.equals(LANGUAGE_IS));
+    ButtonGroup langButtonGroup = new ButtonGroup();
     langButtonGroup.add(enButton);
     langButtonGroup.add(isButton);
-    final JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+    JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 5, 5));
     buttonPanel.add(enButton);
     buttonPanel.add(isButton);
     enButton.setSelected(language.equals(LANGUAGE_EN));
     isButton.setSelected(language.equals(LANGUAGE_IS));
     showMessageDialog(this, buttonPanel, "Language/Tungum\u00e1l", JOptionPane.QUESTION_MESSAGE);
-    final String newLanguage = isButton.isSelected() ? LANGUAGE_IS : LANGUAGE_EN;
+    String newLanguage = isButton.isSelected() ? LANGUAGE_IS : LANGUAGE_EN;
     if (!language.equals(newLanguage)) {
       UserPreferences.putUserPreference(LANGUAGE_PREFERENCES_KEY, newLanguage);
       showMessageDialog(this,
@@ -192,8 +192,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceStreetlightsLookAndFeel.class));
   }
 
-  public static void main(final String[] args) throws CancelException {
-    final String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
+  public static void main(String[] args) throws CancelException {
+    String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
     LookAndFeelProvider.CHANGE_DURING_SELECTION.set(true);
     addRadianceLookAndFeels();
@@ -230,7 +230,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
         JDialog.setDefaultLookAndFeelDecorated(true);
         UIManager.setLookAndFeel(getClassName());
       }
-      catch (final Exception e) {
+      catch (Exception e) {
         throw new RuntimeException(e);
       }
     }

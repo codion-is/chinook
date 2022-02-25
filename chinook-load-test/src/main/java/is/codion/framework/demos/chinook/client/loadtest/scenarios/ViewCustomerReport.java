@@ -18,14 +18,14 @@ import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selec
 public final class ViewCustomerReport extends AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   @Override
-  protected void perform(final ChinookApplicationModel application) throws Exception {
-    final SwingEntityTableModel customerModel = application.getEntityModel(Customer.TYPE).getTableModel();
+  protected void perform(ChinookApplicationModel application) throws Exception {
+    SwingEntityTableModel customerModel = application.getEntityModel(Customer.TYPE).getTableModel();
     customerModel.refresh();
     selectRandomRow(customerModel);
 
-    final Collection<Long> customerIDs =
+    Collection<Long> customerIDs =
             Entity.getDistinct(Customer.ID, customerModel.getSelectionModel().getSelectedItems());
-    final Map<String, Object> reportParameters = new HashMap<>();
+    Map<String, Object> reportParameters = new HashMap<>();
     reportParameters.put("CUSTOMER_IDS", customerIDs);
     customerModel.getConnectionProvider().getConnection().fillReport(Customer.REPORT, reportParameters);
   }

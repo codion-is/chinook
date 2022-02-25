@@ -20,23 +20,23 @@ import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selec
 public final class InsertDeleteAlbum extends AbstractEntityUsageScenario<ChinookApplicationModel> {
 
   @Override
-  protected void perform(final ChinookApplicationModel application) throws Exception {
-    final SwingEntityModel artistModel = application.getEntityModel(Artist.TYPE);
+  protected void perform(ChinookApplicationModel application) throws Exception {
+    SwingEntityModel artistModel = application.getEntityModel(Artist.TYPE);
     artistModel.getTableModel().refresh();
     selectRandomRow(artistModel.getTableModel());
-    final Entity artist = artistModel.getTableModel().getSelectionModel().getSelectedItem();
-    final SwingEntityModel albumModel = artistModel.getDetailModel(Album.TYPE);
-    final EntityEditModel albumEditModel = albumModel.getEditModel();
-    final Entity album = application.getEntities().entity(Album.TYPE);
+    Entity artist = artistModel.getTableModel().getSelectionModel().getSelectedItem();
+    SwingEntityModel albumModel = artistModel.getDetailModel(Album.TYPE);
+    EntityEditModel albumEditModel = albumModel.getEditModel();
+    Entity album = application.getEntities().entity(Album.TYPE);
     album.put(Album.ARTIST_FK, artist);
     album.put(Album.TITLE, "Title");
 
     albumEditModel.setEntity(album);
-    final Entity insertedAlbum = albumEditModel.insert();
-    final SwingEntityEditModel trackEditModel = albumModel.getDetailModel(Track.TYPE).getEditModel();
-    final EntityComboBoxModel genreComboBoxModel = trackEditModel.getForeignKeyComboBoxModel(Track.GENRE_FK);
+    Entity insertedAlbum = albumEditModel.insert();
+    SwingEntityEditModel trackEditModel = albumModel.getDetailModel(Track.TYPE).getEditModel();
+    EntityComboBoxModel genreComboBoxModel = trackEditModel.getForeignKeyComboBoxModel(Track.GENRE_FK);
     selectRandomItem(genreComboBoxModel);
-    final EntityComboBoxModel mediaTypeComboBoxModel =
+    EntityComboBoxModel mediaTypeComboBoxModel =
             trackEditModel.getForeignKeyComboBoxModel(Track.MEDIATYPE_FK);
     selectRandomItem(mediaTypeComboBoxModel);
     for (int i = 0; i < 10; i++) {
@@ -51,7 +51,7 @@ public final class InsertDeleteAlbum extends AbstractEntityUsageScenario<Chinook
       trackEditModel.insert();
     }
 
-    final SwingEntityTableModel trackTableModel = albumModel.getDetailModel(Track.TYPE).getTableModel();
+    SwingEntityTableModel trackTableModel = albumModel.getDetailModel(Track.TYPE).getTableModel();
     trackTableModel.getSelectionModel().selectAll();
     trackTableModel.deleteSelected();
     albumEditModel.delete();

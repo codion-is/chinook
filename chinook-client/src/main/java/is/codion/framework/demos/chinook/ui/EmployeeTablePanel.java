@@ -17,14 +17,14 @@ import java.awt.BorderLayout;
 
 public final class EmployeeTablePanel extends EntityTablePanel {
 
-  public EmployeeTablePanel(final SwingEntityTableModel tableModel) {
+  public EmployeeTablePanel(SwingEntityTableModel tableModel) {
     super(tableModel);
   }
 
   @Override
-  protected void layoutPanel(final JPanel tablePanel, final JPanel southPanel) {
+  protected void layoutPanel(JPanel tablePanel, JPanel southPanel) {
     setLayout(Layouts.borderLayout());
-    final JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+    JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     splitPane.setDividerSize(EntityPanel.SPLIT_PANE_DIVIDER_SIZE.get());
     splitPane.setContinuousLayout(true);
     splitPane.setOneTouchExpandable(true);

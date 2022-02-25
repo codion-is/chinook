@@ -23,12 +23,12 @@ public final class TrackTableModelTest {
 
   @Test
   public void raisePriceOfSelected() throws DatabaseException {
-    try (final EntityConnectionProvider connectionProvider = createConnectionProvider()) {
-      final Entity masterOfPuppets = connectionProvider.getConnection()
+    try (EntityConnectionProvider connectionProvider = createConnectionProvider()) {
+      Entity masterOfPuppets = connectionProvider.getConnection()
               .selectSingle(Album.TITLE, "Master Of Puppets");
 
-      final TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
-      final ColumnConditionModel<?, Entity> albumConditionModel =
+      TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
+      ColumnConditionModel<?, Entity> albumConditionModel =
               trackTableModel.getTableConditionModel().getConditionModel(Track.ALBUM_FK);
 
       albumConditionModel.setEqualValue(masterOfPuppets);

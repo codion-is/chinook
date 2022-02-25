@@ -43,7 +43,7 @@ final class CoverArtPanel extends JPanel {
   /**
    * @param imageBytesValue the image bytes value to base this panel on.
    */
-  CoverArtPanel(final Value<byte[]> imageBytesValue) {
+  CoverArtPanel(Value<byte[]> imageBytesValue) {
     super(borderLayout());
     this.imageBytesValue = imageBytesValue;
     this.imagePanel = createImagePanel();
@@ -52,11 +52,11 @@ final class CoverArtPanel extends JPanel {
   }
 
   private void initializePanel() {
-    final JPanel coverPanel = new JPanel(borderLayout());
+    JPanel coverPanel = new JPanel(borderLayout());
     coverPanel.setBorder(BorderFactory.createTitledBorder(BUNDLE.getString(COVER)));
     coverPanel.add(imagePanel, BorderLayout.CENTER);
 
-    final JPanel coverButtonPanel = Controls.builder()
+    JPanel coverButtonPanel = Controls.builder()
             .control(Control.builder(this::setCover)
                     .caption(BUNDLE.getString(SELECT_COVER)))
             .control(Control.builder(this::removeCover)
@@ -72,7 +72,7 @@ final class CoverArtPanel extends JPanel {
   }
 
   private void setCover() throws IOException {
-    final File coverFile = Dialogs.fileSelectionDialog()
+    File coverFile = Dialogs.fileSelectionDialog()
             .owner(this)
             .title(BUNDLE.getString(SELECT_IMAGE))
             .addFileFilter(new FileNameExtensionFilter(BUNDLE.getString(IMAGES), "jpg", "jpeg", "png", "bmp", "gif"))
@@ -85,7 +85,7 @@ final class CoverArtPanel extends JPanel {
   }
 
   private static NavigableImagePanel createImagePanel() {
-    final NavigableImagePanel panel = new NavigableImagePanel();
+    NavigableImagePanel panel = new NavigableImagePanel();
     panel.setZoomDevice(NavigableImagePanel.ZoomDevice.NONE);
     panel.setNavigationImageEnabled(false);
     panel.setMoveImageEnabled(false);
@@ -95,14 +95,14 @@ final class CoverArtPanel extends JPanel {
     return panel;
   }
 
-  private static BufferedImage readImage(final byte[] bytes) {
+  private static BufferedImage readImage(byte[] bytes) {
     if (bytes == null) {
       return null;
     }
     try {
       return ImageIO.read(new ByteArrayInputStream(bytes));
     }
-    catch (final IOException e) {
+    catch (IOException e) {
       throw new RuntimeException(e);
     }
   }

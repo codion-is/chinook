@@ -28,13 +28,13 @@ public final class PlaylistTablePanel extends EntityTablePanel {
 
   private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(PlaylistTablePanel.class.getName());
 
-  public PlaylistTablePanel(final SwingEntityTableModel tableModel) {
+  public PlaylistTablePanel(SwingEntityTableModel tableModel) {
     super(tableModel);
   }
 
   @Override
-  protected Controls getPopupControls(final List<Controls> additionalPopupControls) {
-    final Controls popupControls = super.getPopupControls(additionalPopupControls);
+  protected Controls getPopupControls(List<Controls> additionalPopupControls) {
+    Controls popupControls = super.getPopupControls(additionalPopupControls);
     popupControls.addAt(0, Control.builder(this::createRandomPlaylist)
             .caption(BUNDLE.getString("create_random_playlist"))
             .build());
@@ -44,7 +44,7 @@ public final class PlaylistTablePanel extends EntityTablePanel {
   }
 
   private void createRandomPlaylist() throws DatabaseException {
-    final RandomPlaylistParameters randomPlaylistParameters = new RandomPlaylistParametersValue()
+    RandomPlaylistParameters randomPlaylistParameters = new RandomPlaylistParametersValue()
             .showDialog(this, BUNDLE.getString("create_random_playlist"));
     if (randomPlaylistParameters.playlistName() != null) {
       ((PlaylistTableModel) getTableModel()).createRandomPlaylist(randomPlaylistParameters);
@@ -59,13 +59,13 @@ public final class PlaylistTablePanel extends EntityTablePanel {
     }
 
     @Override
-    protected RandomPlaylistParameters getComponentValue(final RandomPlaylistParametersPanel component) {
+    protected RandomPlaylistParameters getComponentValue(RandomPlaylistParametersPanel component) {
       return new RandomPlaylistParameters(component.playlistNameField.getText(), component.noOfTracksField.getInteger());
     }
 
     @Override
-    protected void setComponentValue(final RandomPlaylistParametersPanel component,
-                                     final RandomPlaylistParameters parameters) {
+    protected void setComponentValue(RandomPlaylistParametersPanel component,
+                                     RandomPlaylistParameters parameters) {
       component.playlistNameField.setText(parameters.playlistName());
       component.noOfTracksField.setInteger(parameters.noOfTracks());
     }

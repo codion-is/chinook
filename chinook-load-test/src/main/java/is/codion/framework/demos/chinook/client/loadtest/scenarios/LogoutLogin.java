@@ -10,12 +10,12 @@ public final class LogoutLogin extends AbstractEntityUsageScenario<ChinookApplic
   private final Random random = new Random();
 
   @Override
-  protected void perform(final ChinookApplicationModel application) throws Exception {
+  protected void perform(ChinookApplicationModel application) throws Exception {
     try {
       application.getConnectionProvider().close();
       Thread.sleep(random.nextInt(1500));
       application.getConnectionProvider().getConnection();
     }
-    catch (final InterruptedException ignored) {/*ignored*/}
+    catch (InterruptedException ignored) {/*ignored*/}
   }
 }
