@@ -211,7 +211,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     EntityConnectionProvider.CLIENT_DOMAIN_CLASS.set("is.codion.framework.demos.chinook.domain.ChinookImpl");
     SwingUtilities.invokeLater(() -> new ChinookAppPanel().starter()
             .frameSize(new Dimension(1280, 720))
-            .defaultLoginUser(User.parseUser("scott:tiger"))
+            .defaultLoginUser(User.parse("scott:tiger"))
             .start());
   }
 
