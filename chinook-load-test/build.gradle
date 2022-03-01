@@ -19,9 +19,8 @@ applicationDefaultJvmArgs = [
         "-Dcodion.server.hostname=${serverHost}",
         "-Dcodion.server.registryPort=${serverRegistryPort}",
         "-Dcodion.client.connectionType=remote",
-        "-Djavax.net.ssl.trustStore=truststore.jks",
-        "-Djavax.net.ssl.trustStorePassword=crappypass",
-        "--add-reads", "is.codion.swing.framework.model=chinook.merged.module"//for json
+        "-Dcodion.client.trustStore=truststore.jks",
+        "-Dcodion.client.trustStorePassword=crappypass",
 ]
 
 application {
