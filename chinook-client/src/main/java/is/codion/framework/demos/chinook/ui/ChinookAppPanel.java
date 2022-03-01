@@ -13,6 +13,7 @@ import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
 import is.codion.framework.demos.chinook.model.EmployeeTableModel;
 import is.codion.framework.model.EntityEditModel;
+import is.codion.swing.common.ui.Utilities;
 import is.codion.swing.common.ui.combobox.Completion;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
@@ -195,7 +196,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   public static void main(String[] args) throws CancelException {
     String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
-    LookAndFeelProvider.CHANGE_DURING_SELECTION.set(true);
+    Utilities.CHANGE_LOOK_AND_FEEL_DURING_SELECTION.set(true);
     addRadianceLookAndFeels();
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
     FilteredModel.ASYNC_REFRESH.set(true);
