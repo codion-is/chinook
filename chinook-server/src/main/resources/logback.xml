@@ -29,7 +29,7 @@
     </sift>
   </appender>
 
-  <root level="DEBUG">
+  <root level="ERROR">
     <appender-ref ref="SIFT" />
   </root>
 </configuration>
