@@ -47,6 +47,6 @@ public final class TrackTableModelTest {
   private EntityConnectionProvider createConnectionProvider() {
     return new LocalEntityConnectionProvider(DatabaseFactory.getDatabase())
             .setDomainClassName("is.codion.framework.demos.chinook.domain.ChinookImpl")
-            .setUser(User.parseUser("scott:tiger"));
+            .setUser(User.parse("scott:tiger"));
   }
 }
