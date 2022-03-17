@@ -281,7 +281,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                             select sum(unitprice * quantity) from chinook.invoiceline
                             where invoiceid = invoice.invoiceid""")
                     .maximumFractionDigits(2)
-                    .hidden())
+                    .hidden(true))
             .keyGenerator(identity())
             .orderBy(orderBy().ascending(Invoice.CUSTOMER_ID).descending(Invoice.DATE))
             .stringFactory(stringFactory(Invoice.ID));
