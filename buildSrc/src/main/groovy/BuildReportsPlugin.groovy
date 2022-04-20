@@ -28,7 +28,7 @@ class BuildReportsPlugin implements Plugin<Project> {
         }
         project.configure(project) {
             project.afterEvaluate {
-                buildReports.mustRunAfter('classes')
+                buildReports.dependsOn('classes')
                 project.getTasks().findByName('jar').dependsOn(buildReports)
                 project.getTasks().findByName('compileTestJava').dependsOn(buildReports)
             }
