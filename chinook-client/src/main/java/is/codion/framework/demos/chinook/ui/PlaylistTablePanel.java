@@ -61,14 +61,14 @@ public final class PlaylistTablePanel extends EntityTablePanel {
 
     @Override
     protected RandomPlaylistParameters getComponentValue(RandomPlaylistParametersPanel component) {
-      return new RandomPlaylistParameters(component.playlistNameField.getText(), component.noOfTracksField.getValue());
+      return new RandomPlaylistParameters(component.playlistNameField.getText(), component.noOfTracksField.getNumber());
     }
 
     @Override
     protected void setComponentValue(RandomPlaylistParametersPanel component,
                                      RandomPlaylistParameters parameters) {
       component.playlistNameField.setText(parameters.playlistName());
-      component.noOfTracksField.setValue(parameters.noOfTracks());
+      component.noOfTracksField.setNumber(parameters.noOfTracks());
     }
   }
 
