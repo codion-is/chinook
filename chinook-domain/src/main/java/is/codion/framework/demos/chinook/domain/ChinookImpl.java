@@ -21,7 +21,10 @@ import is.codion.framework.domain.entity.Key;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.FieldPosition;
+import java.text.Format;
 import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,7 +89,8 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .maximumLength(160)
                     .preferredColumnWidth(160),
             blobProperty(Album.COVER)
-                    .eagerlyLoaded(),
+                    .eagerlyLoaded()
+                    .format(new CoverFormatter()),
             derivedProperty(Album.COVERIMAGE,
                     new CoverArtImageProvider(), Album.COVER),
             subqueryProperty(Album.NUMBER_OF_TRACKS, """
@@ -454,6 +458,25 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                       entityConnection.select(selectCondition)).stream()
               .map(track -> track.raisePrice(parameters.priceIncrease()))
               .collect(Collectors.toList()));
+    }
+  }
+
+  private static final class CoverFormatter extends Format {
+
+    private final NumberFormat kbFormat = NumberFormat.getIntegerInstance();
+
+    @Override
+    public StringBuffer format(Object value, StringBuffer toAppendTo, FieldPosition pos) {
+      if (value != null) {
+        toAppendTo.append(kbFormat.format(((byte[]) value).length / 1024) + " Kb");
+      }
+
+      return toAppendTo;
+    }
+
+    @Override
+    public Object parseObject(String source, ParsePosition pos) {
+      throw new UnsupportedOperationException();
     }
   }
 }
