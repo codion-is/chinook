@@ -19,14 +19,3 @@ extraJavaModuleInfo {
     automaticModule("commons-beanutils-${commonsBeanUtilsVersion}.jar", "commons.beanutils")
     automaticModule("ecj-${ecjVersion}.jar", "ecj")
 }
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.deprecation = true
-}
-
-configurations.all {
-    resolutionStrategy {
-        cacheChangingModulesFor 0, 'seconds'
-    }
-}

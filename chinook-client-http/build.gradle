@@ -33,7 +33,6 @@ jlink {
 
     launcher {
         jvmArgs = applicationDefaultJvmArgs
-        jvmArgs += ["--add-reads", "chinook.merged.module=org.slf4j"]//for sslcontext-kickstart
     }
 
     jpackage {
