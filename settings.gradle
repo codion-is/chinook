@@ -14,9 +14,7 @@ include 'chinook-server-monitor'
 
 dependencyResolutionManagement {
     repositories {
-        maven {
-            url 'm2codion'
-        }
+        mavenLocal()
         mavenCentral()
     }
 }
