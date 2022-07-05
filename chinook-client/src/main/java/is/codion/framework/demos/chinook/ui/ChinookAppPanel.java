@@ -4,7 +4,6 @@
 package is.codion.framework.demos.chinook.ui;
 
 import is.codion.common.model.CancelException;
-import is.codion.common.model.FilteredModel;
 import is.codion.common.model.UserPreferences;
 import is.codion.common.model.table.ColumnConditionModel;
 import is.codion.common.user.User;
@@ -200,7 +199,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     LookAndFeelSelectionPanel.CHANGE_DURING_SELECTION.set(true);
     addRadianceLookAndFeels();
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
-    FilteredModel.ASYNC_REFRESH.set(true);
     EntityEditModel.POST_EDIT_EVENTS.set(true);
     EntityPanel.TOOLBAR_BUTTONS.set(true);
     EntityTablePanel.TABLE_AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
