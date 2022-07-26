@@ -3,7 +3,6 @@
  */
 package is.codion.framework.demos.chinook.domain;
 
-import is.codion.common.db.connection.DatabaseConnection;
 import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.db.operation.DatabaseFunction;
 import is.codion.common.db.result.ResultPacker;
@@ -372,16 +371,6 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .text(" - ")
                     .value(PlaylistTrack.TRACK_FK)
                     .build()));
-  }
-
-  @Override
-  public void configureConnection(DatabaseConnection connection) throws DatabaseException {
-    try {
-      connection.getConnection().setClientInfo("ApplicationName", "Chinook");
-    }
-    catch (SQLException e) {
-      throw new DatabaseException(e);
-    }
   }
 
   private static final class UpdateTotalsFunction implements DatabaseFunction<EntityConnection, Collection<Long>, Collection<Entity>> {
