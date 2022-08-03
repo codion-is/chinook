@@ -82,7 +82,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected List<EntityPanel.Builder> initializeSupportEntityPanelBuilders(ChinookApplicationModel applicationModel) {
+  protected List<EntityPanel.Builder> createSupportEntityPanelBuilders(ChinookApplicationModel applicationModel) {
     EntityPanel.Builder trackBuilder =
             EntityPanel.builder(SwingEntityModel.builder(Track.TYPE))
                     .tablePanelClass(TrackTablePanel.class);
@@ -120,7 +120,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected List<EntityPanel> initializeEntityPanels(ChinookApplicationModel applicationModel) {
+  protected List<EntityPanel> createEntityPanels(ChinookApplicationModel applicationModel) {
     return List.of(
             new CustomerPanel(applicationModel.getEntityModel(Customer.TYPE)),
             new ArtistPanel(applicationModel.getEntityModel(Artist.TYPE)),
@@ -129,7 +129,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected ChinookApplicationModel initializeApplicationModel(EntityConnectionProvider connectionProvider) throws CancelException {
+  protected ChinookApplicationModel createApplicationModel(EntityConnectionProvider connectionProvider) throws CancelException {
     return new ChinookApplicationModel(connectionProvider);
   }
 
