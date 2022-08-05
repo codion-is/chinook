@@ -22,7 +22,7 @@ public final class TrackTableModelTest {
   @Test
   public void raisePriceOfSelected() throws DatabaseException {
     try (EntityConnectionProvider connectionProvider = createConnectionProvider()) {
-      Entity masterOfPuppets = connectionProvider.getConnection()
+      Entity masterOfPuppets = connectionProvider.connection()
               .selectSingle(Album.TITLE, "Master Of Puppets");
 
       TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);

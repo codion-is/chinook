@@ -53,7 +53,7 @@ public final class CustomerTablePanel extends EntityTablePanel {
     Map<String, Object> reportParameters = new HashMap<>();
     reportParameters.put("CUSTOMER_IDS", customerIDs);
 
-    return getTableModel().getConnectionProvider().getConnection()
+    return getTableModel().getConnectionProvider().connection()
             .fillReport(Customer.REPORT, reportParameters);
   }
 
