@@ -343,7 +343,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             .orderBy(ascending(Playlist.NAME))
             .stringFactory(Playlist.NAME));
 
-    add(Playlist.RANDOM_PLAYLIST, new CreateRandomPlaylistFunction(getEntities()));
+    add(Playlist.RANDOM_PLAYLIST, new CreateRandomPlaylistFunction(entities()));
   }
 
   void playlistTrack() {
@@ -381,9 +381,10 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
       return connection.update(Entity.castTo(Invoice.class,
                       connection.select(where(Invoice.ID)
                               .equalTo(invoiceIds)
-                              .toSelectCondition()
+                              .selectBuilder()
                               .forUpdate()
-                              .fetchDepth(0)))
+                              .fetchDepth(0)
+                              .build()))
               .stream()
               .map(Invoice::updateTotal)
               .filter(Invoice::isModified)
@@ -470,8 +471,11 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     public List<Entity> execute(EntityConnection entityConnection,
                                 RaisePriceParameters parameters) throws DatabaseException {
       SelectCondition selectCondition =
-              where(Track.ID).equalTo(parameters.trackIds()).toSelectCondition()
-                      .forUpdate();
+              where(Track.ID)
+                      .equalTo(parameters.trackIds())
+                      .selectBuilder()
+                      .forUpdate()
+                      .build();
 
       return entityConnection.update(Entity.castTo(Track.class,
                       entityConnection.select(selectCondition)).stream()
