@@ -27,17 +27,17 @@ public final class TrackTableModelTest {
 
       TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
       ColumnConditionModel<?, Entity> albumConditionModel =
-              trackTableModel.getTableConditionModel().getConditionModel(Track.ALBUM_FK);
+              trackTableModel.tableConditionModel().conditionModel(Track.ALBUM_FK);
 
       albumConditionModel.setEqualValue(masterOfPuppets);
 
       trackTableModel.refresh();
       assertEquals(8, trackTableModel.getRowCount());
 
-      trackTableModel.getSelectionModel().selectAll();
+      trackTableModel.selectionModel().selectAll();
       trackTableModel.raisePriceOfSelected(BigDecimal.ONE);
 
-      trackTableModel.getItems().forEach(track ->
+      trackTableModel.items().forEach(track ->
               assertEquals(BigDecimal.valueOf(1.99), track.get(Track.UNITPRICE)));
     }
   }
