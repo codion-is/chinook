@@ -162,7 +162,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     showMessageDialog(this, buttonPanel, "Language/Tungum\u00e1l", JOptionPane.QUESTION_MESSAGE);
     String newLanguage = isButton.isSelected() ? LANGUAGE_IS : LANGUAGE_EN;
     if (!language.equals(newLanguage)) {
-      UserPreferences.putUserPreference(LANGUAGE_PREFERENCES_KEY, newLanguage);
+      UserPreferences.setUserPreference(LANGUAGE_PREFERENCES_KEY, newLanguage);
       showMessageDialog(this,
               """
                       Language has been changed, restart the application to apply the changes.
