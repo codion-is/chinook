@@ -26,6 +26,7 @@ java.util.Collections$SingletonList
 java.util.Collections$SingletonMap
 java.util.Collections$UnmodifiableCollection
 java.util.Collections$UnmodifiableList
+java.util.Collections$UnmodifiableMap
 java.util.Collections$UnmodifiableRandomAccessList
 java.util.Date
 java.util.HashMap
