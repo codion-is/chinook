@@ -8,6 +8,7 @@ import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.model.SwingEntityTreeModel;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Employee;
+import static is.codion.swing.framework.model.SwingEntityTreeModel.swingEntityTreeModel;
 
 public final class EmployeeTableModel extends SwingEntityTableModel {
 
@@ -15,7 +16,7 @@ public final class EmployeeTableModel extends SwingEntityTableModel {
 
   public EmployeeTableModel(EntityConnectionProvider connectionProvider) {
     super(Employee.TYPE, connectionProvider);
-    this.treeModel = new SwingEntityTreeModel(this, Employee.REPORTSTO_FK);
+    this.treeModel = swingEntityTreeModel(this, Employee.REPORTSTO_FK);
   }
 
   public SwingEntityTreeModel treeModel() {
