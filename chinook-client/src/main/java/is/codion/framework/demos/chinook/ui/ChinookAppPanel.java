@@ -25,6 +25,16 @@ import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
 
 import org.pushingpixels.radiance.theming.api.RadianceLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceAutumnLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessBlackSteelLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessBlueSteelLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceCeruleanLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceCremeCoffeeLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceCremeLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceDustCoffeeLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceDustLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGeminiLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteAquaLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteChalkLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteElectricLookAndFeel;
@@ -33,15 +43,23 @@ import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteGoldLookAndFe
 import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteSiennaLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteSunsetLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceGreenMagicLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceMagellanLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceMarinerLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceMistAquaLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceMistSilverLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceModerateLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceNebulaAmethystLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceNebulaBrickWallLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceNebulaLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceNightShadeLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceRavenLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceSaharaLookAndFeel;
+import org.pushingpixels.radiance.theming.api.skin.RadianceSentinelLookAndFeel;
 import org.pushingpixels.radiance.theming.api.skin.RadianceTwilightLookAndFeel;
 import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceFieldOfWheatLookAndFeel;
-import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceFindingNemoLookAndFeel;
 import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceHarvestLookAndFeel;
 import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceMagmaLookAndFeel;
-import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceMangoLookAndFeel;
 import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceStreetlightsLookAndFeel;
 
 import javax.swing.ButtonGroup;
@@ -94,22 +112,22 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
 
     EntityPanel.Builder genreBuilder =
             EntityPanel.builder(SwingEntityModel.builder(Genre.TYPE)
-                    .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
+                            .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
                     .editPanelClass(GenreEditPanel.class)
                     .detailPanelBuilder(trackBuilder)
                     .detailPanelState(EntityPanel.PanelState.HIDDEN);
 
     EntityPanel.Builder mediaTypeBuilder =
             EntityPanel.builder(SwingEntityModel.builder(MediaType.TYPE)
-                    .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
+                            .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
                     .editPanelClass(MediaTypeEditPanel.class)
                     .detailPanelBuilder(trackBuilder)
                     .detailPanelState(EntityPanel.PanelState.HIDDEN);
 
     EntityPanel.Builder employeeBuilder =
             EntityPanel.builder(SwingEntityModel.builder(Employee.TYPE)
-                    .detailModelBuilder(SwingEntityModel.builder(Customer.TYPE))
-                    .tableModelClass(EmployeeTableModel.class))
+                            .detailModelBuilder(SwingEntityModel.builder(Customer.TYPE))
+                            .tableModelClass(EmployeeTableModel.class))
                     .editPanelClass(EmployeeEditPanel.class)
                     .tablePanelClass(EmployeeTablePanel.class)
                     .detailPanelBuilder(customerBuilder)
@@ -173,23 +191,41 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   private static void addRadianceLookAndFeels() {
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceTwilightLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNightShadeLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMagellanLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteChalkLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceAutumnLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceBusinessBlackSteelLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceBusinessBlueSteelLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceBusinessLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceCeruleanLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceCremeCoffeeLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceCremeLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceDustCoffeeLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceDustLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGeminiLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteAquaLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteChalkLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteElectricLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteGlassLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteGoldLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteSiennaLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteSunsetLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteGlassLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGreenMagicLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMagellanLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMarinerLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMistAquaLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMistSilverLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceModerateLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNebulaAmethystLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNebulaBrickWallLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNebulaLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNightShadeLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceRavenLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceSaharaLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceSentinelLookAndFeel.class));
+    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceTwilightLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceFieldOfWheatLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceFindingNemoLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceHarvestLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMagmaLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMangoLookAndFeel.class));
     addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceStreetlightsLookAndFeel.class));
   }
 
