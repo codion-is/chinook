@@ -28,11 +28,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static is.codion.framework.db.condition.Conditions.where;
+import static is.codion.framework.db.condition.Condition.where;
 import static is.codion.framework.domain.entity.EntityDefinition.definition;
 import static is.codion.framework.domain.entity.KeyGenerator.identity;
 import static is.codion.framework.domain.entity.OrderBy.ascending;
-import static is.codion.framework.domain.property.Properties.*;
+import static is.codion.framework.domain.property.Property.*;
 import static is.codion.plugin.jasperreports.model.JasperReports.classPathReport;
 
 public final class ChinookImpl extends DefaultDomain implements Chinook {
