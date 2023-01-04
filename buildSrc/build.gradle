@@ -8,5 +8,5 @@ repositories {
 
 dependencies {
     implementation "org.beryx:badass-jlink-plugin:${jlinkVersion}"
-    implementation "de.jjohannes.gradle:extra-java-module-info:${extraJavaModuleInfoVersion}"
+    implementation "org.gradlex:extra-java-module-info:${extraJavaModuleInfoVersion}"
 }
