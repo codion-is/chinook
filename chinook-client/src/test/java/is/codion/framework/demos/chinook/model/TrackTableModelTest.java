@@ -26,7 +26,7 @@ public final class TrackTableModelTest {
               .selectSingle(Album.TITLE, "Master Of Puppets");
 
       TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
-      ColumnConditionModel<?, ?, Entity> albumConditionModel =
+      ColumnConditionModel<?, Entity> albumConditionModel =
               trackTableModel.tableConditionModel().conditionModel(Track.ALBUM_FK);
 
       albumConditionModel.setEqualValue(masterOfPuppets);
