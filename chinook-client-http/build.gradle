@@ -18,7 +18,7 @@ applicationDefaultJvmArgs = [
 
 application {
     mainModule = "is.codion.framework.demos.chinook.client"
-    getMainClass().set("is.codion.framework.demos.chinook.ui.ChinookAppPanel")
+    getMainClass().set("is.codion.framework.demos.chinook.ui.ChinookApplicationPanel")
 }
 
 jlink {

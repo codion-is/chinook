@@ -7,9 +7,8 @@ import is.codion.common.model.CancelException;
 import is.codion.common.model.UserPreferences;
 import is.codion.common.model.table.ColumnConditionModel;
 import is.codion.common.user.User;
-import is.codion.common.version.Version;
 import is.codion.framework.db.EntityConnectionProvider;
-import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
+import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.demos.chinook.model.EmployeeTableModel;
 import is.codion.framework.model.EntityEditModel;
 import is.codion.swing.common.ui.component.combobox.Completion;
@@ -80,9 +79,10 @@ import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.laf.LookAndFeelProvider.addLookAndFeelProvider;
+import static is.codion.swing.framework.ui.EntityApplicationBuilder.entityApplicationBuilder;
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplicationModel> {
+public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppModel> {
 
   private static final String LANGUAGE_PREFERENCES_KEY = ChinookAppPanel.class.getSimpleName() + ".language";
   private static final Locale LOCALE_IS = new Locale("is", "IS");
@@ -95,12 +95,12 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   /* Non-static so this is not initialized before main(), which sets the locale */
   private final ResourceBundle bundle = ResourceBundle.getBundle(ChinookAppPanel.class.getName());
 
-  public ChinookAppPanel() {
-    super("Chinook");
+  public ChinookAppPanel(ChinookAppModel appModel) {
+    super(appModel);
   }
 
   @Override
-  protected List<EntityPanel.Builder> createSupportEntityPanelBuilders(ChinookApplicationModel applicationModel) {
+  protected List<EntityPanel.Builder> createSupportEntityPanelBuilders(ChinookAppModel applicationModel) {
     EntityPanel.Builder trackBuilder =
             EntityPanel.builder(SwingEntityModel.builder(Track.TYPE))
                     .tablePanelClass(TrackTablePanel.class);
@@ -138,7 +138,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected List<EntityPanel> createEntityPanels(ChinookApplicationModel applicationModel) {
+  protected List<EntityPanel> createEntityPanels(ChinookAppModel applicationModel) {
     return List.of(
             new CustomerPanel(applicationModel.entityModel(Customer.TYPE)),
             new ArtistPanel(applicationModel.entityModel(Artist.TYPE)),
@@ -147,18 +147,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
   }
 
   @Override
-  protected ChinookApplicationModel createApplicationModel(EntityConnectionProvider connectionProvider) throws CancelException {
-    return new ChinookApplicationModel(connectionProvider);
-  }
-
-  @Override
-  protected Version clientVersion() {
-    return ChinookApplicationModel.VERSION;
-  }
-
-  @Override
-  protected Controls createViewControls() {
-    return super.createViewControls()
+  protected Controls createViewMenuControls() {
+    return super.createViewMenuControls()
             .addSeparator()
             .add(Control.builder(this::selectLanguage)
                     .caption(bundle.getString(SELECT_LANGUAGE))
@@ -245,7 +235,9 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookApplica
     ColumnConditionModel.AUTOMATIC_WILDCARD.set(ColumnConditionModel.AutomaticWildcard.POSTFIX);
     ColumnConditionModel.CASE_SENSITIVE.set(false);
     EntityConnectionProvider.CLIENT_DOMAIN_CLASS.set("is.codion.framework.demos.chinook.domain.ChinookImpl");
-    SwingUtilities.invokeLater(() -> new ChinookAppPanel().starter()
+    SwingUtilities.invokeLater(() -> entityApplicationBuilder(ChinookAppModel.class, ChinookAppPanel.class)
+            .applicationName("Chinook")
+            .applicationVersion(ChinookAppModel.VERSION)
             .frameSize(new Dimension(1280, 720))
             .defaultLoginUser(User.parse("scott:tiger"))
             .start());

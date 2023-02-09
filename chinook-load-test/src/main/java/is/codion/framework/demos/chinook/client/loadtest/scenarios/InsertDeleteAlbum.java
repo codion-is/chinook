@@ -3,7 +3,7 @@ package is.codion.framework.demos.chinook.client.loadtest.scenarios;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Artist;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
-import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
+import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.model.EntityEditModel;
 import is.codion.swing.framework.model.EntityComboBoxModel;
@@ -17,10 +17,10 @@ import java.math.BigDecimal;
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomItem;
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRow;
 
-public final class InsertDeleteAlbum extends AbstractEntityUsageScenario<ChinookApplicationModel> {
+public final class InsertDeleteAlbum extends AbstractEntityUsageScenario<ChinookAppModel> {
 
   @Override
-  protected void perform(ChinookApplicationModel application) throws Exception {
+  protected void perform(ChinookAppModel application) throws Exception {
     SwingEntityModel artistModel = application.entityModel(Artist.TYPE);
     artistModel.tableModel().refresh();
     selectRandomRow(artistModel.tableModel());

@@ -10,12 +10,12 @@ import is.codion.swing.framework.model.SwingEntityModel;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 
-public final class ChinookApplicationModel extends SwingEntityApplicationModel {
+public final class ChinookAppModel extends SwingEntityApplicationModel {
 
-  public static final Version VERSION = Version.parsePropertiesFile(ChinookApplicationModel.class, "/version.properties");
+  public static final Version VERSION = Version.parsePropertiesFile(ChinookAppModel.class, "/version.properties");
 
-  public ChinookApplicationModel(EntityConnectionProvider connectionProvider) {
-    super(connectionProvider);
+  public ChinookAppModel(EntityConnectionProvider connectionProvider) {
+    super(connectionProvider, VERSION);
     addEntityModel(initializeArtistModel(connectionProvider));
     addEntityModel(initializePlaylistModel(connectionProvider));
     addEntityModel(initializeCustomerModel(connectionProvider));

@@ -4,7 +4,7 @@
 package is.codion.framework.demos.chinook.client.loadtest.scenarios;
 
 import is.codion.framework.demos.chinook.domain.api.Chinook.Customer;
-import is.codion.framework.demos.chinook.model.ChinookApplicationModel;
+import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.tools.loadtest.AbstractEntityUsageScenario;
@@ -15,10 +15,10 @@ import java.util.Map;
 
 import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRow;
 
-public final class ViewCustomerReport extends AbstractEntityUsageScenario<ChinookApplicationModel> {
+public final class ViewCustomerReport extends AbstractEntityUsageScenario<ChinookAppModel> {
 
   @Override
-  protected void perform(ChinookApplicationModel application) throws Exception {
+  protected void perform(ChinookAppModel application) throws Exception {
     SwingEntityTableModel customerModel = application.entityModel(Customer.TYPE).tableModel();
     customerModel.refresh();
     selectRandomRow(customerModel);
