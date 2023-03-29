@@ -158,7 +158,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
   private void selectLanguage() {
     String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     JRadioButton enButton = new JRadioButton("English");
-    JRadioButton isButton = new JRadioButton("\u00cdslenska", language.equals(LANGUAGE_IS));
+    JRadioButton isButton = new JRadioButton("Íslenska", language.equals(LANGUAGE_IS));
     ButtonGroup langButtonGroup = new ButtonGroup();
     langButtonGroup.add(enButton);
     langButtonGroup.add(isButton);
@@ -167,7 +167,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
     buttonPanel.add(isButton);
     enButton.setSelected(language.equals(LANGUAGE_EN));
     isButton.setSelected(language.equals(LANGUAGE_IS));
-    showMessageDialog(this, buttonPanel, "Language/Tungum\u00e1l", JOptionPane.QUESTION_MESSAGE);
+    showMessageDialog(this, buttonPanel, "Language/Tungumál", JOptionPane.QUESTION_MESSAGE);
     String newLanguage = isButton.isSelected() ? LANGUAGE_IS : LANGUAGE_EN;
     if (!language.equals(newLanguage)) {
       UserPreferences.setUserPreference(LANGUAGE_PREFERENCES_KEY, newLanguage);
@@ -175,7 +175,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
               """
                       Language has been changed, restart the application to apply the changes.
 
-                      Tungum\u00e1li hefur veri\u00f0 breytt, endurr\u00e6stu kerfi\u00f0 til að virkja breytingarnar.
+                      Tungumáli hefur verið breytt, endurræstu kerfið til að virkja breytingarnar.
                       """);
     }
   }
