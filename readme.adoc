@@ -6,15 +6,27 @@ A demo application based on the Codion application framework.
 
 === chinook-domain-api
 
-The domain API.
+The domain model API.
 
 === chinook-domain
 
-The domain implementation.
+The domain model implementation.
 
 === chinook-client
 
 Swing client application.
+
+=== chinook-client-http
+
+Swing client configured with a HTTP connection.
+
+=== chinook-client-local
+
+Swing client configured with a local JDBC connection.
+
+=== chinook-client-remote
+
+Swing client configured with a remote RMI connection.
 
 === chinook-load-test
 
@@ -26,47 +38,135 @@ A Codion server configured for the Chinook application.
 
 === chinook-server-monitor
 
-A Codion server monitor configured to connect to the server.
+A Codion server monitor configured for the server.
 
-== Running
+== Running the client
 
 === JDBC
 
-To run the Chinook client with a local JDBC connection.
+To run the client with a local JDBC connection.
 
 [source,shell]
 ----
-gradlew :chinook-client:runLocal
+gradlew chinook-client-local:run
 ----
 
 === RMI
 
-To run the Chinook client with an RMI connection start by running the server.
+To run the client with a RMI connection start by running the server.
 
 [source,shell]
 ----
-gradlew :chinook-server:run
+gradlew chinook-server:run
 ----
 
-Then run the Chinook client.
-
-[source,shell]
-----
-gradlew :chinook-client:runRmi
-----
-
-Or run the Chinook load test.
+Then run the client with a RMI connection.
 
 [source,shell]
 ----
-gradlew :chinook-load-test:runRmi
+gradlew chinook-client-remote:run
+----
+
+=== HTTP
+
+To run the client with a HTTP connection start by running the server.
+
+[source,shell]
+----
+gradlew chinook-server:run
+----
+
+Then run the client with a HTTP connection.
+
+[source,shell]
+----
+gradlew chinook-client-http:run
+----
+
+== Running the load test
+
+=== RMI
+
+To run the load test with a RMI connection start by running the server.
+
+[source,shell]
+----
+gradlew chinook-server:run
+----
+
+Then run the load test with a RMI connection
+
+[source,shell]
+----
+gradlew chinook-load-test-remote:run
+----
+
+=== HTTP
+
+To run the load test with an HTTP connection start by running the server.
+
+[source,shell]
+----
+gradlew chinook-server:run
+----
+
+Then run the load test with a HTTP connection
+
+[source,shell]
+----
+gradlew chinook-load-test-http:run
 ----
 
 ==== Server Monitor
 
-To run the Codion server monitor.
+To run the server monitor.
 
 [source,shell]
 ----
-gradlew :chinook-server-monitor:run
+gradlew chinook-server-monitor:run
+----
+
+== Server configuration
+
+In order to run the server on a different host, you must change the *serverHost* property in *gradle.properties*.
+
+[source,shell]
+----
+serverHost=192.168.1.42
+----
+
+== Packaging the application
+
+=== jlink
+
+The client, server and server-monitor modules have a jlink task.
+
+[source,shell]
+----
+gradlew chinook-client-remote:jlink
+----
+[source,shell]
+----
+gradlew chinook-server:jlink
+----
+[source,shell]
+----
+gradlew chinook-server-monitor:jlink
+----
+
+=== jpackage
+
+The client, server and server-monitor modules have a jpackage task configured for windows (msi) and linux (deb).
+
+[source,shell]
+----
+gradlew chinook-client-remote:jpackage
+----
+[source,shell]
+----
+gradlew chinook-server:jpackage
+----
+[source,shell]
+----
+gradlew chinook-server-monitor:jpackage
 ----
