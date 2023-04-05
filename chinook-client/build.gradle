@@ -8,8 +8,7 @@ dependencies {
     implementation "is.codion.jdk11:codion-swing-framework-ui:${version}"
     implementation "is.codion.jdk11:codion-plugin-imagepanel:${version}"
 
-    implementation "org.pushing-pixels:radiance-theming:${radianceVersion}"
-    implementation "org.pushing-pixels:radiance-theming-extras:${radianceVersion}"
+    implementation "com.formdev:flatlaf-intellij-themes:${flatlafVersion}"
 
     runtimeOnly ("is.codion.jdk11:codion-plugin-logback-proxy:${version}") {
         exclude group: 'com.sun.mail', module: 'javax.mail'

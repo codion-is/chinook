@@ -14,7 +14,6 @@ import is.codion.framework.model.EntityEditModel;
 import is.codion.swing.common.ui.component.combobox.Completion;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
-import is.codion.swing.common.ui.laf.LookAndFeelProvider;
 import is.codion.swing.common.ui.laf.LookAndFeelSelectionPanel;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.ui.EntityApplicationPanel;
@@ -23,67 +22,31 @@ import is.codion.swing.framework.ui.EntityTableCellRenderer;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
 
-import org.pushingpixels.radiance.theming.api.RadianceLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceAutumnLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessBlackSteelLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessBlueSteelLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceBusinessLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceCeruleanLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceCremeCoffeeLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceCremeLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceDustCoffeeLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceDustLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGeminiLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteAquaLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteChalkLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteElectricLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteGlassLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteGoldLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteSiennaLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteSunsetLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceGreenMagicLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceMagellanLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceMarinerLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceMistAquaLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceMistSilverLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceModerateLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceNebulaAmethystLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceNebulaBrickWallLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceNebulaLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceNightShadeLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceRavenLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceSaharaLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceSentinelLookAndFeel;
-import org.pushingpixels.radiance.theming.api.skin.RadianceTwilightLookAndFeel;
-import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceFieldOfWheatLookAndFeel;
-import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceHarvestLookAndFeel;
-import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceMagmaLookAndFeel;
-import org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceStreetlightsLookAndFeel;
+import com.formdev.flatlaf.intellijthemes.FlatAllIJThemes;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.laf.LookAndFeelProvider.addLookAndFeelProvider;
+import static is.codion.swing.common.ui.laf.LookAndFeelProvider.lookAndFeelProvider;
 import static is.codion.swing.framework.ui.EntityApplicationBuilder.entityApplicationBuilder;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppModel> {
 
+  private static final String DEFAULT_FLAT_LOOK_AND_FEEL = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerIJTheme";
   private static final String LANGUAGE_PREFERENCES_KEY = ChinookAppPanel.class.getSimpleName() + ".language";
   private static final Locale LOCALE_IS = new Locale("is", "IS");
   private static final Locale LOCALE_EN = new Locale("en", "EN");
@@ -180,50 +143,12 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
     }
   }
 
-  private static void addRadianceLookAndFeels() {
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceAutumnLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceBusinessBlackSteelLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceBusinessBlueSteelLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceBusinessLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceCeruleanLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceCremeCoffeeLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceCremeLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceDustCoffeeLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceDustLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGeminiLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteAquaLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteChalkLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteElectricLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteGlassLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteGoldLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteSiennaLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGraphiteSunsetLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceGreenMagicLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMagellanLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMarinerLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMistAquaLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMistSilverLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceModerateLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNebulaAmethystLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNebulaBrickWallLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNebulaLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceNightShadeLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceRavenLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceSaharaLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceSentinelLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceTwilightLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceFieldOfWheatLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceHarvestLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceMagmaLookAndFeel.class));
-    addLookAndFeelProvider(new RadianceLookAndFeelProvider(RadianceStreetlightsLookAndFeel.class));
-  }
-
   public static void main(String[] args) throws CancelException {
     String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
+    Arrays.stream(FlatAllIJThemes.INFOS).forEach(themeInfo ->
+            addLookAndFeelProvider(lookAndFeelProvider(themeInfo.getClassName())));
     LookAndFeelSelectionPanel.CHANGE_ON_SELECTION.set(true);
-    addRadianceLookAndFeels();
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
     EntityEditModel.POST_EDIT_EVENTS.set(true);
     EntityPanel.TOOLBAR_BUTTONS.set(true);
@@ -241,26 +166,5 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
             .frameSize(new Dimension(1280, 720))
             .defaultLoginUser(User.parse("scott:tiger"))
             .start());
-  }
-
-  private record RadianceLookAndFeelProvider(Class<? extends RadianceLookAndFeel> lookAndFeelClass)
-          implements LookAndFeelProvider {
-
-    @Override
-    public String className() {
-      return lookAndFeelClass.getName();
-    }
-
-    @Override
-    public void enable() {
-      try {
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        JDialog.setDefaultLookAndFeelDecorated(true);
-        UIManager.setLookAndFeel(className());
-      }
-      catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    }
   }
 }

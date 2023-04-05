@@ -4,8 +4,7 @@ module is.codion.framework.demos.chinook.client {
   requires is.codion.plugin.imagepanel;
 
   requires is.codion.framework.demos.chinook.domain.api;
-  requires org.pushingpixels.radiance.theming;
-  requires org.pushingpixels.radiance.theming.extras;
+  requires com.formdev.flatlaf.intellijthemes;
   requires jasperreports;
 
   exports is.codion.framework.demos.chinook.ui;
