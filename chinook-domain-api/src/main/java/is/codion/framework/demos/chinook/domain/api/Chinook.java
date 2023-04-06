@@ -202,12 +202,7 @@ public interface Chinook {
 
     FunctionType<EntityConnection, RandomPlaylistParameters, Entity> RANDOM_PLAYLIST = functionType("chinook.random_playlist");
 
-    record RandomPlaylistParameters(String playlistName, int noOfTracks) implements Serializable {
-
-      public RandomPlaylistParameters {
-        requireNonNull(playlistName);
-      }
-    }
+    record RandomPlaylistParameters(String playlistName, Integer noOfTracks, Collection<Entity> genres) implements Serializable {}
   }
 
   interface PlaylistTrack {
