@@ -6,6 +6,8 @@ image::chinook-client/images/chinook-client.png[Chinook client]
 
 == Modules
 
+Many of the following modules are configuration-only, that is, contain no source-code, just Gradle build files configuring the application for running and packaging.
+
 === chinook-domain-api
 
 The domain model API.
@@ -20,27 +22,39 @@ Swing client application.
 
 === chinook-client-http
 
-Swing client configured with a HTTP connection.
+Configuration only. Swing client configured with a HTTP connection.
 
 === chinook-client-local
 
-Swing client configured with a local JDBC connection.
+Configuration only. Swing client configured with a local JDBC connection.
+
+NOTE: The client runs with an in-memory H2 database, created on startup, so changes to data do not persist.
 
 === chinook-client-remote
 
-Swing client configured with a remote RMI connection.
+Configuration only. Swing client configured with a RMI connection.
 
 === chinook-load-test
 
-Load test for the application.
+Load-test for the application.
+
+=== chinook-load-test-http
+
+Configuration only. Load-test with a HTTP connection.
+
+=== chinook-load-test-remote
+
+Configuration only. Load-test with a RMI connection.
 
 === chinook-server
 
-A Codion server configured for the Chinook application.
+Configuration only. A Codion server configured for the Chinook application.
+
+NOTE: The server runs with an in-memory H2 database, created on startup, so changes to data do not persist.
 
 === chinook-server-monitor
 
-A Codion server monitor configured for the server.
+Configuration only. A Codion server monitor configured for the server.
 
 == Running the client
 
