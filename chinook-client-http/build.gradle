@@ -12,6 +12,7 @@ applicationDefaultJvmArgs = [
         "-Dcodion.client.connectionType=http",
         "-Dcodion.client.http.secure=false",
         "-Dcodion.client.http.hostname=${serverHost}",
+        "-Dcodion.client.http.port=${serverHttpPort}",
         "-Dlogback.configurationFile=src/main/config/logback.xml",
         "-Dsun.awt.disablegrab=true"
 ]
