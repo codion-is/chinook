@@ -112,8 +112,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
   @Override
   protected Controls createViewMenuControls() {
     return super.createViewMenuControls()
-            .addSeparator()
-            .add(Control.builder(this::selectLanguage)
+            .addAt(2, Control.builder(this::selectLanguage)
                     .caption(bundle.getString(SELECT_LANGUAGE))
                     .build());
   }
@@ -166,6 +165,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
             .defaultLookAndFeelClassName(DEFAULT_FLAT_LOOK_AND_FEEL)
             .frameSize(new Dimension(1280, 720))
             .defaultLoginUser(User.parse("scott:tiger"))
+            .displayStartupDialog(false)
             .start());
   }
 }
