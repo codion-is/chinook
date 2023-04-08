@@ -102,6 +102,8 @@ Configuration only. Load-test with a HTTP connection.
 
 ==== Run
 
+NOTE: The server must be running
+
 [source,shell]
 ----
 gradlew chinook-load-test-http:run
@@ -123,6 +125,8 @@ gradlew chinook-load-test-http:jpackage
 Configuration only. Load-test with a RMI connection.
 
 ==== Run
+
+NOTE: The server must be running
 
 [source,shell]
 ----
