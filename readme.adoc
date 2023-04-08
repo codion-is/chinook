@@ -67,33 +67,22 @@ To run the client with a local JDBC connection.
 gradlew chinook-client-local:run
 ----
 
-=== RMI
+=== RMI/HTTP
 
-To run the client with a RMI connection start by running the server.
+To run the client with a RMI or HTTP connection start by running the server.
 
 [source,shell]
 ----
 gradlew chinook-server:run
 ----
 
-Then run the client with a RMI connection.
+Then run the client.
 
 [source,shell]
 ----
 gradlew chinook-client-remote:run
 ----
-
-=== HTTP
-
-To run the client with a HTTP connection start by running the server.
-
-[source,shell]
-----
-gradlew chinook-server:run
-----
-
-Then run the client with a HTTP connection.
-
+or
 [source,shell]
 ----
 gradlew chinook-client-http:run
@@ -103,31 +92,20 @@ gradlew chinook-client-http:run
 
 === RMI
 
-To run the load test with a RMI connection start by running the server.
+To run the load test with a RMI or HTTP connection start by running the server.
 
 [source,shell]
 ----
 gradlew chinook-server:run
 ----
 
-Then run the load test with a RMI connection
+Then run the load test with a RMI or HTTP connection.
 
 [source,shell]
 ----
 gradlew chinook-load-test-remote:run
 ----
-
-=== HTTP
-
-To run the load test with an HTTP connection start by running the server.
-
-[source,shell]
-----
-gradlew chinook-server:run
-----
-
-Then run the load test with a HTTP connection
-
+or
 [source,shell]
 ----
 gradlew chinook-load-test-http:run
