@@ -1,16 +1,16 @@
-rootProject.name = 'chinook'
+rootProject.name = "chinook"
 
-include 'chinook-domain-api'
-include 'chinook-domain'
-include 'chinook-client'
-include 'chinook-client-local'
-include 'chinook-client-remote'
-include 'chinook-client-http'
-include 'chinook-load-test'
-include 'chinook-load-test-remote'
-include 'chinook-load-test-http'
-include 'chinook-server'
-include 'chinook-server-monitor'
+include "chinook-domain-api"
+include "chinook-domain"
+include "chinook-client"
+include "chinook-client-local"
+include "chinook-client-remote"
+include "chinook-client-http"
+include "chinook-load-test"
+include "chinook-load-test-remote"
+include "chinook-load-test-http"
+include "chinook-server"
+include "chinook-server-monitor"
 
 dependencyResolutionManagement {
     repositories {

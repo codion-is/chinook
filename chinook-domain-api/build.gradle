@@ -1,5 +1,5 @@
 plugins {
-    id 'chinook.library'
+    id "chinook.library"
 }
 
 dependencies {

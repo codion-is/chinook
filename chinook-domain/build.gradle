@@ -1,11 +1,11 @@
 plugins {
-    id 'chinook.library'
+    id "chinook.library"
 }
 
 apply plugin: BuildReportsPlugin
 
 dependencies {
-    api project(':chinook-domain-api')
+    api project(":chinook-domain-api")
     implementation "is.codion.jdk11:codion-common-rmi:${version}"
     implementation "is.codion.jdk11:codion-framework-db-local:${version}"
 
@@ -34,6 +34,6 @@ test {
 }
 
 buildReports {
-    sourceDir = file('src/main/reports')
-    targetDir = file(sourceSets.main.output.resourcesDir.toString() + '/is/codion/framework/demos/chinook/domain')
+    sourceDir = file("src/main/reports")
+    targetDir = file(sourceSets.main.output.resourcesDir.toString() + "/is/codion/framework/demos/chinook/domain")
 }

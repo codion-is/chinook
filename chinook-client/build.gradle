@@ -1,9 +1,9 @@
 plugins {
-    id 'chinook.library'
+    id "chinook.library"
 }
 
 dependencies {
-    implementation project(':chinook-domain-api')
+    implementation project(":chinook-domain-api")
 
     implementation "is.codion.jdk11:codion-swing-framework-ui:${version}"
     implementation "is.codion.jdk11:codion-plugin-imagepanel:${version}"
@@ -11,7 +11,7 @@ dependencies {
     implementation "com.formdev:flatlaf-intellij-themes:${flatlafVersion}"
 
     runtimeOnly ("is.codion.jdk11:codion-plugin-logback-proxy:${version}") {
-        exclude group: 'com.sun.mail', module: 'javax.mail'
+        exclude group: "com.sun.mail", module: "javax.mail"
     }
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
@@ -19,7 +19,7 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
     testRuntimeOnly "is.codion.jdk11:codion-dbms-h2database:${version}"
     testRuntimeOnly "com.h2database:h2:${h2Version}"
-    testRuntimeOnly project(':chinook-domain')
+    testRuntimeOnly project(":chinook-domain")
 }
 
 test {
@@ -28,8 +28,8 @@ test {
     systemProperty "codion.db.initScripts", "classpath:create_schema.sql"
 }
 
-tasks.register('writeVersion') {
-    group 'build'
+tasks.register("writeVersion") {
+    group "build"
     def versionFile = file(sourceSets.main.output.resourcesDir.getAbsolutePath() + "/version.properties")
     inputs.property("version", project.version)
     outputs.file(versionFile)
@@ -37,7 +37,7 @@ tasks.register('writeVersion') {
 
     doLast {
         def versionProperties = new Properties()
-        versionProperties.put('version', project.version)
+        versionProperties.put("version", project.version)
         versionProperties.store(versionFile.newWriter(), null)
     }
 }
