@@ -38,9 +38,6 @@ NOTE: The client runs with an in-memory H2 database, created on startup, so chan
 [source,shell]
 ----
 gradlew chinook-client-local:jlink
-----
-[source,shell]
-----
 gradlew chinook-client-local:jpackage
 ----
 
@@ -62,9 +59,6 @@ gradlew chinook-client-http:run
 [source,shell]
 ----
 gradlew chinook-client-http:jlink
-----
-[source,shell]
-----
 gradlew chinook-client-http:jpackage
 ----
 
@@ -86,9 +80,6 @@ gradlew chinook-client-remote:run
 [source,shell]
 ----
 gradlew chinook-client-remote:jlink
-----
-[source,shell]
-----
 gradlew chinook-client-remote:jpackage
 ----
 
@@ -114,9 +105,6 @@ gradlew chinook-load-test-http:run
 [source,shell]
 ----
 gradlew chinook-load-test-http:jlink
-----
-[source,shell]
-----
 gradlew chinook-load-test-http:jpackage
 ----
 
@@ -138,9 +126,6 @@ gradlew chinook-load-test-remote:run
 [source,shell]
 ----
 gradlew chinook-load-test-remote:jlink
-----
-[source,shell]
-----
 gradlew chinook-load-test-remote:jpackage
 ----
 
@@ -175,9 +160,6 @@ gradlew chinook-server:run
 [source,shell]
 ----
 gradlew chinook-server:jlink
-----
-[source,shell]
-----
 gradlew chinook-server:jpackage
 ----
 
@@ -197,8 +179,5 @@ gradlew chinook-server-monitor:run
 [source,shell]
 ----
 gradlew chinook-server-monitor:jlink
-----
-[source,shell]
-----
 gradlew chinook-server-monitor:jpackage
 ----
