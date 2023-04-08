@@ -159,11 +159,19 @@ serverAdminPort=4445
 
 === jlink
 
-The client, server and server-monitor modules have a jlink task.
+The client, server, server-monitor and load-test modules have a jlink task.
 
 [source,shell]
 ----
+gradlew chinook-client-local:jlink
+----
+[source,shell]
+----
 gradlew chinook-client-remote:jlink
+----
+[source,shell]
+----
+gradlew chinook-client-http:jlink
 ----
 [source,shell]
 ----
@@ -173,14 +181,30 @@ gradlew chinook-server:jlink
 ----
 gradlew chinook-server-monitor:jlink
 ----
+[source,shell]
+----
+gradlew chinook-load-test-remote:jlink
+----
+[source,shell]
+----
+gradlew chinook-load-test-http:jlink
+----
 
 === jpackage
 
-The client, server and server-monitor modules have a jpackage task configured for windows (msi) and linux (deb).
+The client, server, server-monitor and load-test modules have a jpackage task configured for windows (msi) and linux (deb).
 
 [source,shell]
 ----
+gradlew chinook-client-local:jpackage
+----
+[source,shell]
+----
 gradlew chinook-client-remote:jpackage
+----
+[source,shell]
+----
+gradlew chinook-client-http:jpackage
 ----
 [source,shell]
 ----
@@ -189,4 +213,12 @@ gradlew chinook-server:jpackage
 [source,shell]
 ----
 gradlew chinook-server-monitor:jpackage
+----
+[source,shell]
+----
+gradlew chinook-load-test-remote:jpackage
+----
+[source,shell]
+----
+gradlew chinook-load-test-http:jpackage
 ----
