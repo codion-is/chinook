@@ -7,7 +7,6 @@ import is.codion.common.model.CancelException;
 import is.codion.common.model.UserPreferences;
 import is.codion.common.model.table.ColumnConditionModel;
 import is.codion.common.user.User;
-import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.demos.chinook.model.EmployeeTableModel;
 import is.codion.framework.model.EntityEditModel;
@@ -158,9 +157,9 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
     ReferentialIntegrityErrorHandling.REFERENTIAL_INTEGRITY_ERROR_HANDLING.set(ReferentialIntegrityErrorHandling.DISPLAY_DEPENDENCIES);
     ColumnConditionModel.AUTOMATIC_WILDCARD.set(ColumnConditionModel.AutomaticWildcard.POSTFIX);
     ColumnConditionModel.CASE_SENSITIVE.set(false);
-    EntityConnectionProvider.CLIENT_DOMAIN_CLASS.set("is.codion.framework.demos.chinook.domain.ChinookImpl");
     SwingUtilities.invokeLater(() -> entityApplicationBuilder(ChinookAppModel.class, ChinookAppPanel.class)
             .applicationName("Chinook")
+            .domainClassName("is.codion.framework.demos.chinook.domain.ChinookImpl")
             .applicationVersion(ChinookAppModel.VERSION)
             .defaultLookAndFeelClassName(DEFAULT_FLAT_LOOK_AND_FEEL)
             .frameSize(new Dimension(1280, 720))
