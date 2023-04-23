@@ -218,7 +218,7 @@ public interface Chinook {
     ForeignKey TRACK_FK = TYPE.foreignKey("track_fk", TRACK_ID, Track.ID);
   }
 
-  static Integer getMinutes(Integer milliseconds) {
+  static Integer minutes(Integer milliseconds) {
     if (milliseconds == null) {
       return null;
     }
@@ -226,7 +226,7 @@ public interface Chinook {
     return milliseconds / 1000 / 60;
   }
 
-  static Integer getSeconds(Integer milliseconds) {
+  static Integer seconds(Integer milliseconds) {
     if (milliseconds == null) {
       return null;
     }
@@ -234,7 +234,7 @@ public interface Chinook {
     return milliseconds / 1000 % 60;
   }
 
-  static Integer getMilliseconds(Integer minutes, Integer seconds) {
+  static Integer milliseconds(Integer minutes, Integer seconds) {
     int milliseconds = minutes == null ? 0 : minutes * 60 * 1000;
     milliseconds += seconds == null ? 0 : seconds * 1000;
 
@@ -267,13 +267,14 @@ public interface Chinook {
 
     @Override
     public String get(DerivedProperty.SourceValues sourceValues) {
-      Integer milliseconds = sourceValues.get(Track.MILLISECONDS);
-      if (milliseconds == null || milliseconds <= 0) {
-        return "";
-      }
+      return sourceValues.getOptional(Track.MILLISECONDS)
+              .map(TrackMinSecProvider::toMinutesSecondsString)
+              .orElse(null);
+    }
 
-      return getMinutes(milliseconds) + " min " +
-              getSeconds(milliseconds) + " sec";
+    private static String toMinutesSecondsString(Integer milliseconds) {
+      return minutes(milliseconds) + " min " +
+              seconds(milliseconds) + " sec";
     }
   }
 
@@ -285,13 +286,14 @@ public interface Chinook {
 
     @Override
     public Image get(DerivedProperty.SourceValues sourceValues) {
-      byte[] bytes = sourceValues.get(Album.COVER);
-      if (bytes == null) {
-        return null;
-      }
+      return sourceValues.getOptional(Album.COVER)
+              .map(CoverArtImageProvider::fromBytes)
+              .orElse(null);
+    }
 
-      try (ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes)) {
-        return ImageIO.read(inputStream);
+    private static Image fromBytes(byte[] bytes) {
+      try {
+        return ImageIO.read(new ByteArrayInputStream(bytes));
       }
       catch (IOException e) {
         throw new RuntimeException(e);
@@ -307,18 +309,14 @@ public interface Chinook {
 
     @Override
     public String apply(Entity customer) {
-      StringBuilder builder = new StringBuilder();
-      if (customer.isNotNull(Customer.LASTNAME)) {
-        builder.append(customer.get(Customer.LASTNAME));
-      }
-      if (customer.isNotNull(Customer.FIRSTNAME)) {
-        builder.append(", ").append(customer.get(Customer.FIRSTNAME));
-      }
-      if (customer.isNotNull(Customer.EMAIL)) {
-        builder.append(" <").append(customer.get(Customer.EMAIL)).append(">");
-      }
-
-      return builder.toString();
+      return new StringBuilder()
+              .append(customer.get(Customer.LASTNAME))
+              .append(", ")
+              .append(customer.get(Customer.FIRSTNAME))
+              .append(customer.getOptional(Customer.EMAIL)
+                      .map(email -> " <" + email + ">")
+                      .orElse(""))
+              .toString();
     }
   }
 
