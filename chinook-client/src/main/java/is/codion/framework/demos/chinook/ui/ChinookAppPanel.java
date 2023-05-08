@@ -11,6 +11,7 @@ import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.demos.chinook.model.EmployeeTableModel;
 import is.codion.framework.model.EntityEditModel;
 import is.codion.swing.common.ui.component.combobox.Completion;
+import is.codion.swing.common.ui.component.table.FilteredTable;
 import is.codion.swing.common.ui.component.table.FilteredTableCellRenderer;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
@@ -150,8 +151,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
     EntityEditModel.POST_EDIT_EVENTS.set(true);
     EntityPanel.TOOLBAR_BUTTONS.set(true);
-    EntityTablePanel.TABLE_AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
     EntityTablePanel.COLUMN_SELECTION.set(EntityTablePanel.ColumnSelection.MENU);
+    FilteredTable.AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
     FilteredTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
     FilteredTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
     ReferentialIntegrityErrorHandling.REFERENTIAL_INTEGRITY_ERROR_HANDLING.set(ReferentialIntegrityErrorHandling.DISPLAY_DEPENDENCIES);
