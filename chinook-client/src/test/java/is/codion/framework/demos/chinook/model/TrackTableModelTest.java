@@ -27,7 +27,7 @@ public final class TrackTableModelTest {
 
       TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
       ColumnConditionModel<?, Entity> albumConditionModel =
-              trackTableModel.tableConditionModel().conditionModel(Track.ALBUM_FK);
+              trackTableModel.conditionModel().conditionModel(Track.ALBUM_FK);
 
       albumConditionModel.setEqualValue(masterOfPuppets);
 
