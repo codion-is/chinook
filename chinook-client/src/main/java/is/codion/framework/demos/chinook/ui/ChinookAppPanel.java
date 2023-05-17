@@ -30,7 +30,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Arrays;
@@ -39,7 +38,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
-import static is.codion.swing.framework.ui.EntityApplicationBuilder.entityApplicationBuilder;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppModel> {
@@ -153,7 +151,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
     FilteredTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
     FilteredTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
     ReferentialIntegrityErrorHandling.REFERENTIAL_INTEGRITY_ERROR_HANDLING.set(ReferentialIntegrityErrorHandling.DISPLAY_DEPENDENCIES);
-    SwingUtilities.invokeLater(() -> entityApplicationBuilder(ChinookAppModel.class, ChinookAppPanel.class)
+    EntityApplicationPanel.builder(ChinookAppModel.class, ChinookAppPanel.class)
             .applicationName("Chinook")
             .domainClassName("is.codion.framework.demos.chinook.domain.ChinookImpl")
             .applicationVersion(ChinookAppModel.VERSION)
@@ -161,6 +159,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
             .frameSize(new Dimension(1280, 720))
             .defaultLoginUser(User.parse("scott:tiger"))
             .displayStartupDialog(false)
-            .start());
+            .start();
   }
 }
