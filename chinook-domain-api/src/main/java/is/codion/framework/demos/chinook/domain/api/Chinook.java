@@ -179,7 +179,7 @@ public interface Chinook {
     ValueSupplier<LocalDate> DATE_DEFAULT_VALUE = LocalDate::now;
 
     default Invoice updateTotal() {
-      put(TOTAL, getOptional(TOTAL_SUBQUERY).orElse(BigDecimal.ZERO));
+      put(TOTAL, optional(TOTAL_SUBQUERY).orElse(BigDecimal.ZERO));
       return this;
     }
   }
@@ -317,7 +317,7 @@ public interface Chinook {
               .append(customer.get(Customer.LASTNAME))
               .append(", ")
               .append(customer.get(Customer.FIRSTNAME))
-              .append(customer.getOptional(Customer.EMAIL)
+              .append(customer.optional(Customer.EMAIL)
                       .map(email -> " <" + email + ">")
                       .orElse(""))
               .toString();
