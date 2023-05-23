@@ -113,7 +113,7 @@ final class CoverArtPanel extends JPanel {
   }
 
   private void embed() {
-    Utilities.getParentDialog(basePanel).dispose();
+    Utilities.parentDialog(basePanel).dispose();
     basePanel.setSize(EMBEDDED_SIZE);
     imagePanel.resetView();
     add(basePanel, BorderLayout.CENTER);
