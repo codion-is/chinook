@@ -32,7 +32,7 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
   }
 
   @Override
-  protected List<Key> doInsert(List<Entity> entities) throws DatabaseException {
+  protected List<Key> doInsert(List<? extends Entity> entities) throws DatabaseException {
     EntityConnection connection = connectionProvider().connection();
     connection.beginTransaction();
     try {
@@ -49,11 +49,11 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
   }
 
   @Override
-  protected List<Entity> doUpdate(List<Entity> entities) throws DatabaseException {
+  protected Collection<Entity> doUpdate(List<? extends Entity> entities) throws DatabaseException {
     EntityConnection connection = connectionProvider().connection();
     connection.beginTransaction();
     try {
-      List<Entity> updated = connection.update(entities);
+      Collection<Entity> updated = connection.update(entities);
       updateTotals(entities, connection);
       connection.commitTransaction();
 
@@ -66,15 +66,13 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
   }
 
   @Override
-  protected List<Entity> doDelete(List<Entity> entities) throws DatabaseException {
+  protected void doDelete(List<? extends Entity> entities) throws DatabaseException {
     EntityConnection connection = connectionProvider().connection();
     connection.beginTransaction();
     try {
-      connection.delete(Entity.getPrimaryKeys(entities));
+      connection.delete(Entity.primaryKeys(entities));
       updateTotals(entities, connection);
       connection.commitTransaction();
-
-      return entities;
     }
     catch (DatabaseException e) {
       connection.rollbackTransaction();
@@ -86,7 +84,7 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
     put(InvoiceLine.UNITPRICE, track == null ? null : track.get(Track.UNITPRICE));
   }
 
-  private void updateTotals(List<Entity> entities, EntityConnection connection) throws DatabaseException {
-    totalsUpdatedEvent.onEvent(connection.executeFunction(Invoice.UPDATE_TOTALS, Entity.getDistinct(InvoiceLine.INVOICE_ID, entities)));
+  private void updateTotals(Collection<? extends Entity> entities, EntityConnection connection) throws DatabaseException {
+    totalsUpdatedEvent.onEvent(connection.executeFunction(Invoice.UPDATE_TOTALS, Entity.distinct(InvoiceLine.INVOICE_ID, entities)));
   }
 }

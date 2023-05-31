@@ -5,19 +5,20 @@ package is.codion.framework.demos.chinook.ui;
 
 import is.codion.common.model.CancelException;
 import is.codion.common.model.UserPreferences;
-import is.codion.common.model.table.ColumnConditionModel;
 import is.codion.common.user.User;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.demos.chinook.model.EmployeeTableModel;
 import is.codion.framework.model.EntityEditModel;
 import is.codion.swing.common.ui.component.combobox.Completion;
+import is.codion.swing.common.ui.component.table.FilteredTable;
+import is.codion.swing.common.ui.component.table.FilteredTableCellRenderer;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
-import is.codion.swing.common.ui.laf.LookAndFeelSelectionPanel;
+import is.codion.swing.common.ui.laf.LookAndFeelComboBox;
+import is.codion.swing.common.ui.laf.LookAndFeelProvider;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.ui.EntityApplicationPanel;
 import is.codion.swing.framework.ui.EntityPanel;
-import is.codion.swing.framework.ui.EntityTableCellRenderer;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
 
@@ -29,7 +30,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Arrays;
@@ -38,9 +38,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
-import static is.codion.swing.common.ui.laf.LookAndFeelProvider.addLookAndFeelProvider;
-import static is.codion.swing.common.ui.laf.LookAndFeelProvider.lookAndFeelProvider;
-import static is.codion.swing.framework.ui.EntityApplicationBuilder.entityApplicationBuilder;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppModel> {
@@ -144,20 +141,17 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
   public static void main(String[] args) throws CancelException {
     String language = UserPreferences.getUserPreference(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
-    Arrays.stream(FlatAllIJThemes.INFOS).forEach(themeInfo ->
-            addLookAndFeelProvider(lookAndFeelProvider(themeInfo.getClassName())));
-    LookAndFeelSelectionPanel.CHANGE_ON_SELECTION.set(true);
+    Arrays.stream(FlatAllIJThemes.INFOS).forEach(LookAndFeelProvider::addLookAndFeelProvider);
+    LookAndFeelComboBox.CHANGE_ON_SELECTION.set(true);
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
     EntityEditModel.POST_EDIT_EVENTS.set(true);
     EntityPanel.TOOLBAR_BUTTONS.set(true);
-    EntityTablePanel.TABLE_AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
     EntityTablePanel.COLUMN_SELECTION.set(EntityTablePanel.ColumnSelection.MENU);
-    EntityTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
-    EntityTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
+    FilteredTable.AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    FilteredTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
+    FilteredTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
     ReferentialIntegrityErrorHandling.REFERENTIAL_INTEGRITY_ERROR_HANDLING.set(ReferentialIntegrityErrorHandling.DISPLAY_DEPENDENCIES);
-    ColumnConditionModel.AUTOMATIC_WILDCARD.set(ColumnConditionModel.AutomaticWildcard.POSTFIX);
-    ColumnConditionModel.CASE_SENSITIVE.set(false);
-    SwingUtilities.invokeLater(() -> entityApplicationBuilder(ChinookAppModel.class, ChinookAppPanel.class)
+    EntityApplicationPanel.builder(ChinookAppModel.class, ChinookAppPanel.class)
             .applicationName("Chinook")
             .domainClassName("is.codion.framework.demos.chinook.domain.ChinookImpl")
             .applicationVersion(ChinookAppModel.VERSION)
@@ -165,6 +159,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
             .frameSize(new Dimension(1280, 720))
             .defaultLoginUser(User.parse("scott:tiger"))
             .displayStartupDialog(false)
-            .start());
+            .start();
   }
 }
