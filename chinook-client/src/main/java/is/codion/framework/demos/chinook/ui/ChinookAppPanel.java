@@ -145,7 +145,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
     LookAndFeelComboBox.CHANGE_ON_SELECTION.set(true);
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
     EntityEditModel.POST_EDIT_EVENTS.set(true);
-    EntityPanel.TOOLBAR_BUTTONS.set(true);
+    EntityPanel.TOOLBAR_CONTROLS.set(true);
     EntityTablePanel.COLUMN_SELECTION.set(EntityTablePanel.ColumnSelection.MENU);
     FilteredTable.AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
     FilteredTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);

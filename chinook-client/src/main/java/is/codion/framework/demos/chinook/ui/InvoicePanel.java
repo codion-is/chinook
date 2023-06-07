@@ -10,7 +10,7 @@ public final class InvoicePanel extends EntityPanel {
     super(invoiceModel, new InvoiceEditPanel(invoiceModel.editModel(), invoiceLinePanel));
     tablePanel().excludeFromUpdateMenu(Invoice.TOTAL);
     setIncludeDetailTabPane(false);
-    setShowDetailPanelControls(false);
+    setIncludeDetailPanelControls(false);
     addDetailPanel(invoiceLinePanel);
   }
 }
