@@ -4,10 +4,7 @@ plugins {
 
 dependencies {
     runtimeOnly "is.codion.jdk11:codion-framework-server:${version}"
-    runtimeOnly ("is.codion.jdk11:codion-framework-servlet:${version}") {
-        exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-common"
-        exclude group: "org.jetbrains", module: "annotations"
-    }
+    runtimeOnly "is.codion.jdk11:codion-framework-servlet:${version}"
     runtimeOnly "is.codion.jdk11:codion-plugin-hikari-pool:${version}"
     runtimeOnly "is.codion.jdk11:codion-dbms-h2database:${version}"
     runtimeOnly "com.h2database:h2:${h2Version}"
