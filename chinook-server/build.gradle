@@ -12,7 +12,7 @@ dependencies {
     runtimeOnly project(":chinook-domain")
 
     //logging library, skipping the email stuff
-    runtimeOnly ("is.codion:codion-plugin-logback-proxy:${version}") {
+    runtimeOnly(libs.codion.plugin.logback.proxy) {
         exclude group: "com.sun.mail", module: "javax.mail"
     }
 }
