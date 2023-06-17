@@ -6,8 +6,8 @@ apply plugin: BuildReportsPlugin
 
 dependencies {
     api project(":chinook-domain-api")
-    implementation "is.codion.jdk11:codion-common-rmi:${version}"
-    implementation "is.codion.jdk11:codion-framework-db-local:${version}"
+    implementation "is.codion:codion-common-rmi:${version}"
+    implementation "is.codion:codion-framework-db-local:${version}"
 
     runtimeOnly "commons-logging:commons-logging:${commonsLoggingVersion}"
     runtimeOnly ("commons-digester:commons-digester:${commonsDigesterVersion}") {
@@ -19,8 +19,8 @@ dependencies {
     }
     runtimeOnly "org.eclipse.jdt:ecj:${ecjVersion}"
 
-    testImplementation "is.codion.jdk11:codion-framework-domain-test:${version}"
-    testRuntimeOnly "is.codion.jdk11:codion-dbms-h2database:${version}"
+    testImplementation "is.codion:codion-framework-domain-test:${version}"
+    testRuntimeOnly "is.codion:codion-dbms-h2database:${version}"
     testRuntimeOnly "com.h2database:h2:${h2Version}"
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"

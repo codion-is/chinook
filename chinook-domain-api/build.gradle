@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    api "is.codion.jdk11:codion-framework-domain:${version}"
-    api "is.codion.jdk11:codion-framework-db-core:${version}"
-    api "is.codion.jdk11:codion-plugin-jasperreports:${version}"
+    api "is.codion:codion-framework-domain:${version}"
+    api "is.codion:codion-framework-db-core:${version}"
+    api "is.codion:codion-plugin-jasperreports:${version}"
 
     api ("net.sf.jasperreports:jasperreports:${jasperReportsVersion}") {
         transitive = false

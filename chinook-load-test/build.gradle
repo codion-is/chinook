@@ -6,7 +6,7 @@ dependencies {
     implementation project(":chinook-domain-api")
     implementation project(":chinook-client")
 
-    implementation "is.codion.jdk11:codion-swing-common-tools-ui:${version}"
-    implementation "is.codion.jdk11:codion-swing-framework-ui:${version}"
-    implementation "is.codion.jdk11:codion-swing-framework-tools:${version}"
+    implementation "is.codion:codion-swing-common-tools-ui:${version}"
+    implementation "is.codion:codion-swing-framework-ui:${version}"
+    implementation "is.codion:codion-swing-framework-tools:${version}"
 }

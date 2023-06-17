@@ -7,8 +7,8 @@ dependencies {
 
     runtimeOnly project(":chinook-domain")
 
-    runtimeOnly "is.codion.jdk11:codion-framework-db-local:${version}"
-    runtimeOnly "is.codion.jdk11:codion-dbms-h2database:${version}"
+    runtimeOnly "is.codion:codion-framework-db-local:${version}"
+    runtimeOnly "is.codion:codion-dbms-h2database:${version}"
     runtimeOnly "com.h2database:h2:${h2Version}"
 }
 
