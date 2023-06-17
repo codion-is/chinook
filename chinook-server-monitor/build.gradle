@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    runtimeOnly "is.codion:codion-swing-framework-server-monitor:${version}"
-    runtimeOnly "is.codion:codion-plugin-logback-proxy:${version}"
+    runtimeOnly(libs.codion.swing.framework.server.monitor)
+    runtimeOnly(libs.codion.plugin.logback.proxy)
 }
 
 applicationDefaultJvmArgs = [

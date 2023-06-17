@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation project(":chinook-client")
 
-    runtimeOnly "is.codion:codion-framework-db-rmi:${version}"
+    runtimeOnly(libs.codion.framework.db.rmi)
 }
 
 applicationDefaultJvmArgs = [

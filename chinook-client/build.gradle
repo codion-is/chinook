@@ -5,20 +5,20 @@ plugins {
 dependencies {
     implementation project(":chinook-domain-api")
 
-    implementation "is.codion:codion-swing-framework-ui:${version}"
-    implementation "is.codion:codion-plugin-imagepanel:${version}"
+    implementation(libs.codion.swing.framework.ui)
+    implementation(libs.codion.plugin.imagepanel)
 
-    implementation "com.formdev:flatlaf-intellij-themes:${flatlafVersion}"
+    implementation(libs.flatlaf.intellij.themes)
 
-    runtimeOnly ("is.codion:codion-plugin-logback-proxy:${version}") {
+    runtimeOnly(libs.codion.plugin.logback.proxy) {
         exclude group: "com.sun.mail", module: "javax.mail"
     }
 
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
-    testRuntimeOnly "is.codion:codion-framework-db-local:${version}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
-    testRuntimeOnly "is.codion:codion-dbms-h2database:${version}"
-    testRuntimeOnly "com.h2database:h2:${h2Version}"
+    testImplementation(libs.junit.api)
+    testRuntimeOnly(libs.codion.framework.db.local)
+    testRuntimeOnly(libs.junit.engine)
+    testRuntimeOnly(libs.codion.dbms.h2database)
+    testRuntimeOnly(libs.h2)
     testRuntimeOnly project(":chinook-domain")
 }
 
