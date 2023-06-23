@@ -23,9 +23,9 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist;
 import is.codion.framework.demos.chinook.domain.api.Chinook.PlaylistTrack;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.demos.chinook.ui.ChinookAppPanel;
-import is.codion.swing.common.tools.ui.loadtest.LoadTestPanel;
+import is.codion.swing.common.ui.tools.loadtest.LoadTestPanel;
 import is.codion.swing.framework.model.SwingEntityModel;
-import is.codion.swing.framework.tools.loadtest.EntityLoadTestModel;
+import is.codion.swing.framework.model.tools.loadtest.EntityLoadTestModel;
 
 import java.util.List;
 

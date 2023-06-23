@@ -6,7 +6,7 @@ dependencies {
     implementation project(":chinook-domain-api")
     implementation project(":chinook-client")
 
-    implementation(libs.codion.swing.common.tools.ui)
+    implementation(libs.codion.swing.common.ui.tools)
     implementation(libs.codion.swing.framework.ui)
-    implementation(libs.codion.swing.framework.tools)
+    implementation(libs.codion.swing.framework.model.tools)
 }

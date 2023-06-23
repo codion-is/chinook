@@ -7,13 +7,13 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Customer;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.swing.framework.model.SwingEntityTableModel;
-import is.codion.swing.framework.tools.loadtest.AbstractEntityUsageScenario;
+import is.codion.swing.framework.model.tools.loadtest.AbstractEntityUsageScenario;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRow;
+import static is.codion.swing.framework.model.tools.loadtest.EntityLoadTestModel.selectRandomRow;
 
 public final class ViewCustomerReport extends AbstractEntityUsageScenario<ChinookAppModel> {
 

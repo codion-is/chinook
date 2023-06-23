@@ -4,10 +4,10 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Genre;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.swing.framework.model.SwingEntityModel;
-import is.codion.swing.framework.tools.loadtest.AbstractEntityUsageScenario;
+import is.codion.swing.framework.model.tools.loadtest.AbstractEntityUsageScenario;
 
-import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRow;
-import static is.codion.swing.framework.tools.loadtest.EntityLoadTestModel.selectRandomRows;
+import static is.codion.swing.framework.model.tools.loadtest.EntityLoadTestModel.selectRandomRow;
+import static is.codion.swing.framework.model.tools.loadtest.EntityLoadTestModel.selectRandomRows;
 
 public final class ViewGenre extends AbstractEntityUsageScenario<ChinookAppModel> {
 
