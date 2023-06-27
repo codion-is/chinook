@@ -8,7 +8,6 @@ import is.codion.common.value.Value;
 import is.codion.plugin.imagepanel.NavigableImagePanel;
 import is.codion.swing.common.ui.FileTransferHandler;
 import is.codion.swing.common.ui.Utilities;
-import is.codion.swing.common.ui.component.Components;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
 import is.codion.swing.common.ui.dialog.Dialogs;
@@ -31,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static is.codion.swing.common.ui.component.Components.borderLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.buttonPanel;
 import static is.codion.swing.common.ui.layout.Layouts.borderLayout;
 
@@ -70,7 +70,7 @@ final class CoverArtPanel extends JPanel {
   }
 
   private JPanel createPanel() {
-    return Components.borderLayoutPanel(borderLayout())
+    return borderLayoutPanel()
             .border(BorderFactory.createEmptyBorder(5, 5, 5, 5))
             .preferredSize(EMBEDDED_SIZE)
             .centerComponent(imagePanel)
