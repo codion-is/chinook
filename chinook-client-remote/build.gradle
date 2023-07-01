@@ -9,7 +9,7 @@ dependencies {
 }
 
 applicationDefaultJvmArgs = [
-        "-Xmx256m",
+        "-Xmx64m",
         "-Dcodion.client.connectionType=remote",
         "-Dcodion.server.hostname=${serverHost}",
         "-Dcodion.server.registryPort=${serverRegistryPort}",

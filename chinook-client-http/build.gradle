@@ -9,7 +9,7 @@ dependencies {
 }
 
 applicationDefaultJvmArgs = [
-        "-Xmx256m",
+        "-Xmx64m",
         "-Dcodion.client.connectionType=http",
         "-Dcodion.client.http.secure=false",
         "-Dcodion.client.http.hostname=${serverHost}",
