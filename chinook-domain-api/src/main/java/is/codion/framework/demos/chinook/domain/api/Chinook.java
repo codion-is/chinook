@@ -143,9 +143,8 @@ public interface Chinook {
 
     FunctionType<EntityConnection, RaisePriceParameters, Collection<Entity>> RAISE_PRICE = functionType("chinook.raise_price");
 
-    default Track raisePrice(BigDecimal priceIncrease) {
+    default void raisePrice(BigDecimal priceIncrease) {
       put(UNITPRICE, get(UNITPRICE).add(priceIncrease));
-      return this;
     }
 
     record RaisePriceParameters(Collection<Long> trackIds, BigDecimal priceIncrease) implements Serializable {
@@ -177,9 +176,8 @@ public interface Chinook {
 
     ValueSupplier<LocalDate> DATE_DEFAULT_VALUE = LocalDate::now;
 
-    default Invoice updateTotal() {
+    default void updateTotal() {
       put(TOTAL, optional(TOTAL_SUBQUERY).orElse(BigDecimal.ZERO));
-      return this;
     }
   }
 
