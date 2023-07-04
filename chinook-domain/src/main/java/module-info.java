@@ -1,3 +1,6 @@
+/**
+ * Domain implementation.
+ */
 module is.codion.framework.demos.chinook.domain {
   requires is.codion.common.db;
   requires is.codion.common.rmi;

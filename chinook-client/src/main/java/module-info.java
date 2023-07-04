@@ -1,3 +1,6 @@
+/**
+ * Client.
+ */
 module is.codion.framework.demos.chinook.client {
   requires is.codion.swing.common.ui;
   requires is.codion.swing.framework.ui;

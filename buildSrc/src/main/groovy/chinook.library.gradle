@@ -1,6 +1,7 @@
 plugins {
     id "java-library"
     id "org.gradlex.extra-java-module-info"
+    id "com.diffplug.spotless"
 }
 
 extraJavaModuleInfo {
@@ -10,4 +11,14 @@ extraJavaModuleInfo {
     automaticModule("org.apache.commons:commons-collections4", "commons.collections")
     automaticModule("commons-beanutils:commons-beanutils", "commons.beanutils")
     automaticModule("org.eclipse.jdt:ecj", "ecj")
+}
+
+spotless {
+    java {
+        licenseHeaderFile("${rootDir}/license_header").yearSeparator(' - ')
+    }
+    format 'javaMisc', {
+        target 'src/**/package-info.java', 'src/**/module-info.java'
+        licenseHeaderFile("${rootDir}/license_header", '\\/\\*\\*').yearSeparator(' - ')
+    }
 }

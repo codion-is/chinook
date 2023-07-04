@@ -1,3 +1,6 @@
+/**
+ * Domain API.
+ */
 module is.codion.framework.demos.chinook.domain.api {
   requires is.codion.common.db;
   requires is.codion.framework.db.core;

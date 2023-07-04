@@ -1,3 +1,6 @@
+/**
+ * Load test.
+ */
 module is.codion.framework.demos.chinook.client.loadtest {
   requires is.codion.common.model;
   requires is.codion.framework.model;
