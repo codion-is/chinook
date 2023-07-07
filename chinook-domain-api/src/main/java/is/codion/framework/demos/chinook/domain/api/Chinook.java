@@ -184,7 +184,7 @@ public interface Chinook {
     Attribute<String> BILLINGCOUNTRY = TYPE.stringAttribute("billingcountry");
     Attribute<String> BILLINGPOSTALCODE = TYPE.stringAttribute("billingpostalcode");
     Attribute<BigDecimal> TOTAL = TYPE.bigDecimalAttribute("total");
-    Attribute<BigDecimal> TOTAL_SUBQUERY = TYPE.bigDecimalAttribute("total_subquery");
+    Attribute<BigDecimal> CALCULATED_TOTAL = TYPE.bigDecimalAttribute("calculated_total");
 
     ForeignKey CUSTOMER_FK = TYPE.foreignKey("customer_fk", CUSTOMER_ID, Customer.ID);
 
@@ -193,7 +193,7 @@ public interface Chinook {
     ValueSupplier<LocalDate> DATE_DEFAULT_VALUE = LocalDate::now;
 
     default void updateTotal() {
-      put(TOTAL, optional(TOTAL_SUBQUERY).orElse(BigDecimal.ZERO));
+      put(TOTAL, optional(CALCULATED_TOTAL).orElse(BigDecimal.ZERO));
     }
   }
 

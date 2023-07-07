@@ -37,7 +37,6 @@ import is.codion.framework.domain.entity.StringFactory;
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static is.codion.framework.db.condition.Condition.where;
 import static is.codion.framework.domain.entity.EntityDefinition.definition;
@@ -298,12 +297,11 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .maximumLength(10),
             columnProperty(Invoice.TOTAL)
                     .maximumFractionDigits(2),
-            subqueryProperty(Invoice.TOTAL_SUBQUERY, """
+            subqueryProperty(Invoice.CALCULATED_TOTAL, """
                             select sum(unitprice * quantity)
                             from chinook.invoiceline
                             where invoiceid = invoice.invoiceid""")
-                    .maximumFractionDigits(2)
-                    .hidden(true))
+                    .maximumFractionDigits(2))
             .tableName("chinook.invoice")
             .keyGenerator(identity())
             .orderBy(OrderBy.builder()
@@ -390,7 +388,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
               .stream()
               .peek(Invoice::updateTotal)
               .filter(Invoice::isModified)
-              .collect(Collectors.toList()));
+              .toList());
     }
   }
 
@@ -429,7 +427,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     private List<Entity> createPlaylistTracks(Long playlistId, List<Long> trackIds) {
       return trackIds.stream()
               .map(trackId -> createPlaylistTrack(playlistId, trackId))
-              .collect(Collectors.toList());
+              .toList();
     }
 
     private Entity createPlaylistTrack(Long playlistId, Long trackId) {
@@ -463,7 +461,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
       return entityConnection.update(Entity.castTo(Track.class,
                       entityConnection.select(selectCondition)).stream()
               .peek(track -> track.raisePrice(parameters.priceIncrease()))
-              .collect(Collectors.toList()));
+              .toList());
     }
   }
 }
