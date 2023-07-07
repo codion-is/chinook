@@ -37,7 +37,6 @@ import is.codion.framework.domain.entity.StringFactory;
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import static is.codion.framework.db.condition.Condition.where;
@@ -261,7 +260,10 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .format(NumberFormat.getIntegerInstance()),
             columnProperty(Track.UNITPRICE)
                     .nullable(false)
-                    .maximumFractionDigits(2))
+                    .maximumFractionDigits(2),
+            columnProperty(Track.RANDOM)
+                    .readOnly(true)
+                    .selectable(false))
             .tableName("chinook.track")
             .keyGenerator(identity())
             .orderBy(ascending(Track.NAME))
@@ -394,8 +396,6 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
 
   private static final class CreateRandomPlaylistFunction implements DatabaseFunction<EntityConnection, RandomPlaylistParameters, Entity> {
 
-    private static final Random RANDOM = new Random();
-
     private final Entities entities;
 
     private CreateRandomPlaylistFunction(Entities entities) {
@@ -441,12 +441,10 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
 
     private static List<Long> randomTrackIds(LocalEntityConnection connection, int noOfTracks,
                                              Collection<Entity> genres) throws DatabaseException {
-      List<Long> trackIds = connection.select(Track.ID, where(Track.GENRE_FK).equalTo(genres));
-      while (trackIds.size() > noOfTracks) {
-        trackIds.remove(RANDOM.nextInt(trackIds.size()));
-      }
-
-      return trackIds;
+      return connection.select(Track.ID, where(Track.GENRE_FK).equalTo(genres).selectBuilder()
+              .orderBy(ascending(Track.RANDOM))
+              .limit(noOfTracks)
+              .build());
     }
   }
 
