@@ -103,7 +103,7 @@ public final class InvoiceEditPanel extends EntityEditPanel {
             .build();
 
     invoiceLinePanel.setBorder(BorderFactory.createTitledBorder(editModel().entities().definition(InvoiceLine.TYPE).caption()));
-    invoiceLinePanel.initializePanel();
+    invoiceLinePanel.initialize();
 
     setLayout(borderLayout());
 
