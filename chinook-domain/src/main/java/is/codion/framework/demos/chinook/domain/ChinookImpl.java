@@ -23,7 +23,6 @@ import is.codion.common.db.operation.DatabaseFunction;
 import is.codion.common.format.LocaleDateTimePattern;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.condition.SelectCondition;
-import is.codion.framework.db.local.LocalEntityConnection;
 import is.codion.framework.demos.chinook.domain.api.Chinook;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
@@ -403,19 +402,18 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     @Override
     public Entity execute(EntityConnection connection,
                           RandomPlaylistParameters parameters) throws DatabaseException {
-      Key playlistKey = insertPlaylistTracks(connection, parameters.playlistName(),
-              randomTrackIds((LocalEntityConnection) connection, parameters.noOfTracks(), parameters.genres()));
+      List<Long> trackIds = randomTrackIds(connection, parameters.noOfTracks(), parameters.genres());
 
-      return connection.select(playlistKey);
+      return insertPlaylist(connection, parameters.playlistName(), trackIds);
     }
 
-    private Key insertPlaylistTracks(EntityConnection connection, String playlistName,
-                                     List<Long> trackIds) throws DatabaseException {
+    private Entity insertPlaylist(EntityConnection connection, String playlistName,
+                                  List<Long> trackIds) throws DatabaseException {
       Key playlistKey = connection.insert(createPlaylist(playlistName));
 
       connection.insert(createPlaylistTracks(playlistKey.get(), trackIds));
 
-      return playlistKey;
+      return connection.select(playlistKey);
     }
 
     private Entity createPlaylist(String playlistName) {
@@ -437,7 +435,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
               .build();
     }
 
-    private static List<Long> randomTrackIds(LocalEntityConnection connection, int noOfTracks,
+    private static List<Long> randomTrackIds(EntityConnection connection, int noOfTracks,
                                              Collection<Entity> genres) throws DatabaseException {
       return connection.select(Track.ID, where(Track.GENRE_FK).equalTo(genres).selectBuilder()
               .orderBy(ascending(Track.RANDOM))
