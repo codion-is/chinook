@@ -61,6 +61,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     playlistTrack();
   }
 
+  // tag::artist[]
   void artist() {
     add(definition(
             primaryKeyProperty(Artist.ID),
@@ -82,7 +83,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             .orderBy(ascending(Artist.NAME))
             .stringFactory(Artist.NAME));
   }
+  // end::artist[]
 
+  // tag::album[]
   void album() {
     add(definition(
             primaryKeyProperty(Album.ID),
@@ -108,7 +111,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             .orderBy(ascending(Album.ARTIST_ID, Album.TITLE))
             .stringFactory(Album.TITLE));
   }
+  // end::album[]
 
+  // tag::employee[]
   void employee() {
     add(definition(
             primaryKeyProperty(Employee.ID),
@@ -159,7 +164,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .value(Employee.FIRSTNAME)
                     .build()));
   }
+  // end::employee[]
 
+  // tag::customer[]
   void customer() {
     add(definition(
             primaryKeyProperty(Customer.ID),
@@ -198,11 +205,13 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             .keyGenerator(identity())
             .validator(new EmailValidator(Customer.EMAIL))
             .orderBy(ascending(Customer.LASTNAME, Customer.FIRSTNAME))
-            .stringFactory(new CustomerStringProvider()));
+            .stringFactory(new CustomerStringFactory()));
 
     add(Customer.REPORT, classPathReport(ChinookImpl.class, "customer_report.jasper"));
   }
+  // end::customer[]
 
+  // tag::genre[]
   void genre() {
     add(definition(
             primaryKeyProperty(Genre.ID),
@@ -216,7 +225,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             .stringFactory(Genre.NAME)
             .smallDataset(true));
   }
+  // end::genre[]
 
+  // tag::mediaType[]
   void mediaType() {
     add(definition(
             primaryKeyProperty(MediaType.ID),
@@ -228,7 +239,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             .stringFactory(MediaType.NAME)
             .smallDataset(true));
   }
+  // end::mediaType[]
 
+  // tag::track[]
   void track() {
     add(definition(
             primaryKeyProperty(Track.ID),
@@ -269,7 +282,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
 
     add(Track.RAISE_PRICE, new RaisePriceFunction());
   }
+  // end::track[]
 
+  // tag::invoice[]
   void invoice() {
     add(definition(
             primaryKeyProperty(Invoice.ID),
@@ -295,6 +310,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             columnProperty(Invoice.BILLINGPOSTALCODE)
                     .maximumLength(10),
             columnProperty(Invoice.TOTAL)
+                    .nullable(false)
                     .maximumFractionDigits(2),
             subqueryProperty(Invoice.CALCULATED_TOTAL, """
                             select sum(unitprice * quantity)
@@ -311,7 +327,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
 
     add(Invoice.UPDATE_TOTALS, new UpdateTotalsFunction());
   }
+  // end::invoice[]
 
+  // tag::invoiceLine[]
   void invoiceLine() {
     add(definition(
             primaryKeyProperty(InvoiceLine.ID),
@@ -333,7 +351,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
             .tableName("chinook.invoiceline")
             .keyGenerator(identity()));
   }
+  // end::invoiceLine[]
 
+  // tag::playlist[]
   void playlist() {
     add(definition(
             primaryKeyProperty(Playlist.ID),
@@ -348,7 +368,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
 
     add(Playlist.RANDOM_PLAYLIST, new CreateRandomPlaylistFunction(entities()));
   }
+  // end::playlist[]
 
+  // tag::playlistTrack[]
   void playlistTrack() {
     add(definition(
             primaryKeyProperty(PlaylistTrack.ID),
@@ -371,7 +393,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .value(PlaylistTrack.TRACK_FK)
                     .build()));
   }
+  // end::playlistTrack[]
 
+  // tag::updateTotalsFunction[]
   private static final class UpdateTotalsFunction implements DatabaseFunction<EntityConnection, Collection<Long>, Collection<Entity>> {
 
     @Override
@@ -390,7 +414,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
               .toList());
     }
   }
+  // end::updateTotalsFunction[]
 
+  // tag::createRandomPlaylistFunction[]
   private static final class CreateRandomPlaylistFunction implements DatabaseFunction<EntityConnection, RandomPlaylistParameters, Entity> {
 
     private final Entities entities;
@@ -443,7 +469,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
               .build());
     }
   }
+  // end::createRandomPlaylistFunction[]
 
+  // tag::raisePriceFunction[]
   private static final class RaisePriceFunction implements DatabaseFunction<EntityConnection, RaisePriceParameters, Collection<Entity>> {
 
     @Override
@@ -462,4 +490,5 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
               .toList());
     }
   }
+  // end::raisePriceFunction[]
 }

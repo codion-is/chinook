@@ -28,7 +28,7 @@ import is.codion.framework.domain.entity.EntityType;
 import is.codion.framework.domain.entity.ForeignKey;
 import is.codion.framework.domain.entity.exception.ValidationException;
 import is.codion.framework.domain.property.DerivedProperty;
-import is.codion.framework.domain.property.Property.ValueSupplier;
+import is.codion.framework.domain.property.Property;
 import is.codion.plugin.jasperreports.model.JRReportType;
 import is.codion.plugin.jasperreports.model.JasperReports;
 
@@ -57,6 +57,7 @@ public interface Chinook {
 
   DomainType DOMAIN = domainType("ChinookImpl");
 
+  // tag::artist[]
   interface Artist {
     EntityType TYPE = DOMAIN.entityType("artist@chinook", Artist.class.getName());
 
@@ -65,7 +66,9 @@ public interface Chinook {
     Attribute<Integer> NUMBER_OF_ALBUMS = TYPE.integerAttribute("number_of_albums");
     Attribute<Integer> NUMBER_OF_TRACKS = TYPE.integerAttribute("number_of_tracks");
   }
+  // end::artist[]
 
+  // tag::album[]
   interface Album {
     EntityType TYPE = DOMAIN.entityType("album@chinook", Album.class.getName());
 
@@ -78,7 +81,9 @@ public interface Chinook {
 
     ForeignKey ARTIST_FK = TYPE.foreignKey("artist_fk", ARTIST_ID, Artist.ID);
   }
+  // end::album[]
 
+  // tag::employee[]
   interface Employee {
     EntityType TYPE = DOMAIN.entityType("employee@chinook", Employee.class.getName());
 
@@ -100,7 +105,9 @@ public interface Chinook {
 
     ForeignKey REPORTSTO_FK = TYPE.foreignKey("reportsto_fk", REPORTSTO, Employee.ID);
   }
+  // end::employee[]
 
+  // tag::customer[]
   interface Customer {
     EntityType TYPE = DOMAIN.entityType("customer@chinook", Customer.class.getName());
 
@@ -122,21 +129,27 @@ public interface Chinook {
 
     JRReportType REPORT = JasperReports.reportType("customer_report");
   }
+  // end::customer[]
 
+  // tag::genre[]
   interface Genre {
     EntityType TYPE = DOMAIN.entityType("genre@chinook", Genre.class.getName());
 
     Attribute<Long> ID = TYPE.longAttribute("genreid");
     Attribute<String> NAME = TYPE.stringAttribute("name");
   }
+  // end::genre[]
 
+  // tag::mediaType[]
   interface MediaType {
     EntityType TYPE = DOMAIN.entityType("mediatype@chinook", MediaType.class.getName());
 
     Attribute<Long> ID = TYPE.longAttribute("mediatypeid");
     Attribute<String> NAME = TYPE.stringAttribute("name");
   }
+  // end::mediaType[]
 
+  // tag::track[]
   interface Track extends Entity {
     EntityType TYPE = DOMAIN.entityType("track@chinook", Track.class, Track.class.getName());
 
@@ -171,7 +184,9 @@ public interface Chinook {
       }
     }
   }
+  // end::track[]
 
+  // tag::invoice[]
   interface Invoice extends Entity {
     EntityType TYPE = DOMAIN.entityType("invoice@chinook", Invoice.class, Invoice.class.getName());
 
@@ -190,13 +205,15 @@ public interface Chinook {
 
     FunctionType<EntityConnection, Collection<Long>, Collection<Entity>> UPDATE_TOTALS = functionType("chinook.update_totals");
 
-    ValueSupplier<LocalDate> DATE_DEFAULT_VALUE = LocalDate::now;
+    Property.ValueSupplier<LocalDate> DATE_DEFAULT_VALUE = LocalDate::now;
 
     default void updateTotal() {
       put(TOTAL, optional(CALCULATED_TOTAL).orElse(BigDecimal.ZERO));
     }
   }
+  // end::invoice[]
 
+  // tag::invoiceLine[]
   interface InvoiceLine {
     EntityType TYPE = DOMAIN.entityType("invoiceline@chinook", InvoiceLine.class.getName());
 
@@ -210,7 +227,9 @@ public interface Chinook {
     ForeignKey INVOICE_FK = TYPE.foreignKey("invoice_fk", INVOICE_ID, Invoice.ID);
     ForeignKey TRACK_FK = TYPE.foreignKey("track_fk", TRACK_ID, Track.ID);
   }
+  // end::invoiceLine[]
 
+  // tag::playlist[]
   interface Playlist {
     EntityType TYPE = DOMAIN.entityType("playlist@chinook", Playlist.class.getName());
 
@@ -221,7 +240,9 @@ public interface Chinook {
 
     record RandomPlaylistParameters(String playlistName, Integer noOfTracks, Collection<Entity> genres) implements Serializable {}
   }
+  // end::playlist[]
 
+  // tag::playlistTrack[]
   interface PlaylistTrack {
     EntityType TYPE = DOMAIN.entityType("playlisttrack@chinook", PlaylistTrack.class.getName());
 
@@ -233,6 +254,47 @@ public interface Chinook {
 
     ForeignKey PLAYLIST_FK = TYPE.foreignKey("playlist_fk", PLAYLIST_ID, Playlist.ID);
     ForeignKey TRACK_FK = TYPE.foreignKey("track_fk", TRACK_ID, Track.ID);
+  }
+  // end::playlistTrack[]
+
+  // tag::invoiceLineTotalProvider[]
+  final class InvoiceLineTotalProvider
+          implements DerivedProperty.Provider<BigDecimal> {
+
+    @Serial
+    private static final long serialVersionUID = 1;
+
+    @Override
+    public BigDecimal get(DerivedProperty.SourceValues sourceValues) {
+      Integer quantity = sourceValues.get(InvoiceLine.QUANTITY);
+      BigDecimal unitPrice = sourceValues.get(InvoiceLine.UNITPRICE);
+      if (unitPrice == null || quantity == null) {
+        return null;
+      }
+
+      return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    }
+  }
+  // end::invoiceLineTotalProvider[]
+
+  // tag::trackMinSecProvider[]
+  final class TrackMinSecProvider
+          implements DerivedProperty.Provider<String> {
+
+    @Serial
+    private static final long serialVersionUID = 1;
+
+    @Override
+    public String get(DerivedProperty.SourceValues sourceValues) {
+      return sourceValues.optional(Track.MILLISECONDS)
+              .map(TrackMinSecProvider::toMinutesSecondsString)
+              .orElse(null);
+    }
+
+    private static String toMinutesSecondsString(Integer milliseconds) {
+      return minutes(milliseconds) + " min " +
+              seconds(milliseconds) + " sec";
+    }
   }
 
   static Integer minutes(Integer milliseconds) {
@@ -257,44 +319,9 @@ public interface Chinook {
 
     return milliseconds == 0 ? null : milliseconds;
   }
+  // end::trackMinSecProvider[]
 
-  final class InvoiceLineTotalProvider
-          implements DerivedProperty.Provider<BigDecimal> {
-
-    @Serial
-    private static final long serialVersionUID = 1;
-
-    @Override
-    public BigDecimal get(DerivedProperty.SourceValues sourceValues) {
-      Integer quantity = sourceValues.get(InvoiceLine.QUANTITY);
-      BigDecimal unitPrice = sourceValues.get(InvoiceLine.UNITPRICE);
-      if (unitPrice == null || quantity == null) {
-        return null;
-      }
-
-      return unitPrice.multiply(BigDecimal.valueOf(quantity));
-    }
-  }
-
-  final class TrackMinSecProvider
-          implements DerivedProperty.Provider<String> {
-
-    @Serial
-    private static final long serialVersionUID = 1;
-
-    @Override
-    public String get(DerivedProperty.SourceValues sourceValues) {
-      return sourceValues.optional(Track.MILLISECONDS)
-              .map(TrackMinSecProvider::toMinutesSecondsString)
-              .orElse(null);
-    }
-
-    private static String toMinutesSecondsString(Integer milliseconds) {
-      return minutes(milliseconds) + " min " +
-              seconds(milliseconds) + " sec";
-    }
-  }
-
+  // tag::coverArtImageProvider[]
   final class CoverArtImageProvider
           implements DerivedProperty.Provider<Image> {
 
@@ -317,8 +344,10 @@ public interface Chinook {
       }
     }
   }
+  // end::coverArtImageProvider[]
 
-  final class CustomerStringProvider
+  // tag::customerStringFactory[]
+  final class CustomerStringFactory
           implements Function<Entity, String>, Serializable {
 
     @Serial
@@ -336,7 +365,9 @@ public interface Chinook {
               .toString();
     }
   }
+  // end::customerStringFactory[]
 
+  // tag::coverFormatter[]
   final class CoverFormatter extends Format {
 
     private final NumberFormat kbFormat = NumberFormat.getIntegerInstance();
@@ -355,7 +386,9 @@ public interface Chinook {
       throw new UnsupportedOperationException();
     }
   }
+  // end::coverFormatter[]
 
+  // tag::emailValidator[]
   final class EmailValidator extends DefaultEntityValidator {
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^(.+)@(.+)$");
@@ -381,4 +414,5 @@ public interface Chinook {
       }
     }
   }
+  // end::emailValidator[]
 }

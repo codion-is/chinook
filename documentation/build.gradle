@@ -1,0 +1,22 @@
+plugins {
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
+}
+
+asciidoctor {
+    // since the sources included in the docs may have changed, there"s definitely
+    // a more gradle like way to do this, but it escapes me
+    inputs.dir(new File("../chinook-domain-api/src/main/java"))
+    inputs.dir(new File("../chinook-domain/src/main/java"))
+    inputs.dir(new File("../chinook-client/src/main/java"))
+    inputs.dir(new File("../chinook-load-test/src/main/java"))
+    inputs.dir(new File("../chinook-domain/src/main/resources"))
+    inputs.dir(new File("../chinook-domain/src/test/java"))
+    inputs.dir(new File("../chinook-client/src/test/java"))
+
+    baseDirFollowsSourceFile()
+
+    asciidoctorj {
+        version = "2.5.7"
+        attributes "source-highlighter": "prettify"
+    }
+}

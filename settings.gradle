@@ -15,6 +15,7 @@ include "chinook-load-test-remote"
 include "chinook-load-test-http"
 include "chinook-server"
 include "chinook-server-monitor"
+include "documentation"
 
 dependencyResolutionManagement {
     repositories {

@@ -1,0 +1,701 @@
+[#_chinook_tutorial]
+= Chinook Tutorial
+:toc: left
+:imagesdir: images
+:dir-source-domain-api: ../../../../chinook-domain-api/src/main/java
+:dir-source-domain: ../../../../chinook-domain/src/main/java
+:dir-source-client: ../../../../chinook-client/src/main/java
+:dir-source-loadtest: ../../../../chinook-load-test/src/main/java
+:dir-source-sql: ../../../../chinook-domain/src/main/resources
+:dir-test-source-domain: ../../../../chinook-domain/src/test/java
+:dir-test-source-client: ../../../../chinook-client/src/test/java
+
+This demo application is based on the Chinook music store sample database.
+
+== Customers
+
+image::customers.png[]
+
+=== Customer
+
+==== SQL
+
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=customer]
+----
+
+==== Domain
+
+===== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=customer]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=customerStringFactory]
+----
+
+===== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=customer]
+----
+
+==== UI
+
+===== CustomerPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CustomerPanel.java[lines=19..-1]
+----
+
+===== CustomerEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CustomerEditPanel.java[lines=19..-1]
+----
+
+===== CustomerTablePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CustomerTablePanel.java[lines=19..-1]
+----
+
+=== Invoice
+
+==== SQL
+
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=invoice]
+----
+
+==== Domain
+
+===== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=invoice]
+----
+
+===== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=invoice]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=updateTotalsFunction]
+----
+
+==== Model
+
+===== InvoiceModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceModel.java[lines=19..-1]
+----
+
+===== InvoiceEditModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceEditModel.java[lines=19..-1]
+----
+
+==== UI
+
+===== InvoicePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoicePanel.java[lines=19..-1]
+----
+
+===== InvoiceEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceEditPanel.java[lines=19..-1]
+----
+
+=== Invoice Line
+
+==== SQL
+
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=invoiceLine]
+----
+
+==== Domain
+
+===== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=invoiceLine]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=invoiceLineTotalProvider]
+----
+
+===== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=invoiceLine]
+----
+
+==== Model
+
+===== InvoiceLineEditModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceLineEditModel.java[lines=19..-1]
+----
+
+==== UI
+
+===== InvoiceLineEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceLineEditPanel.java[lines=19..-1]
+----
+
+===== InvoiceLineTablePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceLineTablePanel.java[lines=19..-1]
+----
+
+== Employees
+
+=== Employee
+
+==== SQL
+
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=employee]
+----
+
+==== Domain
+
+===== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=employee]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=emailValidator]
+----
+
+===== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=employee]
+----
+
+==== Model
+
+===== EmployeeTableModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/EmployeeTableModel.java[lines=19..-1]
+----
+
+==== UI
+
+===== EmployeeEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/EmployeeEditPanel.java[lines=19..-1]
+----
+
+===== EmployeeTablePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/EmployeeTablePanel.java[lines=19..-1]
+----
+
+== Artists
+
+image::artists.png[]
+
+We start with a couple of support tables, genre and media type.
+
+=== Genre
+
+==== SQL
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=genre]
+----
+
+==== Domain
+
+===== API
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=genre]
+----
+
+===== Implementation
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=genre]
+----
+
+==== UI
+
+===== GenreEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/GenreEditPanel.java[lines=19..-1]
+----
+
+=== Media Type
+
+==== SQL
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=mediaType]
+----
+
+==== Domain
+
+===== API
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=mediaType]
+----
+
+===== Implementation
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=mediaType]
+----
+
+==== UI
+
+===== MediaTypeEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/MediaTypeEditPanel.java[lines=19..-1]
+----
+
+=== Artist
+
+==== SQL
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=artist]
+----
+
+==== Domain
+
+===== API
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=artist]
+----
+
+===== Implementation
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=artist]
+----
+
+==== UI
+
+===== ArtistPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ArtistPanel.java[lines=19..-1]
+----
+
+===== ArtistEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ArtistEditPanel.java[lines=19..-1]
+----
+
+=== Album
+
+==== SQL
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=album]
+----
+
+==== Domain
+
+===== API
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=album]
+----
+
+===== Implementation
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=album]
+----
+
+==== UI
+
+===== AlbumEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumEditPanel.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CoverArtPanel.java[lines=19..-1]
+----
+
+===== AlbumTablePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTablePanel.java[lines=19..-1]
+----
+
+=== Track
+
+==== SQL
+
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=track]
+----
+
+==== Domain
+
+===== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=track]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=trackMinSecProvider]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=coverArtImageProvider]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=coverFormatter]
+----
+
+===== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=track]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=raisePriceFunction]
+----
+
+==== Model
+
+===== TrackTableModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/TrackTableModel.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/TrackTableModelTest.java[lines=19..-1]
+----
+
+==== UI
+
+===== TrackEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackEditPanel.java[lines=19..-1]
+----
+
+===== TrackTablePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackTablePanel.java[lines=19..-1]
+----
+
+===== MinutesSecondsPanelValue
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/MinutesSecondsPanelValue.java[lines=19..-1]
+----
+
+== Playlists
+
+image::playlists.png[]
+
+=== Playlist
+
+==== SQL
+
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=playlist]
+----
+
+==== Domain
+
+===== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=playlist]
+----
+
+===== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=playlist]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=createRandomPlaylistFunction]
+----
+
+==== Model
+
+===== PlaylistTableModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistTableModel.java[lines=19..-1]
+----
+
+==== UI
+
+===== PlaylistPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistPanel.java[lines=19..-1]
+----
+
+===== PlaylistEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistEditPanel.java[lines=19..-1]
+----
+
+===== PlaylistTablePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTablePanel.java[lines=19..-1]
+----
+
+===== RandomPlaylistParametersPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/RandomPlaylistParametersPanel.java[lines=19..-1]
+----
+
+=== Playlist Track
+
+==== SQL
+
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=playlistTrack]
+----
+
+==== Domain
+
+===== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=playlistTrack]
+----
+
+===== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=playlistTrack]
+----
+
+==== UI
+
+===== PlaylistTrackEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackEditPanel.java[lines=19..-1]
+----
+
+===== PlaylistTrackTablePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackTablePanel.java[lines=19..-1]
+----
+
+===== TrackComponentFactory
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackComponentFactory.java[lines=19..-1]
+----
+
+===== TrackSelectionProvider
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackSelectionProvider.java[lines=19..-1]
+----
+
+== Application
+
+=== ChinookAppModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/ChinookAppModel.java[lines=19..-1]
+----
+
+== UI
+
+=== ChinookAppPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ChinookAppPanel.java[lines=19..-1]
+----
+
+[#_login_proxy]
+== Login proxy
+
+=== SQL
+
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=user]
+----
+
+=== ChinookLoginProxy
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/server/ChinookLoginProxy.java[lines=19..-1]
+----
+
+[#_domain_unit_test]
+== Domain unit test
+
+[source,java,options="nowrap"]
+----
+include::{dir-test-source-domain}/is/codion/framework/demos/chinook/domain/ChinookTest.java[lines=19..-1]
+----
+
+[#_load_test]
+== Load test
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/ChinookLoadTest.java[lines=19..-1]
+----
+
+=== Scenarios
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/InsertDeleteAlbum.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/LogoutLogin.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/RandomPlaylist.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/RaisePrices.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/UpdateTotals.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewAlbum.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewCustomerReport.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewGenre.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewInvoice.java[lines=19..-1]
+----
