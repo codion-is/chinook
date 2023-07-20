@@ -44,6 +44,7 @@ import static is.codion.framework.domain.entity.OrderBy.ascending;
 import static is.codion.framework.domain.property.Property.*;
 import static is.codion.plugin.jasperreports.model.JasperReports.classPathReport;
 
+// tag::chinook[]
 public final class ChinookImpl extends DefaultDomain implements Chinook {
 
   public ChinookImpl() {
@@ -60,6 +61,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     playlist();
     playlistTrack();
   }
+  // end::chinook[]
 
   // tag::artist[]
   void artist() {

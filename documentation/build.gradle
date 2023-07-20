@@ -3,8 +3,6 @@ plugins {
 }
 
 asciidoctor {
-    // since the sources included in the docs may have changed, there"s definitely
-    // a more gradle like way to do this, but it escapes me
     inputs.dir("../chinook-domain-api/src/main/java")
     inputs.dir("../chinook-domain/src/main/java")
     inputs.dir("../chinook-client/src/main/java")

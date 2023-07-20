@@ -12,6 +12,26 @@
 
 This demo application is based on the Chinook music store sample database.
 
+== Domain model
+
+=== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=chinook]
+----
+
+The domain API sections below continue the Chinook class.
+
+=== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=chinook]
+----
+
+The domain implementation sections below continue the ChinookImpl class.
+
 == Customers
 
 image::customers.png[]

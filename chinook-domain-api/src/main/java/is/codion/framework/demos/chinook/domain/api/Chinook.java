@@ -53,9 +53,11 @@ import static is.codion.common.db.operation.FunctionType.functionType;
 import static is.codion.framework.domain.DomainType.domainType;
 import static java.util.Objects.requireNonNull;
 
+// tag::chinook[]
 public interface Chinook {
 
   DomainType DOMAIN = domainType("ChinookImpl");
+  // end::chinook[]
 
   // tag::artist[]
   interface Artist {
