@@ -75,50 +75,59 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
   }
 
   @Override
-  protected List<EntityPanel.Builder> createSupportEntityPanelBuilders() {
-    EntityPanel.Builder trackBuilder =
-            EntityPanel.builder(SwingEntityModel.builder(Track.TYPE))
-                    .tablePanelClass(TrackTablePanel.class);
-
-    EntityPanel.Builder customerBuilder =
-            EntityPanel.builder(SwingEntityModel.builder(Customer.TYPE))
-                    .editPanelClass(CustomerEditPanel.class)
-                    .tablePanelClass(CustomerTablePanel.class);
-
-    EntityPanel.Builder genreBuilder =
-            EntityPanel.builder(SwingEntityModel.builder(Genre.TYPE)
-                            .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
-                    .editPanelClass(GenreEditPanel.class)
-                    .detailPanelBuilder(trackBuilder)
-                    .detailPanelState(EntityPanel.PanelState.HIDDEN);
-
-    EntityPanel.Builder mediaTypeBuilder =
-            EntityPanel.builder(SwingEntityModel.builder(MediaType.TYPE)
-                            .detailModelBuilder(SwingEntityModel.builder(Track.TYPE)))
-                    .editPanelClass(MediaTypeEditPanel.class)
-                    .detailPanelBuilder(trackBuilder)
-                    .detailPanelState(EntityPanel.PanelState.HIDDEN);
-
-    EntityPanel.Builder employeeBuilder =
-            EntityPanel.builder(SwingEntityModel.builder(Employee.TYPE)
-                            .detailModelBuilder(SwingEntityModel.builder(Customer.TYPE))
-                            .tableModelClass(EmployeeTableModel.class))
-                    .editPanelClass(EmployeeEditPanel.class)
-                    .tablePanelClass(EmployeeTablePanel.class)
-                    .detailPanelBuilder(customerBuilder)
-                    .detailPanelState(EntityPanel.PanelState.HIDDEN)
-                    .preferredSize(new Dimension(1000, 500));
-
-    return List.of(genreBuilder, mediaTypeBuilder, employeeBuilder);
-  }
-
-  @Override
   protected List<EntityPanel> createEntityPanels() {
     return List.of(
             new CustomerPanel(applicationModel().entityModel(Customer.TYPE)),
             new ArtistPanel(applicationModel().entityModel(Artist.TYPE)),
             new PlaylistPanel(applicationModel().entityModel(Playlist.TYPE))
     );
+  }
+
+  @Override
+  protected List<EntityPanel.Builder> createSupportEntityPanelBuilders() {
+    EntityPanel.Builder trackPanelBuilder =
+            EntityPanel.builder(Track.TYPE)
+                    .tablePanelClass(TrackTablePanel.class);
+
+    SwingEntityModel.Builder genreModelBuilder =
+            SwingEntityModel.builder(Genre.TYPE)
+                    .detailModelBuilder(SwingEntityModel.builder(Track.TYPE));
+
+    EntityPanel.Builder genrePanelBuilder =
+            EntityPanel.builder(genreModelBuilder)
+                    .editPanelClass(GenreEditPanel.class)
+                    .detailPanelBuilder(trackPanelBuilder)
+                    .detailPanelState(EntityPanel.PanelState.HIDDEN);
+
+    SwingEntityModel.Builder mediaTypeModelBuilder =
+            SwingEntityModel.builder(MediaType.TYPE)
+                    .detailModelBuilder(SwingEntityModel.builder(Track.TYPE));
+
+    EntityPanel.Builder mediaTypePanelBuilder =
+            EntityPanel.builder(mediaTypeModelBuilder)
+                    .editPanelClass(MediaTypeEditPanel.class)
+                    .detailPanelBuilder(trackPanelBuilder)
+                    .detailPanelState(EntityPanel.PanelState.HIDDEN);
+
+    EntityPanel.Builder customerPanelBuilder =
+            EntityPanel.builder(Customer.TYPE)
+                    .editPanelClass(CustomerEditPanel.class)
+                    .tablePanelClass(CustomerTablePanel.class);
+
+    SwingEntityModel.Builder employeeModelBuilder =
+            SwingEntityModel.builder(Employee.TYPE)
+                    .detailModelBuilder(SwingEntityModel.builder(Customer.TYPE))
+                    .tableModelClass(EmployeeTableModel.class);
+
+    EntityPanel.Builder employeePanelBuilder =
+            EntityPanel.builder(employeeModelBuilder)
+                    .editPanelClass(EmployeeEditPanel.class)
+                    .tablePanelClass(EmployeeTablePanel.class)
+                    .detailPanelBuilder(customerPanelBuilder)
+                    .detailPanelState(EntityPanel.PanelState.HIDDEN)
+                    .preferredSize(new Dimension(1000, 500));
+
+    return List.of(genrePanelBuilder, mediaTypePanelBuilder, employeePanelBuilder);
   }
 
   @Override
