@@ -23,7 +23,6 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.demos.chinook.model.TrackTableModel;
 import is.codion.framework.demos.chinook.ui.MinutesSecondsPanelValue.MinutesSecondsPanel;
 import is.codion.framework.domain.entity.Attribute;
-import is.codion.swing.common.ui.component.Components;
 import is.codion.swing.common.ui.component.text.NumberField;
 import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.common.ui.control.Control;
@@ -38,6 +37,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static is.codion.swing.common.ui.component.Components.bigDecimalField;
 
 public final class TrackTablePanel extends EntityTablePanel {
 
@@ -66,7 +67,7 @@ public final class TrackTablePanel extends EntityTablePanel {
 
   private BigDecimal getAmountFromUser() {
     ComponentValue<BigDecimal, NumberField<BigDecimal>> amountValue =
-            Components.bigDecimalField()
+            bigDecimalField()
                     .buildValue();
 
     return Dialogs.inputDialog(amountValue)
