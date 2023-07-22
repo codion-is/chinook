@@ -30,6 +30,7 @@ import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewAlbum;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewCustomerReport;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewGenre;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewInvoice;
+import is.codion.framework.demos.chinook.domain.api.Chinook;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Artist;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Customer;
@@ -60,7 +61,7 @@ public final class ChinookLoadTest extends EntityLoadTestModel<ChinookAppModel> 
   @Override
   protected ChinookAppModel createApplication() throws CancelException {
     ChinookAppModel applicationModel = new ChinookAppModel(EntityConnectionProvider.builder()
-            .domainClassName("is.codion.framework.demos.chinook.domain.impl.ChinookImpl")
+            .domainType(Chinook.DOMAIN)
             .clientTypeId(ChinookAppPanel.class.getName())
             .clientVersion(ChinookAppModel.VERSION)
             .user(getUser())

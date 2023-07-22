@@ -22,6 +22,8 @@ import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.model.table.ColumnConditionModel;
 import is.codion.common.user.User;
 import is.codion.framework.db.EntityConnectionProvider;
+import is.codion.framework.db.local.LocalEntityConnectionProvider;
+import is.codion.framework.demos.chinook.domain.ChinookImpl;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.domain.entity.Entity;
@@ -58,8 +60,8 @@ public final class TrackTableModelTest {
   }
 
   private EntityConnectionProvider createConnectionProvider() {
-    return EntityConnectionProvider.builder()
-            .domainClassName("is.codion.framework.demos.chinook.domain.ChinookImpl")
+    return LocalEntityConnectionProvider.builder()
+            .domain(new ChinookImpl())
             .user(User.parse("scott:tiger"))
             .build();
   }

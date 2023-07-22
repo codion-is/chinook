@@ -180,7 +180,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
     ReferentialIntegrityErrorHandling.REFERENTIAL_INTEGRITY_ERROR_HANDLING.set(ReferentialIntegrityErrorHandling.DISPLAY_DEPENDENCIES);
     EntityApplicationPanel.builder(ChinookAppModel.class, ChinookAppPanel.class)
             .applicationName("Chinook")
-            .domainClassName("is.codion.framework.demos.chinook.domain.ChinookImpl")
+            .domainType(DOMAIN)
             .applicationVersion(ChinookAppModel.VERSION)
             .defaultLookAndFeelClassName(DEFAULT_FLAT_LOOK_AND_FEEL)
             .defaultLoginUser(User.parse("scott:tiger"))

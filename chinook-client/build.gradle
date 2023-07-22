@@ -14,12 +14,12 @@ dependencies {
         exclude group: "com.sun.mail", module: "javax.mail"
     }
 
+    testImplementation project(":chinook-domain")
     testImplementation(libs.junit.api)
-    testRuntimeOnly(libs.codion.framework.db.local)
+    testImplementation(libs.codion.framework.db.local)
     testRuntimeOnly(libs.junit.engine)
     testRuntimeOnly(libs.codion.dbms.h2database)
     testRuntimeOnly(libs.h2)
-    testRuntimeOnly project(":chinook-domain")
 }
 
 test {
