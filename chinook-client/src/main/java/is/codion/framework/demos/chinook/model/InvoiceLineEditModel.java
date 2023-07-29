@@ -20,7 +20,6 @@ package is.codion.framework.demos.chinook.model;
 
 import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.event.Event;
-import is.codion.common.event.EventDataListener;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Invoice;
@@ -31,6 +30,7 @@ import is.codion.framework.domain.entity.Key;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 
 import java.util.Collection;
+import java.util.function.Consumer;
 
 public final class InvoiceLineEditModel extends SwingEntityEditModel {
 
@@ -41,7 +41,7 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
     addEditListener(InvoiceLine.TRACK_FK, this::setUnitPrice);
   }
 
-  void addTotalsUpdatedListener(EventDataListener<Collection<Entity>> listener) {
+  void addTotalsUpdatedListener(Consumer<Collection<Entity>> listener) {
     totalsUpdatedEvent.addDataListener(listener);
   }
 
@@ -99,6 +99,6 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
   }
 
   private void updateTotals(Collection<? extends Entity> entities, EntityConnection connection) throws DatabaseException {
-    totalsUpdatedEvent.onEvent(connection.executeFunction(Invoice.UPDATE_TOTALS, Entity.distinct(InvoiceLine.INVOICE_ID, entities)));
+    totalsUpdatedEvent.accept(connection.executeFunction(Invoice.UPDATE_TOTALS, Entity.distinct(InvoiceLine.INVOICE_ID, entities)));
   }
 }
