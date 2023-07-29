@@ -12,6 +12,8 @@
 
 This demo application is based on the Chinook music store sample database.
 
+This tutorial assumes you have at least skimmed the https://codion.is/doc/{codion-version}/manual/manual.html#_domain_model[Domain model] part of the Codion manual.
+
 == Domain model
 
 === API
