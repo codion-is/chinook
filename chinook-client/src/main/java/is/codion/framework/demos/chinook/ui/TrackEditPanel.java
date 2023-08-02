@@ -24,13 +24,13 @@ import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.ui.EntityComboBox;
 import is.codion.swing.framework.ui.EntityEditPanel;
-import is.codion.swing.framework.ui.EntityPanel;
 
 import javax.swing.JPanel;
+import java.util.function.Supplier;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.component.Components.borderLayoutPanel;
-import static is.codion.swing.common.ui.component.Components.panel;
+import static is.codion.swing.common.ui.component.Components.flexibleGridLayoutPanel;
 import static is.codion.swing.common.ui.component.button.ButtonPanelBuilder.createEastButtonPanel;
 import static is.codion.swing.common.ui.layout.Layouts.flexibleGridLayout;
 
@@ -50,17 +50,17 @@ public final class TrackEditPanel extends EntityEditPanel {
     EntityComboBox mediaTypeBox = createForeignKeyComboBox(Track.MEDIATYPE_FK)
             .preferredWidth(120)
             .build();
-    EntityPanel.Builder mediaTypePanelBuilder = EntityPanel.builder(MediaType.TYPE)
-            .editPanelClass(MediaTypeEditPanel.class);
-    Control newMediaTypeControl = mediaTypePanelBuilder.createInsertControl(mediaTypeBox);
-    Control editMediaTypeControl = mediaTypePanelBuilder.createUpdateControl(mediaTypeBox);
+    Supplier<EntityEditPanel> mediaTypeEditPanelSupplier = () ->
+            new MediaTypeEditPanel(new SwingEntityEditModel(MediaType.TYPE, editModel().connectionProvider()));
+    Control newMediaTypeControl = createInsertControl(mediaTypeBox, mediaTypeEditPanelSupplier);
+    Control editMediaTypeControl = createUpdateControl(mediaTypeBox, mediaTypeEditPanelSupplier);
     EntityComboBox genreBox = createForeignKeyComboBox(Track.GENRE_FK)
             .preferredWidth(140)
             .build();
-    EntityPanel.Builder genrePanelBuilder = EntityPanel.builder(Genre.TYPE)
-            .editPanelClass(GenreEditPanel.class);
-    Control newGenreControl = genrePanelBuilder.createInsertControl(genreBox);
-    Control editGenreControl = genrePanelBuilder.createUpdateControl(genreBox);
+    Supplier<EntityEditPanel> genreEditPanelSupplier = () ->
+            new GenreEditPanel(new SwingEntityEditModel(Genre.TYPE, editModel().connectionProvider()));
+    Control newGenreControl = createInsertControl(genreBox, genreEditPanelSupplier);
+    Control editGenreControl = createUpdateControl(genreBox, genreEditPanelSupplier);
     createTextInputPanel(Track.COMPOSER);
     createIntegerField(Track.MILLISECONDS)
             .columns(5);
@@ -75,12 +75,12 @@ public final class TrackEditPanel extends EntityEditPanel {
 
     JPanel mediaTypePanel = createEastButtonPanel(mediaTypeBox, newMediaTypeControl, editMediaTypeControl);
     JPanel genrePanel = createEastButtonPanel(genreBox, newGenreControl, editGenreControl);
-    JPanel genreMediaTypePanel = panel(flexibleGridLayout(1, 2))
+    JPanel genreMediaTypePanel = flexibleGridLayoutPanel(1, 2)
             .add(createInputPanel(Track.GENRE_FK, genrePanel))
             .add(createInputPanel(Track.MEDIATYPE_FK, mediaTypePanel))
             .build();
 
-    JPanel durationPanel = panel(flexibleGridLayout(1, 3))
+    JPanel durationPanel = flexibleGridLayoutPanel(1, 3)
             .add(createInputPanel(Track.BYTES))
             .add(createInputPanel(Track.MILLISECONDS))
             .add(minutesSecondsValue.component())
