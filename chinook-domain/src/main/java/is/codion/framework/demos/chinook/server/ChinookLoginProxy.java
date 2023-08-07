@@ -34,8 +34,7 @@ import is.codion.framework.domain.DomainType;
 import is.codion.framework.domain.entity.Attribute;
 import is.codion.framework.domain.entity.EntityType;
 
-import static is.codion.framework.db.condition.Condition.and;
-import static is.codion.framework.db.condition.Condition.where;
+import static is.codion.framework.db.condition.Condition.*;
 import static is.codion.framework.db.local.LocalEntityConnection.localEntityConnection;
 import static is.codion.framework.domain.DomainType.domainType;
 import static is.codion.framework.domain.entity.EntityDefinition.definition;
@@ -101,11 +100,11 @@ public final class ChinookLoginProxy implements LoginProxy {
 
   private void authenticateUser(User user) throws LoginException {
     try (EntityConnection connection = getConnectionFromPool()) {
-      int rows = connection.rowCount(and(
-              where(Authentication.User.USERNAME)
+      int rows = connection.rowCount(where(and(
+              attribute(Authentication.User.USERNAME)
                       .equalToIgnoreCase(user.username()),
-              where(Authentication.User.PASSWORD_HASH)
-                      .equalTo(valueOf(user.password()).hashCode())));
+              attribute(Authentication.User.PASSWORD_HASH)
+                      .equalTo(valueOf(user.password()).hashCode()))));
       if (rows == 0) {
         throw new ServerAuthenticationException("Wrong username or password");
       }
