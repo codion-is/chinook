@@ -406,7 +406,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     public Collection<Entity> execute(EntityConnection connection,
                                       Collection<Long> invoiceIds) throws DatabaseException {
       return connection.update(Entity.castTo(Invoice.class,
-                      connection.select(SelectCondition.builder(attribute(Invoice.ID).in(invoiceIds))
+                      connection.select(SelectCondition.where(attribute(Invoice.ID).in(invoiceIds))
                               .forUpdate()
                               .fetchDepth(0)
                               .build()))
@@ -466,7 +466,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     private static List<Long> randomTrackIds(EntityConnection connection, int noOfTracks,
                                              Collection<Entity> genres) throws DatabaseException {
       return connection.select(Track.ID,
-              SelectCondition.builder(foreignKey(Track.GENRE_FK).in(genres))
+              SelectCondition.where(foreignKey(Track.GENRE_FK).in(genres))
                       .orderBy(ascending(Track.RANDOM))
                       .limit(noOfTracks)
                       .build());
@@ -481,7 +481,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     public Collection<Entity> execute(EntityConnection entityConnection,
                                       RaisePriceParameters parameters) throws DatabaseException {
       SelectCondition selectCondition =
-              SelectCondition.builder(attribute(Track.ID).in(parameters.trackIds()))
+              SelectCondition.where(attribute(Track.ID).in(parameters.trackIds()))
                       .forUpdate()
                       .build();
 

@@ -99,7 +99,7 @@ final class RandomPlaylistParametersPanel extends JPanel {
   private static DefaultListModel<Entity> createGenreListModel(EntityConnectionProvider connectionProvider) {
     DefaultListModel<Entity> listModel = new DefaultListModel<>();
     try {
-      connectionProvider.connection().select(SelectCondition.builder(Genre.TYPE)
+      connectionProvider.connection().select(SelectCondition.all(Genre.TYPE)
                       .orderBy(ascending(Genre.NAME))
                       .build())
               .forEach(listModel::addElement);
