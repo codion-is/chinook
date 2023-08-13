@@ -22,7 +22,7 @@ import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.db.operation.DatabaseFunction;
 import is.codion.common.format.LocaleDateTimePattern;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.db.condition.SelectCondition;
+import is.codion.framework.db.Select;
 import is.codion.framework.demos.chinook.domain.api.Chinook;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
@@ -37,9 +37,9 @@ import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.List;
 
-import static is.codion.framework.db.condition.SelectCondition.where;
-import static is.codion.framework.db.criteria.Criteria.column;
-import static is.codion.framework.db.criteria.Criteria.foreignKey;
+import static is.codion.framework.db.Select.where;
+import static is.codion.framework.db.condition.Condition.column;
+import static is.codion.framework.db.condition.Condition.foreignKey;
 import static is.codion.framework.domain.entity.EntityDefinition.definition;
 import static is.codion.framework.domain.entity.KeyGenerator.identity;
 import static is.codion.framework.domain.entity.OrderBy.ascending;
@@ -481,13 +481,12 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     @Override
     public Collection<Entity> execute(EntityConnection entityConnection,
                                       RaisePriceParameters parameters) throws DatabaseException {
-      SelectCondition selectCondition =
-              where(column(Track.ID).in(parameters.trackIds()))
-                      .forUpdate()
-                      .build();
+      Select select = where(column(Track.ID).in(parameters.trackIds()))
+              .forUpdate()
+              .build();
 
       return entityConnection.update(Entity.castTo(Track.class,
-                      entityConnection.select(selectCondition)).stream()
+                      entityConnection.select(select)).stream()
               .peek(track -> track.raisePrice(parameters.priceIncrease()))
               .toList());
     }
