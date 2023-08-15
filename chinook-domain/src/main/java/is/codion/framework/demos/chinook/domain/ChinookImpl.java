@@ -67,16 +67,20 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::artist[]
   void artist() {
     add(Artist.TYPE.define(
-            Artist.ID.primaryKey(),
-            Artist.NAME.column()
+            Artist.ID
+                    .primaryKey(),
+            Artist.NAME
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(120),
-            Artist.NUMBER_OF_ALBUMS.subquery("""
+            Artist.NUMBER_OF_ALBUMS
+                    .subquery("""
                             select count(*)
                             from chinook.album
                             where album.artistid = artist.artistid"""),
-            Artist.NUMBER_OF_TRACKS.subquery("""
+            Artist.NUMBER_OF_TRACKS
+                    .subquery("""
                             select count(*)
                             from chinook.track
                             join chinook.album on track.albumid = album.albumid
@@ -91,21 +95,27 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::album[]
   void album() {
     add(Album.TYPE.define(
-            Album.ID.primaryKey(),
-            Album.ARTIST_ID.column()
+            Album.ID
+                    .primaryKey(),
+            Album.ARTIST_ID
+                    .column()
                     .nullable(false),
-            Album.ARTIST_FK.foreignKey()
+            Album.ARTIST_FK
+                    .foreignKey()
                     .attributes(Artist.NAME),
-            Album.TITLE.column()
+            Album.TITLE
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(160),
-            Album.COVER.blob()
+            Album.COVER
+                    .blob()
                     .eagerlyLoaded(true)
                     .format(new CoverFormatter()),
-            Album.COVERIMAGE.derived(
-                    new CoverArtImageProvider(), Album.COVER),
-            Album.NUMBER_OF_TRACKS.subquery("""
+            Album.COVERIMAGE
+                    .derived(new CoverArtImageProvider(), Album.COVER),
+            Album.NUMBER_OF_TRACKS
+                    .subquery("""
                             select count(*)
                             from chinook.track
                             where track.albumid = album.albumid"""))
@@ -119,41 +129,57 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::employee[]
   void employee() {
     add(Employee.TYPE.define(
-            Employee.ID.primaryKey(),
-            Employee.LASTNAME.column()
+            Employee.ID
+                    .primaryKey(),
+            Employee.LASTNAME
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(20),
-            Employee.FIRSTNAME.column()
+            Employee.FIRSTNAME
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(20),
-            Employee.TITLE.column()
+            Employee.TITLE
+                    .column()
                     .maximumLength(30),
-            Employee.REPORTSTO.column(),
-            Employee.REPORTSTO_FK.foreignKey()
+            Employee.REPORTSTO
+                    .column(),
+            Employee.REPORTSTO_FK
+                    .foreignKey()
                     .attributes(Employee.FIRSTNAME, Employee.LASTNAME),
-            Employee.BIRTHDATE.column(),
-            Employee.HIREDATE.column()
+            Employee.BIRTHDATE
+                    .column(),
+            Employee.HIREDATE
+                    .column()
                     .localeDateTimePattern(LocaleDateTimePattern.builder()
                             .delimiterDot()
                             .yearFourDigits()
                             .build()),
-            Employee.ADDRESS.column()
+            Employee.ADDRESS
+                    .column()
                     .maximumLength(70),
-            Employee.CITY.column()
+            Employee.CITY
+                    .column()
                     .maximumLength(40),
-            Employee.STATE.column()
+            Employee.STATE
+                    .column()
                     .maximumLength(40),
-            Employee.COUNTRY.column()
+            Employee.COUNTRY
+                    .column()
                     .maximumLength(40),
-            Employee.POSTALCODE.column()
+            Employee.POSTALCODE
+                    .column()
                     .maximumLength(10),
-            Employee.PHONE.column()
+            Employee.PHONE
+                    .column()
                     .maximumLength(24),
-            Employee.FAX.column()
+            Employee.FAX
+                    .column()
                     .maximumLength(24),
-            Employee.EMAIL.column()
+            Employee.EMAIL
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(60))
@@ -172,37 +198,51 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::customer[]
   void customer() {
     add(Customer.TYPE.define(
-            Customer.ID.primaryKey(),
-            Customer.LASTNAME.column()
+            Customer.ID
+                    .primaryKey(),
+            Customer.LASTNAME
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(20),
-            Customer.FIRSTNAME.column()
+            Customer.FIRSTNAME
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(40),
-            Customer.COMPANY.column()
+            Customer.COMPANY
+                    .column()
                     .maximumLength(80),
-            Customer.ADDRESS.column()
+            Customer.ADDRESS
+                    .column()
                     .maximumLength(70),
-            Customer.CITY.column()
+            Customer.CITY
+                    .column()
                     .maximumLength(40),
-            Customer.STATE.column()
+            Customer.STATE
+                    .column()
                     .maximumLength(40),
-            Customer.COUNTRY.column()
+            Customer.COUNTRY
+                    .column()
                     .maximumLength(40),
-            Customer.POSTALCODE.column()
+            Customer.POSTALCODE
+                    .column()
                     .maximumLength(10),
-            Customer.PHONE.column()
+            Customer.PHONE
+                    .column()
                     .maximumLength(24),
-            Customer.FAX.column()
+            Customer.FAX
+                    .column()
                     .maximumLength(24),
-            Customer.EMAIL.column()
+            Customer.EMAIL
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(60),
-            Customer.SUPPORTREP_ID.column(),
-            Customer.SUPPORTREP_FK.foreignKey()
+            Customer.SUPPORTREP_ID
+                    .column(),
+            Customer.SUPPORTREP_FK
+                    .foreignKey()
                     .attributes(Employee.FIRSTNAME, Employee.LASTNAME))
             .tableName("chinook.customer")
             .keyGenerator(identity())
@@ -217,8 +257,10 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::genre[]
   void genre() {
     add(Genre.TYPE.define(
-            Genre.ID.primaryKey(),
-            Genre.NAME.column()
+            Genre.ID
+                    .primaryKey(),
+            Genre.NAME
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(120))
@@ -233,8 +275,10 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::mediaType[]
   void mediaType() {
     add(MediaType.TYPE.define(
-            MediaType.ID.primaryKey(),
-            MediaType.NAME.column()
+            MediaType.ID
+                    .primaryKey(),
+            MediaType.NAME
+                    .column()
                     .nullable(false)
                     .maximumLength(120))
             .tableName("chinook.mediatype")
@@ -247,35 +291,48 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::track[]
   void track() {
     add(Track.TYPE.define(
-            Track.ID.primaryKey(),
-            Track.ARTIST_DENORM.denormalized(
-                    Track.ALBUM_FK, Album.ARTIST_FK),
-            Track.ALBUM_ID.column(),
-            Track.ALBUM_FK.foreignKey()
+            Track.ID
+                    .primaryKey(),
+            Track.ARTIST_DENORM
+                    .denormalized(Track.ALBUM_FK, Album.ARTIST_FK),
+            Track.ALBUM_ID
+                    .column(),
+            Track.ALBUM_FK
+                    .foreignKey()
                     .attributes(Album.ARTIST_FK, Album.TITLE)
                     .fetchDepth(2),
-            Track.NAME.column()
+            Track.NAME
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(200),
-            Track.GENRE_ID.column(),
-            Track.GENRE_FK.foreignKey(),
-            Track.COMPOSER.column()
+            Track.GENRE_ID
+                    .column(),
+            Track.GENRE_FK
+                    .foreignKey(),
+            Track.COMPOSER
+                    .column()
                     .maximumLength(220),
-            Track.MEDIATYPE_ID.column()
+            Track.MEDIATYPE_ID
+                    .column()
                     .nullable(false),
-            Track.MEDIATYPE_FK.foreignKey(),
-            Track.MILLISECONDS.column()
+            Track.MEDIATYPE_FK
+                    .foreignKey(),
+            Track.MILLISECONDS
+                    .column()
                     .nullable(false)
                     .format(NumberFormat.getIntegerInstance()),
-            Track.MINUTES_SECONDS_DERIVED.derived(
-                    new TrackMinSecProvider(), Track.MILLISECONDS),
-            Track.BYTES.column()
+            Track.MINUTES_SECONDS_DERIVED
+                    .derived(new TrackMinSecProvider(), Track.MILLISECONDS),
+            Track.BYTES
+                    .column()
                     .format(NumberFormat.getIntegerInstance()),
-            Track.UNITPRICE.column()
+            Track.UNITPRICE
+                    .column()
                     .nullable(false)
                     .maximumFractionDigits(2),
-            Track.RANDOM.column()
+            Track.RANDOM
+                    .column()
                     .readOnly(true)
                     .selectable(false))
             .tableName("chinook.track")
@@ -290,32 +347,43 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::invoice[]
   void invoice() {
     add(Invoice.TYPE.define(
-            Invoice.ID.primaryKey(),
-            Invoice.CUSTOMER_ID.column()
+            Invoice.ID
+                    .primaryKey(),
+            Invoice.CUSTOMER_ID
+                    .column()
                     .nullable(false),
-            Invoice.CUSTOMER_FK.foreignKey()
+            Invoice.CUSTOMER_FK
+                    .foreignKey()
                     .attributes(Customer.FIRSTNAME, Customer.LASTNAME, Customer.EMAIL),
-            Invoice.DATE.column()
+            Invoice.DATE
+                    .column()
                     .nullable(false)
                     .defaultValueSupplier(Invoice.DATE_DEFAULT_VALUE)
                     .localeDateTimePattern(LocaleDateTimePattern.builder()
                             .delimiterDot()
                             .yearFourDigits()
                             .build()),
-            Invoice.BILLINGADDRESS.column()
+            Invoice.BILLINGADDRESS
+                    .column()
                     .maximumLength(70),
-            Invoice.BILLINGCITY.column()
+            Invoice.BILLINGCITY
+                    .column()
                     .maximumLength(40),
-            Invoice.BILLINGSTATE.column()
+            Invoice.BILLINGSTATE
+                    .column()
                     .maximumLength(40),
-            Invoice.BILLINGCOUNTRY.column()
+            Invoice.BILLINGCOUNTRY
+                    .column()
                     .maximumLength(40),
-            Invoice.BILLINGPOSTALCODE.column()
+            Invoice.BILLINGPOSTALCODE
+                    .column()
                     .maximumLength(10),
-            Invoice.TOTAL.column()
+            Invoice.TOTAL
+                    .column()
                     .nullable(false)
                     .maximumFractionDigits(2),
-            Invoice.CALCULATED_TOTAL.subquery("""
+            Invoice.CALCULATED_TOTAL
+                    .subquery("""
                             select sum(unitprice * quantity)
                             from chinook.invoiceline
                             where invoiceid = invoice.invoiceid""")
@@ -335,22 +403,30 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::invoiceLine[]
   void invoiceLine() {
     add(InvoiceLine.TYPE.define(
-            InvoiceLine.ID.primaryKey(),
-            InvoiceLine.INVOICE_ID.column()
+            InvoiceLine.ID
+                    .primaryKey(),
+            InvoiceLine.INVOICE_ID
+                    .column()
                     .nullable(false),
-            InvoiceLine.INVOICE_FK.foreignKey()
+            InvoiceLine.INVOICE_FK
+                    .foreignKey()
                     .fetchDepth(0),
-            InvoiceLine.TRACK_ID.column()
+            InvoiceLine.TRACK_ID
+                    .column()
                     .nullable(false),
-            InvoiceLine.TRACK_FK.foreignKey()
+            InvoiceLine.TRACK_FK
+                    .foreignKey()
                     .attributes(Track.NAME, Track.UNITPRICE),
-            InvoiceLine.UNITPRICE.column()
+            InvoiceLine.UNITPRICE
+                    .column()
                     .nullable(false),
-            InvoiceLine.QUANTITY.column()
+            InvoiceLine.QUANTITY
+                    .column()
                     .nullable(false)
                     .defaultValue(1),
-            InvoiceLine.TOTAL.derived(new InvoiceLineTotalProvider(),
-                    InvoiceLine.QUANTITY, InvoiceLine.UNITPRICE))
+            InvoiceLine.TOTAL
+                    .derived(new InvoiceLineTotalProvider(),
+                            InvoiceLine.QUANTITY, InvoiceLine.UNITPRICE))
             .tableName("chinook.invoiceline")
             .keyGenerator(identity()));
   }
@@ -359,8 +435,10 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::playlist[]
   void playlist() {
     add(Playlist.TYPE.define(
-            Playlist.ID.primaryKey(),
-            Playlist.NAME.column()
+            Playlist.ID
+                    .primaryKey(),
+            Playlist.NAME
+                    .column()
                     .searchColumn(true)
                     .nullable(false)
                     .maximumLength(120))
@@ -376,18 +454,23 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
   // tag::playlistTrack[]
   void playlistTrack() {
     add(PlaylistTrack.TYPE.define(
-            PlaylistTrack.ID.primaryKey(),
-            PlaylistTrack.PLAYLIST_ID.column()
+            PlaylistTrack.ID
+                    .primaryKey(),
+            PlaylistTrack.PLAYLIST_ID
+                    .column()
                     .nullable(false),
-            PlaylistTrack.PLAYLIST_FK.foreignKey(),
-            PlaylistTrack.ARTIST_DENORM.denormalized(
-                    PlaylistTrack.ALBUM_DENORM, Album.ARTIST_FK),
-            PlaylistTrack.TRACK_ID.column()
+            PlaylistTrack.PLAYLIST_FK
+                    .foreignKey(),
+            PlaylistTrack.ARTIST_DENORM
+                    .denormalized(PlaylistTrack.ALBUM_DENORM, Album.ARTIST_FK),
+            PlaylistTrack.TRACK_ID
+                    .column()
                     .nullable(false),
-            PlaylistTrack.TRACK_FK.foreignKey()
+            PlaylistTrack.TRACK_FK
+                    .foreignKey()
                     .fetchDepth(3),
-            PlaylistTrack.ALBUM_DENORM.denormalized(
-                    PlaylistTrack.TRACK_FK, Track.ALBUM_FK))
+            PlaylistTrack.ALBUM_DENORM
+                    .denormalized(PlaylistTrack.TRACK_FK, Track.ALBUM_FK))
             .tableName("chinook.playlisttrack")
             .keyGenerator(identity())
             .stringFactory(StringFactory.builder()
