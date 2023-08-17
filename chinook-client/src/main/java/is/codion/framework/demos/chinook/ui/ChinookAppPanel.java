@@ -143,25 +143,20 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
     JPanel languagePanel = gridLayoutPanel(2, 1).build();
     ButtonGroup buttonGroup = new ButtonGroup();
     radioButton()
-            .text("English")
+            .text(bundle.getString("english"))
             .selected(currentLanguage.equals(LANGUAGE_EN))
             .buttonGroup(buttonGroup)
             .build(languagePanel::add);
     JRadioButton isButton = radioButton()
-            .text("\u00cdslenska")
+            .text(bundle.getString("icelandic"))
             .selected(currentLanguage.equals(LANGUAGE_IS))
             .buttonGroup(buttonGroup)
             .build(languagePanel::add);
-    showMessageDialog(this, languagePanel, "Language/Tungumál", JOptionPane.QUESTION_MESSAGE);
+    showMessageDialog(this, languagePanel, bundle.getString("language"), JOptionPane.QUESTION_MESSAGE);
     String selectedLanguage = isButton.isSelected() ? LANGUAGE_IS : LANGUAGE_EN;
     if (!currentLanguage.equals(selectedLanguage)) {
       UserPreferences.setUserPreference(LANGUAGE_PREFERENCES_KEY, selectedLanguage);
-      showMessageDialog(this,
-              """
-                      Language has been changed, restart the application to apply the changes.
-
-                      Tungum\u00e1li hefur veri\u00f0 breytt, endurr\u00e6stu kerfi\u00f0 til a\u00f0 virkja breytingarnar.
-                      """);
+      showMessageDialog(this, bundle.getString("language_has_been_changed"));
     }
   }
 
