@@ -148,7 +148,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
             .buttonGroup(buttonGroup)
             .build(languagePanel::add);
     JRadioButton isButton = radioButton()
-            .text("Íslenska")
+            .text("\u00cdslenska")
             .selected(currentLanguage.equals(LANGUAGE_IS))
             .buttonGroup(buttonGroup)
             .build(languagePanel::add);
@@ -160,7 +160,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
               """
                       Language has been changed, restart the application to apply the changes.
 
-                      Tungumáli hefur verið breytt, endurræstu kerfið til að virkja breytingarnar.
+                      Tungum\u00e1li hefur veri\u00f0 breytt, endurr\u00e6stu kerfi\u00f0 til a\u00f0 virkja breytingarnar.
                       """);
     }
   }
