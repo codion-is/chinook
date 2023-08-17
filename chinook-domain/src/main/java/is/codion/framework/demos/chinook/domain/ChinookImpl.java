@@ -29,7 +29,6 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Track.RaisePricePara
 import is.codion.framework.domain.DefaultDomain;
 import is.codion.framework.domain.entity.Entities;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.domain.entity.Key;
 import is.codion.framework.domain.entity.OrderBy;
 import is.codion.framework.domain.entity.StringFactory;
 
@@ -519,7 +518,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
 
     private Entity insertPlaylist(EntityConnection connection, String playlistName,
                                   List<Long> trackIds) throws DatabaseException {
-      Key playlistKey = connection.insert(createPlaylist(playlistName));
+      Entity.Key playlistKey = connection.insert(createPlaylist(playlistName));
 
       connection.insert(createPlaylistTracks(playlistKey.get(), trackIds));
 
