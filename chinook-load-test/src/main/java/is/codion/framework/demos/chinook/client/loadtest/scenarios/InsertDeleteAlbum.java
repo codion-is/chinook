@@ -24,10 +24,10 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Genre;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.swing.framework.model.EntityComboBoxModel;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
+import is.codion.swing.framework.model.component.EntityComboBoxModel;
 import is.codion.swing.framework.model.tools.loadtest.AbstractEntityUsageScenario;
 
 import java.math.BigDecimal;

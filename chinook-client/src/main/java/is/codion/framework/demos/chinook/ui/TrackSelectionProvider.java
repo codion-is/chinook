@@ -20,7 +20,7 @@ package is.codion.framework.demos.chinook.ui;
 
 import is.codion.framework.model.EntitySearchModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
-import is.codion.swing.framework.ui.EntitySearchField;
+import is.codion.swing.framework.ui.component.EntitySearchField;
 
 import java.awt.Dimension;
 
