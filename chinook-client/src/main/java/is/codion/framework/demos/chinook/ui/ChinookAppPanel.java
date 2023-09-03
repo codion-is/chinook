@@ -98,9 +98,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
             EntityPanel.builder(genreModelBuilder)
                     .editPanelClass(GenreEditPanel.class)
                     .detailPanelBuilder(trackPanelBuilder)
-                    .panelLayout(TabbedPanelLayout.builder()
-                            .detailPanelState(EntityPanel.PanelState.HIDDEN)
-                            .build());
+                    .panelLayout(TabbedPanelLayout.detailPanelState(EntityPanel.PanelState.HIDDEN));
 
     SwingEntityModel.Builder mediaTypeModelBuilder =
             SwingEntityModel.builder(MediaType.TYPE)
@@ -110,9 +108,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
             EntityPanel.builder(mediaTypeModelBuilder)
                     .editPanelClass(MediaTypeEditPanel.class)
                     .detailPanelBuilder(trackPanelBuilder)
-                    .panelLayout(TabbedPanelLayout.builder()
-                            .detailPanelState(EntityPanel.PanelState.HIDDEN)
-                            .build());
+                    .panelLayout(TabbedPanelLayout.detailPanelState(EntityPanel.PanelState.HIDDEN));
 
     EntityPanel.Builder customerPanelBuilder =
             EntityPanel.builder(Customer.TYPE)
