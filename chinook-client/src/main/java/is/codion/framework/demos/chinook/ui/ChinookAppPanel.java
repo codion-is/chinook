@@ -37,7 +37,6 @@ import is.codion.swing.framework.ui.EntityPanel;
 import is.codion.swing.framework.ui.EntityPanel.PanelState;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
-import is.codion.swing.framework.ui.TabbedPanelLayout;
 
 import com.formdev.flatlaf.intellijthemes.FlatAllIJThemes;
 
@@ -127,9 +126,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
                     .editPanelClass(EmployeeEditPanel.class)
                     .tablePanelClass(EmployeeTablePanel.class)
                     .detailPanelBuilder(customerPanelBuilder)
-                    .panelLayout(TabbedPanelLayout.builder()
-                            .detailPanelState(PanelState.HIDDEN)
-                            .build())
+                    .panelLayout(detailPanelState(PanelState.HIDDEN))
                     .preferredSize(new Dimension(1000, 500));
 
     return List.of(genrePanelBuilder, mediaTypePanelBuilder, employeePanelBuilder);
