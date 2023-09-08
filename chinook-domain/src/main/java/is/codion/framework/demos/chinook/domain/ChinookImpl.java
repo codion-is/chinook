@@ -486,7 +486,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
     @Override
     public Collection<Entity> execute(EntityConnection connection,
                                       Collection<Long> invoiceIds) throws DatabaseException {
-      return connection.update(Entity.castTo(Invoice.class,
+      return connection.updateSelect(Entity.castTo(Invoice.class,
                       connection.select(where(column(Invoice.ID).in(invoiceIds))
                               .forUpdate()
                               .fetchDepth(0)
@@ -565,7 +565,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
               .forUpdate()
               .build();
 
-      return entityConnection.update(Entity.castTo(Track.class,
+      return entityConnection.updateSelect(Entity.castTo(Track.class,
                       entityConnection.select(select)).stream()
               .peek(track -> track.raisePrice(parameters.priceIncrease()))
               .toList());

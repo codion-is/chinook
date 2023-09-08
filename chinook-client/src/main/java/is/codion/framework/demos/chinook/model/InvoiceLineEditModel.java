@@ -66,7 +66,7 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
     EntityConnection connection = connectionProvider().connection();
     connection.beginTransaction();
     try {
-      Collection<Entity> updated = connection.update(entities);
+      Collection<Entity> updated = connection.updateSelect(entities);
       updateTotals(entities, connection);
       connection.commitTransaction();
 
