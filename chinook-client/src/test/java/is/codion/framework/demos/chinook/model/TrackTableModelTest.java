@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static is.codion.framework.db.condition.Condition.column;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public final class TrackTableModelTest {
@@ -41,7 +40,7 @@ public final class TrackTableModelTest {
   public void raisePriceOfSelected() throws DatabaseException {
     try (EntityConnectionProvider connectionProvider = createConnectionProvider()) {
       Entity masterOfPuppets = connectionProvider.connection()
-              .selectSingle(column(Album.TITLE).equalTo("Master Of Puppets"));
+              .selectSingle(Album.TITLE.equalTo("Master Of Puppets"));
 
       TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
       ColumnConditionModel<?, Entity> albumConditionModel =

@@ -35,7 +35,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import static is.codion.framework.db.condition.Condition.column;
 import static is.codion.swing.framework.model.tools.loadtest.EntityLoadTestModel.selectRandomItem;
 import static is.codion.swing.framework.model.tools.loadtest.EntityLoadTestModel.selectRandomRow;
 import static java.util.Arrays.asList;
@@ -61,7 +60,7 @@ public final class InsertDeleteAlbum extends AbstractEntityUsageScenario<Chinook
     Entity insertedAlbum = albumEditModel.insert();
     SwingEntityEditModel trackEditModel = albumModel.detailModel(Track.TYPE).editModel();
     List<Entity> genres = trackEditModel.connectionProvider().connection()
-            .select(column(Genre.NAME).in(GENRES));
+            .select(Genre.NAME.in(GENRES));
     EntityComboBoxModel mediaTypeComboBoxModel =
             trackEditModel.foreignKeyComboBoxModel(Track.MEDIATYPE_FK);
     selectRandomItem(mediaTypeComboBoxModel);
