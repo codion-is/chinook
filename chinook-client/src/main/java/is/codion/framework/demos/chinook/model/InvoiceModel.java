@@ -34,6 +34,6 @@ public final class InvoiceModel extends SwingEntityModel {
     detailModelLink.clearForeignKeyOnEmptySelection().set(true);
     detailModelLink.active().set(true);
 
-    invoiceLineEditModel.addTotalsUpdatedListener(tableModel()::replaceEntities);
+    invoiceLineEditModel.addTotalsUpdatedListener(tableModel()::replace);
   }
 }
