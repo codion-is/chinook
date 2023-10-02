@@ -166,7 +166,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
     Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
     Arrays.stream(FlatAllIJThemes.INFOS).forEach(LookAndFeelProvider::addLookAndFeelProvider);
     Completion.COMBO_BOX_COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
-    EntityEditModel.POST_EDIT_EVENTS.set(true);
+    EntityEditModel.EDIT_EVENTS.set(true);
     EntityPanel.TOOLBAR_CONTROLS.set(true);
     EntityTablePanel.COLUMN_SELECTION.set(EntityTablePanel.ColumnSelection.MENU);
     FilteredTable.AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);

@@ -29,7 +29,7 @@ public final class InvoiceEditModel extends SwingEntityEditModel {
 
   public InvoiceEditModel(EntityConnectionProvider connectionProvider) {
     super(Invoice.TYPE, connectionProvider);
-    setPersistValue(Invoice.CUSTOMER_FK, false);
+    persist(Invoice.CUSTOMER_FK).set(false);
     bindEvents();
   }
 
