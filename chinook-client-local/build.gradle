@@ -34,6 +34,8 @@ jlink {
                "is.codion.framework.db.local,is.codion.dbms.h2database," +
                        "is.codion.plugin.logback.proxy,is.codion.framework.demos.chinook.domain"]
 
+    addExtraDependencies("slf4j-api")
+
     launcher {
         jvmArgs = applicationDefaultJvmArgs
     }
