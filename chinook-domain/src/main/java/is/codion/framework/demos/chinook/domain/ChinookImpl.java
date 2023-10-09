@@ -377,7 +377,6 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                     .maximumLength(10),
             Invoice.TOTAL.define()
                     .column()
-                    .nullable(false)
                     .maximumFractionDigits(2),
             Invoice.CALCULATED_TOTAL.define()
                     .subquery("""
