@@ -32,6 +32,6 @@ module is.codion.framework.demos.chinook.domain {
 
   provides is.codion.framework.domain.Domain
           with is.codion.framework.demos.chinook.domain.ChinookImpl;
-  provides is.codion.common.rmi.server.LoginProxy
-          with is.codion.framework.demos.chinook.server.ChinookLoginProxy;
+  provides is.codion.common.rmi.server.Authenticator
+          with is.codion.framework.demos.chinook.server.ChinookAuthenticator;
 }

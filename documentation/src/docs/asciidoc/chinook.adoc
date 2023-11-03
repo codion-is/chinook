@@ -642,8 +642,8 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/ChinookAppM
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ChinookAppPanel.java[lines=19..-1]
 ----
 
-[#_login_proxy]
-== Login proxy
+[#_authenticator]
+== Authenticator
 
 === SQL
 
@@ -652,11 +652,11 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ChinookAppPane
 include::{dir-source-sql}/create_schema.sql[tags=user]
 ----
 
-=== ChinookLoginProxy
+=== ChinookAuthenticator
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/server/ChinookLoginProxy.java[lines=19..-1]
+include::{dir-source-domain}/is/codion/framework/demos/chinook/server/ChinookAuthenticator.java[lines=19..-1]
 ----
 
 [#_domain_unit_test]
