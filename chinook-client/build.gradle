@@ -9,6 +9,7 @@ dependencies {
     implementation(libs.codion.plugin.imagepanel)
 
     implementation(libs.flatlaf.intellij.themes)
+    implementation(libs.ikonli.foundation)
 
     runtimeOnly(libs.codion.plugin.logback.proxy) {
         exclude group: "com.sun.mail", module: "javax.mail"

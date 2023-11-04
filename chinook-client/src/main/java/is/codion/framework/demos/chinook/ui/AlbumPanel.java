@@ -14,35 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2021, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2022, Björn Darri Sigurðsson.
  */
 package is.codion.framework.demos.chinook.ui;
 
-import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.ui.EntityPanel;
 
-import static is.codion.swing.framework.ui.TabbedPanelLayout.splitPaneResizeWeight;
+public final class AlbumPanel extends EntityPanel {
 
-public final class ArtistPanel extends EntityPanel {
-
-  public ArtistPanel(SwingEntityModel artistModel) {
-    super(artistModel, new ArtistEditPanel(artistModel.editModel()),
-            splitPaneResizeWeight(0.25));
-
-    SwingEntityModel albumModel = artistModel.detailModel(Album.TYPE);
-    EntityPanel albumPanel = new EntityPanel(albumModel,
-            new AlbumEditPanel(albumModel.editModel()),
-            new AlbumTablePanel(albumModel.tableModel()));
-
+  public AlbumPanel(SwingEntityModel albumModel) {
+    super(albumModel, new AlbumEditPanel(albumModel.editModel()), new AlbumTablePanel(albumModel.tableModel()));
     SwingEntityModel trackModel = albumModel.detailModel(Track.TYPE);
     EntityPanel trackPanel = new EntityPanel(trackModel,
             new TrackEditPanel(trackModel.editModel()),
             new TrackTablePanel(trackModel.tableModel()));
 
-    albumPanel.addDetailPanel(trackPanel);
-
-    addDetailPanel(albumPanel);
+    addDetailPanel(trackPanel);
   }
 }

@@ -36,8 +36,10 @@ import is.codion.swing.framework.ui.EntityPanel;
 import is.codion.swing.framework.ui.EntityPanel.PanelState;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
+import is.codion.swing.framework.ui.icon.FrameworkIcons;
 
 import com.formdev.flatlaf.intellijthemes.FlatAllIJThemes;
+import org.kordamp.ikonli.foundation.Foundation;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
@@ -73,13 +75,14 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 
   public ChinookAppPanel(ChinookAppModel appModel) {
     super(appModel);
+    FrameworkIcons.instance().add(Foundation.PLUS, Foundation.MINUS);
   }
 
   @Override
   protected List<EntityPanel> createEntityPanels() {
     return List.of(
             new CustomerPanel(applicationModel().entityModel(Customer.TYPE)),
-            new ArtistPanel(applicationModel().entityModel(Artist.TYPE)),
+            new AlbumPanel(applicationModel().entityModel(Album.TYPE)),
             new PlaylistPanel(applicationModel().entityModel(Playlist.TYPE))
     );
   }
@@ -110,6 +113,10 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
                     .detailPanelBuilder(trackPanelBuilder)
                     .panelLayout(detailPanelState(PanelState.HIDDEN));
 
+    EntityPanel.Builder artistPanelBuilder =
+            EntityPanel.builder(Artist.TYPE)
+                    .editPanelClass(ArtistEditPanel.class);
+
     EntityPanel.Builder customerPanelBuilder =
             EntityPanel.builder(Customer.TYPE)
                     .editPanelClass(CustomerEditPanel.class)
@@ -128,7 +135,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
                     .panelLayout(detailPanelState(PanelState.HIDDEN))
                     .preferredSize(new Dimension(1000, 500));
 
-    return List.of(genrePanelBuilder, mediaTypePanelBuilder, employeePanelBuilder);
+    return List.of(artistPanelBuilder, genrePanelBuilder, mediaTypePanelBuilder, employeePanelBuilder);
   }
 
   @Override

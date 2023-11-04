@@ -265,11 +265,42 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/EmployeeEditPa
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/EmployeeTablePanel.java[lines=19..-1]
 ----
 
-== Artists
+== Albums
 
-image::artists.png[]
+image::albums.png[]
 
-We start with a couple of support tables, genre and media type.
+We start with a few support tables, artist, genre and media type.
+
+=== Artist
+
+==== SQL
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=artist]
+----
+
+==== Domain
+
+===== API
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=artist]
+----
+
+===== Implementation
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=artist]
+----
+
+==== UI
+
+===== ArtistEditPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ArtistEditPanel.java[lines=19..-1]
+----
 
 === Genre
 
@@ -357,20 +388,6 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 ==== UI
 
-===== ArtistPanel
-
-[source,java,options="nowrap"]
-----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ArtistPanel.java[lines=19..-1]
-----
-
-===== ArtistEditPanel
-
-[source,java,options="nowrap"]
-----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ArtistEditPanel.java[lines=19..-1]
-----
-
 === Album
 
 ==== SQL
@@ -394,6 +411,13 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 ----
 
 ==== UI
+
+===== AlbumPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumPanel.java[lines=19..-1]
+----
 
 ===== AlbumEditPanel
 
