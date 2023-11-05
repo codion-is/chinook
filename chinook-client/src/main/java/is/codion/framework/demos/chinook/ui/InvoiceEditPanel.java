@@ -19,17 +19,22 @@
 package is.codion.framework.demos.chinook.ui;
 
 import is.codion.framework.demos.chinook.domain.api.Chinook.InvoiceLine;
+import is.codion.framework.domain.entity.Entity;
+import is.codion.framework.domain.entity.attribute.Attribute;
 import is.codion.framework.model.EntitySearchModel;
+import is.codion.swing.common.model.component.table.FilteredTableModel;
 import is.codion.swing.framework.model.SwingEntityEditModel;
-import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.ui.EntityEditPanel;
 import is.codion.swing.framework.ui.EntityPanel;
 import is.codion.swing.framework.ui.component.EntitySearchField;
+import is.codion.swing.framework.ui.component.EntitySearchField.SelectionProvider;
+import is.codion.swing.framework.ui.component.EntitySearchField.TableSelectionProvider;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.function.Function;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Customer;
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Invoice;
@@ -55,7 +60,7 @@ public final class InvoiceEditPanel extends EntityEditPanel {
 
     createForeignKeySearchField(Invoice.CUSTOMER_FK)
             .columns(14)
-            .selectionProviderFactory(CustomerSelectionProvider::new);
+            .selectionProviderFactory(new CustomerSelectionProviderFactory());
     createTemporalInputPanel(Invoice.DATE)
             .columns(6)
             .buttonFocusable(false);
@@ -112,15 +117,18 @@ public final class InvoiceEditPanel extends EntityEditPanel {
     add(invoiceLinePanel, BorderLayout.EAST);
   }
 
-  private static final class CustomerSelectionProvider extends EntitySearchField.TableSelectionProvider {
+  private static final class CustomerSelectionProviderFactory implements Function<EntitySearchModel, SelectionProvider> {
 
-    private CustomerSelectionProvider(EntitySearchModel searchModel) {
-      super(searchModel);
-      SwingEntityTableModel tableModel = (SwingEntityTableModel) table().getModel();
+    @Override
+    public SelectionProvider apply(EntitySearchModel searchModel) {
+      TableSelectionProvider selectionProvider = EntitySearchField.tableSelectionProvider(searchModel);
+      FilteredTableModel<Entity, Attribute<?>> tableModel = selectionProvider.table().getModel();
       tableModel.columnModel().setVisibleColumns(Customer.LASTNAME, Customer.FIRSTNAME, Customer.EMAIL);
       tableModel.sortModel().setSortOrder(Customer.LASTNAME, ASCENDING);
       tableModel.sortModel().addSortOrder(Customer.FIRSTNAME, ASCENDING);
-      setPreferredSize(new Dimension(500, 300));
+      selectionProvider.setPreferredSize(new Dimension(500, 300));
+
+      return selectionProvider;
     }
   }
 }

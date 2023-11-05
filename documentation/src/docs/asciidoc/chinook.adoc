@@ -641,11 +641,11 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackT
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackComponentFactory.java[lines=19..-1]
 ----
 
-===== TrackSelectionProvider
+===== TrackSelectionProviderFactory
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackSelectionProvider.java[lines=19..-1]
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackSelectionProviderFactory.java[lines=19..-1]
 ----
 
 == Application
