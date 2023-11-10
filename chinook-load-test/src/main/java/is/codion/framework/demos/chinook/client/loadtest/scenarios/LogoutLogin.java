@@ -18,21 +18,19 @@
  */
 package is.codion.framework.demos.chinook.client.loadtest.scenarios;
 
-import is.codion.framework.demos.chinook.model.ChinookAppModel;
-import is.codion.swing.framework.model.tools.loadtest.AbstractEntityUsageScenario;
+import is.codion.framework.db.EntityConnectionProvider;
+import is.codion.swing.common.model.tools.loadtest.AbstractUsageScenario;
 
-import java.util.Random;
+import static is.codion.framework.demos.chinook.client.loadtest.scenarios.LoadTestUtil.RANDOM;
 
-public final class LogoutLogin extends AbstractEntityUsageScenario<ChinookAppModel> {
-
-  private final Random random = new Random();
+public final class LogoutLogin extends AbstractUsageScenario<EntityConnectionProvider> {
 
   @Override
-  protected void perform(ChinookAppModel application) {
+  protected void perform(EntityConnectionProvider connectionProvider) {
     try {
-      application.connectionProvider().close();
-      Thread.sleep(random.nextInt(1500));
-      application.connectionProvider().connection();
+      connectionProvider.close();
+      Thread.sleep(RANDOM.nextInt(1500));
+      connectionProvider.connection();
     }
     catch (InterruptedException ignored) {/*ignored*/}
   }

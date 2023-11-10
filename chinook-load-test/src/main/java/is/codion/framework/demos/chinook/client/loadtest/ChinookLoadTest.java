@@ -18,7 +18,6 @@
  */
 package is.codion.framework.demos.chinook.client.loadtest;
 
-import is.codion.common.model.CancelException;
 import is.codion.common.user.User;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.InsertDeleteAlbum;
@@ -31,68 +30,41 @@ import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewCustomerR
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewGenre;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewInvoice;
 import is.codion.framework.demos.chinook.domain.api.Chinook;
-import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
-import is.codion.framework.demos.chinook.domain.api.Chinook.Artist;
-import is.codion.framework.demos.chinook.domain.api.Chinook.Customer;
-import is.codion.framework.demos.chinook.domain.api.Chinook.Invoice;
-import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist;
-import is.codion.framework.demos.chinook.domain.api.Chinook.PlaylistTrack;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.demos.chinook.ui.ChinookAppPanel;
+import is.codion.swing.common.model.tools.loadtest.LoadTestModel;
 import is.codion.swing.common.ui.tools.loadtest.LoadTestPanel;
-import is.codion.swing.framework.model.SwingEntityModel;
-import is.codion.swing.framework.model.tools.loadtest.EntityLoadTestModel;
 
-import java.util.List;
+import java.util.function.Function;
 
-import static is.codion.framework.demos.chinook.domain.api.Chinook.Genre;
-import static is.codion.framework.demos.chinook.domain.api.Chinook.Track;
+import static java.util.Arrays.asList;
 
-public final class ChinookLoadTest extends EntityLoadTestModel<ChinookAppModel> {
+public final class ChinookLoadTest {
 
   private static final User UNIT_TEST_USER =
           User.parse(System.getProperty("codion.test.user", "scott:tiger"));
 
-  public ChinookLoadTest() {
-    super(UNIT_TEST_USER, List.of(new ViewGenre(), new ViewCustomerReport(), new ViewInvoice(), new ViewAlbum(),
-            new UpdateTotals(), new InsertDeleteAlbum(), new LogoutLogin(), new RaisePrices(), new RandomPlaylist()));
+  public static void main(String[] args) {
+    LoadTestModel<EntityConnectionProvider> testModel =
+            LoadTestModel.builder(new ConnectionProviderFactory(), EntityConnectionProvider::close)
+                    .usageScenarios(asList(
+                            new ViewGenre(), new ViewCustomerReport(), new ViewInvoice(),
+                            new ViewAlbum(), new UpdateTotals(), new InsertDeleteAlbum(),
+                            new LogoutLogin(), new RaisePrices(), new RandomPlaylist()))
+            .user(UNIT_TEST_USER)
+            .build();
+    new LoadTestPanel<>(testModel).run();
   }
 
-  @Override
-  protected ChinookAppModel createApplication(User user) throws CancelException {
-    ChinookAppModel applicationModel = new ChinookAppModel(EntityConnectionProvider.builder()
+  private static final class ConnectionProviderFactory implements Function<User, EntityConnectionProvider> {
+    @Override
+    public EntityConnectionProvider apply(User user) {
+      return EntityConnectionProvider.builder()
             .domainType(Chinook.DOMAIN)
             .clientTypeId(ChinookAppPanel.class.getName())
             .clientVersion(ChinookAppModel.VERSION)
             .user(user)
-            .build());
-
-    SwingEntityModel customerModel = applicationModel.entityModel(Customer.TYPE);
-    SwingEntityModel invoiceModel = customerModel.detailModel(Invoice.TYPE);
-    customerModel.detailModelLink(invoiceModel).active().set(true);
-
-    SwingEntityModel artistModel = applicationModel.entityModel(Artist.TYPE);
-    SwingEntityModel albumModel = artistModel.detailModel(Album.TYPE);
-    SwingEntityModel trackModel = albumModel.detailModel(Track.TYPE);
-
-    artistModel.detailModelLink(albumModel).active().set(true);
-    albumModel.detailModelLink(trackModel).active().set(true);
-
-    SwingEntityModel playlistModel = applicationModel.entityModel(Playlist.TYPE);
-    SwingEntityModel playlistTrackModel = playlistModel.detailModel(PlaylistTrack.TYPE);
-    playlistModel.detailModelLink(playlistTrackModel).active().set(true);
-
-    /* Add a Genre model used in the ViewGenre scenario */
-    SwingEntityModel genreModel = new SwingEntityModel(Genre.TYPE, applicationModel.connectionProvider());
-    SwingEntityModel genreTrackModel = new SwingEntityModel(Track.TYPE, applicationModel.connectionProvider());
-    genreModel.addDetailModel(genreTrackModel).active().set(true);
-
-    applicationModel.addEntityModel(genreModel);
-
-    return applicationModel;
-  }
-
-  public static void main(String[] args) {
-    new LoadTestPanel<>(new ChinookLoadTest().loadTestModel()).run();
+            .build();
+    }
   }
 }

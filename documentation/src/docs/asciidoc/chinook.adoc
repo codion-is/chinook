@@ -703,6 +703,11 @@ include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest
 
 [source,java,options="nowrap"]
 ----
+include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/LoadTestUtil.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
 include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/InsertDeleteAlbum.java[lines=19..-1]
 ----
 
