@@ -64,7 +64,7 @@ public final class CustomerTablePanel extends EntityTablePanel {
     reportParameters.put("CUSTOMER_IDS", customerIDs);
 
     return tableModel().connectionProvider().connection()
-            .fillReport(Customer.REPORT, reportParameters);
+            .report(Customer.REPORT, reportParameters);
   }
 
   private void viewReport(JasperPrint customerReport) {
