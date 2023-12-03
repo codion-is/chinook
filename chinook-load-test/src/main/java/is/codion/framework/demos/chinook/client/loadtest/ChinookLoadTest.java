@@ -21,6 +21,7 @@ package is.codion.framework.demos.chinook.client.loadtest;
 import is.codion.common.user.User;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.InsertDeleteAlbum;
+import is.codion.framework.demos.chinook.client.loadtest.scenarios.InsertDeleteInvoice;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.LogoutLogin;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.RaisePrices;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.RandomPlaylist;
@@ -33,8 +34,10 @@ import is.codion.framework.demos.chinook.domain.api.Chinook;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.demos.chinook.ui.ChinookAppPanel;
 import is.codion.swing.common.model.tools.loadtest.LoadTestModel;
+import is.codion.swing.common.model.tools.loadtest.UsageScenario;
 import is.codion.swing.common.ui.tools.loadtest.LoadTestPanel;
 
+import java.util.Collection;
 import java.util.function.Function;
 
 import static java.util.Arrays.asList;
@@ -44,15 +47,16 @@ public final class ChinookLoadTest {
   private static final User UNIT_TEST_USER =
           User.parse(System.getProperty("codion.test.user", "scott:tiger"));
 
+  private static final Collection<UsageScenario<EntityConnectionProvider>> SCENARIOS =
+          asList(new ViewGenre(), new ViewCustomerReport(), new ViewInvoice(), new ViewAlbum(), new UpdateTotals(),
+                  new InsertDeleteAlbum(), new LogoutLogin(), new RaisePrices(),new RandomPlaylist(), new InsertDeleteInvoice());
+
   public static void main(String[] args) {
     LoadTestModel<EntityConnectionProvider> testModel =
             LoadTestModel.builder(new ConnectionProviderFactory(), EntityConnectionProvider::close)
-                    .usageScenarios(asList(
-                            new ViewGenre(), new ViewCustomerReport(), new ViewInvoice(),
-                            new ViewAlbum(), new UpdateTotals(), new InsertDeleteAlbum(),
-                            new LogoutLogin(), new RaisePrices(), new RandomPlaylist()))
-            .user(UNIT_TEST_USER)
-            .build();
+                    .usageScenarios(SCENARIOS)
+                    .user(UNIT_TEST_USER)
+                    .build();
     new LoadTestPanel<>(testModel).run();
   }
 
