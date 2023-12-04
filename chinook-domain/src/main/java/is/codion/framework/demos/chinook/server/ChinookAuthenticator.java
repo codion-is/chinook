@@ -55,7 +55,6 @@ public final class ChinookAuthenticator implements Authenticator {
 
   /**
    * The actual user credentials to return for successfully authenticated users.
-   * Also used for user lookup.
    */
   private final User databaseUser = User.parse("scott:tiger");
 
@@ -69,8 +68,13 @@ public final class ChinookAuthenticator implements Authenticator {
    */
   private final ConnectionPoolWrapper connectionPool;
 
+  /**
+   * The user used for authenticating.
+   */
+  private final User authenticationUser = User.user("sa");
+
   public ChinookAuthenticator() throws DatabaseException {
-    connectionPool = ConnectionPoolFactory.instance().createConnectionPool(database, databaseUser);
+    connectionPool = ConnectionPoolFactory.instance().createConnectionPool(database, authenticationUser);
   }
 
   /**
@@ -91,15 +95,12 @@ public final class ChinookAuthenticator implements Authenticator {
   }
 
   @Override
-  public void logout(RemoteClient remoteClient) {}
-
-  @Override
   public void close() {
     connectionPool.close();
   }
 
   private void authenticateUser(User user) throws LoginException {
-    try (EntityConnection connection = getConnectionFromPool()) {
+    try (EntityConnection connection = fetchConnectionFromPool()) {
       int rows = connection.count(where(and(
               Authentication.User.USERNAME
                       .equalToIgnoreCase(user.username()),
@@ -114,8 +115,8 @@ public final class ChinookAuthenticator implements Authenticator {
     }
   }
 
-  private EntityConnection getConnectionFromPool() throws DatabaseException {
-    return localEntityConnection(database, domain, connectionPool.connection(databaseUser));
+  private EntityConnection fetchConnectionFromPool() throws DatabaseException {
+    return localEntityConnection(database, domain, connectionPool.connection(authenticationUser));
   }
 
   private static final class Authentication extends DefaultDomain {
@@ -133,11 +134,11 @@ public final class ChinookAuthenticator implements Authenticator {
       super(DOMAIN);
       add(User.TYPE.define(
               User.ID.define()
-                      .primaryKey(),
+                    .primaryKey(),
               User.USERNAME.define()
-                      .column(),
+                    .column(),
               User.PASSWORD_HASH.define()
-                      .column())
+                    .column())
               .readOnly(true));
     }
   }
