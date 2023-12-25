@@ -242,6 +242,13 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 ==== Model
 
+===== EmployeeEditModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/EmployeeEditModel.java[lines=19..-1]
+----
+
 ===== EmployeeTableModel
 
 [source,java,options="nowrap"]
