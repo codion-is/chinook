@@ -200,7 +200,7 @@ final class CoverArtPanel extends JPanel {
     protected boolean importFiles(Component component, List<File> files) {
       try {
         if (singleImage(files)) {
-          imageBytes.set(Files.readAllBytes(files.get(0).toPath()));
+          imageBytes.set(Files.readAllBytes(files.getFirst().toPath()));
 
           return true;
         }
@@ -213,7 +213,7 @@ final class CoverArtPanel extends JPanel {
     }
 
     private boolean singleImage(List<File> files) {
-      return files.size() == 1 && IMAGE_FILE_FILTER.accept(files.get(0));
+      return files.size() == 1 && IMAGE_FILE_FILTER.accept(files.getFirst());
     }
   }
 }

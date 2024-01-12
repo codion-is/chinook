@@ -46,7 +46,7 @@ public final class RaisePrices extends AbstractUsageScenario<EntityConnectionPro
             .limit(1)
             .build());
     if (!albums.isEmpty()) {
-      List<Entity> tracks = connection.select(Track.ALBUM_FK.equalTo(albums.get(0)));
+      List<Entity> tracks = connection.select(Track.ALBUM_FK.equalTo(albums.getFirst()));
       Collection<Long> trackIds = Entity.values(Track.ID, tracks);
       connection.execute(Track.RAISE_PRICE, new RaisePriceParameters(trackIds, PRICE_INCREASE));
     }
