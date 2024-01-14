@@ -30,7 +30,6 @@ import is.codion.swing.framework.ui.component.EntitySearchField;
 import is.codion.swing.framework.ui.component.EntitySearchField.Selector;
 import is.codion.swing.framework.ui.component.EntitySearchField.TableSelector;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -41,6 +40,7 @@ import static is.codion.framework.demos.chinook.domain.api.Chinook.Invoice;
 import static is.codion.swing.common.ui.component.Components.flexibleGridLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.layout.Layouts.borderLayout;
+import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.SortOrder.ASCENDING;
 
 public final class InvoiceEditPanel extends EntityEditPanel {
@@ -51,7 +51,7 @@ public final class InvoiceEditPanel extends EntityEditPanel {
     super(editModel);
     this.invoiceLinePanel = invoiceLinePanel;
     clearAfterInsert().set(false);
-    defaultTextFieldColumns().set(12);
+    defaults().textFieldColumns().set(12);
   }
 
   @Override
@@ -107,7 +107,7 @@ public final class InvoiceEditPanel extends EntityEditPanel {
             .add(cityPostalCodeStateCountryPanel)
             .build();
 
-    invoiceLinePanel.setBorder(BorderFactory.createTitledBorder(editModel().entities().definition(InvoiceLine.TYPE).caption()));
+    invoiceLinePanel.setBorder(createTitledBorder(editModel().entities().definition(InvoiceLine.TYPE).caption()));
     invoiceLinePanel.initialize();
 
     setLayout(borderLayout());
