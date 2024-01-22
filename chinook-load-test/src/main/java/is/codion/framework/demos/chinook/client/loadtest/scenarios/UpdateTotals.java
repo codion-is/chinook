@@ -29,7 +29,6 @@ import is.codion.swing.common.model.tools.loadtest.AbstractUsageScenario;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static is.codion.framework.demos.chinook.client.loadtest.scenarios.LoadTestUtil.RANDOM;
 import static is.codion.framework.demos.chinook.client.loadtest.scenarios.LoadTestUtil.randomCustomerId;
@@ -48,7 +47,7 @@ public final class UpdateTotals extends AbstractUsageScenario<EntityConnectionPr
               invoiceLine.put(InvoiceLine.QUANTITY, RANDOM.nextInt(4) + 1));
       updateInvoiceLines(invoiceLines.stream()
               .filter(Entity::modified)
-              .collect(Collectors.toList()), connection);
+              .toList(), connection);
     }
   }
 

@@ -40,7 +40,6 @@ import static is.codion.framework.db.EntityConnection.Select.where;
 import static is.codion.framework.domain.entity.KeyGenerator.identity;
 import static is.codion.framework.domain.entity.OrderBy.ascending;
 import static is.codion.plugin.jasperreports.JasperReports.classPathReport;
-import static java.util.stream.Collectors.toList;
 
 // tag::chinook[]
 public final class ChinookImpl extends DefaultDomain implements Chinook {
@@ -488,7 +487,7 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
       return connection.updateSelect(invoices.stream()
               .peek(Invoice::updateTotal)
               .filter(Invoice::modified)
-              .collect(toList()));
+              .toList());
     }
   }
   // end::updateTotalsFunction[]
