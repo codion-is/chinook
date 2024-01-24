@@ -35,7 +35,6 @@ jlink {
 
     jpackage {
         imageName = "Chinook-Server-Monitor"
-        appVersion = project.version.replace("-SNAPSHOT", "")
         if (org.gradle.internal.os.OperatingSystem.current().linux) {
             installerType = "deb"
             icon = "../chinook.png"
