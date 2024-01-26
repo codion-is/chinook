@@ -11,9 +11,7 @@ dependencies {
     implementation(libs.flatlaf.intellij.themes)
     implementation(libs.ikonli.foundation)
 
-    runtimeOnly(libs.codion.plugin.logback.proxy) {
-        exclude group: "com.sun.mail", module: "javax.mail"
-    }
+    runtimeOnly(libs.codion.plugin.logback.proxy)
 
     testImplementation project(":chinook-domain")
     testImplementation(libs.junit.api)
