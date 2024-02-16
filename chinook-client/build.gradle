@@ -17,7 +17,7 @@ dependencies {
     testImplementation(libs.junit.api)
     testImplementation(libs.codion.framework.db.local)
     testRuntimeOnly(libs.junit.engine)
-    testRuntimeOnly(libs.codion.dbms.h2database)
+    testRuntimeOnly(libs.codion.dbms.h2)
     testRuntimeOnly(libs.h2)
 }
 

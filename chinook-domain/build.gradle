@@ -20,7 +20,7 @@ dependencies {
     runtimeOnly(libs.jdt.core.compiler)
 
     testImplementation(libs.codion.framework.domain.test)
-    testRuntimeOnly(libs.codion.dbms.h2database)
+    testRuntimeOnly(libs.codion.dbms.h2)
     testRuntimeOnly(libs.h2)
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
