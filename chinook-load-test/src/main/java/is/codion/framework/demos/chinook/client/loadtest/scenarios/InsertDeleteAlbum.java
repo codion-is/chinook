@@ -18,6 +18,7 @@
  */
 package is.codion.framework.demos.chinook.client.loadtest.scenarios;
 
+import is.codion.common.model.loadtest.LoadTest.Scenario.Performer;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
@@ -26,7 +27,6 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Genre;
 import is.codion.framework.demos.chinook.domain.api.Chinook.MediaType;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.swing.common.model.tools.loadtest.AbstractUsageScenario;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -37,12 +37,12 @@ import static is.codion.framework.demos.chinook.client.loadtest.scenarios.LoadTe
 import static is.codion.framework.demos.chinook.client.loadtest.scenarios.LoadTestUtil.randomArtistId;
 import static is.codion.framework.domain.entity.condition.Condition.all;
 
-public final class InsertDeleteAlbum extends AbstractUsageScenario<EntityConnectionProvider> {
+public final class InsertDeleteAlbum implements Performer<EntityConnectionProvider> {
 
   private static final BigDecimal UNIT_PRICE = BigDecimal.valueOf(2);
 
   @Override
-  protected void perform(EntityConnectionProvider connectionProvider) throws Exception {
+  public void perform(EntityConnectionProvider connectionProvider) throws Exception {
     EntityConnection connection = connectionProvider.connection();
     Entity artist = connection.selectSingle(Artist.ID.equalTo(randomArtistId()));
     Entity album = connectionProvider.entities().builder(Album.TYPE)
@@ -70,10 +70,5 @@ public final class InsertDeleteAlbum extends AbstractUsageScenario<EntityConnect
     Collection<Entity.Key> toDelete = new ArrayList<>(Entity.primaryKeys(tracks));
     toDelete.add(album.primaryKey());
     connection.delete(toDelete);
-  }
-
-  @Override
-  public int defaultWeight() {
-    return 3;
   }
 }
