@@ -154,8 +154,8 @@ public interface Chinook {
   // end::mediaType[]
 
   // tag::track[]
-  interface Track extends Entity {
-    EntityType TYPE = DOMAIN.entityType("track@chinook", Track.class, Track.class.getName());
+  interface Track {
+    EntityType TYPE = DOMAIN.entityType("track@chinook", Track.class.getName());
 
     Column<Long> ID = TYPE.longColumn("trackid");
     Column<String> NAME = TYPE.stringColumn("name");
@@ -176,10 +176,6 @@ public interface Chinook {
 
     FunctionType<EntityConnection, RaisePriceParameters, Collection<Entity>> RAISE_PRICE = functionType("chinook.raise_price");
 
-    default void raisePrice(BigDecimal priceIncrease) {
-      put(UNITPRICE, get(UNITPRICE).add(priceIncrease));
-    }
-
     record RaisePriceParameters(Collection<Long> trackIds, BigDecimal priceIncrease) implements Serializable {
 
       public RaisePriceParameters {
@@ -191,8 +187,8 @@ public interface Chinook {
   // end::track[]
 
   // tag::invoice[]
-  interface Invoice extends Entity {
-    EntityType TYPE = DOMAIN.entityType("invoice@chinook", Invoice.class, Invoice.class.getName());
+  interface Invoice {
+    EntityType TYPE = DOMAIN.entityType("invoice@chinook", Invoice.class.getName());
 
     Column<Long> ID = TYPE.longColumn("invoiceid");
     Column<Long> CUSTOMER_ID = TYPE.longColumn("customerid");
@@ -210,10 +206,6 @@ public interface Chinook {
     FunctionType<EntityConnection, Collection<Long>, Collection<Entity>> UPDATE_TOTALS = functionType("chinook.update_totals");
 
     ValueSupplier<LocalDate> DATE_DEFAULT_VALUE = LocalDate::now;
-
-    default void updateTotal() {
-      put(TOTAL, optional(CALCULATED_TOTAL).orElse(BigDecimal.ZERO));
-    }
   }
   // end::invoice[]
 
