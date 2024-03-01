@@ -192,6 +192,13 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceLineEditModel.java[lines=19..-1]
 ----
 
+===== InvoiceLineEditModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/InvoiceLineEditModelTest.java[lines=19..-1]
+----
+
 ==== UI
 
 ===== InvoiceLineEditPanel

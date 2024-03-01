@@ -59,7 +59,7 @@ public final class TrackTableModelTest {
     }
   }
 
-  private EntityConnectionProvider createConnectionProvider() {
+  private static EntityConnectionProvider createConnectionProvider() {
     return LocalEntityConnectionProvider.builder()
             .domain(new ChinookImpl())
             .user(User.parse("scott:tiger"))
