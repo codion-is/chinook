@@ -74,15 +74,15 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                             .maximumLength(120),
                     Artist.NUMBER_OF_ALBUMS.define()
                             .subquery("""
-                            select count(*)
-                            from chinook.album
-                            where album.artistid = artist.artistid"""),
+                                      select count(*)
+                                      from chinook.album
+                                      where album.artistid = artist.artistid"""),
                     Artist.NUMBER_OF_TRACKS.define()
                             .subquery("""
-                            select count(*)
-                            from chinook.track
-                            join chinook.album on track.albumid = album.albumid
-                            where album.artistid = artist.artistid"""))
+                                      select count(*)
+                                      from chinook.track
+                                      join chinook.album on track.albumid = album.albumid
+                                      where album.artistid = artist.artistid"""))
             .tableName("chinook.artist")
             .keyGenerator(identity())
             .orderBy(ascending(Artist.NAME))
@@ -113,9 +113,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                             .derived(new CoverArtImageProvider(), Album.COVER),
                     Album.NUMBER_OF_TRACKS.define()
                             .subquery("""
-                            select count(*)
-                            from chinook.track
-                            where track.albumid = album.albumid"""))
+                                      select count(*)
+                                      from chinook.track
+                                      where track.albumid = album.albumid"""))
             .tableName("chinook.album")
             .keyGenerator(identity())
             .orderBy(ascending(Album.ARTIST_ID, Album.TITLE))
@@ -380,9 +380,9 @@ public final class ChinookImpl extends DefaultDomain implements Chinook {
                             .maximumFractionDigits(2),
                     Invoice.CALCULATED_TOTAL.define()
                             .subquery("""
-                            select sum(unitprice * quantity)
-                            from chinook.invoiceline
-                            where invoiceid = invoice.invoiceid""")
+                                      select sum(unitprice * quantity)
+                                      from chinook.invoiceline
+                                      where invoiceid = invoice.invoiceid""")
                             .maximumFractionDigits(2))
             .tableName("chinook.invoice")
             .keyGenerator(identity())
