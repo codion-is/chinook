@@ -23,7 +23,6 @@ import is.codion.common.db.operation.DatabaseFunction;
 import is.codion.common.format.LocaleDateTimePattern;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnection.Select;
-import is.codion.framework.demos.chinook.domain.api.Chinook;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
 import is.codion.framework.domain.DefaultDomain;
@@ -38,13 +37,14 @@ import java.util.Collection;
 import java.util.List;
 
 import static is.codion.framework.db.EntityConnection.Select.where;
+import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.framework.domain.entity.KeyGenerator.identity;
 import static is.codion.framework.domain.entity.OrderBy.ascending;
 import static is.codion.plugin.jasperreports.JasperReports.classPathReport;
 import static java.util.stream.Collectors.toList;
 
 // tag::chinook[]
-public final class ChinookImpl extends DefaultDomain implements Chinook {
+public final class ChinookImpl extends DefaultDomain {
 
   public ChinookImpl() {
     super(DOMAIN);
