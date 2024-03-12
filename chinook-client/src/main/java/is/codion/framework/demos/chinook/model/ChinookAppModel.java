@@ -32,8 +32,8 @@ public final class ChinookAppModel extends SwingEntityApplicationModel {
   public ChinookAppModel(EntityConnectionProvider connectionProvider) {
     super(connectionProvider, VERSION);
     addEntityModel(createAlbumModel(connectionProvider));
-    addEntityModel(initializePlaylistModel(connectionProvider));
-    addEntityModel(initializeCustomerModel(connectionProvider));
+    addEntityModel(createPlaylistModel(connectionProvider));
+    addEntityModel(createCustomerModel(connectionProvider));
   }
 
   private static SwingEntityModel createAlbumModel(EntityConnectionProvider connectionProvider) {
@@ -48,7 +48,7 @@ public final class ChinookAppModel extends SwingEntityApplicationModel {
     return albumModel;
   }
 
-  private static SwingEntityModel initializePlaylistModel(EntityConnectionProvider connectionProvider) {
+  private static SwingEntityModel createPlaylistModel(EntityConnectionProvider connectionProvider) {
     SwingEntityModel playlistModel = new SwingEntityModel(new PlaylistTableModel(connectionProvider));
     SwingEntityModel playlistTrackModel = new SwingEntityModel(PlaylistTrack.TYPE, connectionProvider);
     playlistTrackModel.editModel().initializeComboBoxModels(PlaylistTrack.PLAYLIST_FK);
@@ -60,7 +60,7 @@ public final class ChinookAppModel extends SwingEntityApplicationModel {
     return playlistModel;
   }
 
-  private static SwingEntityModel initializeCustomerModel(EntityConnectionProvider connectionProvider) {
+  private static SwingEntityModel createCustomerModel(EntityConnectionProvider connectionProvider) {
     SwingEntityModel customerModel = new SwingEntityModel(Customer.TYPE, connectionProvider);
     customerModel.editModel().initializeComboBoxModels(Customer.SUPPORTREP_FK);
     SwingEntityModel invoiceModel = new InvoiceModel(connectionProvider);
