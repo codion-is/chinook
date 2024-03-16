@@ -26,14 +26,14 @@ import is.codion.swing.framework.ui.component.EntitySearchField;
 public final class PlaylistTrackTablePanel extends EntityTablePanel {
 
   public PlaylistTrackTablePanel(SwingEntityTableModel tableModel) {
-    super(tableModel);
+    super(tableModel, config -> config
+            .editComponentFactory(PlaylistTrack.TRACK_FK, new TrackComponentFactory()));
     configureTrackConditionPanel();
-    setEditComponentFactory(PlaylistTrack.TRACK_FK, new TrackComponentFactory());
   }
 
   private void configureTrackConditionPanel() {
     conditionPanel().conditionPanel(PlaylistTrack.TRACK_FK)
             .map(conditionPanel -> (EntitySearchField) conditionPanel.equalField())
-            .ifPresent(equalField -> equalField.selectorFactory(new TrackSelectorFactory()));
+            .ifPresent(equalField -> equalField.selectorFactory().set(new TrackSelectorFactory()));
   }
 }
