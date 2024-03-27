@@ -36,33 +36,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public final class TrackTableModelTest {
 
-  @Test
-  public void raisePriceOfSelected() throws DatabaseException {
-    try (EntityConnectionProvider connectionProvider = createConnectionProvider()) {
-      Entity masterOfPuppets = connectionProvider.connection()
-              .selectSingle(Album.TITLE.equalTo("Master Of Puppets"));
+	@Test
+	public void raisePriceOfSelected() throws DatabaseException {
+		try (EntityConnectionProvider connectionProvider = createConnectionProvider()) {
+			Entity masterOfPuppets = connectionProvider.connection()
+							.selectSingle(Album.TITLE.equalTo("Master Of Puppets"));
 
-      TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
-      ColumnConditionModel<?, Entity> albumConditionModel =
-              trackTableModel.conditionModel().conditionModel(Track.ALBUM_FK);
+			TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
+			ColumnConditionModel<?, Entity> albumConditionModel =
+							trackTableModel.conditionModel().conditionModel(Track.ALBUM_FK);
 
-      albumConditionModel.setEqualValue(masterOfPuppets);
+			albumConditionModel.setEqualValue(masterOfPuppets);
 
-      trackTableModel.refresh();
-      assertEquals(8, trackTableModel.getRowCount());
+			trackTableModel.refresh();
+			assertEquals(8, trackTableModel.getRowCount());
 
-      trackTableModel.selectionModel().selectAll();
-      trackTableModel.raisePriceOfSelected(BigDecimal.ONE);
+			trackTableModel.selectionModel().selectAll();
+			trackTableModel.raisePriceOfSelected(BigDecimal.ONE);
 
-      trackTableModel.items().forEach(track ->
-              assertEquals(BigDecimal.valueOf(1.99), track.get(Track.UNITPRICE)));
-    }
-  }
+			trackTableModel.items().forEach(track ->
+							assertEquals(BigDecimal.valueOf(1.99), track.get(Track.UNITPRICE)));
+		}
+	}
 
-  private static EntityConnectionProvider createConnectionProvider() {
-    return LocalEntityConnectionProvider.builder()
-            .domain(new ChinookImpl())
-            .user(User.parse("scott:tiger"))
-            .build();
-  }
+	private static EntityConnectionProvider createConnectionProvider() {
+		return LocalEntityConnectionProvider.builder()
+						.domain(new ChinookImpl())
+						.user(User.parse("scott:tiger"))
+						.build();
+	}
 }
