@@ -30,11 +30,7 @@ public final class InvoiceEditModel extends SwingEntityEditModel {
 	public InvoiceEditModel(EntityConnectionProvider connectionProvider) {
 		super(Invoice.TYPE, connectionProvider);
 		persist(Invoice.CUSTOMER_FK).set(false);
-		bindEvents();
-	}
-
-	private void bindEvents() {
-		addEditListener(Invoice.CUSTOMER_FK, this::setAddress);
+		editEvent(Invoice.CUSTOMER_FK).addDataListener(this::setAddress);
 	}
 
 	private void setAddress(Entity customer) {
