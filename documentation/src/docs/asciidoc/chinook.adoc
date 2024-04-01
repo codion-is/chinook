@@ -256,6 +256,13 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/EmployeeEditPanel.java[lines=19..-1]
 ----
 
+===== EmployeeTablePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/EmployeeTablePanel.java[lines=19..-1]
+----
+
 == Albums
 
 image::albums.png[]
@@ -607,6 +614,15 @@ include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Ch
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=playlistTrack]
+----
+
+==== Model
+
+===== PlaylistTrackEditModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistTrackEditModel.java[lines=19..-1]
 ----
 
 ==== UI

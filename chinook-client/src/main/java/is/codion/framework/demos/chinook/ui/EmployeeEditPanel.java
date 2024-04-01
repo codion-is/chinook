@@ -28,9 +28,9 @@ import static is.codion.swing.common.ui.component.Components.flexibleGridLayoutP
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.layout.Layouts.flexibleGridLayout;
 
-public final class EmployeeEditPanel extends EntityEditPanel {
+final class EmployeeEditPanel extends EntityEditPanel {
 
-	public EmployeeEditPanel(SwingEntityEditModel editModel) {
+	EmployeeEditPanel(SwingEntityEditModel editModel) {
 		super(editModel);
 	}
 

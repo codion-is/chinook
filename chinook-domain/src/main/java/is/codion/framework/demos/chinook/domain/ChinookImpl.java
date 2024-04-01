@@ -30,6 +30,8 @@ import is.codion.framework.domain.entity.Entities;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.OrderBy;
 import is.codion.framework.domain.entity.StringFactory;
+import is.codion.framework.domain.entity.attribute.Column;
+import is.codion.framework.domain.entity.condition.ConditionProvider;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -41,6 +43,8 @@ import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.framework.domain.entity.KeyGenerator.identity;
 import static is.codion.framework.domain.entity.OrderBy.ascending;
 import static is.codion.plugin.jasperreports.JasperReports.classPathReport;
+import static java.lang.String.join;
+import static java.util.Collections.nCopies;
 import static java.util.stream.Collectors.toList;
 
 // tag::chinook[]
@@ -335,6 +339,7 @@ public final class ChinookImpl extends DefaultDomain {
 						.tableName("chinook.track")
 						.keyGenerator(identity())
 						.orderBy(ascending(Track.NAME))
+						.condition(Track.NOT_IN_PLAYLIST, new NotInPlaylistConditionProvider())
 						.stringFactory(Track.NAME));
 
 		add(Track.RAISE_PRICE, new RaisePriceFunction());
@@ -474,6 +479,20 @@ public final class ChinookImpl extends DefaultDomain {
 										.build()));
 	}
 	// end::playlistTrack[]
+
+	private static final class NotInPlaylistConditionProvider implements ConditionProvider {
+
+		@Override
+		public String toString(List<Column<?>> columns, List<?> values) {
+			return new StringBuilder()
+							.append("trackid NOT IN (\n")
+							.append("    SELECT trackid\n")
+							.append("    FROM chinook.playlisttrack\n")
+							.append("    WHERE playlistid IN (").append(join(", ", nCopies(values.size(), "?"))).append(")\n")
+							.append(")")
+							.toString();
+		}
+	}
 
 	// tag::updateTotalsFunction[]
 	private static final class UpdateTotalsFunction implements DatabaseFunction<EntityConnection, Collection<Long>, Collection<Entity>> {
