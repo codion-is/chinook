@@ -757,3 +757,14 @@ include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest
 ----
 include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewInvoice.java[lines=19..-1]
 ----
+
+== Module Info
+
+=== Domain
+
+==== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/module-info.java[lines=19..-1]
+----
