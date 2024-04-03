@@ -27,6 +27,6 @@ module is.codion.framework.demos.chinook.domain.api {
 
 	exports is.codion.framework.demos.chinook.domain.api;
 
-	//for accessing default methods in EntityType interfaces and resources
+	//for accessing i18n resources
 	opens is.codion.framework.demos.chinook.domain.api;
 }
