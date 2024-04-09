@@ -295,7 +295,8 @@ public final class ChinookImpl extends DefaultDomain {
 										Track.ID.define()
 														.primaryKey(),
 										Track.ALBUM_ID.define()
-														.column(),
+														.column()
+														.nullable(false),
 										Track.ALBUM_FK.define()
 														.foreignKey(2)
 														.attributes(Album.ARTIST_FK, Album.TITLE),
