@@ -41,7 +41,7 @@ public final class ViewAlbum implements Performer<EntityConnectionProvider> {
 						.limit(1)
 						.build());
 		if (!albums.isEmpty()) {
-			connection.select(Chinook.Track.ALBUM_FK.equalTo(albums.get(0)));
+			connection.select(Chinook.Track.ALBUM_FK.equalTo(albums.getFirst()));
 		}
 	}
 }
