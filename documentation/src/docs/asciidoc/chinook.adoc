@@ -408,6 +408,11 @@ include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Ch
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=album]
 ----
 
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=tagsConverter]
+----
+
 ==== UI
 
 ===== AlbumPanel
@@ -427,6 +432,11 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumEditPanel
 [source,java,options="nowrap"]
 ----
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CoverArtPanel.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTagPanel.java[lines=19..-1]
 ----
 
 ===== AlbumTablePanel
@@ -474,6 +484,11 @@ include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Ch
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=track]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=notInPlaylistConditionProvider]
 ----
 
 [source,java,options="nowrap"]

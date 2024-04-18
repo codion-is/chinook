@@ -20,6 +20,7 @@ package is.codion.framework.demos.chinook.domain;
 
 import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.db.operation.DatabaseFunction;
+import is.codion.common.db.result.ResultPacker;
 import is.codion.common.format.LocaleDateTimePattern;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnection.Select;
@@ -34,9 +35,15 @@ import is.codion.framework.domain.entity.attribute.Column;
 import is.codion.framework.domain.entity.condition.ConditionProvider;
 
 import java.math.BigDecimal;
+import java.sql.Array;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import static is.codion.framework.db.EntityConnection.Select.where;
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
@@ -119,7 +126,10 @@ public final class ChinookImpl extends DefaultDomain {
 														.subquery("""
 																		select count(*)
 																		from chinook.track
-																		where track.albumid = album.albumid"""))
+																		where track.albumid = album.albumid"""),
+										Album.TAGS.define()
+														.column()
+														.columnClass(Array.class, new TagsConverter(), ResultSet::getArray))
 						.tableName("chinook.album")
 						.keyGenerator(identity())
 						.orderBy(ascending(Album.ARTIST_ID, Album.TITLE))
@@ -481,6 +491,29 @@ public final class ChinookImpl extends DefaultDomain {
 	}
 	// end::playlistTrack[]
 
+	// tag::tagsConverter[]
+	private static final class TagsConverter implements Column.Converter<Set<String>, Array> {
+
+		private static final int ARRAY_VALUE_INDEX = 2;
+
+		private final ResultPacker<String> packer = resultSet -> resultSet.getString(ARRAY_VALUE_INDEX);
+
+		@Override
+		public Array toColumnValue(Set<String> value, Statement statement) throws SQLException {
+			return value.isEmpty() ? null :
+							statement.getConnection().createArrayOf("VARCHAR", value.toArray(new Object[0]));
+		}
+
+		@Override
+		public Set<String> fromColumnValue(Array columnValue) throws SQLException {
+			try (ResultSet resultSet = columnValue.getResultSet()) {
+				return new LinkedHashSet<>(packer.pack(resultSet));
+			}
+		}
+	}
+	// end::tagsConverter[]
+
+	// tag::notInPlaylistConditionProvider[]
 	private static final class NotInPlaylistConditionProvider implements ConditionProvider {
 
 		@Override
@@ -494,6 +527,7 @@ public final class ChinookImpl extends DefaultDomain {
 							.toString();
 		}
 	}
+	// end::notInPlaylistConditionProvider[]
 
 	// tag::updateTotalsFunction[]
 	private static final class UpdateTotalsFunction implements DatabaseFunction<EntityConnection, Collection<Long>, Collection<Entity>> {

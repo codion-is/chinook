@@ -19,11 +19,15 @@
 package is.codion.framework.demos.chinook.ui;
 
 import is.codion.framework.demos.chinook.domain.api.Chinook.Artist;
+import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.ui.EntityEditPanel;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.util.Set;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Album;
 import static is.codion.swing.common.ui.component.Components.borderLayoutPanel;
@@ -40,12 +44,14 @@ public final class AlbumEditPanel extends EntityEditPanel {
 	protected void initializeUI() {
 		initialFocusAttribute().set(Album.ARTIST_FK);
 
-		createForeignKeySearchFieldPanel(Album.ARTIST_FK, this::createArtistEditPanel)
+		createForeignKeySearchField(Album.ARTIST_FK)
 						.columns(15)
-						.add(true)
-						.edit(true);
+						.editPanel(this::createArtistEditPanel);
 		createTextField(Album.TITLE)
 						.columns(15);
+		ComponentValue<Set<String>, JList<String>> tagList = createList(new DefaultListModel<String>())
+						.items(Album.TAGS)
+						.buildValue();
 		component(Album.COVER).set(new CoverArtPanel(editModel().value(Album.COVER)));
 
 		JPanel centerPanel = borderLayoutPanel()
@@ -54,6 +60,7 @@ public final class AlbumEditPanel extends EntityEditPanel {
 														.add(createInputPanel(Album.ARTIST_FK))
 														.add(createInputPanel(Album.TITLE))
 														.build())
+										.centerComponent(createInputPanel(Album.TAGS, new AlbumTagPanel(tagList)))
 										.build())
 						.centerComponent(createInputPanel(Album.COVER))
 						.build();

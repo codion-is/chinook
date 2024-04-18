@@ -96,6 +96,8 @@ final class CoverArtPanel extends JPanel {
 														.control(Control.builder(this::removeCover)
 																		.smallIcon(FrameworkIcons.instance().icon(Foundation.MINUS))
 																		.enabled(imageSelected)))
+														.buttonBuilder(buttonBuilder ->
+																		buttonBuilder.transferFocusOnEnter(true))
 														.buttonGap(0)
 														.border(createEmptyBorder(0, 0, Layouts.GAP.get(), 0))
 														.build())
@@ -104,9 +106,9 @@ final class CoverArtPanel extends JPanel {
 	}
 
 	private void bindEvents() {
-		imageBytes.addDataListener(imageBytes -> imagePanel.setImage(readImage(imageBytes)));
-		imageBytes.addDataListener(imageBytes -> imageSelected.set(imageBytes != null));
-		embedded.addDataListener(this::setEmbedded);
+		imageBytes.addConsumer(imageBytes -> imagePanel.setImage(readImage(imageBytes)));
+		imageBytes.addConsumer(imageBytes -> imageSelected.set(imageBytes != null));
+		embedded.addConsumer(this::setEmbedded);
 		imagePanel.addMouseListener(new EmbeddingMouseListener());
 	}
 
