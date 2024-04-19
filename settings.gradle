@@ -19,13 +19,14 @@ include "documentation"
 
 dependencyResolutionManagement {
     repositories {
+        mavenLocal()
         maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
         mavenCentral()
     }
 
     versionCatalogs {
         libs {
-            version("codion", "0.17.40")
+            version("codion", "0.17.41")
             version("h2", "2.2.224")
             version("junit", "5.10.2")
             version("flatlaf", "3.4.1")
