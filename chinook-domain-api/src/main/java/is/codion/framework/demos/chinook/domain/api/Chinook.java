@@ -36,10 +36,6 @@ import is.codion.framework.domain.entity.exception.ValidationException;
 import is.codion.plugin.jasperreports.JRReportType;
 import is.codion.plugin.jasperreports.JasperReports;
 
-import javax.imageio.ImageIO;
-import java.awt.Image;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -83,7 +79,6 @@ public interface Chinook {
 		Column<String> TITLE = TYPE.stringColumn("title");
 		Column<Long> ARTIST_ID = TYPE.longColumn("artistid");
 		Column<byte[]> COVER = TYPE.byteArrayColumn("cover");
-		Attribute<Image> COVERIMAGE = TYPE.attribute("coverimage", Image.class);
 		Column<Integer> NUMBER_OF_TRACKS = TYPE.integerColumn("number_of_tracks");
 		Column<Set<String>> TAGS = TYPE.column("tags", new TypeReference<>() {});
 
@@ -322,31 +317,6 @@ public interface Chinook {
 		return milliseconds == 0 ? null : milliseconds;
 	}
 	// end::trackMinSecProvider[]
-
-	// tag::coverArtImageProvider[]
-	final class CoverArtImageProvider
-					implements DerivedAttribute.Provider<Image> {
-
-		@Serial
-		private static final long serialVersionUID = 1;
-
-		@Override
-		public Image get(SourceValues sourceValues) {
-			return sourceValues.optional(Album.COVER)
-							.map(CoverArtImageProvider::fromBytes)
-							.orElse(null);
-		}
-
-		private static Image fromBytes(byte[] bytes) {
-			try {
-				return ImageIO.read(new ByteArrayInputStream(bytes));
-			}
-			catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-	// end::coverArtImageProvider[]
 
 	// tag::customerStringFactory[]
 	final class CustomerStringFactory

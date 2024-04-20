@@ -471,11 +471,6 @@ include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Ch
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=coverArtImageProvider]
-----
-
-[source,java,options="nowrap"]
-----
 include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=coverFormatter]
 ----
 

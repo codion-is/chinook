@@ -120,8 +120,6 @@ public final class ChinookImpl extends DefaultDomain {
 										Album.COVER.define()
 														.column()
 														.format(new CoverFormatter()),
-										Album.COVERIMAGE.define()
-														.derived(new CoverArtImageProvider(), Album.COVER),
 										Album.NUMBER_OF_TRACKS.define()
 														.subquery("""
 																		select count(*)
