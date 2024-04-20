@@ -778,3 +778,24 @@ include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest
 ----
 include::{dir-source-domain-api}/module-info.java[lines=19..-1]
 ----
+
+==== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/module-info.java[lines=19..-1]
+----
+
+=== Client
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/module-info.java[lines=19..-1]
+----
+
+=== Load Test
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-loadtest}/module-info.java[lines=19..-1]
+----
