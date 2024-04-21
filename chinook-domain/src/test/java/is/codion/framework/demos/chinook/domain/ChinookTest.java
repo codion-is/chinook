@@ -27,7 +27,6 @@ import is.codion.framework.domain.entity.test.EntityTestUnit;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -123,7 +122,7 @@ public class ChinookTest extends EntityTestUnit {
 	protected Entity initializeTestEntity(EntityType entityType, Map<ForeignKey, Entity> foreignKeyEntities) {
 		Entity testEntity = super.initializeTestEntity(entityType, foreignKeyEntities);
 		if (entityType.equals(Album.TYPE)) {
-			testEntity.put(Album.TAGS, new HashSet<>(asList("tag_one", "tag_two")));
+			testEntity.put(Album.TAGS, asList("tag_one", "tag_two"));
 		}
 
 		return testEntity;
@@ -133,7 +132,7 @@ public class ChinookTest extends EntityTestUnit {
 	protected void modifyEntity(Entity testEntity, Map<ForeignKey, Entity> foreignKeyEntities) {
 		super.modifyEntity(testEntity, foreignKeyEntities);
 		if (testEntity.entityType().equals(Album.TYPE)) {
-			testEntity.put(Album.TAGS, new HashSet<>(asList("tag_one", "tag_two", "tag_three")));
+			testEntity.put(Album.TAGS, asList("tag_one", "tag_two", "tag_three"));
 		}
 	}
 }

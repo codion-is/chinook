@@ -42,9 +42,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import static is.codion.framework.db.EntityConnection.Select.where;
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
@@ -60,21 +58,12 @@ public final class ChinookImpl extends DefaultDomain {
 
 	public ChinookImpl() {
 		super(DOMAIN);
-		add(artist());
-		add(album());
-		add(employee());
-		add(customer());
+		add(artist(), album(), employee(), customer(), genre(), mediaType(),
+						track(), invoice(), invoiceLine(), playlist(), playlistTrack());
 		add(Customer.REPORT, classPathReport(ChinookImpl.class, "customer_report.jasper"));
-		add(genre());
-		add(mediaType());
-		add(track());
 		add(Track.RAISE_PRICE, new RaisePriceFunction());
-		add(invoice());
 		add(Invoice.UPDATE_TOTALS, new UpdateTotalsFunction());
-		add(invoiceLine());
-		add(playlist());
 		add(Playlist.RANDOM_PLAYLIST, new CreateRandomPlaylistFunction(entities()));
-		add(playlistTrack());
 	}
 	// end::chinook[]
 
@@ -487,22 +476,22 @@ public final class ChinookImpl extends DefaultDomain {
 	// end::playlistTrack[]
 
 	// tag::tagsConverter[]
-	private static final class TagsConverter implements Column.Converter<Set<String>, Array> {
+	private static final class TagsConverter implements Column.Converter<List<String>, Array> {
 
 		private static final int ARRAY_VALUE_INDEX = 2;
 
 		private final ResultPacker<String> packer = resultSet -> resultSet.getString(ARRAY_VALUE_INDEX);
 
 		@Override
-		public Array toColumnValue(Set<String> value, Statement statement) throws SQLException {
+		public Array toColumnValue(List<String> value, Statement statement) throws SQLException {
 			return value.isEmpty() ? null :
 							statement.getConnection().createArrayOf("VARCHAR", value.toArray(new Object[0]));
 		}
 
 		@Override
-		public Set<String> fromColumnValue(Array columnValue) throws SQLException {
+		public List<String> fromColumnValue(Array columnValue) throws SQLException {
 			try (ResultSet resultSet = columnValue.getResultSet()) {
-				return new LinkedHashSet<>(packer.pack(resultSet));
+				return packer.pack(resultSet);
 			}
 		}
 	}
