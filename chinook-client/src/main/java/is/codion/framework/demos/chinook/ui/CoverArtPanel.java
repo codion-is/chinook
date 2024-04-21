@@ -57,6 +57,7 @@ import static javax.swing.BorderFactory.createEtchedBorder;
 final class CoverArtPanel extends JPanel {
 
 	private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(CoverArtPanel.class.getName());
+	private static final FrameworkIcons ICONS = FrameworkIcons.instance();
 
 	private static final Dimension EMBEDDED_SIZE = new Dimension(200, 200);
 	private static final Dimension DIALOG_SIZE = new Dimension(400, 400);
@@ -64,7 +65,7 @@ final class CoverArtPanel extends JPanel {
 					new FileNameExtensionFilter(BUNDLE.getString("images"),
 									new String[] {"jpg", "jpeg", "png", "bmp", "gif"});
 
-	private final JPanel basePanel;
+	private final JPanel centerPanel;
 	private final NavigableImagePanel imagePanel;
 	private final Value<byte[]> imageBytes;
 	private final State imageSelected;
@@ -78,21 +79,21 @@ final class CoverArtPanel extends JPanel {
 		this.imageBytes = imageBytes;
 		this.imageSelected = State.state(imageBytes.isNotNull());
 		this.imagePanel = createImagePanel();
-		this.basePanel = createPanel();
-		add(basePanel, BorderLayout.CENTER);
+		this.centerPanel = createCenterPanel();
+		add(centerPanel, BorderLayout.CENTER);
 		bindEvents();
 	}
 
-	private JPanel createPanel() {
+	private JPanel createCenterPanel() {
 		return borderLayoutPanel()
 						.preferredSize(EMBEDDED_SIZE)
 						.centerComponent(imagePanel)
 						.southComponent(borderLayoutPanel()
 										.eastComponent(buttonPanel(Controls.builder()
 														.control(Control.builder(this::selectCover)
-																		.smallIcon(FrameworkIcons.instance().icon(Foundation.PLUS)))
+																		.smallIcon(ICONS.icon(Foundation.PLUS)))
 														.control(Control.builder(this::removeCover)
-																		.smallIcon(FrameworkIcons.instance().icon(Foundation.MINUS))
+																		.smallIcon(ICONS.icon(Foundation.MINUS))
 																		.enabled(imageSelected)))
 														.buttonBuilder(buttonBuilder -> buttonBuilder.transferFocusOnEnter(true))
 														.buttonGap(0)
@@ -132,19 +133,19 @@ final class CoverArtPanel extends JPanel {
 	}
 
 	private void embed() {
-		Utilities.disposeParentWindow(basePanel);
-		basePanel.setSize(EMBEDDED_SIZE);
+		Utilities.disposeParentWindow(centerPanel);
+		centerPanel.setSize(EMBEDDED_SIZE);
 		imagePanel.resetView();
-		add(basePanel, BorderLayout.CENTER);
+		add(centerPanel, BorderLayout.CENTER);
 		revalidate();
 		repaint();
 	}
 
 	private void displayInDialog() {
-		remove(basePanel);
+		remove(centerPanel);
 		revalidate();
 		repaint();
-		Dialogs.componentDialog(basePanel)
+		Dialogs.componentDialog(centerPanel)
 						.owner(this)
 						.modal(false)
 						.title(BUNDLE.getString("cover"))
