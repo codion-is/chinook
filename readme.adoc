@@ -14,7 +14,6 @@ gradlew documentation:asciidoctor
 ----
 
 ...and browse the tutorial here:
-
 [source]
 ----
 documentation/build/docs/asciidoc/chinook.html
@@ -38,7 +37,8 @@ Swing client application.
 
 === chinook-client-local
 
-Configuration only. Swing client configured with a local JDBC connection.
+Configuration only.
+Swing client configured with a local JDBC connection.
 
 ==== Run
 
@@ -59,7 +59,8 @@ gradlew chinook-client-local:jpackage
 
 === chinook-client-http
 
-Configuration only. Swing client configured with a HTTP connection.
+Configuration only.
+Swing client configured with a HTTP connection.
 
 ==== Run
 
@@ -80,7 +81,8 @@ gradlew chinook-client-http:jpackage
 
 === chinook-client-remote
 
-Configuration only. Swing client configured with a RMI connection.
+Configuration only.
+Swing client configured with a RMI connection.
 
 ==== Run
 
@@ -105,7 +107,8 @@ Load-test for the application.
 
 === chinook-load-test-http
 
-Configuration only. Load-test with a HTTP connection.
+Configuration only.
+Load-test with a HTTP connection.
 
 ==== Run
 
@@ -126,7 +129,8 @@ gradlew chinook-load-test-http:jpackage
 
 === chinook-load-test-remote
 
-Configuration only. Load-test with a RMI connection.
+Configuration only.
+Load-test with a RMI connection.
 
 ==== Run
 
@@ -147,7 +151,8 @@ gradlew chinook-load-test-remote:jpackage
 
 === chinook-server
 
-Configuration only. A Codion server configured for the Chinook application.
+Configuration only.
+A Codion server configured for the Chinook application.
 
 NOTE: The server runs with an in-memory H2 database, created on startup, so changes to data do not persist.
 
@@ -181,7 +186,8 @@ gradlew chinook-server:jpackage
 
 === chinook-server-monitor
 
-Configuration only. A Codion server monitor configured for the server.
+Configuration only.
+A Codion server monitor configured for the server.
 
 ==== Run
 

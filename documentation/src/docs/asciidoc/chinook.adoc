@@ -272,6 +272,7 @@ We start with a few support tables, artist, genre and media type.
 === Artist
 
 ==== SQL
+
 [source,sql,options="nowrap"]
 ----
 include::{dir-source-sql}/create_schema.sql[tags=artist]
@@ -280,12 +281,14 @@ include::{dir-source-sql}/create_schema.sql[tags=artist]
 ==== Domain
 
 ===== API
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=artist]
 ----
 
 ===== Implementation
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=artist]
@@ -303,6 +306,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ArtistEditPane
 === Genre
 
 ==== SQL
+
 [source,sql,options="nowrap"]
 ----
 include::{dir-source-sql}/create_schema.sql[tags=genre]
@@ -311,12 +315,14 @@ include::{dir-source-sql}/create_schema.sql[tags=genre]
 ==== Domain
 
 ===== API
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=genre]
 ----
 
 ===== Implementation
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=genre]
@@ -334,6 +340,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/GenreEditPanel
 === Media Type
 
 ==== SQL
+
 [source,sql,options="nowrap"]
 ----
 include::{dir-source-sql}/create_schema.sql[tags=mediaType]
@@ -342,12 +349,14 @@ include::{dir-source-sql}/create_schema.sql[tags=mediaType]
 ==== Domain
 
 ===== API
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=mediaType]
 ----
 
 ===== Implementation
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=mediaType]
@@ -365,6 +374,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/MediaTypeEditP
 === Artist
 
 ==== SQL
+
 [source,sql,options="nowrap"]
 ----
 include::{dir-source-sql}/create_schema.sql[tags=artist]
@@ -373,12 +383,14 @@ include::{dir-source-sql}/create_schema.sql[tags=artist]
 ==== Domain
 
 ===== API
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=artist]
 ----
 
 ===== Implementation
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=artist]
@@ -389,6 +401,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 === Album
 
 ==== SQL
+
 [source,sql,options="nowrap"]
 ----
 include::{dir-source-sql}/create_schema.sql[tags=album]
@@ -397,12 +410,14 @@ include::{dir-source-sql}/create_schema.sql[tags=album]
 ==== Domain
 
 ===== API
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=album]
 ----
 
 ===== Implementation
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=album]
