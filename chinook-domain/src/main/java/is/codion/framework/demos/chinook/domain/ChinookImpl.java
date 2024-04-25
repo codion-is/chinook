@@ -79,15 +79,15 @@ public final class ChinookImpl extends DefaultDomain {
 														.maximumLength(120),
 										Artist.NUMBER_OF_ALBUMS.define()
 														.subquery("""
-																		select count(*)
-																		from chinook.album
-																		where album.artistid = artist.artistid"""),
+																		SELECT COUNT(*)
+																		FROM chinook.album
+																		WHERE album.artistid = artist.artistid"""),
 										Artist.NUMBER_OF_TRACKS.define()
 														.subquery("""
-																		select count(*)
-																		from chinook.track
-																		join chinook.album on track.albumid = album.albumid
-																		where album.artistid = artist.artistid"""))
+																		SELECT COUNT(*)
+																		FROM chinook.track
+																		JOIN chinook.album ON track.albumid = album.albumid
+																		WHERE album.artistid = artist.artistid"""))
 						.tableName("chinook.artist")
 						.keyGenerator(identity())
 						.orderBy(ascending(Artist.NAME))
@@ -116,9 +116,9 @@ public final class ChinookImpl extends DefaultDomain {
 														.format(new CoverFormatter()),
 										Album.NUMBER_OF_TRACKS.define()
 														.subquery("""
-																		select count(*)
-																		from chinook.track
-																		where track.albumid = album.albumid"""),
+																		SELECT COUNT(*)
+																		FROM chinook.track
+																		WHERE track.albumid = album.albumid"""),
 										Album.TAGS.define()
 														.column()
 														.columnClass(Array.class, new TagsConverter(), ResultSet::getArray))
@@ -384,9 +384,9 @@ public final class ChinookImpl extends DefaultDomain {
 														.maximumFractionDigits(2),
 										Invoice.CALCULATED_TOTAL.define()
 														.subquery("""
-																		select sum(unitprice * quantity)
-																		from chinook.invoiceline
-																		where invoiceid = invoice.invoiceid""")
+																		SELECT SUM(unitprice * quantity)
+																		FROM chinook.invoiceline
+																		WHERE invoiceid = invoice.invoiceid""")
 														.maximumFractionDigits(2))
 						.tableName("chinook.invoice")
 						.keyGenerator(identity())
