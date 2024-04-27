@@ -24,13 +24,11 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist.RandomPlayl
 import is.codion.framework.demos.chinook.model.PlaylistTableModel;
 import is.codion.swing.common.ui.component.value.AbstractComponentValue;
 import is.codion.swing.common.ui.control.Control;
-import is.codion.swing.common.ui.control.Controls;
 import is.codion.swing.common.ui.dialog.Dialogs;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.icon.FrameworkIcons;
 
-import java.util.List;
 import java.util.ResourceBundle;
 
 public final class PlaylistTablePanel extends EntityTablePanel {
@@ -39,22 +37,20 @@ public final class PlaylistTablePanel extends EntityTablePanel {
 
 	public PlaylistTablePanel(SwingEntityTableModel tableModel) {
 		super(tableModel, new PlaylistEditPanel(tableModel.editModel()));
-	}
-
-	@Override
-	protected Controls createPopupMenuControls(List<Controls> additionalPopupMenuControls) {
-		return super.createPopupMenuControls(additionalPopupMenuControls)
-						.addAt(8, Control.builder(this::randomPlaylist)
+		configurePopupMenu(config -> config.clear()
+						.defaults(TableControl.VIEW_DEPENDENCIES)
+						.control(Control.builder(this::randomPlaylist)
 										.name(BUNDLE.getString("random_playlist"))
 										.smallIcon(FrameworkIcons.instance().add())
 										.build())
-						.addSeparatorAt(9);
+						.separator()
+						.defaults());
 	}
 
 	@Override
-	protected void setupControls() {
-		// No need for the edit value control in the popup menu
-		control(TableControl.EDIT_ATTRIBUTE).clear();
+	protected void configureControls() {
+		// No need for the edit value controls in the popup menu
+		control(TableControl.EDIT_ATTRIBUTE_CONTROLS).clear();
 	}
 
 	private void randomPlaylist() throws DatabaseException {
