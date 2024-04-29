@@ -31,6 +31,9 @@ import is.codion.swing.framework.ui.icon.FrameworkIcons;
 
 import java.util.ResourceBundle;
 
+import static is.codion.swing.framework.ui.EntityTablePanel.EntityTablePanelControl.DELETE;
+import static is.codion.swing.framework.ui.EntityTablePanel.EntityTablePanelControl.EDIT_ATTRIBUTE_CONTROLS;
+
 public final class PlaylistTablePanel extends EntityTablePanel {
 
 	private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(PlaylistTablePanel.class.getName());
@@ -38,11 +41,11 @@ public final class PlaylistTablePanel extends EntityTablePanel {
 	public PlaylistTablePanel(SwingEntityTableModel tableModel) {
 		super(tableModel, new PlaylistEditPanel(tableModel.editModel()));
 		configurePopupMenu(config -> config.clear()
-						.defaults(TableControl.VIEW_DEPENDENCIES)
+						.defaults(DELETE)
+						.separator()
 						.control(Control.builder(this::randomPlaylist)
 										.name(BUNDLE.getString("random_playlist"))
-										.smallIcon(FrameworkIcons.instance().add())
-										.build())
+										.smallIcon(FrameworkIcons.instance().add()))
 						.separator()
 						.defaults());
 	}
@@ -50,7 +53,7 @@ public final class PlaylistTablePanel extends EntityTablePanel {
 	@Override
 	protected void configureControls() {
 		// No need for the edit value controls in the popup menu
-		control(TableControl.EDIT_ATTRIBUTE_CONTROLS).clear();
+		control(EDIT_ATTRIBUTE_CONTROLS).clear();
 	}
 
 	private void randomPlaylist() throws DatabaseException {
