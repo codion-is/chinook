@@ -698,6 +698,16 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/ChinookAppM
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ChinookAppPanel.java[lines=19..-1]
 ----
 
+[#_messages]
+== Messages
+
+=== ChinookMessages
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/ChinookMessages.java[lines=19..-1]
+----
+
 [#_authenticator]
 == Authenticator
 
