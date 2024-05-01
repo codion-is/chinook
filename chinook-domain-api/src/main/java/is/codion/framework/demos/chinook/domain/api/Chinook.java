@@ -82,6 +82,7 @@ public interface Chinook {
 		Column<byte[]> COVER = TYPE.byteArrayColumn("cover");
 		Column<Integer> NUMBER_OF_TRACKS = TYPE.integerColumn("number_of_tracks");
 		Column<List<String>> TAGS = TYPE.column("tags", new TypeReference<>() {});
+		Column<Integer> RATING = TYPE.integerColumn("rating");
 
 		ForeignKey ARTIST_FK = TYPE.foreignKey("artist_fk", ARTIST_ID, Artist.ID);
 	}
@@ -167,6 +168,7 @@ public interface Chinook {
 		Column<Integer> MILLISECONDS = TYPE.integerColumn("milliseconds");
 		Column<String> MINUTES_SECONDS = TYPE.stringColumn("minutes_seconds");
 		Column<Integer> BYTES = TYPE.integerColumn("bytes");
+		Column<Integer> RATING = TYPE.integerColumn("rating");
 		Column<BigDecimal> UNITPRICE = TYPE.bigDecimalColumn("unitprice");
 		Column<Void> RANDOM = TYPE.column("random()", Void.class);
 

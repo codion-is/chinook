@@ -461,6 +461,11 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTagPanel.
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTablePanel.java[lines=19..-1]
 ----
 
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/RatingCellRendererFactory.java[lines=19..-1]
+----
+
 === Track
 
 ==== SQL
