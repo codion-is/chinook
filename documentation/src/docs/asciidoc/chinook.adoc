@@ -701,11 +701,11 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ChinookAppPane
 [#_messages]
 == Messages
 
-=== ChinookMessages
+=== ChinookResources
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/ChinookMessages.java[lines=19..-1]
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/ChinookResources.java[lines=19..-1]
 ----
 
 [#_authenticator]
