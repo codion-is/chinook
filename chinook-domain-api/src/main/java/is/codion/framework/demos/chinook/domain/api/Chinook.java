@@ -265,9 +265,9 @@ public interface Chinook {
 		private static final long serialVersionUID = 1;
 
 		@Override
-		public BigDecimal get(SourceValues sourceValues) {
-			Integer quantity = sourceValues.get(InvoiceLine.QUANTITY);
-			BigDecimal unitPrice = sourceValues.get(InvoiceLine.UNITPRICE);
+		public BigDecimal get(SourceValues values) {
+			Integer quantity = values.get(InvoiceLine.QUANTITY);
+			BigDecimal unitPrice = values.get(InvoiceLine.UNITPRICE);
 			if (unitPrice == null || quantity == null) {
 				return null;
 			}
@@ -285,8 +285,8 @@ public interface Chinook {
 		private static final long serialVersionUID = 1;
 
 		@Override
-		public String get(SourceValues sourceValues) {
-			return sourceValues.optional(Track.MILLISECONDS)
+		public String get(SourceValues values) {
+			return values.optional(Track.MILLISECONDS)
 							.map(TrackMinSecProvider::toMinutesSecondsString)
 							.orElse(null);
 		}

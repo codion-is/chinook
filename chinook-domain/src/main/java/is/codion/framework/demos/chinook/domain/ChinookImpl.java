@@ -26,7 +26,7 @@ import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnection.Select;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
-import is.codion.framework.domain.DefaultDomain;
+import is.codion.framework.domain.DomainModel;
 import is.codion.framework.domain.entity.Entities;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.EntityDefinition;
@@ -54,7 +54,7 @@ import static java.util.Collections.nCopies;
 import static java.util.stream.Collectors.toList;
 
 // tag::chinook[]
-public final class ChinookImpl extends DefaultDomain {
+public final class ChinookImpl extends DomainModel {
 
 	public ChinookImpl() {
 		super(DOMAIN);
