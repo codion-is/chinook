@@ -23,15 +23,14 @@ import is.codion.common.model.UserPreferences;
 import is.codion.common.user.User;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.swing.common.ui.component.combobox.Completion;
-import is.codion.swing.common.ui.component.table.FilteredTable;
-import is.codion.swing.common.ui.component.table.FilteredTableCellRenderer;
+import is.codion.swing.common.ui.component.table.FilterTable;
+import is.codion.swing.common.ui.component.table.FilterTableCellRenderer;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
 import is.codion.swing.common.ui.laf.LookAndFeelProvider;
 import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.ui.EntityApplicationPanel;
 import is.codion.swing.framework.ui.EntityPanel;
-import is.codion.swing.framework.ui.EntityPanel.PanelState;
 import is.codion.swing.framework.ui.EntityPanel.WindowType;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
@@ -57,6 +56,7 @@ import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.radioButton;
 import static is.codion.swing.common.ui.key.KeyboardShortcuts.keyStroke;
+import static is.codion.swing.framework.ui.EntityPanel.PanelState.HIDDEN;
 import static is.codion.swing.framework.ui.EntityTablePanel.EntityTablePanelControl.DELETE;
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.util.ResourceBundle.getBundle;
@@ -104,7 +104,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 										.editPanel(GenreEditPanel.class)
 										.detailPanel(trackPanelBuilder)
 										.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
-														.panelState(PanelState.HIDDEN)
+														.initialDetailState(HIDDEN)
 														.build());
 
 		SwingEntityModel.Builder mediaTypeModelBuilder =
@@ -116,7 +116,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 										.editPanel(MediaTypeEditPanel.class)
 										.detailPanel(trackPanelBuilder)
 										.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
-														.panelState(PanelState.HIDDEN)
+														.initialDetailState(HIDDEN)
 														.build());
 
 		EntityPanel.Builder artistPanelBuilder =
@@ -136,7 +136,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 										.tablePanel(EmployeeTablePanel.class)
 										.detailPanel(customerPanelBuilder)
 										.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
-														.panelState(PanelState.HIDDEN)
+														.initialDetailState(HIDDEN)
 														.build())
 										.preferredSize(new Dimension(1000, 500));
 
@@ -186,9 +186,9 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 						.map(keyStroke -> keyStroke(keyStroke.getKeyCode(), CTRL_DOWN_MASK));
 		EntityTablePanel.Config.COLUMN_SELECTION.set(EntityTablePanel.ColumnSelection.MENU);
 		EntityTablePanel.Config.INCLUDE_FILTER_PANEL.set(true);
-		FilteredTable.AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		FilteredTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
-		FilteredTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
+		FilterTable.AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		FilterTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
+		FilterTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
 		ReferentialIntegrityErrorHandling.REFERENTIAL_INTEGRITY_ERROR_HANDLING.set(ReferentialIntegrityErrorHandling.DISPLAY_DEPENDENCIES);
 		EntityApplicationPanel.builder(ChinookAppModel.class, ChinookAppPanel.class)
 						.applicationName("Chinook")
