@@ -31,6 +31,17 @@ The domain model API.
 
 The domain model implementation.
 
+=== chinook-domain-generator
+
+Configuration for the Codion Domain Generator.
+
+==== Run
+
+[source,shell]
+----
+gradlew chinook-domain-generator:run
+----
+
 === chinook-client
 
 Swing client application.

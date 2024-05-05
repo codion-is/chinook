@@ -6,6 +6,7 @@ rootProject.name = "chinook"
 
 include "chinook-domain-api"
 include "chinook-domain"
+include "chinook-domain-generator"
 include "chinook-client"
 include "chinook-client-local"
 include "chinook-client-remote"
@@ -49,6 +50,7 @@ dependencyResolutionManagement {
             library("codion-framework-db-http", "is.codion", "codion-framework-db-http").versionRef("codion")
             library("codion-swing-framework-model-tools", "is.codion", "codion-swing-framework-model-tools").versionRef("codion")
             library("codion-swing-framework-ui", "is.codion", "codion-swing-framework-ui").versionRef("codion")
+            library("codion-swing-framework-ui-tools", "is.codion", "codion-swing-framework-ui-tools").versionRef("codion")
             library("codion-plugin-jasperreports", "is.codion", "codion-plugin-jasperreports").versionRef("codion")
             library("codion-plugin-logback-proxy", "is.codion", "codion-plugin-logback-proxy").versionRef("codion")
             library("codion-plugin-imagepanel", "is.codion", "codion-plugin-imagepanel").versionRef("codion")

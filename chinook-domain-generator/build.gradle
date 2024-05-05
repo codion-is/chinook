@@ -1,0 +1,23 @@
+plugins {
+    id "chinook.application"
+}
+
+dependencies {
+    runtimeOnly(libs.codion.swing.framework.ui.tools)
+    runtimeOnly(libs.codion.dbms.h2)
+    runtimeOnly(libs.h2)
+}
+
+applicationDefaultJvmArgs = [
+        "-Xmx64m",
+        "-Dcodion.db.url=jdbc:h2:mem:h2db",
+        "-Dcodion.db.initScripts=../chinook-domain/src/main/resources/create_schema.sql,",
+        "-Dcodion.domain.generator.defaultDomainPackage=is.codion.framework.demos.chinook.domain.api",
+        "-Dcodion.domain.generator.defaultUsername=sa",
+        "-Dsun.awt.disablegrab=true"
+]
+
+application {
+    mainModule.set("is.codion.swing.framework.ui.tools")
+    mainClass.set("is.codion.swing.framework.ui.tools.generator.DomainGeneratorPanel")
+}
