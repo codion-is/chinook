@@ -156,6 +156,20 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoicePanel.j
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceEditPanel.java[lines=19..-1]
 ----
 
+===== InvoiceTablePanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceTablePanel.java[lines=19..-1]
+----
+
+===== InvoiceConditionPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceConditionPanel.java[lines=19..-1]
+----
+
 === Invoice Line
 
 ==== SQL

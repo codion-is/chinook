@@ -19,12 +19,14 @@
 package is.codion.framework.demos.chinook.ui;
 
 import is.codion.framework.demos.chinook.domain.api.Chinook.PlaylistTrack;
+import is.codion.framework.domain.entity.attribute.Attribute;
 import is.codion.swing.common.ui.component.table.FilterColumnConditionPanel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.ui.EntityEditPanel.Confirmer;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.component.EntitySearchField;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public final class PlaylistTrackTablePanel extends EntityTablePanel {
@@ -41,10 +43,11 @@ public final class PlaylistTrackTablePanel extends EntityTablePanel {
 	}
 
 	private void configureTrackConditionPanel() {
-		conditionPanel().conditionPanel(PlaylistTrack.TRACK_FK)
-						.map(FilterColumnConditionPanel.class::cast)
-						.ifPresent(conditionPanel -> Stream.of(conditionPanel.equalField(), conditionPanel.inField())
-										.map(EntitySearchField.class::cast)
-										.forEach(field -> field.selectorFactory().set(new TrackSelectorFactory())));
+		FilterColumnConditionPanel<Attribute<?>, ?> conditionPanel = conditionPanel().conditionPanel(PlaylistTrack.TRACK_FK);
+		Stream.of(conditionPanel.equalField(), conditionPanel.inField())
+						.filter(Optional::isPresent)
+						.map(Optional::get)
+						.map(EntitySearchField.class::cast)
+						.forEach(field -> field.selectorFactory().set(new TrackSelectorFactory()));
 	}
 }
