@@ -59,6 +59,11 @@ import static java.util.ResourceBundle.getBundle;
 public interface Chinook {
 
 	DomainType DOMAIN = domainType("ChinookImpl");
+
+	/**
+	 * Used when converting from a Dto to Entity.
+	 */
+	interface EntityBuilder extends Function<EntityType, Entity.Builder> {}
 	// end::chinook[]
 
 	// tag::artist[]
@@ -69,6 +74,21 @@ public interface Chinook {
 		Column<String> NAME = TYPE.stringColumn("name");
 		Column<Integer> NUMBER_OF_ALBUMS = TYPE.integerColumn("number_of_albums");
 		Column<Integer> NUMBER_OF_TRACKS = TYPE.integerColumn("number_of_tracks");
+
+		static Dto dto(Entity artist) {
+			return artist == null ? null :
+							new Dto(artist.get(ID), artist.get(NAME));
+		}
+
+		record Dto(Long id, String name) {
+
+			public Entity entity(EntityBuilder builder) {
+				return builder.apply(TYPE)
+								.with(ID, id)
+								.with(NAME, name)
+								.build();
+			}
+		}
 	}
 	// end::artist[]
 
@@ -85,6 +105,23 @@ public interface Chinook {
 		Column<Integer> RATING = TYPE.integerColumn("rating");
 
 		ForeignKey ARTIST_FK = TYPE.foreignKey("artist_fk", ARTIST_ID, Artist.ID);
+
+		static Dto dto(Entity album) {
+			return album == null ? null :
+							new Dto(album.get(ID), album.get(TITLE),
+											Artist.dto(album.get(ARTIST_FK)));
+		}
+
+		record Dto(Long id, String title, Artist.Dto artist) {
+
+			public Entity entity(EntityBuilder builder) {
+				return builder.apply(TYPE)
+								.with(ID, id)
+								.with(TITLE, title)
+								.with(ARTIST_FK, artist.entity(builder))
+								.build();
+			}
+		}
 	}
 	// end::album[]
 
@@ -142,6 +179,21 @@ public interface Chinook {
 
 		Column<Long> ID = TYPE.longColumn("genreid");
 		Column<String> NAME = TYPE.stringColumn("name");
+
+		static Dto dto(Entity genre) {
+			return genre == null ? null :
+							new Dto(genre.get(ID), genre.get(NAME));
+		}
+
+		record Dto(Long id, String name) {
+
+			public Entity entity(EntityBuilder builder) {
+				return builder.apply(TYPE)
+								.with(ID, id)
+								.with(NAME, name)
+								.build();
+			}
+		}
 	}
 	// end::genre[]
 
@@ -151,6 +203,21 @@ public interface Chinook {
 
 		Column<Long> ID = TYPE.longColumn("mediatypeid");
 		Column<String> NAME = TYPE.stringColumn("name");
+
+		static Dto dto(Entity mediaType) {
+			return mediaType == null ? null :
+							new Dto(mediaType.get(ID), mediaType.get(NAME));
+		}
+
+		record Dto(Long id, String name) {
+
+			public Entity entity(EntityBuilder factory) {
+				return factory.apply(TYPE)
+								.with(ID, id)
+								.with(NAME, name)
+								.build();
+			}
+		}
 	}
 	// end::mediaType[]
 
@@ -180,11 +247,42 @@ public interface Chinook {
 
 		ConditionType NOT_IN_PLAYLIST = TYPE.conditionType("not_in_playlist");
 
+		static Dto dto(Entity track) {
+			return track == null ? null :
+							new Dto(track.get(ID), track.get(NAME),
+											Album.dto(track.get(ALBUM_FK)),
+											Genre.dto(track.get(GENRE_FK)),
+											MediaType.dto(track.get(MEDIATYPE_FK)),
+											track.get(MILLISECONDS),
+											track.get(RATING),
+											track.get(UNITPRICE));
+		}
+
 		record RaisePriceParameters(Collection<Long> trackIds, BigDecimal priceIncrease) implements Serializable {
 
 			public RaisePriceParameters {
 				requireNonNull(trackIds);
 				requireNonNull(priceIncrease);
+
+			}
+		}
+
+		record Dto(Long id, String name, Album.Dto album,
+							 Genre.Dto genre, MediaType.Dto mediaType,
+							 Integer milliseconds, Integer rating,
+							 BigDecimal unitPrice) {
+
+			public Entity entity(EntityBuilder builder) {
+				return builder.apply(TYPE)
+								.with(ID, id)
+								.with(NAME, name)
+								.with(ALBUM_FK, album.entity(builder))
+								.with(GENRE_FK, genre.entity(builder))
+								.with(MEDIATYPE_FK, mediaType.entity(builder))
+								.with(MILLISECONDS, milliseconds)
+								.with(RATING, rating)
+								.with(UNITPRICE, unitPrice)
+								.build();
 			}
 		}
 	}

@@ -214,3 +214,52 @@ gradlew chinook-server-monitor:run
 gradlew chinook-server-monitor:jlink
 gradlew chinook-server-monitor:jpackage
 ----
+
+=== chinook-service
+
+An example of using the Codion persistance layer in a webservice, based on https://javalin.io[Javalin].
+
+==== Configuration
+
+The service port is configured in *gradle.properties*.
+
+[source,shell]
+----
+servicePort=8089
+----
+
+==== Run
+
+[source,shell]
+----
+gradlew chinook-service:run
+----
+
+==== Package
+
+[source,shell]
+----
+gradlew chinook-service:jlink
+gradlew chinook-service:jpackage
+----
+
+=== chinook-service-load-test
+
+A load-test for the service.
+
+==== Run
+
+NOTE: The service must be running
+
+[source,shell]
+----
+gradlew chinook-service-load-test:run
+----
+
+==== Package
+
+[source,shell]
+----
+gradlew chinook-service-load-test:jlink
+gradlew chinook-service-load-test:jpackage
+----

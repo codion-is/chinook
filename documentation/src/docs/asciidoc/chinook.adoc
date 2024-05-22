@@ -803,6 +803,90 @@ include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest
 include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewInvoice.java[lines=19..-1]
 ----
 
+[#_service]
+== Service
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service}/is/codion/framework/demos/chinook/service/ChinookService.java[lines=19..-1]
+----
+
+=== Connection
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service}/is/codion/framework/demos/chinook/service/connection/ConnectionSupplier.java[lines=19..-1]
+----
+
+=== Handlers
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service}/is/codion/framework/demos/chinook/service/handler/AbstractHandler.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service}/is/codion/framework/demos/chinook/service/handler/ArtistHandler.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service}/is/codion/framework/demos/chinook/service/handler/AlbumHandler.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service}/is/codion/framework/demos/chinook/service/handler/TrackHandler.java[lines=19..-1]
+----
+
+=== Unit test
+
+[source,java,options="nowrap"]
+----
+include::{dir-test-source-service}/is/codion/framework/demos/chinook/service/ChinookServiceTest.java[lines=19..-1]
+----
+
+[#_service_load_test]
+== Service load test
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/ChinookServiceLoadTest.java[lines=19..-1]
+----
+
+=== Scenarios
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/ArtistById.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/Artists.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/AlbumById.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/Albums.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/TrackById.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/Tracks.java[lines=19..-1]
+----
+
 == Module Info
 
 === Domain

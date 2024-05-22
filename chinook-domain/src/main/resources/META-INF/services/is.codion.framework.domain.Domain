@@ -1,0 +1,5 @@
+# This old school service configuration is only
+# included so that the domain is registered as a
+# service when used in unit tests, which don't
+# run on the module path
+is.codion.framework.demos.chinook.domain.ChinookImpl
