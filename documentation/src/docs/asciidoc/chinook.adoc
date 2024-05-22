@@ -6,9 +6,12 @@
 :dir-source-domain: ../../../../chinook-domain/src/main/java
 :dir-source-client: ../../../../chinook-client/src/main/java
 :dir-source-loadtest: ../../../../chinook-load-test/src/main/java
+:dir-source-service: ../../../../chinook-service/src/main/java
+:dir-source-service-load-test: ../../../../chinook-service-load-test/src/main/java
 :dir-source-sql: ../../../../chinook-domain/src/main/resources
 :dir-test-source-domain: ../../../../chinook-domain/src/test/java
 :dir-test-source-client: ../../../../chinook-client/src/test/java
+:dir-test-source-service: ../../../../chinook-service/src/test/java
 
 This demo application is based on the Chinook music store sample database.
 
@@ -216,6 +219,8 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceLineTab
 ----
 
 == Employees
+
+image::employees.png[]
 
 === Employee
 

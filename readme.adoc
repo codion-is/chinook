@@ -2,7 +2,7 @@
 
 A demo application based on the https://codion.is[Codion application framework].
 
-image::chinook-client/images/chinook-client.png[Chinook client]
+image::documentation/src/docs/asciidoc/images/customers.png[Chinook client]
 
 == Documentation
 
