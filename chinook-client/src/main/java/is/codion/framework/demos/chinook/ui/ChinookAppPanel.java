@@ -56,9 +56,9 @@ import java.util.ResourceBundle;
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.radioButton;
-import static is.codion.swing.common.ui.key.KeyboardShortcuts.keyStroke;
+import static is.codion.swing.common.ui.control.ControlKeyStrokes.keyStroke;
 import static is.codion.swing.framework.ui.EntityPanel.PanelState.HIDDEN;
-import static is.codion.swing.framework.ui.EntityTablePanel.EntityTablePanelControl.DELETE;
+import static is.codion.swing.framework.ui.EntityTablePanel.ControlIds.DELETE;
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.util.ResourceBundle.getBundle;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -146,10 +146,12 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 
 	@Override
 	protected Controls createViewMenuControls() {
-		return super.createViewMenuControls()
-						.addAt(2, Control.builder(this::selectLanguage)
+		return super.createViewMenuControls().copy()
+						.controlAt(2, Control.builder()
+										.command(this::selectLanguage)
 										.name(bundle.getString(SELECT_LANGUAGE))
-										.build());
+										.build())
+						.build();
 	}
 
 	private void selectLanguage() {
@@ -184,7 +186,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		EntityPanel.Config.WINDOW_TYPE.set(WindowType.FRAME);
 		EntityEditPanel.Config.MODIFIED_WARNING.set(true);
 		// Add a CTRL modifier to the DELETE key shortcut for table panels
-		EntityTablePanel.Config.KEYBOARD_SHORTCUTS.keyStroke(DELETE)
+		EntityTablePanel.Config.CONTROL_KEY_STROKES.keyStroke(DELETE)
 						.map(keyStroke -> keyStroke(keyStroke.getKeyCode(), CTRL_DOWN_MASK));
 		EntityTablePanel.Config.COLUMN_SELECTION.set(EntityTablePanel.ColumnSelection.MENU);
 		EntityTablePanel.Config.INCLUDE_FILTER_PANEL.set(true);

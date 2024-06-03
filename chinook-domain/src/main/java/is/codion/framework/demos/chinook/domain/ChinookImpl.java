@@ -336,6 +336,7 @@ public final class ChinookImpl extends DomainModel {
 										Track.RATING.define()
 														.column()
 														.nullable(false)
+														.defaultValue(5)
 														.valueRange(1, 10),
 										Track.UNITPRICE.define()
 														.column()

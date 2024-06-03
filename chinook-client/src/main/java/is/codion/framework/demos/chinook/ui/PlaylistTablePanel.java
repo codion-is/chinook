@@ -31,8 +31,8 @@ import is.codion.swing.framework.ui.icon.FrameworkIcons;
 
 import java.util.ResourceBundle;
 
-import static is.codion.swing.framework.ui.EntityTablePanel.EntityTablePanelControl.DELETE;
-import static is.codion.swing.framework.ui.EntityTablePanel.EntityTablePanelControl.EDIT_ATTRIBUTE_CONTROLS;
+import static is.codion.swing.framework.ui.EntityTablePanel.ControlIds.DELETE;
+import static is.codion.swing.framework.ui.EntityTablePanel.ControlIds.EDIT_ATTRIBUTE_CONTROLS;
 import static java.util.ResourceBundle.getBundle;
 
 public final class PlaylistTablePanel extends EntityTablePanel {
@@ -44,7 +44,8 @@ public final class PlaylistTablePanel extends EntityTablePanel {
 		configurePopupMenu(config -> config.clear()
 						.defaults(DELETE)
 						.separator()
-						.control(Control.builder(this::randomPlaylist)
+						.control(Control.builder()
+										.command(this::randomPlaylist)
 										.name(BUNDLE.getString("random_playlist"))
 										.smallIcon(FrameworkIcons.instance().add()))
 						.separator()
