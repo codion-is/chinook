@@ -603,6 +603,13 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 ==== Model
 
+===== PlaylistEditModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistEditModel.java[lines=19..-1]
+----
+
 ===== PlaylistTableModel
 
 [source,java,options="nowrap"]
