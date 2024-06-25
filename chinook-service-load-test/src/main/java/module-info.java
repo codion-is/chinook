@@ -22,6 +22,6 @@
 module is.codion.framework.demos.chinook.service.loadtest {
 	requires java.net.http;
 	requires com.fasterxml.jackson.databind;
-	requires is.codion.swing.common.ui.tools;
+	requires is.codion.tools.loadtest.ui;
 	requires is.codion.framework.demos.chinook.domain.api;
 }

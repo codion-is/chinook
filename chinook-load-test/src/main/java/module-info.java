@@ -21,7 +21,7 @@
  */
 module is.codion.framework.demos.chinook.client.loadtest {
 	requires is.codion.common.model;
-	requires is.codion.swing.common.ui.tools;
+	requires is.codion.tools.loadtest.ui;
 	requires is.codion.framework.db.core;
 	requires is.codion.framework.demos.chinook.domain.api;
 	requires is.codion.framework.demos.chinook.client;

@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation project(":chinook-domain-api")
-    implementation(libs.codion.swing.common.ui.tools)
+    implementation(libs.codion.tools.loadtest.ui)
     implementation(libs.jackson.databind)
 }
 

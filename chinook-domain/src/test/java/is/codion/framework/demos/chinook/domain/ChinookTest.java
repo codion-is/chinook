@@ -21,8 +21,9 @@ package is.codion.framework.demos.chinook.domain;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.domain.entity.EntityType;
+import is.codion.framework.domain.entity.attribute.Attribute;
 import is.codion.framework.domain.entity.attribute.ForeignKey;
+import is.codion.framework.domain.entity.test.DefaultEntityFactory;
 import is.codion.framework.domain.entity.test.EntityTestUnit;
 
 import org.junit.jupiter.api.Test;
@@ -37,62 +38,64 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChinookTest extends EntityTestUnit {
 
+	private static final ChinookImpl DOMAIN = new ChinookImpl();
+
 	public ChinookTest() {
-		super(new ChinookImpl());
+		super(DOMAIN, new ChinookEntityFactory());
 	}
 
 	@Test
-	public void album() throws Exception {
+	void album() throws Exception {
 		test(Album.TYPE);
 	}
 
 	@Test
-	public void artist() throws Exception {
+	void artist() throws Exception {
 		test(Artist.TYPE);
 	}
 
 	@Test
-	public void customer() throws Exception {
+	void customer() throws Exception {
 		test(Customer.TYPE);
 	}
 
 	@Test
-	public void employee() throws Exception {
+	void employee() throws Exception {
 		test(Employee.TYPE);
 	}
 
 	@Test
-	public void genre() throws Exception {
+	void genre() throws Exception {
 		test(Genre.TYPE);
 	}
 
 	@Test
-	public void invoce() throws Exception {
+	void invoce() throws Exception {
 		test(Invoice.TYPE);
 	}
 
 	@Test
-	public void invoiceLine() throws Exception {
+	void invoiceLine() throws Exception {
 		test(InvoiceLine.TYPE);
 	}
 
 	@Test
-	public void mediaType() throws Exception {
+	void mediaType() throws Exception {
 		test(MediaType.TYPE);
 	}
 
 	@Test
-	public void playlist() throws Exception {
+	void playlist() throws Exception {
 		test(Playlist.TYPE);
 	}
 
 	@Test
-	public void playlistTrack() throws Exception {
+	void playlistTrack() throws Exception {
 		test(PlaylistTrack.TYPE);
 	}
 
 	@Test
-	public void track() throws Exception {
+	void track() throws Exception {
 		test(Track.TYPE);
 	}
 
@@ -118,21 +121,27 @@ public class ChinookTest extends EntityTestUnit {
 		}
 	}
 
-	@Override
-	protected Entity initializeTestEntity(EntityType entityType, Map<ForeignKey, Entity> foreignKeyEntities) {
-		Entity testEntity = super.initializeTestEntity(entityType, foreignKeyEntities);
-		if (entityType.equals(Album.TYPE)) {
-			testEntity.put(Album.TAGS, asList("tag_one", "tag_two"));
+	private static final class ChinookEntityFactory extends DefaultEntityFactory {
+
+		private ChinookEntityFactory() {
+			super(DOMAIN.entities());
 		}
 
-		return testEntity;
-	}
+		@Override
+		public void modify(Entity entity, Map<ForeignKey, Entity> foreignKeyEntities) {
+			super.modify(entity, foreignKeyEntities);
+			if (entity.entityType().equals(Album.TYPE)) {
+				entity.put(Album.TAGS, asList("tag_one", "tag_two", "tag_three"));
+			}
+		}
 
-	@Override
-	protected void modifyEntity(Entity testEntity, Map<ForeignKey, Entity> foreignKeyEntities) {
-		super.modifyEntity(testEntity, foreignKeyEntities);
-		if (testEntity.entityType().equals(Album.TYPE)) {
-			testEntity.put(Album.TAGS, asList("tag_one", "tag_two", "tag_three"));
+		@Override
+		protected <T> T createValue(Attribute<T> attribute, Map<ForeignKey, Entity> referenceEntities) {
+			if (attribute.equals(Album.TAGS)) {
+				return (T) asList("tag_one", "tag_two");
+			}
+
+			return super.createValue(attribute, referenceEntities);
 		}
 	}
 }

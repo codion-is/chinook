@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    runtimeOnly(libs.codion.swing.framework.ui.tools)
+    runtimeOnly(libs.codion.tools.generator.ui)
     runtimeOnly(libs.codion.dbms.h2)
     runtimeOnly(libs.h2)
 }
@@ -18,6 +18,6 @@ applicationDefaultJvmArgs = [
 ]
 
 application {
-    mainModule.set("is.codion.swing.framework.ui.tools")
-    mainClass.set("is.codion.swing.framework.ui.tools.generator.DomainGeneratorPanel")
+    mainModule.set("is.codion.tools.generator.ui")
+    mainClass.set("is.codion.tools.generator.ui.DomainGeneratorPanel")
 }

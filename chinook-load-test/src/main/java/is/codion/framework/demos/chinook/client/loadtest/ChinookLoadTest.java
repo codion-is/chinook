@@ -35,13 +35,13 @@ import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewInvoice;
 import is.codion.framework.demos.chinook.domain.api.Chinook;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.demos.chinook.ui.ChinookAppPanel;
-import is.codion.swing.common.model.tools.loadtest.LoadTestModel;
+import is.codion.tools.loadtest.model.LoadTestModel;
 
 import java.util.Collection;
 import java.util.function.Function;
 
 import static is.codion.common.model.loadtest.LoadTest.Scenario.scenario;
-import static is.codion.swing.common.ui.tools.loadtest.LoadTestPanel.loadTestPanel;
+import static is.codion.tools.loadtest.ui.LoadTestPanel.loadTestPanel;
 import static java.util.Arrays.asList;
 
 public final class ChinookLoadTest {
