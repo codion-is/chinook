@@ -71,17 +71,17 @@ public class ChinookServiceTest {
 	@Test
 	public void get() throws Exception {
 		try (HttpClient client = newHttpClient()) {
-			assertGet("/artist/id/42", OK, client);
-			assertGet("/artist/id/-42", INTERNAL_SERVER_ERROR, client);
+			assertGet("/artists/id/42", OK, client);
+			assertGet("/artists/id/-42", INTERNAL_SERVER_ERROR, client);
 			assertGet("/artists", OK, client);
 			assertGet("/artists/name/metallica", OK, client);
-			assertGet("/album/id/42", OK, client);
-			assertGet("/album/id/-42", INTERNAL_SERVER_ERROR, client);
+			assertGet("/albums/id/42", OK, client);
+			assertGet("/albums/id/-42", INTERNAL_SERVER_ERROR, client);
 			assertGet("/albums", OK, client);
 			assertGet("/albums/title/" + encode("master of puppets"), OK, client);
 			assertGet("/albums/artist/name/metallica", OK, client);
-			assertGet("/track/id/42", OK, client);
-			assertGet("/track/id/-42", INTERNAL_SERVER_ERROR, client);
+			assertGet("/tracks/id/42", OK, client);
+			assertGet("/tracks/id/-42", INTERNAL_SERVER_ERROR, client);
 			assertGet("/tracks", OK, client);
 			assertGet("/tracks/name/orion", OK, client);
 			assertGet("/tracks/artist/name/metallica", OK, client);
@@ -93,28 +93,28 @@ public class ChinookServiceTest {
 		try (HttpClient client = newHttpClient()) {
 			String payload = OBJECT_MAPPER.writeValueAsString(new MediaType.Dto(null, "New mediatype"));
 			MediaType.Dto mediaType = OBJECT_MAPPER.readerFor(MediaType.Dto.class)
-							.readValue(assertPost("/mediatype", OK, client, payload));
+							.readValue(assertPost("/mediatypes", OK, client, payload));
 			assertEquals("New mediatype", mediaType.name());
 
 			payload = OBJECT_MAPPER.writeValueAsString(new Genre.Dto(null, "New genre"));
 			Genre.Dto genre = OBJECT_MAPPER.readerFor(Genre.Dto.class)
-							.readValue(assertPost("/genre", OK, client, payload));
+							.readValue(assertPost("/genres", OK, client, payload));
 			assertEquals("New genre", genre.name());
 
 			payload = OBJECT_MAPPER.writeValueAsString(new Artist.Dto(null, "New artist"));
 			Artist.Dto artist = OBJECT_MAPPER.readerFor(Artist.Dto.class)
-							.readValue(assertPost("/artist", OK, client, payload));
+							.readValue(assertPost("/artists", OK, client, payload));
 			assertEquals("New artist", artist.name());
 
 			payload = OBJECT_MAPPER.writeValueAsString(new Album.Dto(null, "New album", artist));
 			Album.Dto album  = OBJECT_MAPPER.readerFor(Album.Dto.class)
-							.readValue(assertPost("/album", OK, client, payload));
+							.readValue(assertPost("/albums", OK, client, payload));
 			assertEquals("New album", album.title());
 
 			payload = OBJECT_MAPPER.writeValueAsString(new Track.Dto(null, "New track", album, genre,
 							mediaType, 10_000_000, 7, BigDecimal.ONE));
 			Track.Dto track = OBJECT_MAPPER.readerFor(Track.Dto.class)
-							.readValue(assertPost("/track", OK, client, payload));
+							.readValue(assertPost("/tracks", OK, client, payload));
 			assertEquals("New track", track.name());
 			assertEquals(album, track.album());
 			assertEquals(genre, track.genre());

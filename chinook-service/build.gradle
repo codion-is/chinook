@@ -8,7 +8,7 @@ dependencies {
     implementation(libs.codion.plugin.hikari.pool);
     implementation(libs.jackson.databind)
     implementation(libs.javalin) {
-        exclude group: "org.jetbrains", module: "annotations"
+        exclude group: "org.jetbrains"
     }
 
     runtimeOnly(libs.codion.plugin.logback.proxy)

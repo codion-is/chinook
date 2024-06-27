@@ -53,22 +53,22 @@ final class ChinookService {
 	private final GenreHandler genre = new GenreHandler(connectionSupplier);
 
 	ChinookService() throws DatabaseException {
-		javalin.get("/artist/id/{id}", artists::byId);
 		javalin.get("/artists", artists::artists);
+		javalin.get("/artists/id/{id}", artists::byId);
 		javalin.get("/artists/name/{name}", artists::byName);
-		javalin.get("/album/id/{id}", albums::byId);
+		javalin.post("/artists", artists::post);
 		javalin.get("/albums", albums::albums);
+		javalin.get("/albums/id/{id}", albums::byId);
 		javalin.get("/albums/title/{title}", albums::byTitle);
 		javalin.get("/albums/artist/name/{name}", albums::byArtistName);
-		javalin.get("/track/id/{id}", tracks::byId);
+		javalin.post("/albums", albums::post);
 		javalin.get("/tracks", tracks::tracks);
+		javalin.get("/tracks/id/{id}", tracks::byId);
 		javalin.get("/tracks/name/{name}", tracks::byName);
 		javalin.get("/tracks/artist/name/{name}", tracks::byArtistName);
-		javalin.post("/mediatype", mediaType::post);
-		javalin.post("/genre", genre::post);
-		javalin.post("/artist", artists::post);
-		javalin.post("/album", albums::post);
-		javalin.post("/track", tracks::post);
+		javalin.post("/tracks", tracks::post);
+		javalin.post("/mediatypes", mediaType::post);
+		javalin.post("/genres", genre::post);
 	}
 
 	void start() {
