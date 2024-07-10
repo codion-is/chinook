@@ -23,6 +23,8 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.demos.chinook.model.TrackTableModel;
 import is.codion.framework.demos.chinook.ui.MinutesSecondsPanelValue.MinutesSecondsPanel;
 import is.codion.framework.domain.entity.attribute.Attribute;
+import is.codion.swing.common.ui.component.table.FilterTableCellEditorFactory;
+import is.codion.swing.common.ui.component.table.FilterTableColumn;
 import is.codion.swing.common.ui.component.text.NumberField;
 import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.common.ui.control.Control;
@@ -34,10 +36,13 @@ import is.codion.swing.framework.ui.component.DefaultEntityComponentFactory;
 import is.codion.swing.framework.ui.component.EntityComponents;
 
 import javax.swing.JSpinner;
+import javax.swing.table.TableCellEditor;
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static is.codion.swing.common.ui.component.Components.bigDecimalField;
+import static is.codion.swing.common.ui.component.table.FilterTableCellEditor.filterTableCellEditor;
 import static is.codion.swing.framework.ui.component.EntityComponents.entityComponents;
 import static java.util.ResourceBundle.getBundle;
 
@@ -49,9 +54,9 @@ public final class TrackTablePanel extends EntityTablePanel {
 		super(tableModel, config -> config
 						.editComponentFactory(Track.RATING, new RatingComponentFactory())
 						.editComponentFactory(Track.MILLISECONDS, new MinutesSecondsComponentFactory(false))
-						.tableCellEditorFactory(Track.MILLISECONDS, new MinutesSecondsComponentFactory(true))
 						.configureTable(tableBuilder -> tableBuilder
-										.cellRendererFactory(new RatingCellRendererFactory(tableModel, Track.RATING)))
+										.cellRendererFactory(new RatingCellRendererFactory(tableModel, Track.RATING))
+										.cellEditorFactory(new TrackCellEditorFactory()))
 						.includeLimitMenu(true));
 		configurePopupMenu(config -> config.clear()
 						.control(Control.builder()
@@ -113,6 +118,19 @@ public final class TrackTablePanel extends EntityTablePanel {
 			minutesSecondsPanelValue.set(initialValue);
 
 			return minutesSecondsPanelValue;
+		}
+	}
+
+	private static final class TrackCellEditorFactory
+					implements FilterTableCellEditorFactory<Attribute<?>> {
+
+		@Override
+		public Optional<TableCellEditor> tableCellEditor(FilterTableColumn<Attribute<?>> column) {
+			if (column.identifier().equals(Track.MILLISECONDS)) {
+				return Optional.of(filterTableCellEditor(() -> new MinutesSecondsPanelValue(true)));
+			}
+
+			return Optional.empty();
 		}
 	}
 }
