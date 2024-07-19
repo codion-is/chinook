@@ -44,7 +44,7 @@ public final class NewArtist implements Performer<HttpClient> {
 	@Override
 	public void perform(HttpClient client) throws Exception {
 		if (client.send(HttpRequest.newBuilder()
-						.uri(URI.create(baseUrl + "/artist"))
+						.uri(URI.create(baseUrl + "/artists"))
 										.POST(ofString(OBJECT_MAPPER.writeValueAsString(
 														new Artist.Dto(null, Long.toString(currentTimeMillis())))))
 						.build(), ofString()).statusCode() != 200) {

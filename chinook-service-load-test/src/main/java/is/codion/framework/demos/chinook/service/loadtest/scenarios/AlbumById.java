@@ -40,7 +40,7 @@ public final class AlbumById implements Performer<HttpClient> {
 	@Override
 	public void perform(HttpClient client) throws Exception {
 		if (client.send(HttpRequest.newBuilder()
-						.uri(URI.create(baseUrl + "/album/id/" + randomAlbumId()))
+						.uri(URI.create(baseUrl + "/albums/id/" + randomAlbumId()))
 						.build(), ofString()).statusCode() != 200) {
 			throw new Exception(toString());
 		}

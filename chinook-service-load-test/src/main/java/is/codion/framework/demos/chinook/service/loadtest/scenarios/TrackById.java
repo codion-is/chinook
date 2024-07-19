@@ -40,7 +40,7 @@ public final class TrackById implements Performer<HttpClient> {
 	@Override
 	public void perform(HttpClient client) throws Exception {
 		if (client.send(HttpRequest.newBuilder()
-						.uri(URI.create(baseUrl + "/track/id/" + randomTrackId()))
+						.uri(URI.create(baseUrl + "/tracks/id/" + randomTrackId()))
 						.build(), ofString()).statusCode() != 200) {
 			throw new Exception(toString());
 		}
