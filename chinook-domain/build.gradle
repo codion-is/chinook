@@ -1,8 +1,9 @@
 plugins {
-    id "chinook.library"
+    id "java-library"
+    id "chinook.jasperreports"
+    id "chinook.spotless"
+    id "io.github.f-cramer.jasperreports" version "0.0.1"
 }
-
-apply plugin: BuildReportsPlugin
 
 dependencies {
     api project(":chinook-domain-api")
@@ -10,21 +11,25 @@ dependencies {
     implementation(libs.codion.framework.i18n)
     implementation(libs.codion.framework.db.local)
 
-    runtimeOnly(libs.commons.logging)
-    runtimeOnly(libs.commons.digester) {
-        transitive = false
+    implementation(libs.jasperreports) {
+        exclude group: "org.apache.xmlgraphics"
+        exclude group: "xml-apis"
     }
-    runtimeOnly(libs.commons.collections4)
-    runtimeOnly(libs.commons.beanutils) {
-        transitive = false
+    compileOnly(libs.jasperreports.jdt) {
+        exclude group: "org.apache.xmlgraphics"
+        exclude group: "xml-apis"
     }
-    runtimeOnly(libs.jdt.core.compiler)
 
     testImplementation(libs.codion.framework.domain.test)
     testRuntimeOnly(libs.codion.dbms.h2)
     testRuntimeOnly(libs.h2)
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
+}
+
+extraJavaModuleInfo {
+    automaticModule("net.sf.jasperreports:jasperreports-jdt", "jasperreports.jdt")
+    automaticModule("org.eclipse.jdt:ecj", "org.eclipse.jdt.ecj")
 }
 
 test {
@@ -34,7 +39,8 @@ test {
     systemProperty "codion.db.initScripts", "classpath:create_schema.sql"
 }
 
-buildReports {
-    sourceDir = file("src/main/reports")
-    targetDir = file(sourceSets.main.output.resourcesDir.toString() + "/is/codion/framework/demos/chinook/domain")
+jasperreports {
+    classpath.from(project.sourceSets.main.compileClasspath)
 }
+
+sourceSets.main.resources.srcDir(compileAllReports)

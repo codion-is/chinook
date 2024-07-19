@@ -1,5 +1,7 @@
 plugins {
-    id "chinook.library"
+    id "java-library"
+    id "chinook.jasperreports"
+    id "chinook.spotless"
 }
 
 dependencies {

@@ -1,5 +1,6 @@
 plugins {
-    id "chinook.server"
+    id "org.beryx.jlink"
+    id "chinook.jasperreports"
 }
 
 dependencies {

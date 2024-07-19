@@ -1,12 +1,13 @@
 plugins {
-    id "chinook.library"
+    id "java-library"
+    id "chinook.jasperreports"
+    id "chinook.spotless"
 }
 
 dependencies {
     api(libs.codion.framework.domain)
     api(libs.codion.framework.db.core)
     api(libs.codion.plugin.jasperreports)
-
     api(libs.jasperreports) {
         transitive = false
     }

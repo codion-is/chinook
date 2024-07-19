@@ -18,6 +18,7 @@
  */
 package is.codion.framework.demos.chinook.domain;
 
+import is.codion.common.db.exception.DatabaseException;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.domain.entity.Entity;
@@ -36,10 +37,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChinookTest extends DomainTest {
 
-	private static final ChinookImpl DOMAIN = new ChinookImpl();
-
 	public ChinookTest() {
-		super(DOMAIN, new ChinookEntityFactory());
+		super(new ChinookImpl(), ChinookEntityFactory::new);
 	}
 
 	@Test
@@ -121,12 +120,12 @@ public class ChinookTest extends DomainTest {
 
 	private static final class ChinookEntityFactory extends DefaultEntityFactory {
 
-		private ChinookEntityFactory() {
-			super(DOMAIN.entities());
+		private ChinookEntityFactory(EntityConnection connection) {
+			super(connection);
 		}
 
 		@Override
-		public void modify(Entity entity) {
+		public void modify(Entity entity) throws DatabaseException {
 			super.modify(entity);
 			if (entity.entityType().equals(Album.TYPE)) {
 				entity.put(Album.TAGS, asList("tag_one", "tag_two", "tag_three"));
@@ -134,7 +133,7 @@ public class ChinookTest extends DomainTest {
 		}
 
 		@Override
-		protected <T> T value(Attribute<T> attribute) {
+		protected <T> T value(Attribute<T> attribute) throws DatabaseException {
 			if (attribute.equals(Album.TAGS)) {
 				return (T) asList("tag_one", "tag_two");
 			}
