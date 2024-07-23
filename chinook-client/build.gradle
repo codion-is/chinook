@@ -1,6 +1,6 @@
 plugins {
     id "java-library"
-    id "chinook.jasperreports"
+    id "chinook.jasperreports.pdf"
     id "chinook.spotless"
 }
 
@@ -12,6 +12,10 @@ dependencies {
 
     implementation(libs.flatlaf.intellij.themes)
     implementation(libs.ikonli.foundation)
+
+    implementation(libs.jasperreports.pdf) {
+        exclude group: "net.sf.jasperreports"
+    }
 
     runtimeOnly(libs.codion.plugin.logback.proxy)
 

@@ -28,6 +28,9 @@ module is.codion.framework.demos.chinook.client {
 	requires com.formdev.flatlaf.intellijthemes;
 	requires org.kordamp.ikonli.foundation;
 	requires jasperreports;
+	requires jasperreports.pdf;
+	requires org.apache.commons.logging;
+	requires com.github.librepdf.openpdf;
 
 	exports is.codion.framework.demos.chinook.ui;
 	exports is.codion.framework.demos.chinook.model;

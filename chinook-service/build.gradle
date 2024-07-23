@@ -49,7 +49,7 @@ jlink {
                        "is.codion.plugin.logback.proxy,is.codion.plugin.hikari.pool," +
                        "is.codion.framework.demos.chinook.domain"]
 
-    addExtraDependencies("slf4j-api", "jackson-core", "jackson-annotation", "jackson-databind", "jetty-jakarta-servlet-api")
+    addExtraDependencies("slf4j-api", "jetty-jakarta-servlet-api")
 
     launcher {
         jvmArgs = applicationDefaultJvmArgs

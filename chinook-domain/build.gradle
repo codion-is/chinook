@@ -11,10 +11,6 @@ dependencies {
     implementation(libs.codion.framework.i18n)
     implementation(libs.codion.framework.db.local)
 
-    implementation(libs.jasperreports) {
-        exclude group: "org.apache.xmlgraphics"
-        exclude group: "xml-apis"
-    }
     compileOnly(libs.jasperreports.jdt) {
         exclude group: "net.sf.jasperreports"
     }
