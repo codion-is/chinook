@@ -1,13 +1,16 @@
 plugins {
-    id "chinook.jasperreports"
+    id "chinook.jasperreports.modules"
 }
 
 extraJavaModuleInfo {
     module("net.sf.jasperreports:jasperreports-pdf", "jasperreports.pdf") {
         exportAllPackages()
-        requireAllDefinedDependencies()
+        requires("jasperreports")
         requires("java.desktop")
+        requires("org.apache.commons.logging")
+        requires("com.github.librepdf.openpdf")
     }
+
     knownModule("commons-logging:commons-logging", "org.apache.commons.logging")
     knownModule("com.github.librepdf:openpdf", "com.github.librepdf.openpdf")
 

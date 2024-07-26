@@ -1,7 +1,7 @@
 plugins {
     id "org.beryx.jlink"
-    id "chinook.jasperreports"
-    id "chinook.spotless"
+    id "chinook.jasperreports.modules"
+    id "chinook.spotless.plugin"
 }
 
 dependencies {

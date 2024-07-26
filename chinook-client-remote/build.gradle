@@ -1,6 +1,6 @@
 plugins {
     id "org.beryx.jlink"
-    id "chinook.jasperreports.pdf"
+    id "chinook.jasperreports.pdf.modules"
 }
 
 dependencies {

@@ -1,7 +1,7 @@
 plugins {
     id "java-library"
-    id "chinook.jasperreports.pdf"
-    id "chinook.spotless"
+    id "chinook.jasperreports.pdf.modules"
+    id "chinook.spotless.plugin"
 }
 
 dependencies {
