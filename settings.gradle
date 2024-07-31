@@ -28,7 +28,7 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         libs {
-            version("codion", "0.18.6")
+            version("codion", "0.18.7")
             version("h2", "2.3.230")
             version("junit", "5.10.2")
             version("flatlaf", "3.5")
@@ -67,7 +67,6 @@ dependencyResolutionManagement {
             library("junit-api", "org.junit.jupiter", "junit-jupiter-api").versionRef("junit")
             library("junit-engine", "org.junit.jupiter", "junit-jupiter-engine").versionRef("junit")
 
-            library("flatlaf", "com.formdev", "flatlaf").versionRef("flatlaf")
             library("flatlaf-intellij-themes", "com.formdev", "flatlaf-intellij-themes").versionRef("flatlaf")
             library("ikonli-foundation", "org.kordamp.ikonli", "ikonli-foundation-pack").versionRef("ikonli.foundation")
             library("jasperreports-jdt", "net.sf.jasperreports", "jasperreports-jdt").versionRef("jasperreports")

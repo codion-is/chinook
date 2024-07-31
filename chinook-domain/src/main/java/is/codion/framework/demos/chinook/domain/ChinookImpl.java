@@ -68,7 +68,7 @@ public final class ChinookImpl extends DomainModel {
 	// end::chinook[]
 
 	// tag::artist[]
-	EntityDefinition.Builder artist() {
+	EntityDefinition artist() {
 		return Artist.TYPE.define(
 										Artist.ID.define()
 														.primaryKey(),
@@ -91,12 +91,13 @@ public final class ChinookImpl extends DomainModel {
 						.tableName("chinook.artist")
 						.keyGenerator(identity())
 						.orderBy(ascending(Artist.NAME))
-						.stringFactory(Artist.NAME);
+						.stringFactory(Artist.NAME)
+						.build();
 	}
 	// end::artist[]
 
 	// tag::album[]
-	EntityDefinition.Builder album() {
+	EntityDefinition album() {
 		return Album.TYPE.define(
 										Album.ID.define()
 														.primaryKey(),
@@ -130,12 +131,13 @@ public final class ChinookImpl extends DomainModel {
 						.tableName("chinook.album")
 						.keyGenerator(identity())
 						.orderBy(ascending(Album.ARTIST_ID, Album.TITLE))
-						.stringFactory(Album.TITLE);
+						.stringFactory(Album.TITLE)
+						.build();
 	}
 	// end::album[]
 
 	// tag::employee[]
-	EntityDefinition.Builder employee() {
+	EntityDefinition employee() {
 		return Employee.TYPE.define(
 										Employee.ID.define()
 														.primaryKey(),
@@ -199,12 +201,13 @@ public final class ChinookImpl extends DomainModel {
 										.value(Employee.LASTNAME)
 										.text(", ")
 										.value(Employee.FIRSTNAME)
-										.build());
+										.build())
+						.build();
 	}
 	// end::employee[]
 
 	// tag::customer[]
-	EntityDefinition.Builder customer() {
+	EntityDefinition customer() {
 		return Customer.TYPE.define(
 										Customer.ID.define()
 														.primaryKey(),
@@ -256,12 +259,13 @@ public final class ChinookImpl extends DomainModel {
 						.keyGenerator(identity())
 						.validator(new EmailValidator(Customer.EMAIL))
 						.orderBy(ascending(Customer.LASTNAME, Customer.FIRSTNAME))
-						.stringFactory(new CustomerStringFactory());
+						.stringFactory(new CustomerStringFactory())
+						.build();
 	}
 	// end::customer[]
 
 	// tag::genre[]
-	EntityDefinition.Builder genre() {
+	EntityDefinition genre() {
 		return Genre.TYPE.define(
 										Genre.ID.define()
 														.primaryKey(),
@@ -274,12 +278,13 @@ public final class ChinookImpl extends DomainModel {
 						.keyGenerator(identity())
 						.orderBy(ascending(Genre.NAME))
 						.stringFactory(Genre.NAME)
-						.smallDataset(true);
+						.smallDataset(true)
+						.build();
 	}
 	// end::genre[]
 
 	// tag::mediaType[]
-	EntityDefinition.Builder mediaType() {
+	EntityDefinition mediaType() {
 		return MediaType.TYPE.define(
 										MediaType.ID.define()
 														.primaryKey(),
@@ -290,12 +295,13 @@ public final class ChinookImpl extends DomainModel {
 						.tableName("chinook.mediatype")
 						.keyGenerator(identity())
 						.stringFactory(MediaType.NAME)
-						.smallDataset(true);
+						.smallDataset(true)
+						.build();
 	}
 	// end::mediaType[]
 
 	// tag::track[]
-	EntityDefinition.Builder track() {
+	EntityDefinition track() {
 		return Track.TYPE.define(
 										Track.ID.define()
 														.primaryKey(),
@@ -351,12 +357,13 @@ public final class ChinookImpl extends DomainModel {
 						.keyGenerator(identity())
 						.orderBy(ascending(Track.NAME))
 						.condition(Track.NOT_IN_PLAYLIST, new NotInPlaylistConditionProvider())
-						.stringFactory(Track.NAME);
+						.stringFactory(Track.NAME)
+						.build();
 	}
 	// end::track[]
 
 	// tag::invoice[]
-	EntityDefinition.Builder invoice() {
+	EntityDefinition invoice() {
 		return Invoice.TYPE.define(
 										Invoice.ID.define()
 														.primaryKey(),
@@ -404,12 +411,13 @@ public final class ChinookImpl extends DomainModel {
 										.ascending(Invoice.CUSTOMER_ID)
 										.descending(Invoice.DATE)
 										.build())
-						.stringFactory(Invoice.ID);
+						.stringFactory(Invoice.ID)
+						.build();
 	}
 	// end::invoice[]
 
 	// tag::invoiceLine[]
-	EntityDefinition.Builder invoiceLine() {
+	EntityDefinition invoiceLine() {
 		return InvoiceLine.TYPE.define(
 										InvoiceLine.ID.define()
 														.primaryKey(),
@@ -435,12 +443,13 @@ public final class ChinookImpl extends DomainModel {
 														.derived(new InvoiceLineTotalProvider(),
 																		InvoiceLine.QUANTITY, InvoiceLine.UNITPRICE))
 						.tableName("chinook.invoiceline")
-						.keyGenerator(identity());
+						.keyGenerator(identity())
+						.build();
 	}
 	// end::invoiceLine[]
 
 	// tag::playlist[]
-	EntityDefinition.Builder playlist() {
+	EntityDefinition playlist() {
 		return Playlist.TYPE.define(
 										Playlist.ID.define()
 														.primaryKey(),
@@ -452,12 +461,13 @@ public final class ChinookImpl extends DomainModel {
 						.tableName("chinook.playlist")
 						.keyGenerator(identity())
 						.orderBy(ascending(Playlist.NAME))
-						.stringFactory(Playlist.NAME);
+						.stringFactory(Playlist.NAME)
+						.build();
 	}
 	// end::playlist[]
 
 	// tag::playlistTrack[]
-	EntityDefinition.Builder playlistTrack() {
+	EntityDefinition playlistTrack() {
 		return PlaylistTrack.TYPE.define(
 										PlaylistTrack.ID.define()
 														.primaryKey(),
@@ -481,7 +491,8 @@ public final class ChinookImpl extends DomainModel {
 										.value(PlaylistTrack.PLAYLIST_FK)
 										.text(" - ")
 										.value(PlaylistTrack.TRACK_FK)
-										.build());
+										.build())
+						.build();
 	}
 	// end::playlistTrack[]
 

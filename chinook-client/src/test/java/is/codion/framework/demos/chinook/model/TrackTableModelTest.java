@@ -19,7 +19,6 @@
 package is.codion.framework.demos.chinook.model;
 
 import is.codion.common.db.exception.DatabaseException;
-import is.codion.common.model.table.ColumnConditionModel;
 import is.codion.common.user.User;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.db.local.LocalEntityConnectionProvider;
@@ -43,10 +42,8 @@ public final class TrackTableModelTest {
 							.selectSingle(Album.TITLE.equalTo("Master Of Puppets"));
 
 			TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
-			ColumnConditionModel<?, Entity> albumConditionModel =
-							trackTableModel.conditionModel().conditionModel(Track.ALBUM_FK);
-
-			albumConditionModel.setEqualValue(masterOfPuppets);
+			trackTableModel.conditionModel()
+						.setEqualConditionValue(Track.ALBUM_FK, masterOfPuppets);
 
 			trackTableModel.refresh();
 			assertEquals(8, trackTableModel.getRowCount());
