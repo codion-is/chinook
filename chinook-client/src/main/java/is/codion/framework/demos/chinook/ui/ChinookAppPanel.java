@@ -22,6 +22,7 @@ import is.codion.common.model.CancelException;
 import is.codion.common.model.UserPreferences;
 import is.codion.common.user.User;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
+import is.codion.framework.demos.chinook.model.TrackTableModel;
 import is.codion.swing.common.ui.component.combobox.Completion;
 import is.codion.swing.common.ui.component.table.FilterTable;
 import is.codion.swing.common.ui.component.table.FilterTableCellRenderer;
@@ -98,7 +99,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 
 		SwingEntityModel.Builder genreModelBuilder =
 						SwingEntityModel.builder(Genre.TYPE)
-										.detailModel(SwingEntityModel.builder(Track.TYPE));
+										.detailModel(SwingEntityModel.builder(Track.TYPE)
+														.tableModel(TrackTableModel.class));
 
 		EntityPanel.Builder genrePanelBuilder =
 						EntityPanel.builder(genreModelBuilder)
@@ -108,17 +110,9 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 														.initialDetailState(HIDDEN)
 														.build());
 
-		SwingEntityModel.Builder mediaTypeModelBuilder =
-						SwingEntityModel.builder(MediaType.TYPE)
-										.detailModel(SwingEntityModel.builder(Track.TYPE));
-
 		EntityPanel.Builder mediaTypePanelBuilder =
-						EntityPanel.builder(mediaTypeModelBuilder)
-										.editPanel(MediaTypeEditPanel.class)
-										.detailPanel(trackPanelBuilder)
-										.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
-														.initialDetailState(HIDDEN)
-														.build());
+						EntityPanel.builder(MediaType.TYPE)
+										.editPanel(MediaTypeEditPanel.class);
 
 		EntityPanel.Builder artistPanelBuilder =
 						EntityPanel.builder(Artist.TYPE)
