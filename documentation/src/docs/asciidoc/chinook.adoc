@@ -119,6 +119,9 @@ include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Ch
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=invoice]
 ----
 
+[#_updatetotalsfunction]
+===== UpdateTotalsFunction
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=updateTotalsFunction]
@@ -133,6 +136,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceModel.java[lines=19..-1]
 ----
 
+[#_invoiceeditmodel]
 ===== InvoiceEditModel
 
 [source,java,options="nowrap"]
@@ -142,6 +146,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceEdit
 
 ==== UI
 
+[#_invoicepanel]
 ===== InvoicePanel
 
 [source,java,options="nowrap"]
@@ -149,6 +154,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceEdit
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoicePanel.java[lines=19..-1]
 ----
 
+[#_invoiceeditpanel]
 ===== InvoiceEditPanel
 
 [source,java,options="nowrap"]
@@ -163,6 +169,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceEditPan
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceTablePanel.java[lines=19..-1]
 ----
 
+[#_invoiceconditionpanel]
 ===== InvoiceConditionPanel
 
 [source,java,options="nowrap"]
@@ -202,6 +209,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 ==== Model
 
+[#_invoicelineeditmodel]
 ===== InvoiceLineEditModel
 
 [source,java,options="nowrap"]
@@ -463,10 +471,16 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumPanel.jav
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumEditPanel.java[lines=19..-1]
 ----
 
+[#_coverartpanel]
+===== CoverArtPanel
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CoverArtPanel.java[lines=19..-1]
 ----
+
+[#_albumtagpanel]
+===== AlbumTagPanel
 
 [source,java,options="nowrap"]
 ----
@@ -479,6 +493,9 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTagPanel.
 ----
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTablePanel.java[lines=19..-1]
 ----
+
+[#_ratingcellrendererfactory]
+===== RatingCellRendererFactory
 
 [source,java,options="nowrap"]
 ----
@@ -532,6 +549,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 ==== Model
 
+[#_tracktablemodel]
 ===== TrackTableModel
 
 [source,java,options="nowrap"]
@@ -553,6 +571,7 @@ include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/TrackT
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackEditPanel.java[lines=19..-1]
 ----
 
+[#_tracktablepanel]
 ===== TrackTablePanel
 
 [source,java,options="nowrap"]
@@ -560,6 +579,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackEditPanel
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackTablePanel.java[lines=19..-1]
 ----
 
+[#_minutessecondspanelvalue]
 ===== MinutesSecondsPanelValue
 
 [source,java,options="nowrap"]
@@ -596,6 +616,9 @@ include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Ch
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=playlist]
 ----
 
+[#_createrandomplaylistfunction]
+===== CreateRandomPlaylistFunction
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=createRandomPlaylistFunction]
@@ -603,6 +626,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 ==== Model
 
+[#_playlisteditmodel]
 ===== PlaylistEditModel
 
 [source,java,options="nowrap"]
@@ -610,6 +634,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistEditModel.java[lines=19..-1]
 ----
 
+[#_playlisttablemodel]
 ===== PlaylistTableModel
 
 [source,java,options="nowrap"]
@@ -619,6 +644,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistTab
 
 ==== UI
 
+[#_playlistpanel]
 ===== PlaylistPanel
 
 [source,java,options="nowrap"]
@@ -690,6 +716,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistTra
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackEditPanel.java[lines=19..-1]
 ----
 
+[#_playlisttracktablepanel]
 ===== PlaylistTrackTablePanel
 
 [source,java,options="nowrap"]
@@ -722,6 +749,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/ChinookAppM
 
 == UI
 
+[#_chinookapppanel]
 === ChinookAppPanel
 
 [source,java,options="nowrap"]
@@ -732,6 +760,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ChinookAppPane
 [#_messages]
 == Messages
 
+[#_chinookresources]
 === ChinookResources
 
 [source,java,options="nowrap"]
