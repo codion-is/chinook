@@ -32,7 +32,7 @@ public class GenreHandler extends AbstractHandler {
 		super(connection);
 	}
 
-	public void post(Context context) {
+	public void insert(Context context) {
 		try (var connection = connection()) {
 			Genre.Dto genreDto = context.bodyStreamAsClass(Genre.Dto.class);
 			Entity genre = connection.insertSelect(genreDto.entity(entities()::builder));

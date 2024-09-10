@@ -56,19 +56,19 @@ final class ChinookService {
 		javalin.get("/artists", artists::artists);
 		javalin.get("/artists/id/{id}", artists::byId);
 		javalin.get("/artists/name/{name}", artists::byName);
-		javalin.post("/artists", artists::post);
+		javalin.post("/artists", artists::insert);
 		javalin.get("/albums", albums::albums);
 		javalin.get("/albums/id/{id}", albums::byId);
 		javalin.get("/albums/title/{title}", albums::byTitle);
 		javalin.get("/albums/artist/name/{name}", albums::byArtistName);
-		javalin.post("/albums", albums::post);
+		javalin.post("/albums", albums::insert);
 		javalin.get("/tracks", tracks::tracks);
 		javalin.get("/tracks/id/{id}", tracks::byId);
 		javalin.get("/tracks/name/{name}", tracks::byName);
 		javalin.get("/tracks/artist/name/{name}", tracks::byArtistName);
-		javalin.post("/tracks", tracks::post);
-		javalin.post("/mediatypes", mediaType::post);
-		javalin.post("/genres", genre::post);
+		javalin.post("/tracks", tracks::insert);
+		javalin.post("/mediatypes", mediaType::insert);
+		javalin.post("/genres", genre::insert);
 	}
 
 	void start() {

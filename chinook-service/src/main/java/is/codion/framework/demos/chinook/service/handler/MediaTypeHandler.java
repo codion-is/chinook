@@ -32,7 +32,7 @@ public class MediaTypeHandler extends AbstractHandler{
 		super(connection);
 	}
 
-	public void post(Context context) {
+	public void insert(Context context) {
 		try (var connection = connection()) {
 			MediaType.Dto mediaTypeDto = context.bodyStreamAsClass(MediaType.Dto.class);
 			Entity mediaType = connection.insertSelect(mediaTypeDto.entity(entities()::builder));
