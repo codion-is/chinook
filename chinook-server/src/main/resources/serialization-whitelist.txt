@@ -22,6 +22,7 @@ java.util.CollSer
 java.util.Collections$EmptyList
 java.util.Collections$SingletonList
 java.util.Collections$SingletonMap
+java.util.Collections$SingletonSet
 java.util.Collections$UnmodifiableCollection
 java.util.Collections$UnmodifiableList
 java.util.Collections$UnmodifiableMap
