@@ -42,16 +42,16 @@ public final class TrackTableModelTest {
 							.selectSingle(Album.TITLE.equalTo("Master Of Puppets"));
 
 			TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
-			trackTableModel.conditionModel()
+			trackTableModel.queryModel().conditions()
 						.setEqualOperand(Track.ALBUM_FK, masterOfPuppets);
 
 			trackTableModel.refresh();
-			assertEquals(8, trackTableModel.getRowCount());
+			assertEquals(8, trackTableModel.rowCount());
 
-			trackTableModel.selectionModel().selectAll();
+			trackTableModel.selection().selectAll();
 			trackTableModel.raisePriceOfSelected(BigDecimal.ONE);
 
-			trackTableModel.items().forEach(track ->
+			trackTableModel.items().get().forEach(track ->
 							assertEquals(BigDecimal.valueOf(1.99), track.get(Track.UNITPRICE)));
 		}
 	}

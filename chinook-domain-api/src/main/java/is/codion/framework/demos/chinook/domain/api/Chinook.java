@@ -263,7 +263,6 @@ public interface Chinook {
 			public RaisePriceParameters {
 				requireNonNull(trackIds);
 				requireNonNull(priceIncrease);
-
 			}
 		}
 

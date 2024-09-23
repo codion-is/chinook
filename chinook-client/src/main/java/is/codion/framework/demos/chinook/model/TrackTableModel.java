@@ -19,7 +19,7 @@
 package is.codion.framework.demos.chinook.model;
 
 import is.codion.common.db.exception.DatabaseException;
-import is.codion.common.model.table.ColumnConditionModel;
+import is.codion.common.model.condition.ConditionModel;
 import is.codion.common.value.Value;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.Track;
-import static is.codion.framework.model.EntityTableConditionModel.entityTableConditionModel;
+import static is.codion.framework.model.EntityConditionModel.entityConditionModel;
 
 public final class TrackTableModel extends SwingEntityTableModel {
 
@@ -42,15 +42,15 @@ public final class TrackTableModel extends SwingEntityTableModel {
 	private static final int MAXIMUM_LIMIT = 10_000;
 
 	public TrackTableModel(EntityConnectionProvider connectionProvider) {
-		super(entityTableConditionModel(Track.TYPE, connectionProvider,
+		super(entityConditionModel(Track.TYPE, connectionProvider,
 						new TrackConditionModelFactory(connectionProvider)));
 		editable().set(true);
 		configureLimit();
 	}
 
 	public void raisePriceOfSelected(BigDecimal increase) throws DatabaseException {
-		if (selectionModel().selectionNotEmpty().get()) {
-			Collection<Long> trackIds = Entity.values(Track.ID, selectionModel().selectedItems().get());
+		if (selection().empty().not().get()) {
+			Collection<Long> trackIds = Entity.values(Track.ID, selection().items().get());
 			Collection<Entity> result = connection()
 							.execute(Track.RAISE_PRICE, new RaisePriceParameters(trackIds, increase));
 			replace(result);
@@ -58,9 +58,9 @@ public final class TrackTableModel extends SwingEntityTableModel {
 	}
 
 	private void configureLimit() {
-		limit().set(DEFAULT_LIMIT);
-		limit().addListener(this::refresh);
-		limit().addValidator(new LimitValidator());
+		queryModel().limit().set(DEFAULT_LIMIT);
+		queryModel().limit().addListener(this::refresh);
+		queryModel().limit().addValidator(new LimitValidator());
 	}
 
 	private static final class LimitValidator implements Value.Validator<Integer> {
@@ -81,7 +81,7 @@ public final class TrackTableModel extends SwingEntityTableModel {
 		}
 
 		@Override
-		public Optional<ColumnConditionModel<Attribute<?>, ?>> createConditionModel(Attribute<?> attribute) {
+		public Optional<ConditionModel<Attribute<?>, ?>> createConditionModel(Attribute<?> attribute) {
 			if (attribute.equals(Track.MEDIATYPE_FK)) {
 				return Optional.of(SwingForeignKeyConditionModel.builder(Track.MEDIATYPE_FK)
 												.includeEqualOperators(createEqualComboBoxModel(Track.MEDIATYPE_FK))
