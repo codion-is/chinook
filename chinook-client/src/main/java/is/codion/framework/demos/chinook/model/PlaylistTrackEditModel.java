@@ -26,13 +26,13 @@ import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.condition.Condition;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 
-import static java.util.Collections.singletonList;
+import java.util.List;
 
 public final class PlaylistTrackEditModel extends SwingEntityEditModel {
 
 	public PlaylistTrackEditModel(EntityConnectionProvider connectionProvider) {
 		super(PlaylistTrack.TYPE, connectionProvider);
-		persist(PlaylistTrack.TRACK_FK).set(false);
+		value(PlaylistTrack.TRACK_FK).persist().set(false);
 		// Filter out tracks already in the current playlist
 		value(PlaylistTrack.PLAYLIST_FK).addConsumer(this::filterPlaylistTracks);
 	}
@@ -40,7 +40,7 @@ public final class PlaylistTrackEditModel extends SwingEntityEditModel {
 	private void filterPlaylistTracks(Entity playlist) {
 		foreignKeySearchModel(PlaylistTrack.TRACK_FK).condition().set(() -> playlist == null ? null :
 						Condition.custom(Track.NOT_IN_PLAYLIST,
-										singletonList(Playlist.ID),
-										singletonList(playlist.get(Playlist.ID))));
+										List.of(Playlist.ID),
+										List.of(playlist.get(Playlist.ID))));
 	}
 }

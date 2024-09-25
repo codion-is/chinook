@@ -32,7 +32,6 @@ import java.util.List;
 
 import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singleton;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChinookTest extends DomainTest {
@@ -104,7 +103,7 @@ public class ChinookTest extends DomainTest {
 			Entity genre = connection.selectSingle(Genre.NAME.equalTo("Metal"));
 			int noOfTracks = 10;
 			String playlistName = "MetalPlaylistTest";
-			RandomPlaylistParameters parameters = new RandomPlaylistParameters(playlistName, noOfTracks, singleton(genre));
+			RandomPlaylistParameters parameters = new RandomPlaylistParameters(playlistName, noOfTracks, List.of(genre));
 			Entity playlist = connection.execute(Playlist.RANDOM_PLAYLIST, parameters);
 			assertEquals(playlistName, playlist.get(Playlist.NAME));
 			List<Entity> playlistTracks = connection.select(PlaylistTrack.PLAYLIST_FK.equalTo(playlist));

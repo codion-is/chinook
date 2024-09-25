@@ -425,7 +425,8 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.nullable(false),
 										InvoiceLine.INVOICE_FK.define()
-														.foreignKey(0),
+														.foreignKey(0)
+														.hidden(true),
 										InvoiceLine.TRACK_ID.define()
 														.column()
 														.nullable(false),
