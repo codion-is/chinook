@@ -18,8 +18,8 @@
  */
 package is.codion.framework.demos.chinook.service.loadtest.scenarios;
 
-import is.codion.common.model.loadtest.LoadTest.Scenario.Performer;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Artist;
+import is.codion.tools.loadtest.LoadTest.Scenario.Performer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

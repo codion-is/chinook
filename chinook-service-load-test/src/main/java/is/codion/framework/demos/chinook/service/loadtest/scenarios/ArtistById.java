@@ -18,7 +18,7 @@
  */
 package is.codion.framework.demos.chinook.service.loadtest.scenarios;
 
-import is.codion.common.model.loadtest.LoadTest.Scenario.Performer;
+import is.codion.tools.loadtest.LoadTest.Scenario.Performer;
 
 import java.net.URI;
 import java.net.http.HttpClient;

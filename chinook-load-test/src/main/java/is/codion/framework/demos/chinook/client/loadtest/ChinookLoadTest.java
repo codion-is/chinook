@@ -18,8 +18,6 @@
  */
 package is.codion.framework.demos.chinook.client.loadtest;
 
-import is.codion.common.model.loadtest.LoadTest;
-import is.codion.common.model.loadtest.LoadTest.Scenario;
 import is.codion.common.user.User;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.client.loadtest.scenarios.InsertDeleteAlbum;
@@ -35,12 +33,14 @@ import is.codion.framework.demos.chinook.client.loadtest.scenarios.ViewInvoice;
 import is.codion.framework.demos.chinook.domain.api.Chinook;
 import is.codion.framework.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.demos.chinook.ui.ChinookAppPanel;
+import is.codion.tools.loadtest.LoadTest;
+import is.codion.tools.loadtest.LoadTest.Scenario;
 import is.codion.tools.loadtest.model.LoadTestModel;
 
 import java.util.Collection;
 import java.util.function.Function;
 
-import static is.codion.common.model.loadtest.LoadTest.Scenario.scenario;
+import static is.codion.tools.loadtest.LoadTest.Scenario.scenario;
 import static is.codion.tools.loadtest.ui.LoadTestPanel.loadTestPanel;
 import static java.util.Arrays.asList;
 

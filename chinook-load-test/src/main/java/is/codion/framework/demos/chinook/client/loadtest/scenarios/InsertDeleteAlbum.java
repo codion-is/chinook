@@ -18,7 +18,6 @@
  */
 package is.codion.framework.demos.chinook.client.loadtest.scenarios;
 
-import is.codion.common.model.loadtest.LoadTest.Scenario.Performer;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
@@ -27,6 +26,7 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Genre;
 import is.codion.framework.demos.chinook.domain.api.Chinook.MediaType;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.domain.entity.Entity;
+import is.codion.tools.loadtest.LoadTest.Scenario.Performer;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

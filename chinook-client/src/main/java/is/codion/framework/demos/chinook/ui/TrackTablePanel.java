@@ -23,15 +23,15 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.demos.chinook.model.TrackTableModel;
 import is.codion.framework.demos.chinook.ui.MinutesSecondsPanelValue.MinutesSecondsPanel;
 import is.codion.framework.domain.entity.attribute.Attribute;
-import is.codion.swing.common.ui.component.table.FilterTableCellEditorFactory;
 import is.codion.swing.common.ui.component.table.FilterTableColumn;
 import is.codion.swing.common.ui.component.text.NumberField;
 import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.dialog.Dialogs;
 import is.codion.swing.framework.model.SwingEntityEditModel;
+import is.codion.swing.framework.ui.EntityTableCellEditorFactory;
 import is.codion.swing.framework.ui.EntityTablePanel;
-import is.codion.swing.framework.ui.component.DefaultEntityComponentFactory;
+import is.codion.swing.framework.ui.component.EntityComponentFactory;
 import is.codion.swing.framework.ui.component.EntityComponents;
 
 import javax.swing.JSpinner;
@@ -52,10 +52,10 @@ public final class TrackTablePanel extends EntityTablePanel {
 	public TrackTablePanel(TrackTableModel tableModel) {
 		super(tableModel, config -> config
 						.editComponentFactory(Track.RATING, new RatingComponentFactory())
-						.editComponentFactory(Track.MILLISECONDS, new MinutesSecondsComponentFactory(false))
+						.editComponentFactory(Track.MILLISECONDS, new MinutesSecondsComponentFactory(tableModel))
 						.configureTable(tableBuilder -> tableBuilder
 										.cellRendererFactory(new RatingCellRendererFactory(tableModel, Track.RATING))
-										.cellEditorFactory(new TrackCellEditorFactory()))
+										.cellEditorFactory(new TrackCellEditorFactory(tableModel.editModel())))
 						.includeLimitMenu(true));
 		configurePopupMenu(config -> config.clear()
 						.control(Control.builder()
@@ -86,34 +86,37 @@ public final class TrackTablePanel extends EntityTablePanel {
 	}
 
 	private static final class RatingComponentFactory
-					extends DefaultEntityComponentFactory<Integer, Attribute<Integer>, JSpinner> {
+					implements EntityComponentFactory<Integer, JSpinner> {
 
 		@Override
-		public ComponentValue<Integer, JSpinner> componentValue(Attribute<Integer> attribute,
-																														SwingEntityEditModel editModel,
+		public ComponentValue<Integer, JSpinner> componentValue(SwingEntityEditModel editModel,
 																														Integer initialValue) {
 			EntityComponents inputComponents = entityComponents(editModel.entityDefinition());
 
-			return inputComponents.integerSpinner(attribute)
+			return inputComponents.integerSpinner(Track.RATING)
 							.initialValue(initialValue)
 							.buildValue();
 		}
 	}
 
 	private static final class MinutesSecondsComponentFactory
-					extends DefaultEntityComponentFactory<Integer, Attribute<Integer>, MinutesSecondsPanel> {
+					implements EntityComponentFactory<Integer, MinutesSecondsPanel> {
 
-		private final boolean horizontal;
+		private final String caption;
 
-		private MinutesSecondsComponentFactory(boolean horizontal) {
-			this.horizontal = horizontal;
+		private MinutesSecondsComponentFactory(TrackTableModel tableModel) {
+			this.caption = tableModel.entityDefinition().attributes().definition(Track.MINUTES_SECONDS).caption();
 		}
 
 		@Override
-		public ComponentValue<Integer, MinutesSecondsPanel> componentValue(Attribute<Integer> attribute,
-																																			 SwingEntityEditModel editModel,
+		public Optional<String> caption() {
+			return Optional.of(caption);
+		}
+
+		@Override
+		public ComponentValue<Integer, MinutesSecondsPanel> componentValue(SwingEntityEditModel editModel,
 																																			 Integer initialValue) {
-			MinutesSecondsPanelValue minutesSecondsPanelValue = new MinutesSecondsPanelValue(horizontal);
+			MinutesSecondsPanelValue minutesSecondsPanelValue = new MinutesSecondsPanelValue(false);
 			minutesSecondsPanelValue.set(initialValue);
 
 			return minutesSecondsPanelValue;
@@ -121,7 +124,11 @@ public final class TrackTablePanel extends EntityTablePanel {
 	}
 
 	private static final class TrackCellEditorFactory
-					implements FilterTableCellEditorFactory<Attribute<?>> {
+					extends EntityTableCellEditorFactory {
+
+		private TrackCellEditorFactory(SwingEntityEditModel editModel) {
+			super(editModel);
+		}
 
 		@Override
 		public Optional<TableCellEditor> tableCellEditor(FilterTableColumn<Attribute<?>> column) {
@@ -129,7 +136,7 @@ public final class TrackTablePanel extends EntityTablePanel {
 				return Optional.of(filterTableCellEditor(() -> new MinutesSecondsPanelValue(true)));
 			}
 
-			return Optional.empty();
+			return super.tableCellEditor(column);
 		}
 	}
 }
