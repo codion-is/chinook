@@ -40,19 +40,19 @@ final class MinutesSecondsPanelValue extends AbstractComponentValue<Integer, Min
 
 	MinutesSecondsPanelValue(boolean horizontal) {
 		super(new MinutesSecondsPanel(horizontal));
-		component().minutesField.value().addListener(this::notifyListeners);
-		component().secondsField.value().addListener(this::notifyListeners);
+		component().minutesField.number().addListener(this::notifyListeners);
+		component().secondsField.number().addListener(this::notifyListeners);
 	}
 
 	@Override
 	protected Integer getComponentValue() {
-		return milliseconds(component().minutesField.getNumber(), component().secondsField.getNumber());
+		return milliseconds(component().minutesField.number().get(), component().secondsField.number().get());
 	}
 
 	@Override
 	protected void setComponentValue(Integer milliseconds) {
-		component().minutesField.setNumber(minutes(milliseconds));
-		component().secondsField.setNumber(seconds(milliseconds));
+		component().minutesField.number().set(minutes(milliseconds));
+		component().secondsField.number().set(seconds(milliseconds));
 	}
 
 	static final class MinutesSecondsPanel extends JPanel {

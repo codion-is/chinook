@@ -3,6 +3,10 @@ plugins {
 }
 
 extraJavaModuleInfo {
+    // We turn the pdf jasperreport automatic module into a full fledged module,
+    // otherwise when the jlink plugin runs it combines the contents of that jar with
+    // the jasperreports core jar, overwriting the jasperreports_extension.properties file
+    // from the core jar, causing errors that are *incredibly* hard to debug.
     module("net.sf.jasperreports:jasperreports-pdf", "net.sf.jasperreports.pdf") {
         exportAllPackages()
         requires("net.sf.jasperreports.core")
