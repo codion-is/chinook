@@ -233,7 +233,6 @@ public interface Chinook {
 		Column<Long> GENRE_ID = TYPE.longColumn("genreid");
 		Column<String> COMPOSER = TYPE.stringColumn("composer");
 		Column<Integer> MILLISECONDS = TYPE.integerColumn("milliseconds");
-		Column<String> MINUTES_SECONDS = TYPE.stringColumn("minutes_seconds");
 		Column<Integer> BYTES = TYPE.integerColumn("bytes");
 		Column<Integer> RATING = TYPE.integerColumn("rating");
 		Column<BigDecimal> UNITPRICE = TYPE.bigDecimalColumn("unitprice");
@@ -373,50 +372,6 @@ public interface Chinook {
 		}
 	}
 	// end::invoiceLineTotalProvider[]
-
-	// tag::trackMinSecProvider[]
-	final class TrackMinSecProvider
-					implements DerivedAttribute.Provider<String> {
-
-		@Serial
-		private static final long serialVersionUID = 1;
-
-		@Override
-		public String get(SourceValues values) {
-			return values.optional(Track.MILLISECONDS)
-							.map(TrackMinSecProvider::toMinutesSecondsString)
-							.orElse(null);
-		}
-
-		private static String toMinutesSecondsString(Integer milliseconds) {
-			return minutes(milliseconds) + " min " +
-							seconds(milliseconds) + " sec";
-		}
-	}
-
-	static Integer minutes(Integer milliseconds) {
-		if (milliseconds == null) {
-			return null;
-		}
-
-		return milliseconds / 1000 / 60;
-	}
-
-	static Integer seconds(Integer milliseconds) {
-		if (milliseconds == null) {
-			return null;
-		}
-
-		return milliseconds / 1000 % 60;
-	}
-
-	static Integer milliseconds(Integer minutes, Integer seconds) {
-		int milliseconds = minutes == null ? 0 : minutes * 60 * 1000;
-		milliseconds += seconds == null ? 0 : seconds * 1000;
-
-		return milliseconds == 0 ? null : milliseconds;
-	}
-	// end::trackMinSecProvider[]
 
 	// tag::customerStringFactory[]
 	final class CustomerStringFactory

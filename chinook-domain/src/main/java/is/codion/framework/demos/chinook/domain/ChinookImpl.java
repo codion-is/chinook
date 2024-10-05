@@ -334,8 +334,6 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.nullable(false)
 														.format(NumberFormat.getIntegerInstance()),
-										Track.MINUTES_SECONDS.define()
-														.derived(new TrackMinSecProvider(), Track.MILLISECONDS),
 										Track.BYTES.define()
 														.column()
 														.format(NumberFormat.getIntegerInstance()),
@@ -524,11 +522,12 @@ public final class ChinookImpl extends DomainModel {
 
 		@Override
 		public String toString(List<Column<?>> columns, List<?> values) {
-			return new StringBuilder()
-							.append("trackid NOT IN (\n")
-							.append("    SELECT trackid\n")
-							.append("    FROM chinook.playlisttrack\n")
-							.append("    WHERE playlistid IN (").append(join(", ", nCopies(values.size(), "?"))).append(")\n")
+			return new StringBuilder("""
+							trackid NOT IN (
+							    SELECT trackid
+							    FROM chinook.playlisttrack
+							    WHERE playlistid IN (""")
+							.append(join(", ", nCopies(values.size(), "?"))).append(")\n")
 							.append(")")
 							.toString();
 		}

@@ -15,6 +15,86 @@
 
 This demo application is based on the Chinook music store sample database.
 
+== Demonstrated functionality
+
+* Database functions
+
+** <<_updatetotalsfunction, UpdateTotalsFunction>>
+
+*** Used in <<_invoicelineeditmodel, InvoiceLineEditModel>>
+
+** <<_createrandomplaylistfunction, CreateRandomPlaylistFunction>>
+
+*** Used in <<_playlisttablemodel, PlaylistTableModel>>
+
+* Custom table cell renderer
+
+** See <<_tracktablepanel, TrackTablePanel>> and <<_albumtablepanel, AlbumTablePanel>>
+
+* Custom table cell editor
+
+** See TrackCellEditorFactory in <<_tracktablepanel, TrackTablePanel>>
+
+* Custom input fields
+
+** <<_coverartpanel, CoverArtPanel>>
+
+** <<_albumtagpanel, AlbumTagPanel>>
+
+*** Used in <<_albumeditpanel, AlbumEditPanel>>
+
+** <<_durationcomponentvalue, DurationComponentValue>>
+
+*** Used in <<_trackeditpanel, TrackEditPanel>> and <<_tracktablepanel, TrackTablePanel>>
+
+* Custom condition panel
+
+** <<_invoiceconditionpanel, InvoiceConditionPanel>>
+
+*** Used in <<_invoiceeditpanel, InvoiceEditPanel>>
+
+* Custom condition model operators
+
+** See TrackConditionModelFactory in <<_tracktablemodel, TrackTableModel>>
+
+* Custom detail panel layout
+
+** See <<_invoicepanel, InvoicePanel>> and <<_playlistpanel, PlaylistPanel>>
+
+* Edit panel in dialog
+
+** See <<_playlistpanel, PlaylistPanel>> and <<_playlisttracktablepanel, PlaylistTrackTablePanel>>
+
+* Language selection
+
+** See <<_chinookapppanel, ChinookAppPanel>>
+
+* Custom shortcut key
+
+** See <<_chinookapppanel, ChinookAppPanel>>
+
+* Overridden resources
+
+** <<_chinookresources, ChinookResources>>
+
+* Search field selector
+
+** See <<_invoiceeditpanel, InvoiceEditPanel>>
+
+** <<_trackselectorfactory, TrackSelectorFactory>> Used in
+
+*** <<_invoicelineeditpanel, InvoiceLineEditPanel>>
+
+*** <<_playlisttrackeditpanel, PlaylistTrackEditPanel>>
+
+*** <<_playlisttracktablepanel, PlaylistTrackTablePanel>>
+
+*** <<_trackcomponentfactory, TrackComponentFactory>>
+
+* Persistance layer used in a web service
+
+** <<_service, ChinookService>>
+
 This tutorial assumes you have at least skimmed the https://codion.is/doc/{codion-version}/manual/manual.html#_domain_model[Domain model] part of the Codion manual.
 
 == Domain model
@@ -226,6 +306,7 @@ include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/Invoic
 
 ==== UI
 
+[#_invoicelineeditpanel]
 ===== InvoiceLineEditPanel
 
 [source,java,options="nowrap"]
@@ -457,6 +538,20 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 ==== UI
 
+===== AlbumModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/AlbumModel.java[lines=19..-1]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/AlbumModelTest.java[lines=19..-1]
+----
+
+==== UI
+
 ===== AlbumPanel
 
 [source,java,options="nowrap"]
@@ -464,6 +559,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumPanel.java[lines=19..-1]
 ----
 
+[#_albumeditpanel]
 ===== AlbumEditPanel
 
 [source,java,options="nowrap"]
@@ -487,19 +583,12 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CoverArtPanel.
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTagPanel.java[lines=19..-1]
 ----
 
+[#_albumtablepanel]
 ===== AlbumTablePanel
 
 [source,java,options="nowrap"]
 ----
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTablePanel.java[lines=19..-1]
-----
-
-[#_ratingcellrendererfactory]
-===== RatingCellRendererFactory
-
-[source,java,options="nowrap"]
-----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/RatingCellRendererFactory.java[lines=19..-1]
 ----
 
 === Track
@@ -518,11 +607,6 @@ include::{dir-source-sql}/create_schema.sql[tags=track]
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=track]
-----
-
-[source,java,options="nowrap"]
-----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=trackMinSecProvider]
 ----
 
 [source,java,options="nowrap"]
@@ -549,6 +633,13 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 ==== Model
 
+===== TrackEditModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/framework/demos/chinook/model/TrackEditModel.java[lines=19..-1]
+----
+
 [#_tracktablemodel]
 ===== TrackTableModel
 
@@ -564,6 +655,7 @@ include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/TrackT
 
 ==== UI
 
+[#_trackeditpanel]
 ===== TrackEditPanel
 
 [source,java,options="nowrap"]
@@ -579,12 +671,12 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackEditPanel
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackTablePanel.java[lines=19..-1]
 ----
 
-[#_minutessecondspanelvalue]
-===== MinutesSecondsPanelValue
+[#_durationcomponentvalue]
+===== DurationComponentValue
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/MinutesSecondsPanelValue.java[lines=19..-1]
+include::{dir-source-client}/is/codion/framework/demos/chinook/ui/DurationComponentValue.java[lines=19..-1]
 ----
 
 == Playlists
@@ -709,6 +801,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistTra
 
 ==== UI
 
+[#_playlisttrackeditpanel]
 ===== PlaylistTrackEditPanel
 
 [source,java,options="nowrap"]
@@ -724,6 +817,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackE
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackTablePanel.java[lines=19..-1]
 ----
 
+[#_trackcomponentfactory]
 ===== TrackComponentFactory
 
 [source,java,options="nowrap"]
@@ -731,6 +825,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackT
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackComponentFactory.java[lines=19..-1]
 ----
 
+[#_trackselectorfactory]
 ===== TrackSelectorFactory
 
 [source,java,options="nowrap"]
