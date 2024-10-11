@@ -20,26 +20,24 @@ package is.codion.framework.demos.chinook.ui;
 
 import is.codion.common.Operator;
 import is.codion.common.item.Item;
-import is.codion.common.model.condition.ColumnConditions;
 import is.codion.common.model.condition.ConditionModel;
+import is.codion.common.model.condition.TableConditionModel;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.EntityDefinition;
 import is.codion.framework.domain.entity.attribute.Attribute;
 import is.codion.framework.model.ForeignKeyConditionModel;
 import is.codion.swing.common.ui.component.Components;
-import is.codion.swing.common.ui.component.table.ColumnConditionPanel;
-import is.codion.swing.common.ui.component.table.ColumnConditionPanel.ConditionState;
-import is.codion.swing.common.ui.component.table.ColumnConditionsPanel;
-import is.codion.swing.common.ui.component.table.FilterColumnConditionPanel;
-import is.codion.swing.common.ui.component.table.FilterColumnConditionPanel.FieldFactory;
-import is.codion.swing.common.ui.component.table.FilterColumnConditionsPanel;
+import is.codion.swing.common.ui.component.table.ConditionPanel;
+import is.codion.swing.common.ui.component.table.ConditionPanel.ConditionView;
 import is.codion.swing.common.ui.component.table.FilterTableColumnModel;
+import is.codion.swing.common.ui.component.table.FilterTableConditionPanel;
+import is.codion.swing.common.ui.component.table.TableConditionPanel;
 import is.codion.swing.common.ui.component.text.NumberField;
 import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.common.ui.control.Controls;
 import is.codion.swing.common.ui.key.KeyEvents;
-import is.codion.swing.framework.ui.EntityConditionFieldFactory;
+import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.ui.component.EntitySearchField;
 
 import javax.swing.JComponent;
@@ -54,79 +52,71 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static is.codion.swing.common.ui.component.Components.borderLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.flexibleGridLayoutPanel;
-import static is.codion.swing.common.ui.component.table.ColumnConditionPanel.ConditionState.ADVANCED;
-import static is.codion.swing.common.ui.component.table.FilterColumnConditionsPanel.filterColumnConditionsPanel;
+import static is.codion.swing.common.ui.component.table.ConditionPanel.ConditionView.ADVANCED;
+import static is.codion.swing.common.ui.component.table.FilterTableConditionPanel.filterTableConditionPanel;
 import static is.codion.swing.common.ui.control.Control.command;
 import static java.time.Month.DECEMBER;
 import static java.time.Month.JANUARY;
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 import static java.util.ResourceBundle.getBundle;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.border.TitledBorder.CENTER;
 import static javax.swing.border.TitledBorder.DEFAULT_POSITION;
 
-final class InvoiceConditionPanel extends ColumnConditionsPanel<Attribute<?>> {
+final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 
 	private static final ResourceBundle BUNDLE = getBundle(InvoiceConditionPanel.class.getName());
 
-	private final FilterTableColumnModel<Attribute<?>> columnModel;
-	private final FilterColumnConditionsPanel<Attribute<?>> advancedConditionPanel;
+	private final FilterTableConditionPanel<Attribute<?>> advancedConditionPanel;
 	private final SimpleConditionPanel simpleConditionPanel;
 
-	InvoiceConditionPanel(EntityDefinition invoiceDefinition,
-												ColumnConditions<Attribute<?>> ColumnConditions,
+	InvoiceConditionPanel(SwingEntityTableModel tableModel,
+												Map<Attribute<?>, ConditionPanel<?>> conditionPanels,
 												FilterTableColumnModel<Attribute<?>> columnModel,
-												Consumer<ColumnConditionsPanel<Attribute<?>>> onPanelInitialized,
-												Runnable onDateChanged) {
-		super(ColumnConditions);
+												Consumer<TableConditionPanel<Attribute<?>>> onPanelInitialized) {
+		super(tableModel.queryModel().conditions(), attribute -> columnModel.column(attribute).getHeaderValue().toString());
 		setLayout(new BorderLayout());
-		this.columnModel = columnModel;
-		this.simpleConditionPanel = new SimpleConditionPanel(ColumnConditions, invoiceDefinition, onDateChanged);
-		this.advancedConditionPanel = filterColumnConditionsPanel(ColumnConditions,
-						createConditionPanels(new EntityConditionFieldFactory(invoiceDefinition)),
-						columnModel, onPanelInitialized);
-		state().link(advancedConditionPanel.state());
+		this.simpleConditionPanel = new SimpleConditionPanel(tableModel.queryModel().conditions(), tableModel);
+		this.advancedConditionPanel = filterTableConditionPanel(tableModel.queryModel().conditions(),
+						conditionPanels, columnModel, onPanelInitialized);
+		view().link(advancedConditionPanel.view());
 	}
 
 	@Override
-	public Collection<ColumnConditionPanel<Attribute<?>, ?>> conditionPanels() {
-		Collection<ColumnConditionPanel<Attribute<?>, ?>> conditionPanels =
-						new ArrayList<>(advancedConditionPanel.conditionPanels());
-		conditionPanels.addAll(simpleConditionPanel.conditionPanels());
+	public Map<Attribute<?>, ConditionPanel<?>> get() {
+		Map<Attribute<?>, ConditionPanel<?>> conditionPanels =
+						new HashMap<>(advancedConditionPanel.get());
+		conditionPanels.putAll(simpleConditionPanel.panels());
 
 		return conditionPanels;
 	}
 
 	@Override
-	public Collection<ColumnConditionPanel<Attribute<?>, ?>> selectableConditionPanels() {
-		return state().isEqualTo(ADVANCED) ? advancedConditionPanel.selectableConditionPanels() : simpleConditionPanel.conditionPanels();
+	public Map<Attribute<?>, ConditionPanel<?>> selectable() {
+		return view().isEqualTo(ADVANCED) ? advancedConditionPanel.selectable() : simpleConditionPanel.panels();
 	}
 
 	@Override
-	public <T extends ColumnConditionPanel<Attribute<?>, ?>> T conditionPanel(Attribute<?> attribute) {
-		if (state().isNotEqualTo(ADVANCED)) {
-			return (T) simpleConditionPanel.conditionPanels().stream()
-							.filter(panel -> panel.identifier().equals(attribute))
-							.findFirst()
-							.orElseThrow(IllegalArgumentException::new);
+	public <T extends ConditionPanel<?>> T get(Attribute<?> attribute) {
+		if (view().isNotEqualTo(ADVANCED)) {
+			return (T) simpleConditionPanel.panel(attribute);
 		}
 
-		return (T) advancedConditionPanel.conditionPanels().stream()
-						.filter(panel -> panel.identifier().equals(attribute))
-						.findFirst()
-						.orElseThrow(IllegalArgumentException::new);
+		return advancedConditionPanel.get(attribute);
 	}
 
 	@Override
@@ -135,20 +125,20 @@ final class InvoiceConditionPanel extends ColumnConditionsPanel<Attribute<?>> {
 	}
 
 	@Override
-	protected void onStateChanged(ConditionState conditionState) {
+	protected void onViewChanged(ConditionView conditionView) {
 		removeAll();
-		switch (conditionState) {
+		switch (conditionView) {
 			case SIMPLE:
 				add(simpleConditionPanel, BorderLayout.CENTER);
 				simpleConditionPanel.activate();
 				break;
 			case ADVANCED:
 				add(advancedConditionPanel, BorderLayout.CENTER);
-				if (simpleConditionPanel.customerConditionPanel.hasInputFocus()) {
-					advancedConditionPanel.conditionPanel(Invoice.CUSTOMER_FK).requestInputFocus();
+				if (simpleConditionPanel.customerConditionPanel.isFocused()) {
+					advancedConditionPanel.get(Invoice.CUSTOMER_FK).requestInputFocus();
 				}
-				else if (simpleConditionPanel.dateConditionPanel.hasInputFocus()) {
-					advancedConditionPanel.conditionPanel(Invoice.DATE).requestInputFocus();
+				else if (simpleConditionPanel.dateConditionPanel.isFocused()) {
+					advancedConditionPanel.get(Invoice.DATE).requestInputFocus();
 				}
 				break;
 			default:
@@ -157,38 +147,22 @@ final class InvoiceConditionPanel extends ColumnConditionsPanel<Attribute<?>> {
 		revalidate();
 	}
 
-	private Collection<ColumnConditionPanel<Attribute<?>, ?>> createConditionPanels(FieldFactory<Attribute<?>> fieldFactory) {
-		Collection<ColumnConditionPanel<Attribute<?>, ?>> conditionPanels = new ArrayList<>();
-		conditions().get().entrySet().stream()
-						.filter(entry -> columnModel.containsColumn(entry.getKey()))
-						.filter(entry -> fieldFactory.supportsType(entry.getValue().valueClass()))
-						.forEach(entry -> conditionPanels.add(createColumnConditionPanel(entry.getValue(), entry.getKey(), fieldFactory)));
-
-		return conditionPanels;
-	}
-
-	private <C extends Attribute<?>> FilterColumnConditionPanel<C, ?> createColumnConditionPanel(ConditionModel<?> condition, C identifier,
-																																															 FieldFactory<C> fieldFactory) {
-		return FilterColumnConditionPanel.builder(condition, identifier)
-						.fieldFactory(fieldFactory)
-						.tableColumn(columnModel.column(identifier))
-						.caption(columnModel.column(identifier).getHeaderValue().toString())
-						.build();
-	}
-
 	private static final class SimpleConditionPanel extends JPanel {
 
+		private final Map<Attribute<?>, ConditionPanel<?>> conditionPanels = new HashMap<>();
 		private final CustomerConditionPanel customerConditionPanel;
 		private final DateConditionPanel dateConditionPanel;
 
-		private SimpleConditionPanel(ColumnConditions<Attribute<?>> ColumnConditions,
-																 EntityDefinition invoiceDefinition, Runnable onDateChanged) {
+		private SimpleConditionPanel(TableConditionModel<Attribute<?>> tableConditionModel,
+																 SwingEntityTableModel tableModel) {
 			super(new BorderLayout());
 			setBorder(createEmptyBorder(5, 5, 5, 5));
-			customerConditionPanel = new CustomerConditionPanel(ColumnConditions.get(Invoice.CUSTOMER_FK), invoiceDefinition);
-			dateConditionPanel = new DateConditionPanel(ColumnConditions.get(Invoice.DATE), invoiceDefinition);
-			dateConditionPanel.yearValue.addListener(onDateChanged);
-			dateConditionPanel.monthValue.addListener(onDateChanged);
+			customerConditionPanel = new CustomerConditionPanel(tableConditionModel.get(Invoice.CUSTOMER_FK), tableModel.entityDefinition());
+			dateConditionPanel = new DateConditionPanel(tableConditionModel.get(Invoice.DATE));
+			dateConditionPanel.yearValue.addListener(tableModel::refresh);
+			dateConditionPanel.monthValue.addListener(tableModel::refresh);
+			conditionPanels.put(Invoice.CUSTOMER_FK, customerConditionPanel);
+			conditionPanels.put(Invoice.DATE, dateConditionPanel);
 			initializeUI();
 		}
 
@@ -201,8 +175,18 @@ final class InvoiceConditionPanel extends ColumnConditionsPanel<Attribute<?>> {
 							.build(), BorderLayout.CENTER);
 		}
 
-		private Collection<ColumnConditionPanel<Attribute<?>, ?>> conditionPanels() {
-			return asList(customerConditionPanel, dateConditionPanel);
+		private Map<Attribute<?>, ConditionPanel<?>> panels() {
+			return conditionPanels;
+		}
+
+		private ConditionPanel<?> panel(Attribute<?> attribute) {
+			requireNonNull(attribute);
+			ConditionPanel<?> conditionPanel = panels().get(attribute);
+			if (conditionPanel == null) {
+				throw new IllegalStateException("No condition panel available for " + attribute);
+			}
+
+			return conditionPanel;
 		}
 
 		private void activate() {
@@ -211,14 +195,14 @@ final class InvoiceConditionPanel extends ColumnConditionsPanel<Attribute<?>> {
 			customerConditionPanel.requestInputFocus();
 		}
 
-		private static final class CustomerConditionPanel extends ColumnConditionPanel<Attribute<?>, Entity> {
+		private static final class CustomerConditionPanel extends ConditionPanel<Entity> {
 
 			private final EntitySearchField searchField;
 
-			private CustomerConditionPanel(ConditionModel<Entity> condition, EntityDefinition invoiceDefinition) {
-				super(condition, Invoice.CUSTOMER_FK, invoiceDefinition.attributes().definition(Invoice.CUSTOMER_FK).caption());
+			private CustomerConditionPanel(ConditionModel<Entity> condition, EntityDefinition definition) {
+				super(condition);
 				setLayout(new BorderLayout());
-				setBorder(createTitledBorder(createEmptyBorder(), caption()));
+				setBorder(createTitledBorder(createEmptyBorder(), definition.attributes().definition(Invoice.CUSTOMER_FK).caption()));
 				ForeignKeyConditionModel foreignKeyCondition = (ForeignKeyConditionModel) condition;
 				foreignKeyCondition.operands().in().value().link(foreignKeyCondition.operands().equal());
 				searchField = EntitySearchField.builder(foreignKeyCondition.inSearchModel())
@@ -238,14 +222,14 @@ final class InvoiceConditionPanel extends ColumnConditionsPanel<Attribute<?>> {
 			}
 
 			@Override
-			protected void onStateChanged(ConditionState state) {}
+			protected void onViewChanged(ConditionView conditionView) {}
 
-			private boolean hasInputFocus() {
+			private boolean isFocused() {
 				return searchField.hasFocus();
 			}
 		}
 
-		private static final class DateConditionPanel extends ColumnConditionPanel<Attribute<?>, LocalDate> {
+		private static final class DateConditionPanel extends ConditionPanel<LocalDate> {
 
 			private final ComponentValue<Integer, NumberField<Integer>> yearValue = Components.integerField()
 							.value(LocalDate.now().getYear())
@@ -267,16 +251,15 @@ final class InvoiceConditionPanel extends ColumnConditionsPanel<Attribute<?>> {
 											.action(command(this::decrementYear)))
 							.buildValue();
 
-			private DateConditionPanel(ConditionModel<LocalDate> conditionModel, EntityDefinition invoiceDefinition) {
-				super(conditionModel, Invoice.DATE, invoiceDefinition.attributes().definition(Invoice.DATE).caption());
-				setLayout(new BorderLayout());
+			private DateConditionPanel(ConditionModel<LocalDate> conditionModel) {
+				super(conditionModel);
 				condition().operator().set(Operator.BETWEEN);
 				updateCondition();
 				initializeUI();
 			}
 
 			@Override
-			protected void onStateChanged(ConditionState state) {}
+			protected void onViewChanged(ConditionView conditionView) {}
 
 			private void initializeUI() {
 				setLayout(new BorderLayout());
@@ -332,7 +315,7 @@ final class InvoiceConditionPanel extends ColumnConditionsPanel<Attribute<?>> {
 				return LocalDate.of(year, month, yearMonth.lengthOfMonth());
 			}
 
-			private boolean hasInputFocus() {
+			private boolean isFocused() {
 				return yearValue.component().hasFocus() || monthValue.component().hasFocus();
 			}
 

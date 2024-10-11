@@ -19,8 +19,8 @@
 package is.codion.framework.demos.chinook.ui;
 
 import is.codion.framework.demos.chinook.domain.api.Chinook.PlaylistTrack;
-import is.codion.framework.domain.entity.attribute.Attribute;
-import is.codion.swing.common.ui.component.table.FilterColumnConditionPanel;
+import is.codion.framework.domain.entity.Entity;
+import is.codion.swing.common.ui.component.table.ColumnConditionPanel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.ui.EntityEditPanel.Confirmer;
 import is.codion.swing.framework.ui.EntityTablePanel;
@@ -38,13 +38,13 @@ public final class PlaylistTrackTablePanel extends EntityTablePanel {
 						.deleteConfirmer(Confirmer.NONE)
 						.includeEditControl(false));
 		table().columnModel()
-						.setVisibleColumns(PlaylistTrack.TRACK_FK, PlaylistTrack.ARTIST, PlaylistTrack.ALBUM);
+						.visible().set(PlaylistTrack.TRACK_FK, PlaylistTrack.ARTIST, PlaylistTrack.ALBUM);
 		configureTrackConditionPanel();
 	}
 
 	private void configureTrackConditionPanel() {
-		FilterColumnConditionPanel<Attribute<?>, ?> conditionPanel = conditionPanel().conditionPanel(PlaylistTrack.TRACK_FK);
-		Stream.of(conditionPanel.equalField(), conditionPanel.inField())
+		ColumnConditionPanel<Entity> conditionPanel = conditions().get(PlaylistTrack.TRACK_FK);
+		Stream.of(conditionPanel.fields().equal(), conditionPanel.fields().in())
 						.flatMap(Optional::stream)
 						.map(EntitySearchField.class::cast)
 						.forEach(field -> field.selectorFactory().set(new TrackSelectorFactory()));
