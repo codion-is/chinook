@@ -104,21 +104,21 @@ public final class TrackTablePanel extends EntityTablePanel {
 						.cellEditor(Track.RATING, ratingEditor(tableModel.entityDefinition()));
 	}
 
-	private static FilterTableCellRenderer durationRenderer(SwingEntityTableModel tableModel) {
+	private static FilterTableCellRenderer<Integer> durationRenderer(SwingEntityTableModel tableModel) {
 		return EntityTableCellRenderer.builder(Track.MILLISECONDS, tableModel)
 						.string(milliseconds -> minutes(milliseconds) + " min " + seconds(milliseconds) + " sec")
 						.toolTipData(true)
 						.build();
 	}
 
-	private static FilterTableCellRenderer ratingCellRenderer(SwingEntityTableModel tableModel) {
+	private static FilterTableCellRenderer<Integer> ratingCellRenderer(SwingEntityTableModel tableModel) {
 		return EntityTableCellRenderer.builder(Track.RATING, tableModel)
 						.string(RATINGS::get)
 						.toolTipData(true)
 						.build();
 	}
 
-	private static FilterTableCellEditor<?> ratingEditor(EntityDefinition entityDefinition) {
+	private static FilterTableCellEditor<Integer> ratingEditor(EntityDefinition entityDefinition) {
 		return filterTableCellEditor(() -> entityComponents(entityDefinition).integerSpinner(Track.RATING).buildValue());
 	}
 
