@@ -94,7 +94,7 @@ public final class AlbumHandler extends AbstractHandler {
 	public void insert(Context context) {
 		try (var connection = connection()) {
 			Album.Dto albumDto = context.bodyStreamAsClass(Album.Dto.class);
-			Entity album = connection.insertSelect(albumDto.entity(entities()::builder));
+			Entity album = connection.insertSelect(albumDto.entity(entities()));
 			context.status(OK)
 							.result(mapper().writeValueAsString(Album.dto(album)));
 		}

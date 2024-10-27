@@ -97,7 +97,7 @@ public final class TrackHandler extends AbstractHandler {
 	public void insert(Context context) {
 		try (var connection = connection()) {
 			Track.Dto trackDto = context.bodyStreamAsClass(Track.Dto.class);
-			Entity track = connection.insertSelect(trackDto.entity(entities()::builder));
+			Entity track = connection.insertSelect(trackDto.entity(entities()));
 			context.status(OK)
 							.result(mapper().writeValueAsString(Track.dto(track)));
 		}

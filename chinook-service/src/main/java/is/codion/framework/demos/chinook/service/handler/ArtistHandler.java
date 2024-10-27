@@ -77,7 +77,7 @@ public final class ArtistHandler extends AbstractHandler {
 	public void insert(Context context) {
 		try (var connection = connection()) {
 			Artist.Dto artistDto = context.bodyStreamAsClass(Artist.Dto.class);
-			Entity artist = connection.insertSelect(artistDto.entity(entities()::builder));
+			Entity artist = connection.insertSelect(artistDto.entity(entities()));
 			context.status(OK)
 							.result(mapper().writeValueAsString(Artist.dto(artist)));
 		}

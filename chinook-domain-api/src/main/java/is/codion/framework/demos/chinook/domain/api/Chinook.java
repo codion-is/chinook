@@ -22,6 +22,7 @@ import is.codion.common.db.operation.FunctionType;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.domain.DomainType;
 import is.codion.framework.domain.entity.DefaultEntityValidator;
+import is.codion.framework.domain.entity.Entities;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.EntityType;
 import is.codion.framework.domain.entity.attribute.Attribute;
@@ -59,11 +60,6 @@ import static java.util.ResourceBundle.getBundle;
 public interface Chinook {
 
 	DomainType DOMAIN = domainType("ChinookImpl");
-
-	/**
-	 * Used when converting from a Dto to Entity.
-	 */
-	interface EntityBuilder extends Function<EntityType, Entity.Builder> {}
 	// end::chinook[]
 
 	// tag::artist[]
@@ -82,8 +78,8 @@ public interface Chinook {
 
 		record Dto(Long id, String name) {
 
-			public Entity entity(EntityBuilder builder) {
-				return builder.apply(TYPE)
+			public Entity entity(Entities entities) {
+				return entities.builder(TYPE)
 								.with(ID, id)
 								.with(NAME, name)
 								.build();
@@ -114,11 +110,11 @@ public interface Chinook {
 
 		record Dto(Long id, String title, Artist.Dto artist) {
 
-			public Entity entity(EntityBuilder builder) {
-				return builder.apply(TYPE)
+			public Entity entity(Entities entities) {
+				return entities.builder(TYPE)
 								.with(ID, id)
 								.with(TITLE, title)
-								.with(ARTIST_FK, artist.entity(builder))
+								.with(ARTIST_FK, artist.entity(entities))
 								.build();
 			}
 		}
@@ -187,8 +183,8 @@ public interface Chinook {
 
 		record Dto(Long id, String name) {
 
-			public Entity entity(EntityBuilder builder) {
-				return builder.apply(TYPE)
+			public Entity entity(Entities entities) {
+				return entities.builder(TYPE)
 								.with(ID, id)
 								.with(NAME, name)
 								.build();
@@ -211,8 +207,8 @@ public interface Chinook {
 
 		record Dto(Long id, String name) {
 
-			public Entity entity(EntityBuilder factory) {
-				return factory.apply(TYPE)
+			public Entity entity(Entities entities) {
+				return entities.builder(TYPE)
 								.with(ID, id)
 								.with(NAME, name)
 								.build();
@@ -270,13 +266,13 @@ public interface Chinook {
 							 Integer milliseconds, Integer rating,
 							 BigDecimal unitPrice) {
 
-			public Entity entity(EntityBuilder builder) {
-				return builder.apply(TYPE)
+			public Entity entity(Entities entities) {
+				return entities.builder(TYPE)
 								.with(ID, id)
 								.with(NAME, name)
-								.with(ALBUM_FK, album.entity(builder))
-								.with(GENRE_FK, genre.entity(builder))
-								.with(MEDIATYPE_FK, mediaType.entity(builder))
+								.with(ALBUM_FK, album.entity(entities))
+								.with(GENRE_FK, genre.entity(entities))
+								.with(MEDIATYPE_FK, mediaType.entity(entities))
 								.with(MILLISECONDS, milliseconds)
 								.with(RATING, rating)
 								.with(UNITPRICE, unitPrice)
