@@ -148,7 +148,7 @@ final class DurationComponentValue extends AbstractComponentValue<Integer, Durat
 											.add(new JLabel(BUNDLE.getString("sec")))
 											.add(new JLabel(BUNDLE.getString("ms")))
 											.build())
-							.centerComponent(gridLayoutPanel(1, 2)
+							.centerComponent(gridLayoutPanel(1, 3)
 											.add(minutesField)
 											.add(secondsField)
 											.add(millisecondsField)
