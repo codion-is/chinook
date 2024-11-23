@@ -18,16 +18,15 @@ tasks.asciidoctor {
 
     baseDirFollowsSourceFile()
 
-    attributes(mapOf(
-        "codion-version" to project.version
-    ))
-
-    asciidoctorj {
-        setVersion("2.5.13")
-        attributes(mapOf(
+    attributes(
+        mapOf(
+            "codion-version" to project.version,
             "source-highlighter" to "prettify",
             "tabsize" to 2
-        ))
+        )
+    )
+    asciidoctorj {
+        setVersion("2.5.13")
     }
 }
 
