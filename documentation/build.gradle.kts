@@ -1,10 +1,10 @@
 plugins {
-    id "org.asciidoctor.jvm.convert" version "4.0.3"
+    id("org.asciidoctor.jvm.convert") version "4.0.3"
 }
 
 version = libs.versions.codion.get().replace("-SNAPSHOT", "")
 
-asciidoctor {
+tasks.asciidoctor {
     inputs.dir("../chinook-domain-api/src/main/java")
     inputs.dir("../chinook-domain/src/main/java")
     inputs.dir("../chinook-client/src/main/java")
@@ -18,17 +18,23 @@ asciidoctor {
 
     baseDirFollowsSourceFile()
 
-    attributes "codion-version": project.version
+    attributes(mapOf(
+        "codion-version" to project.version
+    ))
+
     asciidoctorj {
-        version = "2.5.13"
-        attributes "source-highlighter": "prettify", tabsize: 2
+        setVersion("2.5.13")
+        attributes(mapOf(
+            "source-highlighter" to "prettify",
+            "tabsize" to 2
+        ))
     }
 }
 
-tasks.register("copyToGitHubPages", Sync) {
-    dependsOn asciidoctor
-    group "documentation"
-    def documentationDir = project.version
-    from project.layout.buildDirectory.dir("docs/asciidoc")
-    into "../../codion-pages/doc/${documentationDir}/tutorials/chinook"
+tasks.register<Sync>("copyToGitHubPages") {
+    dependsOn(tasks.asciidoctor)
+    group = "documentation"
+    val documentationDir = project.version
+    from(project.layout.buildDirectory.dir("docs/asciidoc"))
+    into("../../codion-pages/doc/${documentationDir}/tutorials/chinook")
 }

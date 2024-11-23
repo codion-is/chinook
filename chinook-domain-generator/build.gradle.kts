@@ -1,5 +1,5 @@
 plugins {
-    id "application"
+    id("application")
 }
 
 dependencies {
@@ -8,16 +8,16 @@ dependencies {
     runtimeOnly(libs.h2)
 }
 
-applicationDefaultJvmArgs = [
+application {
+    mainModule.set("is.codion.tools.generator.ui")
+    mainClass.set("is.codion.tools.generator.ui.DomainGeneratorPanel")
+
+    applicationDefaultJvmArgs = listOf(
         "-Xmx64m",
         "-Dcodion.db.url=jdbc:h2:mem:h2db",
         "-Dcodion.db.initScripts=../chinook-domain/src/main/resources/create_schema.sql,",
         "-Dcodion.domain.generator.defaultDomainPackage=is.codion.framework.demos.chinook.domain.api",
         "-Dcodion.domain.generator.defaultUser=sa",
         "-Dsun.awt.disablegrab=true"
-]
-
-application {
-    mainModule.set("is.codion.tools.generator.ui")
-    mainClass.set("is.codion.tools.generator.ui.DomainGeneratorPanel")
+    )
 }
