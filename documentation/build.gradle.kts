@@ -31,9 +31,7 @@ tasks.asciidoctor {
 }
 
 tasks.register<Sync>("copyToGitHubPages") {
-    dependsOn(tasks.asciidoctor)
     group = "documentation"
-    val documentationDir = project.version
-    from(project.layout.buildDirectory.dir("docs/asciidoc"))
-    into("../../codion-pages/doc/${documentationDir}/tutorials/chinook")
+    from(tasks.asciidoctor)
+    into("../../codion-pages/doc/" + project.version + "/tutorials/chinook")
 }
