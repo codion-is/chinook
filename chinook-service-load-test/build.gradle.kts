@@ -24,10 +24,6 @@ jlink {
     moduleName.set(application.mainModule)
     options.set(listOf("--strip-debug", "--no-header-files", "--no-man-pages"))
 
-    launcher {
-        jvmArgs.addAll(application.applicationDefaultJvmArgs)
-    }
-
     jpackage {
         imageName = "Chinook-Service-Load-Test"
         if (org.gradle.internal.os.OperatingSystem.current().isLinux) {

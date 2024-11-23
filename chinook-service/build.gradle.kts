@@ -58,8 +58,4 @@ jlink {
     )
 
     addExtraDependencies("slf4j-api", "jetty-jakarta-servlet-api")
-
-    launcher {
-        jvmArgs.addAll(application.applicationDefaultJvmArgs)
-    }
 }

@@ -38,15 +38,6 @@ jlink {
         )
     )
 
-    launcher {
-        jvmArgs.addAll(
-            application.applicationDefaultJvmArgs + listOf(
-                "--add-reads",
-                "chinook.merged.module=org.slf4j" //for sslcontext-kickstart
-            )
-        )
-    }
-
     jpackage {
         imageName = "Chinook-Server-Monitor"
         if (org.gradle.internal.os.OperatingSystem.current().isLinux) {

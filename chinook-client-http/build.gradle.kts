@@ -38,10 +38,6 @@ jlink {
         "is.codion.framework.db.http,is.codion.plugin.logback.proxy"
     )
 
-    launcher {
-        jvmArgs.addAll(application.applicationDefaultJvmArgs)
-    }
-
     jpackage {
         imageName = "Chinook-Http"
         if (org.gradle.internal.os.OperatingSystem.current().isLinux) {

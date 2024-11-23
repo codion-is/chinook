@@ -40,15 +40,6 @@ jlink {
         )
     )
 
-    launcher {
-        jvmArgs.addAll(
-            application.applicationDefaultJvmArgs + listOf(
-                "--add-reads",
-                "chinook.merged.module=org.slf4j" //for sslcontext-kickstart
-            )
-        )
-    }
-
     jpackage {
         imageName = "Chinook-Remote"
         if (org.gradle.internal.os.OperatingSystem.current().isLinux) {

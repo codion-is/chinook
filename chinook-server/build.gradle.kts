@@ -86,10 +86,6 @@ jlink {
 
     forceMerge("kotlin")
 
-    launcher {
-        jvmArgs.addAll(application.applicationDefaultJvmArgs)
-    }
-
     jpackage {
         imageName = "Chinook-Server"
         if (org.gradle.internal.os.OperatingSystem.current().isLinux) {

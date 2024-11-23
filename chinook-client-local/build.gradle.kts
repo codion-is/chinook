@@ -42,10 +42,6 @@ jlink {
 
     addExtraDependencies("slf4j-api")
 
-    launcher {
-        jvmArgs.addAll(application.applicationDefaultJvmArgs)
-    }
-
     jpackage {
         imageName = "Chinook-Local"
         if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
