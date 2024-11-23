@@ -27,8 +27,6 @@ import io.javalin.http.Context;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 
-import java.util.function.Supplier;
-
 import static org.slf4j.LoggerFactory.getLogger;
 
 public abstract class AbstractHandler {
@@ -37,12 +35,10 @@ public abstract class AbstractHandler {
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
-	private final Supplier<LocalEntityConnection> connection;
-	private final Entities entities;
+	private final ConnectionSupplier connection;
 
 	protected AbstractHandler(ConnectionSupplier connection) {
 		this.connection = connection;
-		this.entities = connection.entities();
 	}
 
 	protected final LocalEntityConnection connection() {
@@ -54,7 +50,7 @@ public abstract class AbstractHandler {
 	}
 
 	protected final Entities entities() {
-		return entities;
+		return connection.entities();
 	}
 
 	protected static void handleException(Context context, Exception exception) {
