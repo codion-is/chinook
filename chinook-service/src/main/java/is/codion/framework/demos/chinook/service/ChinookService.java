@@ -18,7 +18,6 @@
  */
 package is.codion.framework.demos.chinook.service;
 
-import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.property.PropertyValue;
 import is.codion.framework.demos.chinook.service.connection.ConnectionSupplier;
 import is.codion.framework.demos.chinook.service.handler.AlbumHandler;
@@ -52,7 +51,7 @@ final class ChinookService {
 	private final MediaTypeHandler mediaType = new MediaTypeHandler(connectionSupplier);
 	private final GenreHandler genre = new GenreHandler(connectionSupplier);
 
-	ChinookService() throws DatabaseException {
+	ChinookService() {
 		javalin.get("/artists", artists::artists);
 		javalin.get("/artists/id/{id}", artists::byId);
 		javalin.get("/artists/name/{name}", artists::byName);

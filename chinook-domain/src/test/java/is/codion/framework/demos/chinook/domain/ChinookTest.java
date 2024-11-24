@@ -18,7 +18,6 @@
  */
 package is.codion.framework.demos.chinook.domain;
 
-import is.codion.common.db.exception.DatabaseException;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.domain.entity.Entity;
@@ -41,62 +40,62 @@ public class ChinookTest extends DomainTest {
 	}
 
 	@Test
-	void album() throws Exception {
+	void album() {
 		test(Album.TYPE);
 	}
 
 	@Test
-	void artist() throws Exception {
+	void artist() {
 		test(Artist.TYPE);
 	}
 
 	@Test
-	void customer() throws Exception {
+	void customer() {
 		test(Customer.TYPE);
 	}
 
 	@Test
-	void employee() throws Exception {
+	void employee() {
 		test(Employee.TYPE);
 	}
 
 	@Test
-	void genre() throws Exception {
+	void genre() {
 		test(Genre.TYPE);
 	}
 
 	@Test
-	void invoce() throws Exception {
+	void invoce() {
 		test(Invoice.TYPE);
 	}
 
 	@Test
-	void invoiceLine() throws Exception {
+	void invoiceLine() {
 		test(InvoiceLine.TYPE);
 	}
 
 	@Test
-	void mediaType() throws Exception {
+	void mediaType() {
 		test(MediaType.TYPE);
 	}
 
 	@Test
-	void playlist() throws Exception {
+	void playlist() {
 		test(Playlist.TYPE);
 	}
 
 	@Test
-	void playlistTrack() throws Exception {
+	void playlistTrack() {
 		test(PlaylistTrack.TYPE);
 	}
 
 	@Test
-	void track() throws Exception {
+	void track() {
 		test(Track.TYPE);
 	}
 
 	@Test
-	void randomPlaylist() throws Exception {
+	void randomPlaylist() {
 		EntityConnection connection = connection();
 		connection.startTransaction();
 		try {
@@ -124,7 +123,7 @@ public class ChinookTest extends DomainTest {
 		}
 
 		@Override
-		public void modify(Entity entity) throws DatabaseException {
+		public void modify(Entity entity) {
 			super.modify(entity);
 			if (entity.entityType().equals(Album.TYPE)) {
 				entity.put(Album.TAGS, asList("tag_one", "tag_two", "tag_three"));
@@ -132,7 +131,7 @@ public class ChinookTest extends DomainTest {
 		}
 
 		@Override
-		protected <T> T value(Attribute<T> attribute) throws DatabaseException {
+		protected <T> T value(Attribute<T> attribute) {
 			if (attribute.equals(Album.TAGS)) {
 				return (T) asList("tag_one", "tag_two");
 			}

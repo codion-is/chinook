@@ -18,7 +18,6 @@
  */
 package is.codion.framework.demos.chinook.model;
 
-import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.user.User;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnectionProvider;
@@ -30,7 +29,6 @@ import is.codion.framework.demos.chinook.domain.api.Chinook.InvoiceLine;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.domain.entity.Entities;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.domain.entity.exception.ValidationException;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public final class InvoiceLineEditModelTest {
 
 	@Test
-	void updateTotals() throws DatabaseException, ValidationException {
+	void updateTotals() {
 		try (EntityConnectionProvider connectionProvider = createConnectionProvider()) {
 			EntityConnection connection = connectionProvider.connection();
 
@@ -88,7 +86,7 @@ public final class InvoiceLineEditModelTest {
 		}
 	}
 
-	private static Entity createInvoice(EntityConnection connection) throws DatabaseException {
+	private static Entity createInvoice(EntityConnection connection) {
 		Entities entities = connection.entities();
 
 		return connection.insertSelect(entities.builder(Invoice.TYPE)

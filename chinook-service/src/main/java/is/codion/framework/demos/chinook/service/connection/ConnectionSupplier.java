@@ -60,7 +60,7 @@ public final class ConnectionSupplier implements Supplier<LocalEntityConnection>
 					// Relies on codion-plugin-hikari-pool being on the classpath
 					database.createConnectionPool(ConnectionPoolFactory.instance(), USER);
 
-	public ConnectionSupplier() throws DatabaseException {
+	public ConnectionSupplier() {
 		connectionPool.setCollectCheckOutTimes(true);
 		LOG.info("Database: {}", database.url());
 		LOG.info("Connection pool: {}", connectionPool.user());

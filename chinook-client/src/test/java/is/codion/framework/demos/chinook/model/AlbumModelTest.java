@@ -18,7 +18,6 @@
  */
 package is.codion.framework.demos.chinook.model;
 
-import is.codion.common.db.exception.DatabaseException;
 import is.codion.common.user.User;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnectionProvider;
@@ -27,7 +26,6 @@ import is.codion.framework.demos.chinook.domain.ChinookImpl;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.domain.entity.exception.ValidationException;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 
 import org.junit.jupiter.api.Test;
@@ -42,7 +40,7 @@ public final class AlbumModelTest {
 	private static final String MASTER_OF_PUPPETS = "Master Of Puppets";
 
 	@Test
-	void albumRefreshedWhenTrackRatingIsUpdated() throws DatabaseException, ValidationException {
+	void albumRefreshedWhenTrackRatingIsUpdated() {
 		try (EntityConnectionProvider connectionProvider = createConnectionProvider()) {
 			EntityConnection connection = connectionProvider.connection();
 			connection.startTransaction();

@@ -18,7 +18,6 @@
  */
 package is.codion.framework.demos.chinook.service;
 
-import is.codion.common.db.exception.DatabaseException;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Artist;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Genre;
@@ -57,7 +56,7 @@ public class ChinookServiceTest {
 	private static ChinookService SERVICE;
 
 	@BeforeAll
-	static void setUp() throws DatabaseException {
+	static void setUp() {
 		SERVICE = new ChinookService();
 		EXECUTOR.submit(SERVICE::start);
 	}

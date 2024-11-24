@@ -18,7 +18,6 @@
  */
 package is.codion.framework.demos.chinook.ui;
 
-import is.codion.common.db.exception.DatabaseException;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.demos.chinook.model.TrackTableModel;
 import is.codion.framework.domain.entity.EntityDefinition;
@@ -78,7 +77,7 @@ public final class TrackTablePanel extends EntityTablePanel {
 						.defaults());
 	}
 
-	private void raisePriceOfSelected() throws DatabaseException {
+	private void raisePriceOfSelected() {
 		TrackTableModel tableModel = tableModel();
 		tableModel.raisePriceOfSelected(getAmountFromUser());
 	}
