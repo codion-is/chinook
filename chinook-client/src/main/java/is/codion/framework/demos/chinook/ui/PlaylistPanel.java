@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
@@ -36,6 +36,7 @@ public final class PlaylistPanel extends EntityPanel {
 
 		SwingEntityModel playlistTrackModel = playlistModel.detailModel(PlaylistTrack.TYPE);
 		EntityPanel playlistTrackPanel = new EntityPanel(playlistTrackModel,
+						new PlaylistTrackEditPanel(playlistTrackModel.editModel()),
 						new PlaylistTrackTablePanel(playlistTrackModel.tableModel()));
 
 		addDetailPanel(playlistTrackPanel);

@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
@@ -21,6 +21,7 @@ package is.codion.framework.demos.chinook.model;
 import is.codion.common.model.condition.ConditionModel;
 import is.codion.common.value.Value;
 import is.codion.framework.db.EntityConnectionProvider;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.attribute.Attribute;
@@ -32,7 +33,6 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Optional;
 
-import static is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import static is.codion.framework.model.EntityConditionModel.entityConditionModel;
 import static is.codion.framework.model.EntityQueryModel.entityQueryModel;
 

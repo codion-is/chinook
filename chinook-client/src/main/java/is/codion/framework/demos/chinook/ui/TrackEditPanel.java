@@ -12,12 +12,15 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
 package is.codion.framework.demos.chinook.ui;
 
+import is.codion.framework.demos.chinook.domain.api.Chinook.Genre;
+import is.codion.framework.demos.chinook.domain.api.Chinook.MediaType;
+import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.swing.common.ui.key.KeyEvents;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
@@ -25,7 +28,6 @@ import is.codion.swing.framework.ui.EntityEditPanel;
 
 import javax.swing.JPanel;
 
-import static is.codion.framework.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.component.Components.borderLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.control.Control.command;

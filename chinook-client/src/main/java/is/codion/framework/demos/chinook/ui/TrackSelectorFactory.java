@@ -12,12 +12,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
 package is.codion.framework.demos.chinook.ui;
 
+import is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.model.EntitySearchModel;
 import is.codion.swing.framework.ui.component.EntitySearchField.Selector;
 import is.codion.swing.framework.ui.component.EntitySearchField.TableSelector;
@@ -25,10 +26,13 @@ import is.codion.swing.framework.ui.component.EntitySearchField.TableSelector;
 import java.awt.Dimension;
 import java.util.function.Function;
 
-import static is.codion.framework.demos.chinook.domain.api.Chinook.Track;
 import static is.codion.swing.framework.ui.component.EntitySearchField.tableSelector;
 import static javax.swing.SortOrder.ASCENDING;
 
+/**
+ * Provides a {@link TableSelector} for selecting tracks,
+ * displaying columns for the artist, album and track name.
+ */
 final class TrackSelectorFactory implements Function<EntitySearchModel, Selector> {
 
 	@Override

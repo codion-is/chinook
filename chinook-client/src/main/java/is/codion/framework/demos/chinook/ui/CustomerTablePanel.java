@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
@@ -44,11 +44,15 @@ public final class CustomerTablePanel extends EntityTablePanel {
 
 	public CustomerTablePanel(SwingEntityTableModel tableModel) {
 		super(tableModel, config -> config
+						// Otherwise the table refresh button is only
+						// visible when the condition panel is visible
 						.refreshButtonVisible(RefreshButtonVisible.ALWAYS));
 	}
 
 	@Override
 	protected void setupControls() {
+		// Assign a custom report action to the standard PRINT control,
+		// which is then made available in the popup menu and on the toolbar
 		control(PRINT).set(Control.builder()
 						.command(this::viewCustomerReport)
 						.name(BUNDLE.getString("customer_report"))

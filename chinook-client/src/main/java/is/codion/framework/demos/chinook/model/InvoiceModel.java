@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2022, Björn Darri Sigurðsson.
  */
@@ -33,9 +33,19 @@ public final class InvoiceModel extends SwingEntityModel {
 
 		SwingEntityModel invoiceLineModel = new SwingEntityModel(invoiceLineEditModel);
 		ForeignKeyDetailModelLink<?, ?, ?> detailModelLink = addDetailModel(invoiceLineModel);
+		// Prevents accidentally adding a new invoice line to the previously selected invoice,
+		// since by default the last selected foreign key value persists when the edit model is cleared.
 		detailModelLink.clearForeignKeyValueOnEmptySelection().set(true);
+		// Usually the UI is responsible for activating the detail model link for the currently
+		// active (or visible) detail panel, but since the InvoiceLine panel is embedded in the
+		// InvoiceEditPanel, we simply activate the link here.
 		detailModelLink.active().set(true);
 
+		// We listen for when the edit model updates the totals for one or more
+		// invoices, and replace those in the table model, with the updated ones,
+		// which are provided by the event. Note the use of invokeLater() since
+		// the event is triggered during update, which happens in a background
+		// thread, and we are thereby updating the table data off the Event Dispatch Thread.
 		invoiceLineEditModel.addTotalsUpdatedConsumer(updatedInvoices ->
 						SwingUtilities.invokeLater(() -> tableModel().replace(updatedInvoices)));
 	}

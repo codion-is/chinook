@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
@@ -25,6 +25,9 @@ import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.ui.component.DefaultEntityComponentFactory;
 import is.codion.swing.framework.ui.component.EntitySearchField;
 
+/**
+ * Provides a {@link EntitySearchField} using the {@link TrackSelectorFactory}.
+ */
 final class TrackComponentFactory extends DefaultEntityComponentFactory<Entity, EntitySearchField> {
 
 	TrackComponentFactory(ForeignKey trackForeignKey) {

@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2024, Björn Darri Sigurðsson.
  */
@@ -36,8 +36,12 @@ public final class InvoiceTablePanel extends EntityTablePanel {
 
 	public InvoiceTablePanel(SwingEntityTableModel tableModel) {
 		super(tableModel, config -> config
+						// The TOTAL column is updated automatically when invoice lines are updated,
+						// see InvoiceLineEditModel, so we don't want it to be editable via the popup menu.
 						.editable(attributes -> attributes.remove(Invoice.TOTAL))
+						// The factory providing our custom condition panel.
 						.conditionPanelFactory(new InvoiceConditionPanelFactory(tableModel))
+						// Start with the SIMPLE condition panel view.
 						.conditionView(SIMPLE));
 	}
 

@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2024, Björn Darri Sigurðsson.
  */
@@ -31,6 +31,8 @@ public final class AlbumModel extends SwingEntityModel {
 		addDetailModel(trackModel);
 		TrackEditModel trackEditModel = trackModel.editModel();
 		trackEditModel.initializeComboBoxModels(Track.MEDIATYPE_FK, Track.GENRE_FK);
+		// We refresh the album table model when the rating for a track is modified,
+		// since the album rating is based on the average track rating.
 		trackEditModel.ratingUpdated().addConsumer(tableModel()::refresh);
 	}
 }

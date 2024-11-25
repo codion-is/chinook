@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2022, Björn Darri Sigurðsson.
  */
@@ -25,7 +25,9 @@ import is.codion.swing.framework.ui.EntityPanel;
 public final class AlbumPanel extends EntityPanel {
 
 	public AlbumPanel(SwingEntityModel albumModel) {
-		super(albumModel, new AlbumEditPanel(albumModel.editModel()), new AlbumTablePanel(albumModel.tableModel()));
+		super(albumModel,
+						new AlbumEditPanel(albumModel.editModel()),
+						new AlbumTablePanel(albumModel.tableModel()));
 		SwingEntityModel trackModel = albumModel.detailModel(Track.TYPE);
 		EntityPanel trackPanel = new EntityPanel(trackModel,
 						new TrackEditPanel(trackModel.editModel(), trackModel.tableModel()),

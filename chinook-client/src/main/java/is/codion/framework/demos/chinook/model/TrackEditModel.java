@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2024, Björn Darri Sigurðsson.
  */
@@ -35,6 +35,10 @@ public final class TrackEditModel extends SwingEntityEditModel {
 
 	public TrackEditModel(EntityConnectionProvider connectionProvider) {
 		super(Track.TYPE, connectionProvider);
+		// Create and populates the combo box models for the given foreign keys,
+		// otherwise this would happen when the respective combo boxes are created
+		// which happens on the Event Dispatch Thread.
+		initializeComboBoxModels(Track.MEDIATYPE_FK, Track.GENRE_FK);
 	}
 
 	Observer<Collection<Entity.Key>> ratingUpdated() {

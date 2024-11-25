@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
@@ -42,6 +42,7 @@ public final class InvoiceLineEditPanel extends EntityEditPanel {
 	public InvoiceLineEditPanel(SwingEntityEditModel editModel, JTextField tableSearchField) {
 		super(editModel);
 		this.tableSearchField = tableSearchField;
+		// We do not want the track to persist when the model is cleared.
 		editModel.value(InvoiceLine.TRACK_FK).persist().set(false);
 	}
 

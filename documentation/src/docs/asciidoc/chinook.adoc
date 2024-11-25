@@ -77,6 +77,10 @@ This demo application is based on the Chinook music store sample database.
 
 ** <<_chinookresources, ChinookResources>>
 
+* Text field selector
+
+** See <<_customereditpanel, CustomerEditPanel>>
+
 * Search field selector
 
 ** See <<_invoiceeditpanel, InvoiceEditPanel>>
@@ -160,6 +164,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CustomerPanel.java[lines=19..-1]
 ----
 
+[#_customereditpanel]
 ===== CustomerEditPanel
 
 [source,java,options="nowrap"]

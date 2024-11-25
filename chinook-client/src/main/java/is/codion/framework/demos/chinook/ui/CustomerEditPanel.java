@@ -12,12 +12,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
 package is.codion.framework.demos.chinook.ui;
 
+import is.codion.framework.demos.chinook.domain.api.Chinook.Customer;
 import is.codion.swing.common.ui.dialog.Dialogs;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.ui.EntityEditPanel;
@@ -26,7 +27,6 @@ import javax.swing.JPanel;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-import static is.codion.framework.demos.chinook.domain.api.Chinook.Customer;
 import static is.codion.swing.common.ui.component.Components.flexibleGridLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.layout.Layouts.flexibleGridLayout;
@@ -58,6 +58,8 @@ public final class CustomerEditPanel extends EntityEditPanel {
 		createTextField(Customer.STATE)
 						.columns(4)
 						.upperCase(true)
+						// CTRL-SPACE displays a dialog for
+						// selecting one of the supplied values
 						.selector(Dialogs.singleSelector(new StatesSupplier()));
 		createTextField(Customer.COUNTRY)
 						.columns(8);

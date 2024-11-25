@@ -12,12 +12,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Codion Chinook Demo.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
 package is.codion.framework.demos.chinook.ui;
 
+import is.codion.framework.demos.chinook.domain.api.Chinook.Album;
 import is.codion.framework.demos.chinook.domain.api.Chinook.Artist;
 import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.framework.model.SwingEntityEditModel;
@@ -29,7 +30,6 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.util.List;
 
-import static is.codion.framework.demos.chinook.domain.api.Chinook.Album;
 import static is.codion.swing.common.ui.component.Components.flexibleGridLayoutPanel;
 import static is.codion.swing.common.ui.layout.Layouts.borderLayout;
 
@@ -45,13 +45,19 @@ public final class AlbumEditPanel extends EntityEditPanel {
 
 		createForeignKeySearchField(Album.ARTIST_FK)
 						.columns(15)
+						// We provide a edit panel supplier, which enables
+						// keyboard shortcuts for adding a new artist (INSERT)
+						// or editing the currently selected one (CTRL-INSERT).
 						.editPanel(this::createArtistEditPanel);
 		createTextField(Album.TITLE)
 						.columns(15);
+		// We create JList based value for the album tags, on which
+		// we then base the custom AlbumTagPanel component below.
 		ComponentValue<List<String>, JList<String>> tagsValue =
 						createList(new DefaultListModel<String>())
 										.items(Album.TAGS)
 										.buildValue();
+		// We set the Album.COVER component to the custom CoverArtPanel component.
 		component(Album.COVER).set(new CoverArtPanel(editModel().value(Album.COVER)));
 
 		JPanel centerPanel = flexibleGridLayoutPanel(2, 2)
