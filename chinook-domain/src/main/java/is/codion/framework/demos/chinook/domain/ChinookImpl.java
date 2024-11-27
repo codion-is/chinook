@@ -545,13 +545,15 @@ public final class ChinookImpl extends DomainModel {
 											.build());
 
 			return connection.updateSelect(invoices.stream()
-							.peek(UpdateTotalsFunction::updateTotal)
+							.map(UpdateTotalsFunction::updateTotal)
 							.filter(Entity::modified)
 							.collect(toList()));
 		}
 
-		private static void updateTotal(Entity invoice) {
+		private static Entity updateTotal(Entity invoice) {
 			invoice.put(Invoice.TOTAL, invoice.optional(Invoice.CALCULATED_TOTAL).orElse(BigDecimal.ZERO));
+
+			return invoice;
 		}
 	}
 	// end::updateTotalsFunction[]
@@ -618,18 +620,19 @@ public final class ChinookImpl extends DomainModel {
 		@Override
 		public Collection<Entity> execute(EntityConnection entityConnection,
 																			RaisePriceParameters parameters) {
-			Select select =
-							where(Track.ID.in(parameters.trackIds()))
-											.forUpdate()
-											.build();
+			Select select = where(Track.ID.in(parameters.trackIds()))
+							.forUpdate()
+							.build();
 
 			return entityConnection.updateSelect(entityConnection.select(select).stream()
-							.peek(track -> raisePrice(track, parameters.priceIncrease()))
+							.map(track -> raisePrice(track, parameters.priceIncrease()))
 							.collect(toList()));
 		}
 
-		private static void raisePrice(Entity track, BigDecimal priceIncrease) {
+		private static Entity raisePrice(Entity track, BigDecimal priceIncrease) {
 			track.put(Track.UNITPRICE, track.get(Track.UNITPRICE).add(priceIncrease));
+
+			return track;
 		}
 	}
 	// end::raisePriceFunction[]
