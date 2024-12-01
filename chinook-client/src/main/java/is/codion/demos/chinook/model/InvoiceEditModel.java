@@ -18,11 +18,12 @@
  */
 package is.codion.demos.chinook.model;
 
-import is.codion.demos.chinook.domain.api.Chinook.Customer;
-import is.codion.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.swing.framework.model.SwingEntityEditModel;
+
+import static is.codion.demos.chinook.domain.api.Chinook.Customer;
+import static is.codion.demos.chinook.domain.api.Chinook.Invoice;
 
 public final class InvoiceEditModel extends SwingEntityEditModel {
 
@@ -38,7 +39,7 @@ public final class InvoiceEditModel extends SwingEntityEditModel {
 
 	private void setAddress(Entity customer) {
 		// We only populate the address fields
-		// when we are creating a new invoice
+		// when we are editing a new invoice
 		if (entity().exists().not().get()) {
 			if (customer == null) {
 				value(Invoice.BILLINGADDRESS).clear();

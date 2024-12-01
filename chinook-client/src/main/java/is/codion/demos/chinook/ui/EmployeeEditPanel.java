@@ -18,19 +18,19 @@
  */
 package is.codion.demos.chinook.ui;
 
-import is.codion.demos.chinook.domain.api.Chinook.Employee;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.ui.EntityEditPanel;
 
 import javax.swing.JPanel;
 
+import static is.codion.demos.chinook.domain.api.Chinook.Employee;
 import static is.codion.swing.common.ui.component.Components.flexibleGridLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.layout.Layouts.flexibleGridLayout;
 
-final class EmployeeEditPanel extends EntityEditPanel {
+public final class EmployeeEditPanel extends EntityEditPanel {
 
-	EmployeeEditPanel(SwingEntityEditModel editModel) {
+	public EmployeeEditPanel(SwingEntityEditModel editModel) {
 		super(editModel);
 	}
 
@@ -66,6 +66,8 @@ final class EmployeeEditPanel extends EntityEditPanel {
 						.columns(12);
 		createForeignKeyComboBox(Employee.REPORTSTO_FK)
 						.preferredWidth(120)
+						// Disable transfer focus on Enter, so the Enter key triggers
+						// the default dialog button, when inserting and updating
 						.transferFocusOnEnter(false);
 
 		JPanel firstLastNamePanel = gridLayoutPanel(1, 2)
