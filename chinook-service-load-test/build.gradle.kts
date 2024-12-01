@@ -11,8 +11,8 @@ dependencies {
 }
 
 application {
-    mainModule.set("is.codion.framework.demos.chinook.service.loadtest")
-    mainClass.set("is.codion.framework.demos.chinook.service.loadtest.ChinookServiceLoadTest")
+    mainModule.set("is.codion.demos.chinook.service.loadtest")
+    mainClass.set("is.codion.demos.chinook.service.loadtest.ChinookServiceLoadTest")
 
     applicationDefaultJvmArgs = listOf(
         "-Xmx512m"

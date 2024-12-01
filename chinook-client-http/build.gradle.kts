@@ -13,8 +13,8 @@ val serverHost: String by project
 val serverHttpPort: String by project
 
 application {
-    mainModule.set("is.codion.framework.demos.chinook.client")
-    mainClass.set("is.codion.framework.demos.chinook.ui.ChinookAppPanel")
+    mainModule.set("is.codion.demos.chinook.client")
+    mainClass.set("is.codion.demos.chinook.ui.ChinookAppPanel")
 
     applicationDefaultJvmArgs = listOf(
         "-Xmx64m",

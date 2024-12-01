@@ -14,8 +14,8 @@ dependencies {
 }
 
 application {
-    mainModule.set("is.codion.framework.demos.chinook.client")
-    mainClass.set("is.codion.framework.demos.chinook.ui.ChinookAppPanel")
+    mainModule.set("is.codion.demos.chinook.client")
+    mainClass.set("is.codion.demos.chinook.ui.ChinookAppPanel")
 
     applicationDefaultJvmArgs = listOf(
         "-Xmx64m",
@@ -36,7 +36,7 @@ jlink {
             "--no-man-pages",
             "--add-modules",
             "is.codion.framework.db.local,is.codion.dbms.h2," +
-                    "is.codion.plugin.logback.proxy,is.codion.framework.demos.chinook.domain"
+                    "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain"
         )
     )
 

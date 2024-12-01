@@ -19,14 +19,14 @@
 /**
  * Domain API.
  */
-module is.codion.framework.demos.chinook.domain.api {
+module is.codion.demos.chinook.domain.api {
 	requires is.codion.common.db;
 	requires is.codion.framework.db.core;
 	requires transitive is.codion.plugin.jasperreports;
 	requires org.apache.commons.logging;
 
-	exports is.codion.framework.demos.chinook.domain.api;
+	exports is.codion.demos.chinook.domain.api;
 
 	//for accessing i18n resources
-	opens is.codion.framework.demos.chinook.domain.api;
+	opens is.codion.demos.chinook.domain.api;
 }

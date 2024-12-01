@@ -19,12 +19,12 @@
 /**
  * Client.
  */
-module is.codion.framework.demos.chinook.client {
+module is.codion.demos.chinook.client {
 	requires is.codion.swing.common.ui;
 	requires is.codion.swing.framework.ui;
 	requires is.codion.plugin.imagepanel;
 
-	requires is.codion.framework.demos.chinook.domain.api;
+	requires is.codion.demos.chinook.domain.api;
 	requires com.formdev.flatlaf.intellijthemes;
 	requires org.kordamp.ikonli.foundation;
 	requires net.sf.jasperreports.core;
@@ -32,6 +32,6 @@ module is.codion.framework.demos.chinook.client {
 	requires org.apache.commons.logging;
 	requires com.github.librepdf.openpdf;
 
-	exports is.codion.framework.demos.chinook.ui;
-	exports is.codion.framework.demos.chinook.model;
+	exports is.codion.demos.chinook.ui;
+	exports is.codion.demos.chinook.model;
 }

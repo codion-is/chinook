@@ -32,8 +32,8 @@ tasks.test {
 val servicePort: String by project
 
 application {
-    mainModule.set("is.codion.framework.demos.chinook.service")
-    mainClass.set("is.codion.framework.demos.chinook.service.ChinookService")
+    mainModule.set("is.codion.demos.chinook.service")
+    mainClass.set("is.codion.demos.chinook.service.ChinookService")
 
     applicationDefaultJvmArgs = listOf(
         "-Xmx512m",
@@ -54,7 +54,7 @@ jlink {
         "--add-modules",
         "is.codion.framework.db.local,is.codion.dbms.h2," +
                 "is.codion.plugin.logback.proxy,is.codion.plugin.hikari.pool," +
-                "is.codion.framework.demos.chinook.domain"
+                "is.codion.demos.chinook.domain"
     )
 
     addExtraDependencies("slf4j-api", "jetty-jakarta-servlet-api")

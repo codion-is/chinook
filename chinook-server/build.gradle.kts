@@ -74,7 +74,7 @@ jlink {
             "--ignore-signing-information",
             "--add-modules",
             "is.codion.framework.db.local,is.codion.dbms.h2,is.codion.plugin.hikari.pool," +
-                    "is.codion.plugin.logback.proxy,is.codion.framework.demos.chinook.domain,is.codion.framework.servlet"
+                    "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain,is.codion.framework.servlet"
         )
     )
 

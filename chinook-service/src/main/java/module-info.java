@@ -19,9 +19,9 @@
 /**
  * Chinook service.
  */
-module is.codion.framework.demos.chinook.service {
+module is.codion.demos.chinook.service {
 	requires io.javalin;
 	requires is.codion.framework.db.local;
-	requires is.codion.framework.demos.chinook.domain.api;
+	requires is.codion.demos.chinook.domain.api;
 	requires com.fasterxml.jackson.databind;
 }

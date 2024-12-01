@@ -13,8 +13,8 @@ val serverHost: String by project
 val serverRegistryPort: String by project
 
 application {
-    mainModule.set("is.codion.framework.demos.chinook.client.loadtest")
-    mainClass.set("is.codion.framework.demos.chinook.client.loadtest.ChinookLoadTest")
+    mainModule.set("is.codion.demos.chinook.client.loadtest")
+    mainClass.set("is.codion.demos.chinook.client.loadtest.ChinookLoadTest")
 
     applicationDefaultJvmArgs = listOf(
         "-Xmx1024m",

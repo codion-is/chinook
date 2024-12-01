@@ -107,7 +107,7 @@ This tutorial assumes you have at least skimmed the https://codion.is/doc/{codio
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=chinook]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=chinook]
 ----
 
 The domain API sections below continue the Chinook class.
@@ -116,7 +116,7 @@ The domain API sections below continue the Chinook class.
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=chinook]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=chinook]
 ----
 
 The domain implementation sections below continue the ChinookImpl class.
@@ -140,19 +140,19 @@ include::{dir-source-sql}/create_schema.sql[tags=customer]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=customer]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=customer]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=customerStringFactory]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=customerStringFactory]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=customer]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=customer]
 ----
 
 ==== UI
@@ -161,7 +161,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CustomerPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/CustomerPanel.java[lines=19..-1]
 ----
 
 [#_customereditpanel]
@@ -169,14 +169,14 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CustomerPanel.
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CustomerEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/CustomerEditPanel.java[lines=19..-1]
 ----
 
 ===== CustomerTablePanel
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CustomerTablePanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/CustomerTablePanel.java[lines=19..-1]
 ----
 
 === Invoice
@@ -194,14 +194,14 @@ include::{dir-source-sql}/create_schema.sql[tags=invoice]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=invoice]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=invoice]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=invoice]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=invoice]
 ----
 
 [#_updatetotalsfunction]
@@ -209,7 +209,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=updateTotalsFunction]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=updateTotalsFunction]
 ----
 
 ==== Model
@@ -218,7 +218,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/InvoiceModel.java[lines=19..-1]
 ----
 
 [#_invoiceeditmodel]
@@ -226,7 +226,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceMode
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceEditModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/InvoiceEditModel.java[lines=19..-1]
 ----
 
 ==== UI
@@ -236,7 +236,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceEdit
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoicePanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/InvoicePanel.java[lines=19..-1]
 ----
 
 [#_invoiceeditpanel]
@@ -244,14 +244,14 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoicePanel.j
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/InvoiceEditPanel.java[lines=19..-1]
 ----
 
 ===== InvoiceTablePanel
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceTablePanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/InvoiceTablePanel.java[lines=19..-1]
 ----
 
 [#_invoiceconditionpanel]
@@ -259,7 +259,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceTablePa
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceConditionPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/InvoiceConditionPanel.java[lines=19..-1]
 ----
 
 === Invoice Line
@@ -277,19 +277,19 @@ include::{dir-source-sql}/create_schema.sql[tags=invoiceLine]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=invoiceLine]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=invoiceLine]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=invoiceLineTotalProvider]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=invoiceLineTotalProvider]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=invoiceLine]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=invoiceLine]
 ----
 
 ==== Model
@@ -299,14 +299,14 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/InvoiceLineEditModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/InvoiceLineEditModel.java[lines=19..-1]
 ----
 
 ===== InvoiceLineEditModelTest
 
 [source,java,options="nowrap"]
 ----
-include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/InvoiceLineEditModelTest.java[lines=19..-1]
+include::{dir-test-source-client}/is/codion/demos/chinook/model/InvoiceLineEditModelTest.java[lines=19..-1]
 ----
 
 ==== UI
@@ -316,14 +316,14 @@ include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/Invoic
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceLineEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/InvoiceLineEditPanel.java[lines=19..-1]
 ----
 
 ===== InvoiceLineTablePanel
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/InvoiceLineTablePanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/InvoiceLineTablePanel.java[lines=19..-1]
 ----
 
 == Employees
@@ -345,19 +345,19 @@ include::{dir-source-sql}/create_schema.sql[tags=employee]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=employee]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=employee]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=emailValidator]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=emailValidator]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=employee]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=employee]
 ----
 
 ==== UI
@@ -366,14 +366,14 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/EmployeeEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/EmployeeEditPanel.java[lines=19..-1]
 ----
 
 ===== EmployeeTablePanel
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/EmployeeTablePanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/EmployeeTablePanel.java[lines=19..-1]
 ----
 
 == Albums
@@ -397,14 +397,14 @@ include::{dir-source-sql}/create_schema.sql[tags=artist]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=artist]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=artist]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=artist]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=artist]
 ----
 
 ==== UI
@@ -413,7 +413,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ArtistEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/ArtistEditPanel.java[lines=19..-1]
 ----
 
 === Genre
@@ -431,14 +431,14 @@ include::{dir-source-sql}/create_schema.sql[tags=genre]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=genre]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=genre]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=genre]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=genre]
 ----
 
 ==== UI
@@ -447,7 +447,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/GenreEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/GenreEditPanel.java[lines=19..-1]
 ----
 
 === Media Type
@@ -465,14 +465,14 @@ include::{dir-source-sql}/create_schema.sql[tags=mediaType]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=mediaType]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=mediaType]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=mediaType]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=mediaType]
 ----
 
 ==== UI
@@ -481,7 +481,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/MediaTypeEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/MediaTypeEditPanel.java[lines=19..-1]
 ----
 
 === Artist
@@ -499,14 +499,14 @@ include::{dir-source-sql}/create_schema.sql[tags=artist]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=artist]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=artist]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=artist]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=artist]
 ----
 
 ==== UI
@@ -526,19 +526,19 @@ include::{dir-source-sql}/create_schema.sql[tags=album]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=album]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=album]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=album]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=album]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=tagsConverter]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=tagsConverter]
 ----
 
 ==== UI
@@ -547,12 +547,12 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/AlbumModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/AlbumModel.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/AlbumModelTest.java[lines=19..-1]
+include::{dir-test-source-client}/is/codion/demos/chinook/model/AlbumModelTest.java[lines=19..-1]
 ----
 
 ==== UI
@@ -561,7 +561,7 @@ include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/AlbumM
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/AlbumPanel.java[lines=19..-1]
 ----
 
 [#_albumeditpanel]
@@ -569,7 +569,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumPanel.jav
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/AlbumEditPanel.java[lines=19..-1]
 ----
 
 [#_coverartpanel]
@@ -577,7 +577,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumEditPanel
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CoverArtPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/CoverArtPanel.java[lines=19..-1]
 ----
 
 [#_albumtagpanel]
@@ -585,7 +585,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/CoverArtPanel.
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTagPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/AlbumTagPanel.java[lines=19..-1]
 ----
 
 [#_albumtablepanel]
@@ -593,7 +593,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTagPanel.
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/AlbumTablePanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/AlbumTablePanel.java[lines=19..-1]
 ----
 
 === Track
@@ -611,29 +611,29 @@ include::{dir-source-sql}/create_schema.sql[tags=track]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=track]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=track]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=coverFormatter]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=coverFormatter]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=track]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=track]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=notInPlaylistConditionProvider]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=notInPlaylistConditionProvider]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=raisePriceFunction]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=raisePriceFunction]
 ----
 
 ==== Model
@@ -642,7 +642,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/TrackEditModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/TrackEditModel.java[lines=19..-1]
 ----
 
 [#_tracktablemodel]
@@ -650,12 +650,12 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/TrackEditMo
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/TrackTableModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/TrackTableModel.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/TrackTableModelTest.java[lines=19..-1]
+include::{dir-test-source-client}/is/codion/demos/chinook/model/TrackTableModelTest.java[lines=19..-1]
 ----
 
 ==== UI
@@ -665,7 +665,7 @@ include::{dir-test-source-client}/is/codion/framework/demos/chinook/model/TrackT
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/TrackEditPanel.java[lines=19..-1]
 ----
 
 [#_tracktablepanel]
@@ -673,7 +673,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackEditPanel
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackTablePanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/TrackTablePanel.java[lines=19..-1]
 ----
 
 [#_durationcomponentvalue]
@@ -681,7 +681,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackTablePane
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/DurationComponentValue.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/DurationComponentValue.java[lines=19..-1]
 ----
 
 == Playlists
@@ -703,14 +703,14 @@ include::{dir-source-sql}/create_schema.sql[tags=playlist]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=playlist]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=playlist]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=playlist]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=playlist]
 ----
 
 [#_createrandomplaylistfunction]
@@ -718,7 +718,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=createRandomPlaylistFunction]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=createRandomPlaylistFunction]
 ----
 
 ==== Model
@@ -728,7 +728,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistEditModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/PlaylistEditModel.java[lines=19..-1]
 ----
 
 [#_playlisttablemodel]
@@ -736,7 +736,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistEdi
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistTableModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/PlaylistTableModel.java[lines=19..-1]
 ----
 
 ==== UI
@@ -746,28 +746,28 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistTab
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistPanel.java[lines=19..-1]
 ----
 
 ===== PlaylistEditPanel
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistEditPanel.java[lines=19..-1]
 ----
 
 ===== PlaylistTablePanel
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTablePanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistTablePanel.java[lines=19..-1]
 ----
 
 ===== RandomPlaylistParametersPanel
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/RandomPlaylistParametersPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/RandomPlaylistParametersPanel.java[lines=19..-1]
 ----
 
 === Playlist Track
@@ -785,14 +785,14 @@ include::{dir-source-sql}/create_schema.sql[tags=playlistTrack]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/framework/demos/chinook/domain/api/Chinook.java[tags=playlistTrack]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=playlistTrack]
 ----
 
 ===== Implementation
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImpl.java[tags=playlistTrack]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=playlistTrack]
 ----
 
 ==== Model
@@ -801,7 +801,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookImp
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistTrackEditModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/PlaylistTrackEditModel.java[lines=19..-1]
 ----
 
 ==== UI
@@ -811,7 +811,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/PlaylistTra
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackEditPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistTrackEditPanel.java[lines=19..-1]
 ----
 
 [#_playlisttracktablepanel]
@@ -819,7 +819,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackE
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackTablePanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistTrackTablePanel.java[lines=19..-1]
 ----
 
 [#_trackcomponentfactory]
@@ -827,7 +827,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/PlaylistTrackT
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackComponentFactory.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/TrackComponentFactory.java[lines=19..-1]
 ----
 
 [#_trackselectorfactory]
@@ -835,7 +835,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackComponent
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackSelectorFactory.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/TrackSelectorFactory.java[lines=19..-1]
 ----
 
 == Application
@@ -844,7 +844,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/TrackSelectorF
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/model/ChinookAppModel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/model/ChinookAppModel.java[lines=19..-1]
 ----
 
 == UI
@@ -854,7 +854,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/model/ChinookAppM
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ChinookAppPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/ChinookAppPanel.java[lines=19..-1]
 ----
 
 [#_messages]
@@ -865,7 +865,7 @@ include::{dir-source-client}/is/codion/framework/demos/chinook/ui/ChinookAppPane
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/domain/ChinookResources.java[lines=19..-1]
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookResources.java[lines=19..-1]
 ----
 
 [#_authenticator]
@@ -882,7 +882,7 @@ include::{dir-source-sql}/create_schema.sql[tags=user]
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/framework/demos/chinook/server/ChinookAuthenticator.java[lines=19..-1]
+include::{dir-source-domain}/is/codion/demos/chinook/server/ChinookAuthenticator.java[lines=19..-1]
 ----
 
 [#_domain_unit_test]
@@ -890,7 +890,7 @@ include::{dir-source-domain}/is/codion/framework/demos/chinook/server/ChinookAut
 
 [source,java,options="nowrap"]
 ----
-include::{dir-test-source-domain}/is/codion/framework/demos/chinook/domain/ChinookTest.java[lines=19..-1]
+include::{dir-test-source-domain}/is/codion/demos/chinook/domain/ChinookTest.java[lines=19..-1]
 ----
 
 [#_load_test]
@@ -898,59 +898,59 @@ include::{dir-test-source-domain}/is/codion/framework/demos/chinook/domain/Chino
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/ChinookLoadTest.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/ChinookLoadTest.java[lines=19..-1]
 ----
 
 === Scenarios
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/LoadTestUtil.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/LoadTestUtil.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/InsertDeleteAlbum.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/InsertDeleteAlbum.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/LogoutLogin.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/LogoutLogin.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/RandomPlaylist.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/RandomPlaylist.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/RaisePrices.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/RaisePrices.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/UpdateTotals.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/UpdateTotals.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewAlbum.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/ViewAlbum.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewCustomerReport.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/ViewCustomerReport.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewGenre.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/ViewGenre.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest/scenarios/ViewInvoice.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/ViewInvoice.java[lines=19..-1]
 ----
 
 [#_service]
@@ -958,43 +958,43 @@ include::{dir-source-loadtest}/is/codion/framework/demos/chinook/client/loadtest
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service}/is/codion/framework/demos/chinook/service/ChinookService.java[lines=19..-1]
+include::{dir-source-service}/is/codion/demos/chinook/service/ChinookService.java[lines=19..-1]
 ----
 
 === Connection
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service}/is/codion/framework/demos/chinook/service/connection/ConnectionSupplier.java[lines=19..-1]
+include::{dir-source-service}/is/codion/demos/chinook/service/connection/ConnectionSupplier.java[lines=19..-1]
 ----
 
 === Handlers
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service}/is/codion/framework/demos/chinook/service/handler/AbstractHandler.java[lines=19..-1]
+include::{dir-source-service}/is/codion/demos/chinook/service/handler/AbstractHandler.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service}/is/codion/framework/demos/chinook/service/handler/ArtistHandler.java[lines=19..-1]
+include::{dir-source-service}/is/codion/demos/chinook/service/handler/ArtistHandler.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service}/is/codion/framework/demos/chinook/service/handler/AlbumHandler.java[lines=19..-1]
+include::{dir-source-service}/is/codion/demos/chinook/service/handler/AlbumHandler.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service}/is/codion/framework/demos/chinook/service/handler/TrackHandler.java[lines=19..-1]
+include::{dir-source-service}/is/codion/demos/chinook/service/handler/TrackHandler.java[lines=19..-1]
 ----
 
 === Unit test
 
 [source,java,options="nowrap"]
 ----
-include::{dir-test-source-service}/is/codion/framework/demos/chinook/service/ChinookServiceTest.java[lines=19..-1]
+include::{dir-test-source-service}/is/codion/demos/chinook/service/ChinookServiceTest.java[lines=19..-1]
 ----
 
 [#_service_load_test]
@@ -1002,39 +1002,39 @@ include::{dir-test-source-service}/is/codion/framework/demos/chinook/service/Chi
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/ChinookServiceLoadTest.java[lines=19..-1]
+include::{dir-source-service-load-test}/is/codion/demos/chinook/service/loadtest/ChinookServiceLoadTest.java[lines=19..-1]
 ----
 
 === Scenarios
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/ArtistById.java[lines=19..-1]
+include::{dir-source-service-load-test}/is/codion/demos/chinook/service/loadtest/scenarios/ArtistById.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/Artists.java[lines=19..-1]
+include::{dir-source-service-load-test}/is/codion/demos/chinook/service/loadtest/scenarios/Artists.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/AlbumById.java[lines=19..-1]
+include::{dir-source-service-load-test}/is/codion/demos/chinook/service/loadtest/scenarios/AlbumById.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/Albums.java[lines=19..-1]
+include::{dir-source-service-load-test}/is/codion/demos/chinook/service/loadtest/scenarios/Albums.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/TrackById.java[lines=19..-1]
+include::{dir-source-service-load-test}/is/codion/demos/chinook/service/loadtest/scenarios/TrackById.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-service-load-test}/is/codion/framework/demos/chinook/service/loadtest/scenarios/Tracks.java[lines=19..-1]
+include::{dir-source-service-load-test}/is/codion/demos/chinook/service/loadtest/scenarios/Tracks.java[lines=19..-1]
 ----
 
 == Module Info
