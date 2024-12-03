@@ -14,12 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2020, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
 import is.codion.demos.chinook.domain.api.Chinook.Track;
 import is.codion.demos.chinook.model.TrackTableModel;
+import is.codion.demos.chinook.ui.DurationComponentValue.DurationPanel;
 import is.codion.framework.domain.entity.EntityDefinition;
 import is.codion.swing.common.ui.component.spinner.NumberSpinnerBuilder;
 import is.codion.swing.common.ui.component.table.FilterTableCellEditor;
@@ -61,19 +62,30 @@ public final class TrackTablePanel extends EntityTablePanel {
 
 	public TrackTablePanel(TrackTableModel tableModel) {
 		super(tableModel, config -> config
+						// Custom component for editing track ratings
 						.editComponentFactory(Track.RATING, new RatingComponentFactory())
+						// Custom component for editing track durations
 						.editComponentFactory(Track.MILLISECONDS, new DurationComponentFactory(tableModel))
+						// Custom cell renderer for ratings
 						.cellRenderer(Track.RATING, ratingRenderer(tableModel))
+						// Custom cell renderer for track duration (min:sec)
 						.cellRenderer(Track.MILLISECONDS, durationRenderer(tableModel))
+						// Custom cell editor for track ratings
 						.cellEditor(Track.RATING, ratingEditor(tableModel.entityDefinition()))
+						// Custom cell editor for track durations (min:sec:ms)
 						.cellEditor(Track.MILLISECONDS, durationEditor())
 						.includeLimitMenu(true));
-		configurePopupMenu(config -> config.clear()
+		// Add a custom control to the top of the table popup menu.
+		// Start by clearing the popup menu layout
+		configurePopupMenu(layout -> layout.clear()
+						// add our custom control
 						.control(Control.builder()
 										.command(this::raisePriceOfSelected)
 										.name(BUNDLE.getString("raise_price") + "...")
 										.enabled(tableModel().selection().empty().not()))
+						// and a separator
 						.separator()
+						// and add all the default controls
 						.defaults());
 	}
 
@@ -135,7 +147,7 @@ public final class TrackTablePanel extends EntityTablePanel {
 	}
 
 	private static final class DurationComponentFactory
-					implements EntityComponentFactory<Integer, DurationComponentValue.DurationPanel> {
+					implements EntityComponentFactory<Integer, DurationPanel> {
 
 		private final String caption;
 
@@ -149,7 +161,7 @@ public final class TrackTablePanel extends EntityTablePanel {
 		}
 
 		@Override
-		public ComponentValue<Integer, DurationComponentValue.DurationPanel> componentValue(SwingEntityEditModel editModel, Integer value) {
+		public ComponentValue<Integer, DurationPanel> componentValue(SwingEntityEditModel editModel, Integer value) {
 			DurationComponentValue durationValue = new DurationComponentValue();
 			durationValue.set(value);
 

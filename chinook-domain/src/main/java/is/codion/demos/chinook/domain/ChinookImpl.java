@@ -50,7 +50,6 @@ import static is.codion.framework.domain.entity.OrderBy.ascending;
 import static is.codion.plugin.jasperreports.JasperReports.classPathReport;
 import static java.lang.String.join;
 import static java.util.Collections.nCopies;
-import static java.util.stream.Collectors.toList;
 
 // tag::chinook[]
 public final class ChinookImpl extends DomainModel {
@@ -536,7 +535,7 @@ public final class ChinookImpl extends DomainModel {
 			return connection.updateSelect(invoices.stream()
 							.map(UpdateTotalsFunction::updateTotal)
 							.filter(Entity::modified)
-							.collect(toList()));
+							.toList());
 		}
 
 		private static Entity updateTotal(Entity invoice) {
@@ -615,7 +614,7 @@ public final class ChinookImpl extends DomainModel {
 
 			return entityConnection.updateSelect(entityConnection.select(select).stream()
 							.map(track -> raisePrice(track, parameters.priceIncrease()))
-							.collect(toList()));
+							.toList());
 		}
 
 		private static Entity raisePrice(Entity track, BigDecimal priceIncrease) {

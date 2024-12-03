@@ -18,9 +18,6 @@
  */
 package is.codion.demos.chinook.ui;
 
-import is.codion.demos.chinook.domain.api.Chinook.Genre;
-import is.codion.demos.chinook.domain.api.Chinook.MediaType;
-import is.codion.demos.chinook.domain.api.Chinook.Track;
 import is.codion.swing.common.ui.key.KeyEvents;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
@@ -28,6 +25,7 @@ import is.codion.swing.framework.ui.EntityEditPanel;
 
 import javax.swing.JPanel;
 
+import static is.codion.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.component.Components.borderLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.control.Control.command;
@@ -117,24 +115,36 @@ public final class TrackEditPanel extends EntityEditPanel {
 	}
 
 	private void addKeyEvents() {
+		// We add key events for CTRL-DOWN and CTRL-UP
+		// for incrementing and decrementing the selected
+		// index, respectively, after updating the selected
+		// item in case it is modified.
 		KeyEvents.builder()
+						// Set the condition
 						.condition(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+						// and modifiers
 						.modifiers(CTRL_DOWN_MASK)
+						// set a keycode
 						.keyCode(VK_UP)
-						.action(command(this::moveSelectionUp))
+						// and an action
+						.action(command(this::decrementSelection))
+						// and enable
 						.enable(this)
+						// set a new keycode
 						.keyCode(VK_DOWN)
-						.action(command(this::moveSelectionDown))
+						// and a new action
+						.action(command(this::incrementSelection))
+						// and enable
 						.enable(this);
 	}
 
-	private void moveSelectionUp() {
+	private void decrementSelection() {
 		if (readyForSelectionChange()) {
 			tableModel.selection().indexes().moveUp();
 		}
 	}
 
-	private void moveSelectionDown() {
+	private void incrementSelection() {
 		if (readyForSelectionChange()) {
 			tableModel.selection().indexes().moveDown();
 		}
