@@ -57,6 +57,10 @@ This demo application is based on the Chinook music store sample database.
 
 *** Used in <<_invoiceeditpanel, InvoiceEditPanel>>
 
+* Customizing the table popup menu
+
+** See <<_tracktablepanel, TrackTablePanel>> and <<_playlisttablepanel, PlaylistTablePanel>>
+
 * Custom condition model operators
 
 ** See TrackConditionModelFactory in <<_tracktablemodel, TrackTableModel>>
@@ -766,6 +770,7 @@ include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistPanel.java[lines
 include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistEditPanel.java[lines=19..-1]
 ----
 
+[#_playlisttablepanel]
 ===== PlaylistTablePanel
 
 [source,java,options="nowrap"]
