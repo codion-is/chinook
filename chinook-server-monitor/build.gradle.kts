@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
     id("org.beryx.jlink")
 }
@@ -11,9 +13,8 @@ val serverHost: String by project
 val serverRegistryPort: String by project
 
 application {
-    mainModule.set("is.codion.tools.monitor.ui")
-    mainClass.set("is.codion.tools.monitor.ui.EntityServerMonitorPanel")
-
+    mainModule = "is.codion.tools.monitor.ui"
+    mainClass = "is.codion.tools.monitor.ui.EntityServerMonitorPanel"
     applicationDefaultJvmArgs = listOf(
         "-Xmx512m",
         "-Dcodion.server.hostname=${serverHost}",
@@ -26,21 +27,19 @@ application {
 }
 
 jlink {
-    imageName.set(project.name)
-    moduleName.set(application.mainModule)
-    options.set(
-        listOf(
-            "--strip-debug",
-            "--no-header-files",
-            "--no-man-pages",
-            "--add-modules",
-            "java.naming,is.codion.plugin.logback.proxy"
-        )
+    imageName = project.name
+    moduleName = application.mainModule
+    options = listOf(
+        "--strip-debug",
+        "--no-header-files",
+        "--no-man-pages",
+        "--add-modules",
+        "java.naming,is.codion.plugin.logback.proxy"
     )
 
     jpackage {
         imageName = "Chinook-Server-Monitor"
-        if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
+        if (OperatingSystem.current().isLinux) {
             installerType = "deb"
             icon = "../chinook.png"
             installerOptions = listOf(
@@ -49,7 +48,7 @@ jlink {
                 "--linux-shortcut"
             )
         }
-        if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
+        if (OperatingSystem.current().isWindows) {
             installerType = "msi"
             icon = "../chinook.ico"
             installerOptions = listOf(

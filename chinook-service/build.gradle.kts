@@ -32,9 +32,8 @@ tasks.test {
 val servicePort: String by project
 
 application {
-    mainModule.set("is.codion.demos.chinook.service")
-    mainClass.set("is.codion.demos.chinook.service.ChinookService")
-
+    mainModule = "is.codion.demos.chinook.service"
+    mainClass = "is.codion.demos.chinook.service.ChinookService"
     applicationDefaultJvmArgs = listOf(
         "-Xmx512m",
         "-Dcodion.db.url=jdbc:h2:mem:h2db",
@@ -45,8 +44,8 @@ application {
 }
 
 jlink {
-    imageName.set(project.name)
-    moduleName.set(application.mainModule)
+    imageName = project.name
+    moduleName = application.mainModule
     options = listOf(
         "--strip-debug",
         "--no-header-files",

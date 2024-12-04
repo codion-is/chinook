@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
     id("org.beryx.jlink")
     id("chinook.jasperreports.modules")
@@ -25,9 +27,8 @@ val serverHttpPort: String by project
 val serverAdminPort: String by project
 
 application {
-    mainModule.set("is.codion.framework.server")
-    mainClass.set("is.codion.framework.server.EntityServer")
-
+    mainModule = "is.codion.framework.server"
+    mainClass = "is.codion.framework.server.EntityServer"
     applicationDefaultJvmArgs = listOf(
         "-Xmx256m",
         "-Dlogback.configurationFile=logback.xml",
@@ -64,18 +65,16 @@ application {
 }
 
 jlink {
-    imageName.set(project.name)
-    moduleName.set(application.mainModule)
-    options.set(
-        listOf(
-            "--strip-debug",
-            "--no-header-files",
-            "--no-man-pages",
-            "--ignore-signing-information",
-            "--add-modules",
-            "is.codion.framework.db.local,is.codion.dbms.h2,is.codion.plugin.hikari.pool," +
-                    "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain,is.codion.framework.servlet"
-        )
+    imageName = project.name
+    moduleName = application.mainModule
+    options = listOf(
+        "--strip-debug",
+        "--no-header-files",
+        "--no-man-pages",
+        "--ignore-signing-information",
+        "--add-modules",
+        "is.codion.framework.db.local,is.codion.dbms.h2,is.codion.plugin.hikari.pool," +
+                "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain,is.codion.framework.servlet"
     )
 
     addExtraDependencies("slf4j-api")
@@ -88,7 +87,7 @@ jlink {
 
     jpackage {
         imageName = "Chinook-Server"
-        if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
+        if (OperatingSystem.current().isLinux) {
             installerType = "deb"
             icon = "../chinook.png"
             installerOptions = listOf(
@@ -97,7 +96,7 @@ jlink {
                 "--linux-shortcut"
             )
         }
-        if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
+        if (OperatingSystem.current().isWindows) {
             installerType = "msi"
             icon = "../chinook.ico"
             imageOptions = imageOptions + listOf("--win-console")

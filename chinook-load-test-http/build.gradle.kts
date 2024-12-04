@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
     id("org.beryx.jlink")
     id("chinook.jasperreports.pdf.modules")
@@ -13,9 +15,8 @@ val serverHost: String by project
 val serverHttpPort: String by project
 
 application {
-    mainModule.set("is.codion.demos.chinook.client.loadtest")
-    mainClass.set("is.codion.demos.chinook.client.loadtest.ChinookLoadTest")
-
+    mainModule = "is.codion.demos.chinook.client.loadtest"
+    mainClass = "is.codion.demos.chinook.client.loadtest.ChinookLoadTest"
     applicationDefaultJvmArgs = listOf(
         "-Xmx1024m",
         "-Dcodion.client.connectionType=http",
@@ -26,8 +27,8 @@ application {
 }
 
 jlink {
-    imageName.set(project.name)
-    moduleName.set(application.mainModule)
+    imageName = project.name
+    moduleName = application.mainModule
     options = listOf(
         "--strip-debug",
         "--no-header-files",
@@ -38,7 +39,7 @@ jlink {
 
     jpackage {
         imageName = "Chinook-Load-Test-Http"
-        if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
+        if (OperatingSystem.current().isLinux) {
             installerType = "deb"
             icon = "../chinook.png"
             installerOptions = listOf(
@@ -47,7 +48,7 @@ jlink {
                 "--linux-shortcut"
             )
         }
-        if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
+        if (OperatingSystem.current().isWindows) {
             installerType = "msi"
             icon = "../chinook.ico"
             installerOptions = listOf(

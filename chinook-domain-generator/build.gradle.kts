@@ -9,9 +9,8 @@ dependencies {
 }
 
 application {
-    mainModule.set("is.codion.tools.generator.ui")
-    mainClass.set("is.codion.tools.generator.ui.DomainGeneratorPanel")
-
+    mainModule = "is.codion.tools.generator.ui"
+    mainClass = "is.codion.tools.generator.ui.DomainGeneratorPanel"
     applicationDefaultJvmArgs = listOf(
         "-Xmx64m",
         "-Dcodion.db.url=jdbc:h2:mem:h2db",

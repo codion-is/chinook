@@ -34,7 +34,7 @@ tasks.test {
 }
 
 tasks.register<WriteProperties>("writeVersion") {
-    destinationFile.set(file("${temporaryDir.absolutePath}/version.properties"))
+    destinationFile = file("${temporaryDir.absolutePath}/version.properties")
     property("version", libs.versions.codion.get().replace("-SNAPSHOT", ""))
 }
 
