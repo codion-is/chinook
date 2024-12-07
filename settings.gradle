@@ -30,7 +30,6 @@ dependencyResolutionManagement {
         libs {
             version("codion", "0.18.21")
             version("h2", "2.3.232")
-            version("junit", "5.11.3")
             version("flatlaf", "3.5.3")
             version("javalin", "6.3.0")
             version("jackson", "2.17.2")
@@ -63,9 +62,6 @@ dependencyResolutionManagement {
             library("jackson-databind", "com.fasterxml.jackson.core", "jackson-databind").versionRef("jackson")
 
             library("h2", "com.h2database", "h2").versionRef("h2")
-
-            library("junit-api", "org.junit.jupiter", "junit-jupiter-api").versionRef("junit")
-            library("junit-engine", "org.junit.jupiter", "junit-jupiter-engine").versionRef("junit")
 
             library("flatlaf-intellij-themes", "com.formdev", "flatlaf-intellij-themes").versionRef("flatlaf")
             library("ikonli-foundation", "org.kordamp.ikonli", "ikonli-foundation-pack").versionRef("ikonli.foundation")

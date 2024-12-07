@@ -17,15 +17,9 @@ dependencies {
     runtimeOnly(libs.codion.plugin.logback.proxy)
     runtimeOnly(libs.codion.dbms.h2)
     runtimeOnly(libs.h2)
-
-    testImplementation(libs.junit.api)
-    testRuntimeOnly(libs.junit.engine)
 }
 
 tasks.test {
-    useJUnitPlatform()
-    systemProperty("codion.db.url", "jdbc:h2:mem:h2db")
-    systemProperty("codion.db.initScripts", "classpath:create_schema.sql")
     systemProperty("chinook.service.port", "8899")
 }
 
