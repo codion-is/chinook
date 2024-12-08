@@ -140,13 +140,13 @@ public final class TrackEditPanel extends EntityEditPanel {
 
 	private void decrementSelection() {
 		if (readyForSelectionChange()) {
-			tableModel.selection().indexes().moveUp();
+			tableModel.selection().indexes().decrement();
 		}
 	}
 
 	private void incrementSelection() {
 		if (readyForSelectionChange()) {
-			tableModel.selection().indexes().moveDown();
+			tableModel.selection().indexes().increment();
 		}
 	}
 
