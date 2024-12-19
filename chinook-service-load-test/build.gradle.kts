@@ -32,7 +32,6 @@ jlink {
     jpackage {
         imageName = "Chinook-Service-Load-Test"
         if (OperatingSystem.current().isLinux) {
-            installerType = "deb"
             icon = "../chinook.png"
             installerOptions = listOf(
                 "--resource-dir",
@@ -41,7 +40,6 @@ jlink {
             )
         }
         if (OperatingSystem.current().isWindows) {
-            installerType = "msi"
             icon = "../chinook.ico"
             installerOptions = listOf(
                 "--win-menu",

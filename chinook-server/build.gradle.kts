@@ -88,7 +88,6 @@ jlink {
     jpackage {
         imageName = "Chinook-Server"
         if (OperatingSystem.current().isLinux) {
-            installerType = "deb"
             icon = "../chinook.png"
             installerOptions = listOf(
                 "--resource-dir",
@@ -97,7 +96,6 @@ jlink {
             )
         }
         if (OperatingSystem.current().isWindows) {
-            installerType = "msi"
             icon = "../chinook.ico"
             imageOptions = imageOptions + listOf("--win-console")
             installerOptions = listOf(
