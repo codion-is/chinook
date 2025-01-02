@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -39,7 +39,7 @@ public final class CustomerEditPanel extends EntityEditPanel {
 
 	@Override
 	protected void initializeUI() {
-		initialFocusAttribute().set(Customer.FIRSTNAME);
+		focus().initial().set(Customer.FIRSTNAME);
 
 		createTextField(Customer.FIRSTNAME)
 						.columns(6);
@@ -67,7 +67,7 @@ public final class CustomerEditPanel extends EntityEditPanel {
 						.columns(12);
 		createTextField(Customer.FAX)
 						.columns(12);
-		createForeignKeyComboBox(Customer.SUPPORTREP_FK)
+		createComboBox(Customer.SUPPORTREP_FK)
 						.preferredWidth(120);
 
 		JPanel firstLastNamePanel = gridLayoutPanel(1, 2)

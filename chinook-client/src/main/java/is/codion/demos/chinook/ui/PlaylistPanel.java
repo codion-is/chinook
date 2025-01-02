@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -35,13 +35,14 @@ public final class PlaylistPanel extends EntityPanel {
 						// We override initializeUI(), so we don't need a detail layout
 						config -> config.detailLayout(DetailLayout.NONE));
 
-		SwingEntityModel playlistTrackModel = playlistModel.detailModel(PlaylistTrack.TYPE);
+		SwingEntityModel playlistTrackModel =
+						playlistModel.detailModels().get(PlaylistTrack.TYPE);
 		EntityPanel playlistTrackPanel =
 						new EntityPanel(playlistTrackModel,
 										new PlaylistTrackTablePanel(playlistTrackModel.tableModel()));
 
 		// We still add the detail panel, for keyboard navigation
-		addDetailPanel(playlistTrackPanel);
+		detailPanels().add(playlistTrackPanel);
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public final class PlaylistPanel extends EntityPanel {
 		setLayout(borderLayout());
 		add(splitPane()
 						.leftComponent(mainPanel())
-						.rightComponent(detailPanel(PlaylistTrack.TYPE).initialize())
+						.rightComponent(detailPanels().get(PlaylistTrack.TYPE).initialize())
 						.continuousLayout(true)
 						.build(), BorderLayout.CENTER);
 	}

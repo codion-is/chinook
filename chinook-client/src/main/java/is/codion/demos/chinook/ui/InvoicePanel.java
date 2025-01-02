@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -26,13 +26,14 @@ public final class InvoicePanel extends EntityPanel {
 
 	public InvoicePanel(SwingEntityModel invoiceModel) {
 		super(invoiceModel,
-						new InvoiceEditPanel(invoiceModel.editModel(), invoiceModel.detailModel(InvoiceLine.TYPE)),
+						new InvoiceEditPanel(invoiceModel.editModel(),
+										invoiceModel.detailModels().get(InvoiceLine.TYPE)),
 						new InvoiceTablePanel(invoiceModel.tableModel()),
 						// The InvoiceLine panel is embedded in InvoiceEditPanel,
 						// so this panel doesn't need a detail panel layout.
 						config -> config.detailLayout(DetailLayout.NONE));
 		InvoiceEditPanel editPanel = editPanel();
 		// We still add the InvoiceLine panel as a detail panel for keyboard navigation
-		addDetailPanel(editPanel.invoiceLinePanel());
+		detailPanels().add(editPanel.invoiceLinePanel());
 	}
 }

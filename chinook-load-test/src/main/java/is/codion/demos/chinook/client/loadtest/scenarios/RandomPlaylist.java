@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.client.loadtest.scenarios;
 
@@ -33,13 +33,12 @@ import java.util.UUID;
 
 import static is.codion.demos.chinook.client.loadtest.scenarios.LoadTestUtil.RANDOM;
 import static is.codion.framework.db.EntityConnection.transaction;
-import static java.util.Arrays.asList;
 
 public final class RandomPlaylist implements Performer<EntityConnectionProvider> {
 
 	private static final String PLAYLIST_NAME = "Random playlist";
 	private static final Collection<String> GENRES =
-					asList("Alternative", "Rock", "Metal", "Heavy Metal", "Pop");
+					List.of("Alternative", "Rock", "Metal", "Heavy Metal", "Pop");
 
 	@Override
 	public void perform(EntityConnectionProvider connectionProvider) {

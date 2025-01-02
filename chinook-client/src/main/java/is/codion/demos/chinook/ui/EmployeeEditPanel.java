@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -36,7 +36,7 @@ public final class EmployeeEditPanel extends EntityEditPanel {
 
 	@Override
 	protected void initializeUI() {
-		initialFocusAttribute().set(Employee.FIRSTNAME);
+		focus().initial().set(Employee.FIRSTNAME);
 
 		createTextField(Employee.FIRSTNAME)
 						.columns(6);
@@ -64,7 +64,7 @@ public final class EmployeeEditPanel extends EntityEditPanel {
 						.columns(12);
 		createTextField(Employee.EMAIL)
 						.columns(12);
-		createForeignKeyComboBox(Employee.REPORTSTO_FK)
+		createComboBox(Employee.REPORTSTO_FK)
 						.preferredWidth(120)
 						// Disable transfer focus on Enter, so the Enter key triggers
 						// the default dialog button, when inserting and updating

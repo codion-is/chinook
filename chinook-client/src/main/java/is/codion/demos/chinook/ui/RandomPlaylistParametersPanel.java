@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2023 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2023 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
+import is.codion.common.state.ObservableState;
 import is.codion.common.state.State;
-import is.codion.common.state.StateObserver;
 import is.codion.common.value.Value;
 import is.codion.common.value.ValueList;
 import is.codion.demos.chinook.domain.api.Chinook.Genre;
@@ -76,8 +76,8 @@ final class RandomPlaylistParametersPanel extends JPanel {
 						.build(), BorderLayout.CENTER);
 	}
 
-	StateObserver parametersValid() {
-		return model.parametersValid.observer();
+	ObservableState parametersValid() {
+		return model.parametersValid.observable();
 	}
 
 	RandomPlaylistParameters get() {
@@ -121,8 +121,8 @@ final class RandomPlaylistParametersPanel extends JPanel {
 
 	private static final class RandomPlaylistParametersModel {
 
-		private final Value<String> playlistName = Value.value();
-		private final Value<Integer> noOfTracks = Value.value();
+		private final Value<String> playlistName = Value.nullable();
+		private final Value<Integer> noOfTracks = Value.nullable();
 		private final ValueList<Entity> genres = ValueList.valueList();
 		private final State parametersValid = State.state();
 

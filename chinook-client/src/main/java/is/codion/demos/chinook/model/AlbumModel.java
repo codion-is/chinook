@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2024 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.model;
 
@@ -28,7 +28,7 @@ public final class AlbumModel extends SwingEntityModel {
 	public AlbumModel(EntityConnectionProvider connectionProvider) {
 		super(Album.TYPE, connectionProvider);
 		SwingEntityModel trackModel = new SwingEntityModel(new TrackTableModel(connectionProvider));
-		addDetailModel(trackModel);
+		detailModels().add(trackModel);
 		TrackEditModel trackEditModel = trackModel.editModel();
 		trackEditModel.initializeComboBoxModels(Track.MEDIATYPE_FK, Track.GENRE_FK);
 		// We refresh albums which rating may have changed, due to a track rating being updated

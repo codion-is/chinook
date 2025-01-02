@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.model;
 
@@ -40,7 +40,7 @@ public final class InvoiceEditModel extends SwingEntityEditModel {
 	private void setAddress(Entity customer) {
 		// We only populate the address fields
 		// when we are editing a new invoice
-		if (entity().exists().not().get()) {
+		if (editor().exists().not().get()) {
 			if (customer == null) {
 				value(Invoice.BILLINGADDRESS).clear();
 				value(Invoice.BILLINGCITY).clear();

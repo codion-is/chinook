@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2024 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -69,7 +69,6 @@ import static is.codion.swing.common.ui.component.table.FilterTableConditionPane
 import static is.codion.swing.common.ui.control.Control.command;
 import static java.time.Month.DECEMBER;
 import static java.time.Month.JANUARY;
-import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 import static java.util.ResourceBundle.getBundle;
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -159,8 +158,8 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 			setBorder(createEmptyBorder(5, 5, 5, 5));
 			customerConditionPanel = new CustomerConditionPanel(tableConditionModel.get(Invoice.CUSTOMER_FK), tableModel.entityDefinition());
 			dateConditionPanel = new DateConditionPanel(tableConditionModel.get(Invoice.DATE));
-			dateConditionPanel.yearValue.addListener(tableModel::refresh);
-			dateConditionPanel.monthValue.addListener(tableModel::refresh);
+			dateConditionPanel.yearValue.addListener(tableModel.items()::refresh);
+			dateConditionPanel.monthValue.addListener(tableModel.items()::refresh);
 			conditionPanels.put(Invoice.CUSTOMER_FK, customerConditionPanel);
 			conditionPanels.put(Invoice.DATE, dateConditionPanel);
 			initializeUI();
@@ -287,7 +286,7 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 
 			@Override
 			public Collection<JComponent> components() {
-				return asList(yearValue.component(), monthValue.component());
+				return List.of(yearValue.component(), monthValue.component());
 			}
 
 			@Override
@@ -296,18 +295,18 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 			}
 
 			private void updateCondition() {
-				condition().operands().lowerBound().set(lowerBound());
-				condition().operands().upperBound().set(upperBound());
+				condition().operands().lower().set(lower());
+				condition().operands().upper().set(upper());
 			}
 
-			private LocalDate lowerBound() {
+			private LocalDate lower() {
 				int year = yearValue.optional().orElse(LocalDate.now().getYear());
 				Month month = monthValue.optional().orElse(JANUARY);
 
 				return LocalDate.of(year, month, 1);
 			}
 
-			private LocalDate upperBound() {
+			private LocalDate upper() {
 				int year = yearValue.optional().orElse(LocalDate.now().getYear());
 				Month month = monthValue.optional().orElse(DECEMBER);
 				YearMonth yearMonth = YearMonth.of(year, month);

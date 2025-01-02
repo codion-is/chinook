@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.model;
 
@@ -31,14 +31,14 @@ public final class ChinookAppModel extends SwingEntityApplicationModel {
 
 	public ChinookAppModel(EntityConnectionProvider connectionProvider) {
 		super(connectionProvider, VERSION);
-		addEntityModel(createAlbumModel(connectionProvider));
-		addEntityModel(createPlaylistModel(connectionProvider));
-		addEntityModel(createCustomerModel(connectionProvider));
+		entityModels().add(createAlbumModel(connectionProvider));
+		entityModels().add(createPlaylistModel(connectionProvider));
+		entityModels().add(createCustomerModel(connectionProvider));
 	}
 
 	private static SwingEntityModel createAlbumModel(EntityConnectionProvider connectionProvider) {
 		AlbumModel albumModel = new AlbumModel(connectionProvider);
-		albumModel.tableModel().refresh();
+		albumModel.tableModel().items().refresh();
 
 		return albumModel;
 	}
@@ -48,11 +48,11 @@ public final class ChinookAppModel extends SwingEntityApplicationModel {
 		SwingEntityModel playlistTrackModel = new SwingEntityModel(new PlaylistTrackEditModel(connectionProvider));
 
 		ForeignKeyDetailModelLink<?, ?, ?> playlistTrackLink =
-						playlistModel.addDetailModel(playlistTrackModel);
+						playlistModel.detailModels().add(playlistTrackModel);
 		playlistTrackLink.clearForeignKeyValueOnEmptySelection().set(true);
 		playlistTrackLink.active().set(true);
 
-		playlistModel.tableModel().refresh();
+		playlistModel.tableModel().items().refresh();
 
 		return playlistModel;
 	}
@@ -61,9 +61,9 @@ public final class ChinookAppModel extends SwingEntityApplicationModel {
 		SwingEntityModel customerModel = new SwingEntityModel(Customer.TYPE, connectionProvider);
 		customerModel.editModel().initializeComboBoxModels(Customer.SUPPORTREP_FK);
 		SwingEntityModel invoiceModel = new InvoiceModel(connectionProvider);
-		customerModel.addDetailModel(invoiceModel);
+		customerModel.detailModels().add(invoiceModel);
 
-		customerModel.tableModel().refresh();
+		customerModel.tableModel().items().refresh();
 
 		return customerModel;
 	}

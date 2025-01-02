@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -39,7 +39,7 @@ final class PlaylistEditPanel extends EntityEditPanel {
 
 	@Override
 	protected void initializeUI() {
-		initialFocusAttribute().set(Playlist.NAME);
+		focus().initial().set(Playlist.NAME);
 
 		setLayout(borderLayout());
 		add(borderLayoutPanel()

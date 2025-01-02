@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.client.loadtest;
 
@@ -38,18 +38,18 @@ import is.codion.tools.loadtest.LoadTest.Scenario;
 import is.codion.tools.loadtest.model.LoadTestModel;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 
 import static is.codion.tools.loadtest.LoadTest.Scenario.scenario;
 import static is.codion.tools.loadtest.ui.LoadTestPanel.loadTestPanel;
-import static java.util.Arrays.asList;
 
 public final class ChinookLoadTest {
 
 	private static final User UNIT_TEST_USER =
 					User.parse(System.getProperty("codion.test.user", "scott:tiger"));
 
-	private static final Collection<Scenario<EntityConnectionProvider>> SCENARIOS = asList(
+	private static final Collection<Scenario<EntityConnectionProvider>> SCENARIOS = List.of(
 					scenario(new ViewGenre(), 10),
 					scenario(new ViewCustomerReport(), 2),
 					scenario(new ViewInvoice(), 10),

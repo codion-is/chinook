@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2024 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.model;
 
@@ -23,10 +23,7 @@ import is.codion.demos.chinook.domain.api.Chinook.PlaylistTrack;
 import is.codion.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.domain.entity.condition.Condition;
 import is.codion.swing.framework.model.SwingEntityEditModel;
-
-import java.util.List;
 
 public final class PlaylistTrackEditModel extends SwingEntityEditModel {
 
@@ -39,9 +36,7 @@ public final class PlaylistTrackEditModel extends SwingEntityEditModel {
 	}
 
 	private void excludePlaylistTracks(Entity playlist) {
-		foreignKeySearchModel(PlaylistTrack.TRACK_FK).condition().set(() -> playlist == null ? null :
-						Condition.custom(Track.NOT_IN_PLAYLIST,
-										List.of(Playlist.ID),
-										List.of(playlist.get(Playlist.ID))));
+		searchModel(PlaylistTrack.TRACK_FK).condition().set(() -> playlist == null ? null :
+						Track.NOT_IN_PLAYLIST.get(Playlist.ID, playlist.get(Playlist.ID)));
 	}
 }

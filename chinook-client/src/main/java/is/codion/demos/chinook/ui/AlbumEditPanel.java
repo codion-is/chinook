@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -41,9 +41,9 @@ public final class AlbumEditPanel extends EntityEditPanel {
 
 	@Override
 	protected void initializeUI() {
-		initialFocusAttribute().set(Album.ARTIST_FK);
+		focus().initial().set(Album.ARTIST_FK);
 
-		createForeignKeySearchField(Album.ARTIST_FK)
+		createSearchField(Album.ARTIST_FK)
 						.columns(15)
 						// We provide a edit panel supplier, which enables
 						// keyboard shortcuts for adding a new artist (INSERT)

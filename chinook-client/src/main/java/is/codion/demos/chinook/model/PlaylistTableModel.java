@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.model;
 
@@ -36,7 +36,7 @@ public final class PlaylistTableModel extends SwingEntityTableModel {
 	public void createRandomPlaylist(RandomPlaylistParameters parameters) {
 		EntityConnection connection = connection();
 		Entity randomPlaylist = transaction(connection, () -> connection.execute(Playlist.RANDOM_PLAYLIST, parameters));
-		items().visible().addItemAt(0, randomPlaylist);
+		items().visible().add(0, randomPlaylist);
 		selection().item().set(randomPlaylist);
 	}
 }

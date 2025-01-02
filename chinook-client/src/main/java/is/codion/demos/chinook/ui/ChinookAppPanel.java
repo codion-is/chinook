@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -85,9 +85,9 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	@Override
 	protected List<EntityPanel> createEntityPanels() {
 		return List.of(
-						new CustomerPanel(applicationModel().entityModel(Customer.TYPE)),
-						new AlbumPanel(applicationModel().entityModel(Album.TYPE)),
-						new PlaylistPanel(applicationModel().entityModel(Playlist.TYPE))
+						new CustomerPanel(applicationModel().entityModels().get(Customer.TYPE)),
+						new AlbumPanel(applicationModel().entityModels().get(Album.TYPE)),
+						new PlaylistPanel(applicationModel().entityModels().get(Playlist.TYPE))
 		);
 	}
 

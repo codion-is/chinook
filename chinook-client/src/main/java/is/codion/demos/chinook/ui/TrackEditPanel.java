@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -46,16 +46,16 @@ public final class TrackEditPanel extends EntityEditPanel {
 
 	@Override
 	protected void initializeUI() {
-		initialFocusAttribute().set(Track.ALBUM_FK);
+		focus().initial().set(Track.ALBUM_FK);
 
-		createForeignKeySearchField(Track.ALBUM_FK);
+		createSearchField(Track.ALBUM_FK);
 		createTextField(Track.NAME)
 						.columns(12);
-		createForeignKeyComboBoxPanel(Track.MEDIATYPE_FK, this::createMediaTypeEditPanel)
+		createComboBoxPanel(Track.MEDIATYPE_FK, this::createMediaTypeEditPanel)
 						.preferredWidth(160)
 						.includeAddButton(true)
 						.includeEditButton(true);
-		createForeignKeyComboBoxPanel(Track.GENRE_FK, this::createGenreEditPanel)
+		createComboBoxPanel(Track.GENRE_FK, this::createGenreEditPanel)
 						.preferredWidth(160)
 						.includeAddButton(true)
 						.includeEditButton(true);
@@ -156,7 +156,7 @@ public final class TrackEditPanel extends EntityEditPanel {
 			return true;
 		}
 		// If the entity is not modified
-		if (!editModel().entity().modified().get()) {
+		if (!editModel().editor().modified().get()) {
 			return true;
 		}
 		// If the current item was modified and

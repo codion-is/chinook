@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2024 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.model;
 
@@ -60,7 +60,7 @@ public final class InvoiceLineEditModelTest {
 			assertEquals(battery.get(Track.UNITPRICE), invoice.get(Invoice.TOTAL));
 
 			Entity orion = connection.selectSingle(Track.NAME.equalToIgnoreCase("orion"));
-			editModel.entity().defaults();
+			editModel.editor().defaults();
 			editModel.value(InvoiceLine.INVOICE_FK).set(invoice);
 			editModel.value(InvoiceLine.TRACK_FK).set(orion);
 			editModel.insert();
@@ -72,7 +72,7 @@ public final class InvoiceLineEditModelTest {
 			theCallOfKtulu.put(Track.UNITPRICE, BigDecimal.valueOf(2));
 			theCallOfKtulu = connection.updateSelect(theCallOfKtulu);
 
-			editModel.entity().set(invoiceLineBattery);
+			editModel.editor().set(invoiceLineBattery);
 			editModel.value(InvoiceLine.TRACK_FK).set(theCallOfKtulu);
 			editModel.update();
 

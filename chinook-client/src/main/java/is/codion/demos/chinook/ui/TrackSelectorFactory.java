@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -27,7 +27,6 @@ import java.awt.Dimension;
 import java.util.function.Function;
 
 import static is.codion.swing.framework.ui.component.EntitySearchField.tableSelector;
-import static javax.swing.SortOrder.ASCENDING;
 
 /**
  * Provides a {@link TableSelector} for selecting tracks,
@@ -39,9 +38,7 @@ final class TrackSelectorFactory implements Function<EntitySearchModel, Selector
 	public TableSelector apply(EntitySearchModel searchModel) {
 		TableSelector selector = tableSelector(searchModel);
 		selector.table().columnModel().visible().set(Track.ARTIST, Track.ALBUM_FK, Track.NAME);
-		selector.table().model().sorter().setSortOrder(Track.ARTIST, ASCENDING);
-		selector.table().model().sorter().addSortOrder(Track.ALBUM_FK, ASCENDING);
-		selector.table().model().sorter().addSortOrder(Track.NAME, ASCENDING);
+		selector.table().model().sort().ascending(Track.ARTIST, Track.ALBUM_FK, Track.NAME);
 		selector.preferredSize(new Dimension(500, 300));
 
 		return selector;

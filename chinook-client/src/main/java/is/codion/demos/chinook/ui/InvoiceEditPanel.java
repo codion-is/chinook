@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -39,7 +39,6 @@ import static is.codion.swing.common.ui.component.Components.flexibleGridLayoutP
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.layout.Layouts.borderLayout;
 import static javax.swing.BorderFactory.createTitledBorder;
-import static javax.swing.SortOrder.ASCENDING;
 
 public final class InvoiceEditPanel extends EntityEditPanel {
 
@@ -55,9 +54,9 @@ public final class InvoiceEditPanel extends EntityEditPanel {
 
 	@Override
 	protected void initializeUI() {
-		initialFocusAttribute().set(Invoice.CUSTOMER_FK);
+		focus().initial().set(Invoice.CUSTOMER_FK);
 
-		createForeignKeySearchField(Invoice.CUSTOMER_FK)
+		createSearchField(Invoice.CUSTOMER_FK)
 						.columns(14)
 						// We add a custom selector factory, creating a selector which
 						// displays a table instead of a list when selecting a customer
@@ -145,8 +144,7 @@ public final class InvoiceEditPanel extends EntityEditPanel {
 			// configuring the the visible table columns, the sorting and size
 			TableSelector selector = EntitySearchField.tableSelector(searchModel);
 			selector.table().columnModel().visible().set(Customer.LASTNAME, Customer.FIRSTNAME, Customer.EMAIL);
-			selector.table().model().sorter().setSortOrder(Customer.LASTNAME, ASCENDING);
-			selector.table().model().sorter().addSortOrder(Customer.FIRSTNAME, ASCENDING);
+			selector.table().model().sort().ascending(Customer.LASTNAME, Customer.FIRSTNAME);
 			selector.preferredSize(new Dimension(500, 300));
 
 			return selector;

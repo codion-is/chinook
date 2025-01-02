@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.model;
 
@@ -44,7 +44,7 @@ public final class TrackTableModelTest {
 			trackTableModel.queryModel().conditions()
 						.setEqualOperand(Track.ALBUM_FK, masterOfPuppets);
 
-			trackTableModel.refresh();
+			trackTableModel.items().refresh();
 			assertEquals(8, trackTableModel.items().visible().count());
 
 			trackTableModel.selection().selectAll();

@@ -28,11 +28,11 @@ public final class AlbumPanel extends EntityPanel {
 		super(albumModel,
 						new AlbumEditPanel(albumModel.editModel()),
 						new AlbumTablePanel(albumModel.tableModel()));
-		SwingEntityModel trackModel = albumModel.detailModel(Track.TYPE);
+		SwingEntityModel trackModel = albumModel.detailModels().get(Track.TYPE);
 		EntityPanel trackPanel = new EntityPanel(trackModel,
 						new TrackEditPanel(trackModel.editModel(), trackModel.tableModel()),
 						new TrackTablePanel(trackModel.tableModel()));
 
-		addDetailPanel(trackPanel);
+		detailPanels().add(trackPanel);
 	}
 }

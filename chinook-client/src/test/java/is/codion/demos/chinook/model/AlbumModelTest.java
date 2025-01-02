@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2024 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.model;
 
@@ -59,7 +59,7 @@ public final class AlbumModelTest {
 			AlbumModel albumModel = new AlbumModel(connectionProvider);
 			SwingEntityTableModel albumTableModel = albumModel.tableModel();
 			albumTableModel.queryModel().conditions().setEqualOperand(Album.TITLE, MASTER_OF_PUPPETS);
-			albumTableModel.refresh();
+			albumTableModel.items().refresh();
 			assertEquals(1, albumTableModel.items().count());
 
 			List<Entity> modifiedTracks = connection.select(Track.ALBUM_FK.equalTo(masterOfPuppets)).stream()
@@ -67,12 +67,12 @@ public final class AlbumModelTest {
 							.toList();
 
 			// Update the tracks using the edit model
-			TrackEditModel trackEditModel = albumModel.detailModel(Track.TYPE).editModel();
+			TrackEditModel trackEditModel = albumModel.detailModels().get(Track.TYPE).editModel();
 			trackEditModel.update(modifiedTracks);
 
 			// Which should trigger the refresh of the album in the Album model
 			// now with the new rating as the average of the track ratings
-			assertEquals(10, albumTableModel.items().visible().itemAt(0).get(Album.RATING));
+			assertEquals(10, albumTableModel.items().visible().get(0).get(Album.RATING));
 
 			connection.rollbackTransaction();
 		}

@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2024 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.model;
 
 import is.codion.common.event.Event;
-import is.codion.common.observer.Observer;
+import is.codion.common.observable.Observer;
 import is.codion.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnectionProvider;

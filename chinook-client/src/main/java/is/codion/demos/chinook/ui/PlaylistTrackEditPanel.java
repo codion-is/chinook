@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2024, Björn Darri Sigurðsson.
+ * Copyright (c) 2004 - 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
@@ -39,8 +39,8 @@ final class PlaylistTrackEditPanel extends EntityEditPanel {
 
 	@Override
 	protected void initializeUI() {
-		initialFocusAttribute().set(PlaylistTrack.TRACK_FK);
-		createForeignKeySearchField(PlaylistTrack.TRACK_FK)
+		focus().initial().set(PlaylistTrack.TRACK_FK);
+		createSearchField(PlaylistTrack.TRACK_FK)
 						.selectorFactory(new TrackSelectorFactory())
 						.transferFocusOnEnter(false)
 						.columns(25);
