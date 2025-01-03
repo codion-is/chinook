@@ -42,12 +42,9 @@ jlink {
     addExtraDependencies("slf4j-api")
 
     jpackage {
-        imageName = "Chinook-Local"
         if (OperatingSystem.current().isLinux) {
             icon = "../chinook.png"
             installerOptions = listOf(
-                "--resource-dir",
-                "build/jpackage/Chinook-Local/lib",
                 "--linux-shortcut"
             )
         }

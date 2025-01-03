@@ -86,12 +86,9 @@ jlink {
     forceMerge("kotlin")
 
     jpackage {
-        imageName = "Chinook-Server"
         if (OperatingSystem.current().isLinux) {
             icon = "../chinook.png"
             installerOptions = listOf(
-                "--resource-dir",
-                "build/jpackage/Chinook-Server/lib",
                 "--linux-shortcut"
             )
         }

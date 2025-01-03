@@ -38,12 +38,9 @@ jlink {
     )
 
     jpackage {
-        imageName = "Chinook-Server-Monitor"
         if (OperatingSystem.current().isLinux) {
             icon = "../chinook.png"
             installerOptions = listOf(
-                "--resource-dir",
-                "build/jpackage/Chinook-Server-Monitor/lib",
                 "--linux-shortcut"
             )
         }

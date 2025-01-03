@@ -40,12 +40,9 @@ jlink {
     )
 
     jpackage {
-        imageName = "Chinook-Load-Test-Remote"
         if (OperatingSystem.current().isLinux) {
             icon = "../chinook.png"
             installerOptions = listOf(
-                "--resource-dir",
-                "build/jpackage/Chinook-Load-Test-Remote/lib",
                 "--linux-shortcut"
             )
         }

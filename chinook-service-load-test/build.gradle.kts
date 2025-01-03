@@ -30,12 +30,9 @@ jlink {
     )
 
     jpackage {
-        imageName = "Chinook-Service-Load-Test"
         if (OperatingSystem.current().isLinux) {
             icon = "../chinook.png"
             installerOptions = listOf(
-                "--resource-dir",
-                "build/jpackage/Chinook-Service-Load-Test/lib",
                 "--linux-shortcut"
             )
         }
