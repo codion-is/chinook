@@ -23,9 +23,10 @@ module is.codion.demos.chinook.client {
 	requires is.codion.swing.common.ui;
 	requires is.codion.swing.framework.ui;
 	requires is.codion.plugin.imagepanel;
+	requires is.codion.plugin.flatlaf;
+	requires is.codion.plugin.flatlaf.intellij.themes;
 
 	requires is.codion.demos.chinook.domain.api;
-	requires com.formdev.flatlaf.intellijthemes;
 	requires org.kordamp.ikonli.foundation;
 	requires net.sf.jasperreports.core;
 	requires net.sf.jasperreports.pdf;

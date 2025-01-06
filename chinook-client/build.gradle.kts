@@ -9,8 +9,9 @@ dependencies {
 
     implementation(libs.codion.swing.framework.ui)
     implementation(libs.codion.plugin.imagepanel)
+    implementation(libs.codion.plugin.flatlaf)
+    implementation(libs.codion.plugin.flatlaf.intellij.themes)
 
-    implementation(libs.flatlaf.intellij.themes)
     implementation(libs.ikonli.foundation)
 
     implementation(libs.jasperreports.pdf) {
