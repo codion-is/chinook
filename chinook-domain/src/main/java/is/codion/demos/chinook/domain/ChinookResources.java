@@ -32,7 +32,7 @@ public final class ChinookResources implements Resources {
 					FrameworkMessages.class.getName();
 
 	private final boolean english = Locale.getDefault()
-					.equals(new Locale("en", "EN"));
+					.equals(Locale.of("en", "EN"));
 
 	@Override
 	public String getString(String baseBundleName, String key, String defaultString) {
