@@ -14,6 +14,8 @@
 :dir-test-source-client: ../../../../chinook-client/src/test/java
 :dir-test-source-service: ../../../../chinook-service/src/test/java
 
+https://github.com/codion-is/chinook[Chinook Demo on Github]
+
 This demo application is based on the Chinook music store sample database.
 
 == Demonstrated functionality
