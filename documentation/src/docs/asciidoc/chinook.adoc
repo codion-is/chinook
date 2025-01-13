@@ -104,7 +104,7 @@ This demo application is based on the Chinook music store sample database.
 
 *** <<_playlisttracktablepanel, PlaylistTrackTablePanel>>
 
-*** <<_trackcomponentfactory, TrackComponentFactory>>
+*** <<_trackeditcomponentfactory, TrackEditComponentFactory>>
 
 * Persistance layer used in a web service
 
@@ -842,12 +842,12 @@ include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistTrackEditPanel.j
 include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistTrackTablePanel.java[lines=19..-1]
 ----
 
-[#_trackcomponentfactory]
-===== TrackComponentFactory
+[#_trackeditcomponentfactory]
+===== TrackEditComponentFactory
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/demos/chinook/ui/TrackComponentFactory.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/TrackEditComponentFactory.java[lines=19..-1]
 ----
 
 [#_trackselectorfactory]

@@ -89,6 +89,7 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 												Consumer<TableConditionPanel<Attribute<?>>> onPanelInitialized) {
 		super(tableModel.queryModel().conditions(), attribute -> columnModel.column(attribute).getHeaderValue().toString());
 		setLayout(new BorderLayout());
+		tableModel.queryModel().conditions().persist().add(Invoice.DATE);
 		this.simpleConditionPanel = new SimpleConditionPanel(tableModel.queryModel().conditions(), tableModel);
 		this.advancedConditionPanel = filterTableConditionPanel(tableModel.queryModel().conditions(),
 						conditionPanels, columnModel, onPanelInitialized);
@@ -189,8 +190,8 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 		}
 
 		private void activate() {
-			customerConditionPanel.condition().operator().set(Operator.IN);
-			dateConditionPanel.condition().operator().set(Operator.BETWEEN);
+			customerConditionPanel.model().operator().set(Operator.IN);
+			dateConditionPanel.model().operator().set(Operator.BETWEEN);
 			customerConditionPanel.requestInputFocus();
 		}
 
@@ -205,6 +206,7 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 				ForeignKeyConditionModel foreignKeyCondition = (ForeignKeyConditionModel) condition;
 				foreignKeyCondition.operands().in().value().link(foreignKeyCondition.operands().equal());
 				searchField = EntitySearchField.builder(foreignKeyCondition.inSearchModel())
+								.multiSelection()
 								.columns(25)
 								.build();
 				add(searchField, BorderLayout.CENTER);
@@ -252,7 +254,7 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 
 			private DateConditionPanel(ConditionModel<LocalDate> conditionModel) {
 				super(conditionModel);
-				condition().operator().set(Operator.BETWEEN);
+				model().operator().set(Operator.BETWEEN);
 				updateCondition();
 				initializeUI();
 			}
@@ -295,8 +297,8 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 			}
 
 			private void updateCondition() {
-				condition().operands().lower().set(lower());
-				condition().operands().upper().set(upper());
+				model().operands().lower().set(lower());
+				model().operands().upper().set(upper());
 			}
 
 			private LocalDate lower() {
