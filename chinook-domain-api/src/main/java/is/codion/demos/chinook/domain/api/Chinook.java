@@ -47,6 +47,7 @@ import java.text.ParsePosition;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -66,7 +67,7 @@ public interface Chinook {
 	interface Artist {
 		EntityType TYPE = DOMAIN.entityType("chinook.artist", Artist.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("artistid");
+		Column<Long> ID = TYPE.longColumn("id");
 		Column<String> NAME = TYPE.stringColumn("name");
 		Column<Integer> NUMBER_OF_ALBUMS = TYPE.integerColumn("number_of_albums");
 		Column<Integer> NUMBER_OF_TRACKS = TYPE.integerColumn("number_of_tracks");
@@ -92,9 +93,9 @@ public interface Chinook {
 	interface Album {
 		EntityType TYPE = DOMAIN.entityType("chinook.album", Album.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("albumid");
+		Column<Long> ID = TYPE.longColumn("id");
 		Column<String> TITLE = TYPE.stringColumn("title");
-		Column<Long> ARTIST_ID = TYPE.longColumn("artistid");
+		Column<Long> ARTIST_ID = TYPE.longColumn("artist_id");
 		Column<byte[]> COVER = TYPE.byteArrayColumn("cover");
 		Column<Integer> NUMBER_OF_TRACKS = TYPE.integerColumn("number_of_tracks");
 		Column<List<String>> TAGS = TYPE.column("tags", new TypeReference<>() {});
@@ -125,11 +126,11 @@ public interface Chinook {
 	interface Employee {
 		EntityType TYPE = DOMAIN.entityType("chinook.employee", Employee.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("employeeid");
+		Column<Long> ID = TYPE.longColumn("id");
 		Column<String> LASTNAME = TYPE.stringColumn("lastname");
 		Column<String> FIRSTNAME = TYPE.stringColumn("firstname");
 		Column<String> TITLE = TYPE.stringColumn("title");
-		Column<Long> REPORTSTO = TYPE.longColumn("reportsto");
+		Column<Long> REPORTSTO = TYPE.longColumn("reportsto_id");
 		Column<LocalDate> BIRTHDATE = TYPE.localDateColumn("birthdate");
 		Column<LocalDate> HIREDATE = TYPE.localDateColumn("hiredate");
 		Column<String> ADDRESS = TYPE.stringColumn("address");
@@ -149,7 +150,7 @@ public interface Chinook {
 	interface Customer {
 		EntityType TYPE = DOMAIN.entityType("chinook.customer", Customer.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("customerid");
+		Column<Long> ID = TYPE.longColumn("id");
 		Column<String> FIRSTNAME = TYPE.stringColumn("firstname");
 		Column<String> LASTNAME = TYPE.stringColumn("lastname");
 		Column<String> COMPANY = TYPE.stringColumn("company");
@@ -161,7 +162,7 @@ public interface Chinook {
 		Column<String> PHONE = TYPE.stringColumn("phone");
 		Column<String> FAX = TYPE.stringColumn("fax");
 		Column<String> EMAIL = TYPE.stringColumn("email");
-		Column<Long> SUPPORTREP_ID = TYPE.longColumn("supportrepid");
+		Column<Long> SUPPORTREP_ID = TYPE.longColumn("supportrep_id");
 
 		ForeignKey SUPPORTREP_FK = TYPE.foreignKey("supportrep_fk", SUPPORTREP_ID, Employee.ID);
 
@@ -173,7 +174,7 @@ public interface Chinook {
 	interface Genre {
 		EntityType TYPE = DOMAIN.entityType("chinook.genre", Genre.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("genreid");
+		Column<Long> ID = TYPE.longColumn("id");
 		Column<String> NAME = TYPE.stringColumn("name");
 
 		static Dto dto(Entity genre) {
@@ -197,7 +198,7 @@ public interface Chinook {
 	interface MediaType {
 		EntityType TYPE = DOMAIN.entityType("chinook.mediatype", MediaType.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("mediatypeid");
+		Column<Long> ID = TYPE.longColumn("id");
 		Column<String> NAME = TYPE.stringColumn("name");
 
 		static Dto dto(Entity mediaType) {
@@ -221,12 +222,12 @@ public interface Chinook {
 	interface Track {
 		EntityType TYPE = DOMAIN.entityType("chinook.track", Track.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("trackid");
+		Column<Long> ID = TYPE.longColumn("id");
 		Column<String> NAME = TYPE.stringColumn("name");
-		Attribute<Entity> ARTIST = TYPE.entityAttribute("artist");
-		Column<Long> ALBUM_ID = TYPE.longColumn("albumid");
-		Column<Long> MEDIATYPE_ID = TYPE.longColumn("mediatypeid");
-		Column<Long> GENRE_ID = TYPE.longColumn("genreid");
+		Column<Long> ALBUM_ID = TYPE.longColumn("album_id");
+		Column<String> ARTIST_NAME = TYPE.stringColumn("artist_name");
+		Column<Long> MEDIATYPE_ID = TYPE.longColumn("mediatype_id");
+		Column<Long> GENRE_ID = TYPE.longColumn("genre_id");
 		Column<String> COMPOSER = TYPE.stringColumn("composer");
 		Column<Integer> MILLISECONDS = TYPE.integerColumn("milliseconds");
 		Column<Integer> BYTES = TYPE.integerColumn("bytes");
@@ -245,6 +246,7 @@ public interface Chinook {
 		static Dto dto(Entity track) {
 			return track == null ? null :
 							new Dto(track.get(ID), track.get(NAME),
+											track.get(ARTIST_NAME),
 											Album.dto(track.get(ALBUM_FK)),
 											Genre.dto(track.get(GENRE_FK)),
 											MediaType.dto(track.get(MEDIATYPE_FK)),
@@ -261,7 +263,7 @@ public interface Chinook {
 			}
 		}
 
-		record Dto(Long id, String name, Album.Dto album,
+		record Dto(Long id, String name, String artistName, Album.Dto album,
 							 Genre.Dto genre, MediaType.Dto mediaType,
 							 Integer milliseconds, Integer rating,
 							 BigDecimal unitPrice) {
@@ -270,6 +272,7 @@ public interface Chinook {
 				return entities.builder(TYPE)
 								.with(ID, id)
 								.with(NAME, name)
+								.with(ARTIST_NAME, artistName)
 								.with(ALBUM_FK, album.entity(entities))
 								.with(GENRE_FK, genre.entity(entities))
 								.with(MEDIATYPE_FK, mediaType.entity(entities))
@@ -286,8 +289,8 @@ public interface Chinook {
 	interface Invoice {
 		EntityType TYPE = DOMAIN.entityType("chinook.invoice", Invoice.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("invoiceid");
-		Column<Long> CUSTOMER_ID = TYPE.longColumn("customerid");
+		Column<Long> ID = TYPE.longColumn("id");
+		Column<Long> CUSTOMER_ID = TYPE.longColumn("customer_id");
 		Column<LocalDate> DATE = TYPE.localDateColumn("invoicedate");
 		Column<String> BILLINGADDRESS = TYPE.stringColumn("billingaddress");
 		Column<String> BILLINGCITY = TYPE.stringColumn("billingcity");
@@ -309,9 +312,9 @@ public interface Chinook {
 	interface InvoiceLine {
 		EntityType TYPE = DOMAIN.entityType("chinook.invoiceline", InvoiceLine.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("invoicelineid");
-		Column<Long> INVOICE_ID = TYPE.longColumn("invoiceid");
-		Column<Long> TRACK_ID = TYPE.longColumn("trackid");
+		Column<Long> ID = TYPE.longColumn("id");
+		Column<Long> INVOICE_ID = TYPE.longColumn("invoice_id");
+		Column<Long> TRACK_ID = TYPE.longColumn("track_id");
 		Column<BigDecimal> UNITPRICE = TYPE.bigDecimalColumn("unitprice");
 		Column<Integer> QUANTITY = TYPE.integerColumn("quantity");
 		Column<BigDecimal> TOTAL = TYPE.bigDecimalColumn("total");
@@ -325,7 +328,7 @@ public interface Chinook {
 	interface Playlist {
 		EntityType TYPE = DOMAIN.entityType("chinook.playlist", Playlist.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("playlistid");
+		Column<Long> ID = TYPE.longColumn("id");
 		Column<String> NAME = TYPE.stringColumn("name");
 
 		FunctionType<EntityConnection, RandomPlaylistParameters, Entity> RANDOM_PLAYLIST = functionType("chinook.random_playlist");
@@ -338,9 +341,9 @@ public interface Chinook {
 	interface PlaylistTrack {
 		EntityType TYPE = DOMAIN.entityType("chinook.playlisttrack", PlaylistTrack.class.getName());
 
-		Column<Long> ID = TYPE.longColumn("playlisttrackid");
-		Column<Long> PLAYLIST_ID = TYPE.longColumn("playlistid");
-		Column<Long> TRACK_ID = TYPE.longColumn("trackid");
+		Column<Long> ID = TYPE.longColumn("id");
+		Column<Long> PLAYLIST_ID = TYPE.longColumn("playlist_id");
+		Column<Long> TRACK_ID = TYPE.longColumn("track_id");
 		Attribute<Entity> ALBUM = TYPE.entityAttribute("album");
 		Attribute<Entity> ARTIST = TYPE.entityAttribute("artist");
 
@@ -376,16 +379,23 @@ public interface Chinook {
 		@Serial
 		private static final long serialVersionUID = 1;
 
+		private static final String LANGUAGE = Locale.getDefault().getLanguage();
+
 		@Override
 		public String apply(Entity customer) {
-			return new StringBuilder()
-							.append(customer.get(Customer.LASTNAME))
-							.append(", ")
-							.append(customer.get(Customer.FIRSTNAME))
-							.append(customer.optional(Customer.EMAIL)
-											.map(email -> " <" + email + ">")
-											.orElse(""))
-							.toString();
+			return switch (LANGUAGE) {
+				case "en" -> new StringBuilder()
+								.append(customer.get(Customer.LASTNAME))
+								.append(", ")
+								.append(customer.get(Customer.FIRSTNAME))
+								.toString();
+				case "is" -> new StringBuilder()
+								.append(customer.get(Customer.FIRSTNAME))
+								.append(" ")
+								.append(customer.get(Customer.LASTNAME))
+								.toString();
+				default -> throw new IllegalArgumentException("Unsupported language: " + LANGUAGE);
+			};
 		}
 	}
 	// end::customerStringFactory[]

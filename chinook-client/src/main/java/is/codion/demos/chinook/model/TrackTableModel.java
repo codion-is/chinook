@@ -18,23 +18,22 @@
  */
 package is.codion.demos.chinook.model;
 
-import is.codion.common.model.condition.ConditionModel;
-import is.codion.common.value.Value;
-import is.codion.demos.chinook.domain.api.Chinook.Track;
+import is.codion.common.value.Value.Validator;
 import is.codion.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.domain.entity.attribute.Attribute;
-import is.codion.swing.framework.model.SwingAttributeConditionModelFactory;
+import is.codion.framework.domain.entity.attribute.ForeignKey;
+import is.codion.framework.model.ForeignKeyConditionModel;
+import is.codion.swing.framework.model.SwingEntityConditionModelFactory;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.model.SwingForeignKeyConditionModel;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Optional;
 
-import static is.codion.framework.model.EntityConditionModel.entityConditionModel;
+import static is.codion.demos.chinook.domain.api.Chinook.Track;
 import static is.codion.framework.model.EntityQueryModel.entityQueryModel;
+import static is.codion.framework.model.EntityTableConditionModel.entityTableConditionModel;
 
 public final class TrackTableModel extends SwingEntityTableModel {
 
@@ -43,7 +42,7 @@ public final class TrackTableModel extends SwingEntityTableModel {
 
 	public TrackTableModel(EntityConnectionProvider connectionProvider) {
 		super(new TrackEditModel(connectionProvider),
-						entityQueryModel(entityConditionModel(Track.TYPE, connectionProvider,
+						entityQueryModel(entityTableConditionModel(Track.TYPE, connectionProvider,
 										new TrackColumnConditionFactory(connectionProvider))));
 		editable().set(true);
 		configureLimit();
@@ -64,7 +63,7 @@ public final class TrackTableModel extends SwingEntityTableModel {
 		queryModel().limit().addValidator(new LimitValidator());
 	}
 
-	private static final class LimitValidator implements Value.Validator<Integer> {
+	private static final class LimitValidator implements Validator<Integer> {
 
 		@Override
 		public void validate(Integer limit) {
@@ -75,21 +74,21 @@ public final class TrackTableModel extends SwingEntityTableModel {
 		}
 	}
 
-	private static class TrackColumnConditionFactory extends SwingAttributeConditionModelFactory {
+	private static class TrackColumnConditionFactory extends SwingEntityConditionModelFactory {
 
 		private TrackColumnConditionFactory(EntityConnectionProvider connectionProvider) {
-			super(connectionProvider);
+			super(Track.TYPE, connectionProvider);
 		}
 
 		@Override
-		public Optional<ConditionModel<?>> create(Attribute<?> attribute) {
-			if (attribute.equals(Track.MEDIATYPE_FK)) {
-				return Optional.of(SwingForeignKeyConditionModel.builder()
+		protected ForeignKeyConditionModel conditionModel(ForeignKey foreignKey) {
+			if (foreignKey.equals(Track.MEDIATYPE_FK)) {
+				return SwingForeignKeyConditionModel.builder()
 								.equalComboBoxModel(createEqualComboBoxModel(Track.MEDIATYPE_FK))
-								.build());
+								.build();
 			}
 
-			return super.create(attribute);
+			return super.conditionModel(foreignKey);
 		}
 	}
 }

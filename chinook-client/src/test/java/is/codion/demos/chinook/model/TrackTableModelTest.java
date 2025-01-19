@@ -35,14 +35,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public final class TrackTableModelTest {
 
 	@Test
-	public void raisePriceOfSelected() {
+	void raisePriceOfSelected() {
 		try (EntityConnectionProvider connectionProvider = createConnectionProvider()) {
 			Entity masterOfPuppets = connectionProvider.connection()
 							.selectSingle(Album.TITLE.equalTo("Master Of Puppets"));
 
 			TrackTableModel trackTableModel = new TrackTableModel(connectionProvider);
 			trackTableModel.queryModel().conditions()
-						.setEqualOperand(Track.ALBUM_FK, masterOfPuppets);
+						.get(Track.ALBUM_FK).set().equalTo(masterOfPuppets);
 
 			trackTableModel.items().refresh();
 			assertEquals(8, trackTableModel.items().visible().count());

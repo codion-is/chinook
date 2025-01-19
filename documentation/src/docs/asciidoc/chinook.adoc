@@ -110,6 +110,10 @@ This demo application is based on the Chinook music store sample database.
 
 ** <<_service, ChinookService>>
 
+* Table joins
+
+** <<_track_domain_implementation, Track>>
+
 NOTE: For the Gradle build configuration see <<#_build, Build>> section.
 
 This tutorial assumes you have at least skimmed the https://codion.is/doc/{codion-version}/manual/manual.html#_domain_model[Domain model] part of the Codion manual.
@@ -626,7 +630,7 @@ include::{dir-source-sql}/create_schema.sql[tags=track]
 
 ==== Domain
 
-===== API
+===== Track Domain API
 
 [source,java,options="nowrap"]
 ----
@@ -638,7 +642,8 @@ include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java
 include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=coverFormatter]
 ----
 
-===== Implementation
+[#_track_domain_implementation]
+===== Track Domain Implementation
 
 [source,java,options="nowrap"]
 ----
@@ -898,6 +903,7 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookResources.jav
 include::{dir-source-sql}/create_schema.sql[tags=user]
 ----
 
+[#_chinookauthenticator]
 === ChinookAuthenticator
 
 [source,java,options="nowrap"]

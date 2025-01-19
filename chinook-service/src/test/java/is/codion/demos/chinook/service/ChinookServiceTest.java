@@ -110,7 +110,7 @@ public class ChinookServiceTest {
 							.readValue(assertPost("/albums", OK, client, payload));
 			assertEquals("New album", album.title());
 
-			payload = OBJECT_MAPPER.writeValueAsString(new Track.Dto(null, "New track", album, genre,
+			payload = OBJECT_MAPPER.writeValueAsString(new Track.Dto(null, "New track", artist.name(), album, genre,
 							mediaType, 10_000_000, 7, BigDecimal.ONE));
 			Track.Dto track = OBJECT_MAPPER.readerFor(Track.Dto.class)
 							.readValue(assertPost("/tracks", OK, client, payload));
