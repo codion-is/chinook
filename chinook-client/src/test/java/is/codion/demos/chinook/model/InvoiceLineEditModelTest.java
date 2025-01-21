@@ -52,8 +52,8 @@ public final class InvoiceLineEditModelTest {
 			Entity battery = connection.selectSingle(Track.NAME.equalToIgnoreCase("battery"));
 
 			InvoiceLineEditModel editModel = new InvoiceLineEditModel(connectionProvider);
-			editModel.value(InvoiceLine.INVOICE_FK).set(invoice);
-			editModel.value(InvoiceLine.TRACK_FK).set(battery);
+			editModel.editor().value(InvoiceLine.INVOICE_FK).set(invoice);
+			editModel.editor().value(InvoiceLine.TRACK_FK).set(battery);
 			Entity invoiceLineBattery = editModel.insert();
 
 			invoice = connection.selectSingle(key(invoice.primaryKey()));
@@ -61,8 +61,8 @@ public final class InvoiceLineEditModelTest {
 
 			Entity orion = connection.selectSingle(Track.NAME.equalToIgnoreCase("orion"));
 			editModel.editor().defaults();
-			editModel.value(InvoiceLine.INVOICE_FK).set(invoice);
-			editModel.value(InvoiceLine.TRACK_FK).set(orion);
+			editModel.editor().value(InvoiceLine.INVOICE_FK).set(invoice);
+			editModel.editor().value(InvoiceLine.TRACK_FK).set(orion);
 			editModel.insert();
 
 			invoice = connection.selectSingle(key(invoice.primaryKey()));
@@ -73,7 +73,7 @@ public final class InvoiceLineEditModelTest {
 			theCallOfKtulu = connection.updateSelect(theCallOfKtulu);
 
 			editModel.editor().set(invoiceLineBattery);
-			editModel.value(InvoiceLine.TRACK_FK).set(theCallOfKtulu);
+			editModel.editor().value(InvoiceLine.TRACK_FK).set(theCallOfKtulu);
 			editModel.update();
 
 			invoice = connection.selectSingle(key(invoice.primaryKey()));

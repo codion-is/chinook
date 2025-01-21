@@ -44,6 +44,7 @@ import static java.net.URLEncoder.encode;
 import static java.net.http.HttpClient.newHttpClient;
 import static java.net.http.HttpRequest.BodyPublishers.ofString;
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -77,7 +78,7 @@ public class ChinookServiceTest {
 			assertGet("/albums/id/42", OK, client);
 			assertGet("/albums/id/-42", INTERNAL_SERVER_ERROR, client);
 			assertGet("/albums", OK, client);
-			assertGet("/albums/title/" + encode("master of puppets"), OK, client);
+			assertGet("/albums/title/" + encode("master of puppets", UTF_8), OK, client);
 			assertGet("/albums/artist/name/metallica", OK, client);
 			assertGet("/tracks/id/42", OK, client);
 			assertGet("/tracks/id/-42", INTERNAL_SERVER_ERROR, client);
