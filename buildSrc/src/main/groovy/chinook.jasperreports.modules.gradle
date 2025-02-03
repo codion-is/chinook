@@ -1,3 +1,4 @@
+// extra-java-module-info configuration for core jasper reports library dependencies
 plugins {
     id "org.gradlex.extra-java-module-info"
 }

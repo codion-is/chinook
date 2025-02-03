@@ -1,12 +1,14 @@
+// Additional extra-java-module-info configuration for client side jasper reports dependencies,
+// including the pdf export module, with a necessary jlink plugin related trick
 plugins {
-    id "chinook.jasperreports.modules"
+    id("chinook.jasperreports.modules")
 }
 
 extraJavaModuleInfo {
-    // We turn the pdf jasperreport automatic module into a full fledged module,
-    // otherwise when the jlink plugin runs it combines the contents of that jar with
-    // the jasperreports core jar, overwriting the jasperreports_extension.properties file
-    // from the core jar, causing errors that are *incredibly* hard to debug.
+    // We transform the jasperreports-pdf automatic module into a full fledged module,
+    // otherwise the jlink plugin combines the contents of that jar with the jasperreports
+    // core jar in the so-called merged module, overwriting the jasperreports_extension.properties
+    // file from the core jar, causing errors that are *incredibly* hard to debug.
     module("net.sf.jasperreports:jasperreports-pdf", "net.sf.jasperreports.pdf") {
         exportAllPackages()
         requires("net.sf.jasperreports.core")

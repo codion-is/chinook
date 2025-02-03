@@ -351,7 +351,7 @@ public final class ChinookImpl extends DomainModel {
 										Track.RANDOM.define()
 														.column()
 														.readOnly(true)
-														.selectable(false))
+														.selected(false))
 						.keyGenerator(identity())
 						.selectQuery(SelectQuery.builder()
 										// Override the default FROM clause, joining
@@ -585,7 +585,7 @@ public final class ChinookImpl extends DomainModel {
 																	List<Long> trackIds) {
 			Entity playlist = connection.insertSelect(createPlaylist(playlistName));
 
-			connection.insert(createPlaylistTracks(playlist.primaryKey().get(), trackIds));
+			connection.insert(createPlaylistTracks(playlist.primaryKey().value(), trackIds));
 
 			return playlist;
 		}
