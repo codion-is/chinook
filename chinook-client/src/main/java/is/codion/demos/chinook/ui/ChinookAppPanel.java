@@ -21,8 +21,10 @@ package is.codion.demos.chinook.ui;
 import is.codion.common.model.CancelException;
 import is.codion.common.model.UserPreferences;
 import is.codion.common.user.User;
+import is.codion.demos.chinook.domain.api.Chinook;
 import is.codion.demos.chinook.model.ChinookAppModel;
 import is.codion.demos.chinook.model.TrackTableModel;
+import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.plugin.flatlaf.intellij.themes.materialtheme.MaterialTheme;
 import is.codion.swing.common.ui.component.combobox.Completion;
 import is.codion.swing.common.ui.component.table.FilterTable;
@@ -48,6 +50,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -75,64 +78,84 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	/* Non-static so this is not initialized before main(), which sets the locale */
 	private final ResourceBundle bundle = getBundle(ChinookAppPanel.class.getName());
 
-	public ChinookAppPanel(ChinookAppModel appModel) {
-		super(appModel);
+	public ChinookAppPanel(ChinookAppModel applicationModel) {
+		super(applicationModel, createPanels(applicationModel), createSupportPanelBuilders());
 	}
 
-	@Override
-	protected List<EntityPanel> createEntityPanels() {
+	private static List<EntityPanel> createPanels(ChinookAppModel applicationModel) {
 		return List.of(
-						new CustomerPanel(applicationModel().entityModels().get(Customer.TYPE)),
-						new AlbumPanel(applicationModel().entityModels().get(Album.TYPE)),
-						new PlaylistPanel(applicationModel().entityModels().get(Playlist.TYPE))
-		);
+						new CustomerPanel(applicationModel.entityModels().get(Customer.TYPE)),
+						new AlbumPanel(applicationModel.entityModels().get(Album.TYPE)),
+						new PlaylistPanel(applicationModel.entityModels().get(Playlist.TYPE)));
 	}
 
-	@Override
-	protected List<EntityPanel.Builder> createSupportEntityPanelBuilders() {
-		EntityPanel.Builder trackPanelBuilder =
-						EntityPanel.builder(Track.TYPE)
-										.tablePanel(TrackTablePanel.class);
-
-		SwingEntityModel.Builder genreModelBuilder =
-						SwingEntityModel.builder(Genre.TYPE)
-										.detailModel(SwingEntityModel.builder(Track.TYPE)
-														.tableModel(TrackTableModel.class));
-
+	private static Collection<EntityPanel.Builder> createSupportPanelBuilders() {
 		EntityPanel.Builder genrePanelBuilder =
-						EntityPanel.builder(genreModelBuilder)
-										.editPanel(GenreEditPanel.class)
-										.detailPanel(trackPanelBuilder)
-										.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
-														.initialDetailState(HIDDEN)
-														.build());
+						EntityPanel.builder(Genre.TYPE,
+										ChinookAppPanel::createGenrePanel);
 
 		EntityPanel.Builder mediaTypePanelBuilder =
-						EntityPanel.builder(MediaType.TYPE)
-										.editPanel(MediaTypeEditPanel.class);
+						EntityPanel.builder(MediaType.TYPE,
+										ChinookAppPanel::createMediaTypePanel);
 
 		EntityPanel.Builder artistPanelBuilder =
-						EntityPanel.builder(Artist.TYPE)
-										.editPanel(ArtistEditPanel.class);
-
-		EntityPanel.Builder customerPanelBuilder =
-						EntityPanel.builder(Customer.TYPE)
-										.tablePanel(CustomerTablePanel.class);
-
-		SwingEntityModel.Builder employeeModelBuilder =
-						SwingEntityModel.builder(Employee.TYPE)
-										.detailModel(SwingEntityModel.builder(Customer.TYPE));
+						EntityPanel.builder(Artist.TYPE,
+										ChinookAppPanel::createArtistPanel);
 
 		EntityPanel.Builder employeePanelBuilder =
-						EntityPanel.builder(employeeModelBuilder)
-										.tablePanel(EmployeeTablePanel.class)
-										.detailPanel(customerPanelBuilder)
-										.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
-														.initialDetailState(HIDDEN)
-														.build())
-										.preferredSize(new Dimension(1000, 500));
+						EntityPanel.builder(Employee.TYPE,
+										ChinookAppPanel::createEmployeePanel);
 
 		return List.of(artistPanelBuilder, genrePanelBuilder, mediaTypePanelBuilder, employeePanelBuilder);
+	}
+
+	private static EntityPanel createGenrePanel(EntityConnectionProvider connectionProvider) {
+		SwingEntityModel genreModel = new SwingEntityModel(Genre.TYPE, connectionProvider);
+		SwingEntityModel trackModel = new SwingEntityModel(new TrackTableModel(connectionProvider));
+		genreModel.detailModels().add(trackModel);
+		genreModel.tableModel().items().refresh();
+
+		EntityPanel genrePanel = new EntityPanel(genreModel,
+						new GenreEditPanel(genreModel.editModel()), config ->
+						config.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
+										.initialDetailState(HIDDEN)
+										.build()));
+		genrePanel.detailPanels().add(new EntityPanel(trackModel));
+
+		return genrePanel;
+	}
+
+	private static EntityPanel createMediaTypePanel(EntityConnectionProvider connectionProvider) {
+		SwingEntityModel mediaTypeModel = new SwingEntityModel(MediaType.TYPE, connectionProvider);
+		mediaTypeModel.tableModel().items().refresh();
+
+		return new EntityPanel(mediaTypeModel, new MediaTypeEditPanel(mediaTypeModel.editModel()));
+	}
+
+	private static EntityPanel createArtistPanel(EntityConnectionProvider connectionProvider) {
+		SwingEntityModel artistModel = new SwingEntityModel(Artist.TYPE, connectionProvider);
+		artistModel.tableModel().items().refresh();
+
+		return new EntityPanel(artistModel, new ArtistEditPanel(artistModel.editModel()));
+	}
+
+	private static EntityPanel createEmployeePanel(EntityConnectionProvider connectionProvider) {
+		SwingEntityModel employeeModel = new SwingEntityModel(Employee.TYPE, connectionProvider);
+		SwingEntityModel customerModel = new SwingEntityModel(Customer.TYPE, connectionProvider);
+		employeeModel.detailModels().add(customerModel);
+		employeeModel.tableModel().items().refresh();
+
+		EntityPanel employeePanel = new EntityPanel(employeeModel,
+						new EmployeeTablePanel(employeeModel.tableModel()), config -> config
+						.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
+										.initialDetailState(HIDDEN)
+										.build()));
+		EntityPanel customerPanel = new EntityPanel(customerModel,
+						new CustomerTablePanel(customerModel.tableModel()));
+		employeePanel.detailPanels().add(customerPanel);
+		employeePanel.setPreferredSize(new Dimension(1000, 500));
+
+		return employeePanel;
 	}
 
 	@Override
@@ -173,25 +196,27 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
 		FrameworkIcons.instance().add(Foundation.PLUS, Foundation.MINUS);
 		Completion.COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
+		EntityApplicationPanel.CACHE_ENTITY_PANELS.set(true);
 		EntityPanel.Config.TOOLBAR_CONTROLS.set(true);
 		EntityPanel.Config.WINDOW_TYPE.set(WindowType.FRAME);
 		EntityEditPanel.Config.MODIFIED_WARNING.set(true);
 		// Add a CTRL modifier to the DELETE key shortcut for table panels
-		EntityTablePanel.ControlKeys.DELETE.defaultKeystroke()
-						.map(keyStroke -> keyStroke(keyStroke.getKeyCode(), CTRL_DOWN_MASK));
+		EntityTablePanel.ControlKeys.DELETE.defaultKeystroke().map(keyStroke ->
+						keyStroke(keyStroke.getKeyCode(), CTRL_DOWN_MASK));
 		EntityTablePanel.Config.COLUMN_SELECTION.set(EntityTablePanel.ColumnSelection.MENU);
+		EntityTablePanel.Config.AUTO_RESIZE_MODE_SELECTION.set(EntityTablePanel.AutoResizeModeSelection.MENU);
 		EntityTablePanel.Config.INCLUDE_FILTERS.set(true);
 		FilterTable.AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		FilterTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
 		FilterTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
-		ReferentialIntegrityErrorHandling.REFERENTIAL_INTEGRITY_ERROR_HANDLING.set(ReferentialIntegrityErrorHandling.DISPLAY_DEPENDENCIES);
+		ReferentialIntegrityErrorHandling.REFERENTIAL_INTEGRITY_ERROR_HANDLING
+						.set(ReferentialIntegrityErrorHandling.DISPLAY_DEPENDENCIES);
 		EntityApplicationPanel.builder(ChinookAppModel.class, ChinookAppPanel.class)
 						.applicationName("Chinook")
-						.domainType(DOMAIN)
 						.applicationVersion(ChinookAppModel.VERSION)
+						.domainType(Chinook.DOMAIN)
 						.defaultLookAndFeel(MaterialTheme.class)
 						.defaultUser(User.parse("scott:tiger"))
-						.displayStartupDialog(false)
 						.start();
 	}
 }
