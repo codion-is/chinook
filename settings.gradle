@@ -1,5 +1,5 @@
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
 }
 
 rootProject.name = "chinook"
@@ -27,12 +27,12 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         libs {
-            version("codion", "0.18.31")
+            version("codion", "0.18.32")
             version("h2", "2.3.232")
-            version("javalin", "6.3.0")
-            version("jackson", "2.17.2")
+            version("javalin", "6.5.0")
+            version("jackson", "2.17.3")
             version("ikonli.foundation", "12.3.1")
-            version("jasperreports", "7.0.1")
+            version("jasperreports", "7.0.2")
 
             library("codion-common-rmi", "is.codion", "codion-common-rmi").versionRef("codion")
             library("codion-dbms-h2", "is.codion", "codion-dbms-h2").versionRef("codion")

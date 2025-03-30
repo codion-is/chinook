@@ -30,7 +30,7 @@ application {
     mainModule = "is.codion.framework.server"
     mainClass = "is.codion.framework.server.EntityServer"
     applicationDefaultJvmArgs = listOf(
-        "-Xmx256m",
+        "-Xmx512m",
         "-Dlogback.configurationFile=logback.xml",
         //RMI configuration
         "-Djava.rmi.server.hostname=${serverHost}",

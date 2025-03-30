@@ -32,7 +32,6 @@ import is.codion.framework.domain.entity.EntityDefinition;
 import is.codion.framework.domain.entity.OrderBy;
 import is.codion.framework.domain.entity.StringFactory;
 import is.codion.framework.domain.entity.attribute.Column;
-import is.codion.framework.domain.entity.condition.ConditionProvider;
 import is.codion.framework.domain.entity.query.SelectQuery;
 
 import java.math.BigDecimal;
@@ -49,8 +48,6 @@ import static is.codion.framework.db.EntityConnection.Select.where;
 import static is.codion.framework.domain.entity.KeyGenerator.identity;
 import static is.codion.framework.domain.entity.OrderBy.ascending;
 import static is.codion.plugin.jasperreports.JasperReports.classPathReport;
-import static java.lang.String.join;
-import static java.util.Collections.nCopies;
 
 // tag::chinook[]
 public final class ChinookImpl extends DomainModel {
@@ -363,7 +360,14 @@ public final class ChinookImpl extends DomainModel {
 														JOIN chinook.artist ON album.artist_id = artist.id""")
 										.build())
 						.orderBy(ascending(Track.NAME))
-						.condition(Track.NOT_IN_PLAYLIST, new NotInPlaylistConditionProvider())
+						// Implement a custom condition for specifying
+						// tracks that are not in a given playlist
+						.condition(Track.NOT_IN_PLAYLIST, (_, _) -> """
+										track.id NOT IN (
+												SELECT track_id
+												FROM chinook.playlisttrack
+												WHERE playlist_id = ?
+										)""")
 						.stringFactory(Track.NAME)
 						.build();
 	}
@@ -521,23 +525,6 @@ public final class ChinookImpl extends DomainModel {
 		}
 	}
 	// end::tagsConverter[]
-
-	// tag::notInPlaylistConditionProvider[]
-	private static final class NotInPlaylistConditionProvider implements ConditionProvider {
-
-		@Override
-		public String toString(List<Column<?>> columns, List<?> values) {
-			return new StringBuilder("""
-							track.id NOT IN (
-							    SELECT track_id
-							    FROM chinook.playlisttrack
-							    WHERE playlistid IN (""")
-							.append(join(", ", nCopies(values.size(), "?"))).append(")\n")
-							.append(")")
-							.toString();
-		}
-	}
-	// end::notInPlaylistConditionProvider[]
 
 	// tag::updateTotalsFunction[]
 	private static final class UpdateTotalsFunction implements DatabaseFunction<EntityConnection, Collection<Long>, Collection<Entity>> {

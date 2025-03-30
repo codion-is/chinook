@@ -71,7 +71,7 @@ public final class AlbumTablePanel extends EntityTablePanel {
 
 	private void viewSelectedCover() {
 		tableModel().selection().item().optional()
-						.filter(album -> album.isNotNull(Album.COVER))
+						.filter(album -> !album.isNull(Album.COVER))
 						.ifPresent(album -> displayCover(album.get(Album.TITLE), album.get(Album.COVER)));
 	}
 
@@ -87,7 +87,7 @@ public final class AlbumTablePanel extends EntityTablePanel {
 							.owner(Utilities.parentWindow(this))
 							.title(title)
 							.modal(false)
-							.onClosed(dialog -> coverPanel.setImage(null))
+							.onClosed(_ -> coverPanel.setImage(null))
 							.show();
 		}
 	}

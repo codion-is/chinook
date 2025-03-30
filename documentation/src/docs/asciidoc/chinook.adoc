@@ -112,6 +112,8 @@ This demo application is based on the Chinook music store sample database.
 
 * Table joins
 
+* Custom condition
+
 ** <<_track_domain_implementation, Track>>
 
 NOTE: For the Gradle build configuration see <<#_build, Build>> section.
@@ -652,11 +654,6 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=notInPlaylistConditionProvider]
-----
-
-[source,java,options="nowrap"]
-----
 include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=raisePriceFunction]
 ----
 
@@ -822,6 +819,7 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 
 ==== Model
 
+[#_playlisttrackeditmodel]
 ===== PlaylistTrackEditModel
 
 [source,java,options="nowrap"]
