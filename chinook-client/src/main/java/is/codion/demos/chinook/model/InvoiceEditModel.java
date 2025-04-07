@@ -20,7 +20,10 @@ package is.codion.demos.chinook.model;
 
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.domain.entity.Entity;
+import is.codion.framework.domain.entity.attribute.Attribute;
 import is.codion.swing.framework.model.SwingEntityEditModel;
+
+import java.util.Collection;
 
 import static is.codion.demos.chinook.domain.api.Chinook.Customer;
 import static is.codion.demos.chinook.domain.api.Chinook.Invoice;
@@ -37,24 +40,30 @@ public final class InvoiceEditModel extends SwingEntityEditModel {
 		editor().value(Invoice.CUSTOMER_FK).edited().addConsumer(this::setAddress);
 	}
 
-	private void setAddress(Entity customer) {
-		// We only populate the address fields
-		// when we are editing a new invoice
-		if (editor().exists().not().get()) {
-			if (customer == null) {
-				editor().value(Invoice.BILLINGADDRESS).clear();
-				editor().value(Invoice.BILLINGCITY).clear();
-				editor().value(Invoice.BILLINGPOSTALCODE).clear();
-				editor().value(Invoice.BILLINGSTATE).clear();
-				editor().value(Invoice.BILLINGCOUNTRY).clear();
-			}
-			else {
-				editor().value(Invoice.BILLINGADDRESS).set(customer.get(Customer.ADDRESS));
-				editor().value(Invoice.BILLINGCITY).set(customer.get(Customer.CITY));
-				editor().value(Invoice.BILLINGPOSTALCODE).set(customer.get(Customer.POSTALCODE));
-				editor().value(Invoice.BILLINGSTATE).set(customer.get(Customer.STATE));
-				editor().value(Invoice.BILLINGCOUNTRY).set(customer.get(Customer.COUNTRY));
-			}
+	// Override to update the billing address when the invoice customer is changed.
+	// This method is called when editing happens outside of the edit model,
+	// such as in a table, via an editable table cell or multi item editing
+	@Override
+	public <T> void applyEdit(Collection<Entity> invoices, Attribute<T> attribute, T value) {
+		super.applyEdit(invoices, attribute, value);
+		if (attribute.equals(Invoice.CUSTOMER_FK)) {
+			Entity customer = (Entity) value;
+			invoices.forEach(invoice -> {
+				// Set the billing address
+				invoice.put(Invoice.BILLINGADDRESS, customer.get(Customer.ADDRESS));
+				invoice.put(Invoice.BILLINGCITY, customer.get(Customer.CITY));
+				invoice.put(Invoice.BILLINGPOSTALCODE, customer.get(Customer.POSTALCODE));
+				invoice.put(Invoice.BILLINGSTATE, customer.get(Customer.STATE));
+				invoice.put(Invoice.BILLINGCOUNTRY, customer.get(Customer.COUNTRY));
+			});
 		}
+	}
+
+	private void setAddress(Entity customer) {
+		editor().value(Invoice.BILLINGADDRESS).set(customer == null ? null : customer.get(Customer.ADDRESS));
+		editor().value(Invoice.BILLINGCITY).set(customer == null ? null : customer.get(Customer.CITY));
+		editor().value(Invoice.BILLINGPOSTALCODE).set(customer == null ? null : customer.get(Customer.POSTALCODE));
+		editor().value(Invoice.BILLINGSTATE).set(customer == null ? null : customer.get(Customer.STATE));
+		editor().value(Invoice.BILLINGCOUNTRY).set(customer == null ? null : customer.get(Customer.COUNTRY));
 	}
 }

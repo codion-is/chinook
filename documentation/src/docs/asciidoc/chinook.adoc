@@ -116,6 +116,12 @@ This demo application is based on the Chinook music store sample database.
 
 ** <<_track_domain_implementation, Track>>
 
+* Non-embedded edit panel
+
+* Custom edit control
+
+** <<_employeetablepanel, EmployeeTablePanel>>
+
 NOTE: For the Gradle build configuration see <<#_build, Build>> section.
 
 This tutorial assumes you have at least skimmed the https://codion.is/doc/{codion-version}/manual/manual.html#_domain_model[Domain model] part of the Codion manual.
@@ -388,6 +394,7 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 include::{dir-source-client}/is/codion/demos/chinook/ui/EmployeeEditPanel.java[lines=19..-1]
 ----
 
+[#_employeetablepanel]
 ===== EmployeeTablePanel
 
 [source,java,options="nowrap"]
