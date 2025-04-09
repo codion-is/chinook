@@ -35,4 +35,7 @@ module is.codion.demos.chinook.client {
 
 	exports is.codion.demos.chinook.ui;
 	exports is.codion.demos.chinook.model;
+
+	provides is.codion.common.resource.Resources
+					with is.codion.demos.chinook.i18n.ChinookResources;
 }

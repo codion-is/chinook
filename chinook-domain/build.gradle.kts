@@ -9,7 +9,6 @@ dependencies {
     api(project(":chinook-domain-api"))
 
     implementation(libs.codion.common.rmi)
-    implementation(libs.codion.framework.i18n)
     implementation(libs.codion.framework.db.local)
 
     jasperreportsClasspath(libs.jasperreports.jdt) {

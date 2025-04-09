@@ -22,7 +22,6 @@
 module is.codion.demos.chinook.domain {
 	requires is.codion.common.db;
 	requires is.codion.common.rmi;
-	requires is.codion.framework.i18n;
 	requires is.codion.framework.db.core;
 	requires is.codion.framework.db.local;
 	requires transitive is.codion.demos.chinook.domain.api;
@@ -35,6 +34,4 @@ module is.codion.demos.chinook.domain {
 					with is.codion.demos.chinook.domain.ChinookImpl;
 	provides is.codion.common.rmi.server.Authenticator
 					with is.codion.demos.chinook.server.ChinookAuthenticator;
-	provides is.codion.common.resource.Resources
-					with is.codion.demos.chinook.domain.ChinookResources;
 }
