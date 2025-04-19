@@ -895,7 +895,7 @@ include::{dir-source-client}/is/codion/demos/chinook/ui/ChinookAppPanel.java[lin
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookResources.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/i18n/ChinookResources.java[lines=19..-1]
 ----
 
 [#_authenticator]

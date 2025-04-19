@@ -58,12 +58,12 @@ public final class AlbumModelTest {
 			// to populate it with only Master Of Puppets
 			AlbumModel albumModel = new AlbumModel(connectionProvider);
 			SwingEntityTableModel albumTableModel = albumModel.tableModel();
-			albumTableModel.queryModel().conditions().get(Album.TITLE).set().equalTo(MASTER_OF_PUPPETS);
+			albumTableModel.queryModel().condition().get(Album.TITLE).set().equalTo(MASTER_OF_PUPPETS);
 			albumTableModel.items().refresh();
 			assertEquals(1, albumTableModel.items().count());
 
 			List<Entity> modifiedTracks = connection.select(Track.ALBUM_FK.equalTo(masterOfPuppets)).stream()
-							.peek(track -> track.put(Track.RATING, 10))
+							.peek(track -> track.set(Track.RATING, 10))
 							.toList();
 
 			// Update the tracks using the edit model

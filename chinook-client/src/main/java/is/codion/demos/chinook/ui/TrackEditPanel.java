@@ -20,7 +20,7 @@ package is.codion.demos.chinook.ui;
 
 import is.codion.demos.chinook.ui.DurationComponentValue.DurationPanel;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.swing.common.model.component.table.FilterTableModel.TableSelection;
+import is.codion.swing.common.model.component.list.FilterListSelection;
 import is.codion.swing.common.ui.key.KeyEvents;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.ui.EntityEditPanel;
@@ -38,17 +38,17 @@ import static java.awt.event.KeyEvent.VK_UP;
 
 public final class TrackEditPanel extends EntityEditPanel {
 
-	private final TableSelection<Entity> tableSelection;
+	private final FilterListSelection<Entity> tableSelection;
 	private final UpdateCommand updateAndDecrementSelectedIndexes;
 	private final UpdateCommand updateAndIncrementSelectedIndexes;
 
-	public TrackEditPanel(SwingEntityEditModel editModel, TableSelection<Entity> tableSelection) {
+	public TrackEditPanel(SwingEntityEditModel editModel, FilterListSelection<Entity> tableSelection) {
 		super(editModel);
 		this.tableSelection = tableSelection;
-		this.updateAndDecrementSelectedIndexes = updateCommandBuilder()
+		this.updateAndDecrementSelectedIndexes = updateCommand()
 						.onUpdate(tableSelection.indexes()::decrement)
 						.build();
-		this.updateAndIncrementSelectedIndexes = updateCommandBuilder()
+		this.updateAndIncrementSelectedIndexes = updateCommand()
 						.onUpdate(tableSelection.indexes()::increment)
 						.build();
 		addKeyEvents();

@@ -451,8 +451,8 @@ public final class ChinookImpl extends DomainModel {
 														.nullable(false)
 														.defaultValue(1),
 										InvoiceLine.TOTAL.define()
-														.derived(new InvoiceLineTotalProvider(),
-																		InvoiceLine.QUANTITY, InvoiceLine.UNITPRICE))
+														.derived(InvoiceLine.QUANTITY, InvoiceLine.UNITPRICE)
+														.provider(new InvoiceLineTotalProvider()))
 						.keyGenerator(identity())
 						.build();
 	}
@@ -544,7 +544,7 @@ public final class ChinookImpl extends DomainModel {
 		}
 
 		private static Entity updateTotal(Entity invoice) {
-			invoice.put(Invoice.TOTAL, invoice.optional(Invoice.CALCULATED_TOTAL).orElse(BigDecimal.ZERO));
+			invoice.set(Invoice.TOTAL, invoice.optional(Invoice.CALCULATED_TOTAL).orElse(BigDecimal.ZERO));
 
 			return invoice;
 		}
@@ -623,7 +623,7 @@ public final class ChinookImpl extends DomainModel {
 		}
 
 		private static Entity raisePrice(Entity track, BigDecimal priceIncrease) {
-			track.put(Track.UNITPRICE, track.get(Track.UNITPRICE).add(priceIncrease));
+			track.set(Track.UNITPRICE, track.get(Track.UNITPRICE).add(priceIncrease));
 
 			return track;
 		}

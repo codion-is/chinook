@@ -49,6 +49,7 @@ application {
         "-Dcodion.server.auxiliaryServerFactoryClassNames=is.codion.framework.servlet.EntityServiceFactory",
         "-Dcodion.server.http.secure=false",
         "-Dcodion.server.http.port=${serverHttpPort}",
+        "-Dcodion.server.http.useVirtualThreads=true",
         //The port for the admin interface, used by the server monitor
         "-Dcodion.server.admin.port=${serverAdminPort}",
         //The admin user credentials, used by the server monitor application

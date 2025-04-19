@@ -42,7 +42,7 @@ final class ChinookService {
 	static final PropertyValue<Integer> PORT =
 					integerValue("chinook.service.port", 8089);
 
-	private final Javalin javalin = Javalin.create();
+	private final Javalin javalin = Javalin.create(config -> config.useVirtualThreads = true);
 	private final ConnectionSupplier connectionSupplier = new ConnectionSupplier();
 
 	private final ArtistHandler artists = new ArtistHandler(connectionSupplier);
