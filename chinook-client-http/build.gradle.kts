@@ -3,6 +3,7 @@ import org.gradle.internal.os.OperatingSystem
 plugins {
     id("org.beryx.jlink")
     id("chinook.jasperreports.pdf.modules")
+    id("com.github.breadmoirai.github-release")
 }
 
 dependencies {
@@ -29,7 +30,8 @@ application {
 }
 
 jlink {
-    imageName = project.name
+    imageName = project.name + "-" + project.version + "-" +
+            OperatingSystem.current().familyName.replace(" ", "").lowercase()
     moduleName = application.mainModule
     options = listOf(
         "--strip-debug",
@@ -42,16 +44,22 @@ jlink {
     jpackage {
         if (OperatingSystem.current().isLinux) {
             icon = "../chinook.png"
+            installerType = "deb"
             installerOptions = listOf(
                 "--linux-shortcut"
             )
         }
         if (OperatingSystem.current().isWindows) {
             icon = "../chinook.ico"
+            installerType = "msi"
             installerOptions = listOf(
                 "--win-menu",
                 "--win-shortcut"
             )
+        }
+        if (OperatingSystem.current().isMacOsX) {
+            icon = "../chinook.icns"
+            installerType = "dmg"
         }
     }
 }
@@ -63,4 +71,15 @@ tasks.prepareMergedJarsDir {
             into("build/jlinkbase/mergedjars")
         }
     }
+}
+
+githubRelease {
+    token(properties["githubAccessToken"] as String)
+    owner = "codion-is"
+    repo = "chinook"
+    allowUploadToExisting = true
+    releaseAssets.from(tasks.named("jlinkZip").get().outputs.files)
+    releaseAssets.from(fileTree(tasks.named("jpackage").get().outputs.files.singleFile) {
+        exclude(project.name + "/**")
+    })
 }

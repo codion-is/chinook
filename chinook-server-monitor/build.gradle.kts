@@ -2,6 +2,7 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     id("org.beryx.jlink")
+    id("com.github.breadmoirai.github-release")
 }
 
 dependencies {
@@ -27,7 +28,8 @@ application {
 }
 
 jlink {
-    imageName = project.name
+    imageName = project.name + "-" + project.version + "-" +
+            OperatingSystem.current().familyName.replace(" ", "").lowercase()
     moduleName = application.mainModule
     options = listOf(
         "--strip-debug",
@@ -61,4 +63,15 @@ tasks.prepareMergedJarsDir {
             into("build/jlinkbase/mergedjars")
         }
     }
+}
+
+githubRelease {
+    token(properties["githubAccessToken"] as String)
+    owner = "codion-is"
+    repo = "chinook"
+    allowUploadToExisting = true
+    releaseAssets.from(tasks.named("jlinkZip").get().outputs.files)
+    releaseAssets.from(fileTree(tasks.named("jpackage").get().outputs.files.singleFile) {
+        exclude(project.name + "/**")
+    })
 }

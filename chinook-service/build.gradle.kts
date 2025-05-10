@@ -1,7 +1,10 @@
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
     id("org.beryx.jlink")
     id("chinook.jasperreports.modules")
     id("chinook.spotless.plugin")
+    id("com.github.breadmoirai.github-release")
 }
 
 dependencies {
@@ -38,7 +41,8 @@ application {
 }
 
 jlink {
-    imageName = project.name
+    imageName = project.name + "-" + project.version + "-" +
+            OperatingSystem.current().familyName.replace(" ", "").lowercase()
     moduleName = application.mainModule
     options = listOf(
         "--strip-debug",
@@ -51,4 +55,12 @@ jlink {
     )
 
     addExtraDependencies("slf4j-api", "jetty-jakarta-servlet-api")
+}
+
+githubRelease {
+    token(properties["githubAccessToken"] as String)
+    owner = "codion-is"
+    repo = "chinook"
+    allowUploadToExisting = true
+    releaseAssets.from(tasks.named("jlinkZip").get().outputs.files)
 }
