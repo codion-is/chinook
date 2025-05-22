@@ -53,14 +53,15 @@ jlink {
         }
     }
 }
-
-githubRelease {
-    token(properties["githubAccessToken"] as String)
-    owner = "codion-is"
-    repo = "chinook"
-    allowUploadToExisting = true
-    releaseAssets.from(tasks.named("jlinkZip").get().outputs.files)
-    releaseAssets.from(fileTree(tasks.named("jpackage").get().outputs.files.singleFile) {
-        exclude(project.name + "/**")
-    })
+if (properties.containsKey("githubAccessToken")) {
+    githubRelease {
+        token(properties["githubAccessToken"] as String)
+        owner = "codion-is"
+        repo = "chinook"
+        allowUploadToExisting = true
+        releaseAssets.from(tasks.named("jlinkZip").get().outputs.files)
+        releaseAssets.from(fileTree(tasks.named("jpackage").get().outputs.files.singleFile) {
+            exclude(project.name + "/**", project.name + ".app/**")
+        })
+    }
 }
