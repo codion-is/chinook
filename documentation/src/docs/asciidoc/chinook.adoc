@@ -106,6 +106,10 @@ This demo application is based on the Chinook music store sample database.
 
 *** <<_trackeditcomponentfactory, TrackEditComponentFactory>>
 
+* Lookup table cleanup
+
+*** <<_artisttablepanel, ArtistTablePanel>>
+
 * Persistance layer used in a web service
 
 ** <<_service, ChinookService>>
@@ -449,6 +453,7 @@ include::{dir-source-client}/is/codion/demos/chinook/model/ArtistTableModel.java
 include::{dir-source-client}/is/codion/demos/chinook/ui/ArtistEditPanel.java[lines=19..-1]
 ----
 
+[#_artisttablepanel]
 ===== ArtistTablePanel
 
 [source,java,options="nowrap"]

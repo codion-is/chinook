@@ -32,7 +32,7 @@ import is.codion.framework.domain.entity.EntityDefinition;
 import is.codion.framework.domain.entity.OrderBy;
 import is.codion.framework.domain.entity.StringFactory;
 import is.codion.framework.domain.entity.attribute.Column;
-import is.codion.framework.domain.entity.query.SelectQuery;
+import is.codion.framework.domain.entity.query.EntitySelectQuery;
 
 import java.math.BigDecimal;
 import java.sql.Array;
@@ -301,7 +301,8 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.nullable(false),
 										Track.ALBUM_FK.define()
-														.foreignKey(2)
+														.foreignKey()
+														.referenceDepth(2)
 														.attributes(Album.ARTIST_FK, Album.TITLE),
 										Track.ARTIST_NAME.define()
 														.column()
@@ -350,7 +351,7 @@ public final class ChinookImpl extends DomainModel {
 														.readOnly(true)
 														.selected(false))
 						.keyGenerator(identity())
-						.selectQuery(SelectQuery.builder()
+						.selectQuery(EntitySelectQuery.builder()
 										// Override the default FROM clause, joining
 										// the ALBUM and ARTIST tables in order to
 										// have the ARTIST.NAME column available
@@ -435,7 +436,8 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.nullable(false),
 										InvoiceLine.INVOICE_FK.define()
-														.foreignKey(0)
+														.foreignKey()
+														.referenceDepth(0)
 														.hidden(true),
 										InvoiceLine.TRACK_ID.define()
 														.column()
@@ -491,7 +493,8 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.nullable(false),
 										PlaylistTrack.TRACK_FK.define()
-														.foreignKey(3),
+														.foreignKey()
+														.referenceDepth(3),
 										PlaylistTrack.ALBUM.define()
 														.denormalized(PlaylistTrack.TRACK_FK, Track.ALBUM_FK))
 						.keyGenerator(identity())

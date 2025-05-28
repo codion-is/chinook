@@ -91,7 +91,7 @@ public final class ConnectionSupplier implements Supplier<LocalEntityConnection>
 						connectionPool.statistics(currentTimeMillis() - STATISTICS_PRINT_RATE * 1_000);
 		System.out.println("#### Connection Pool ############");
 		System.out.println("# Requests per second: " + poolStatistics.requestsPerSecond());
-		System.out.println("# Average check out time: " + poolStatistics.averageGetTime() + " ms");
+		System.out.println("# Average check out time: " + poolStatistics.averageTime() + " ms");
 		System.out.println("# Size: " + poolStatistics.size() + ", in use: " + poolStatistics.inUse());
 		System.out.println("#### Database ###################");
 		Database.Statistics databaseStatistics = database.statistics();
@@ -103,7 +103,7 @@ public final class ConnectionSupplier implements Supplier<LocalEntityConnection>
 
 		private ServiceDomain() {
 			super(Chinook.DOMAIN);
-			// Relies on the the Chinook domain model
+			// Relies on the Chinook domain model
 			// being registered as a service
 			Entities entities = Domain.domains().getFirst().entities();
 			// Only add the entities required for this service
