@@ -66,6 +66,7 @@ application {
     )
 }
 
+// tag::jlinkAdvanced[]
 jlink {
     imageName = project.name + "-" + project.version + "-" +
             OperatingSystem.current().familyName.replace(" ", "").lowercase()
@@ -87,7 +88,9 @@ jlink {
     }
 
     forceMerge("kotlin")
+// end::jlinkAdvanced[]
 
+    // tag::jpackagePlatforms[]
     jpackage {
         if (OperatingSystem.current().isLinux) {
             icon = "../chinook.png"
@@ -110,8 +113,10 @@ jlink {
             installerType = "dmg"
         }
     }
+    // end::jpackagePlatforms[]
 }
 
+// tag::resourceCopy[]
 tasks.prepareMergedJarsDir {
     doLast {
         copy {
@@ -120,6 +125,7 @@ tasks.prepareMergedJarsDir {
         }
     }
 }
+// end::resourceCopy[]
 
 if (properties.containsKey("githubAccessToken")) {
     githubRelease {

@@ -15,6 +15,7 @@ dependencies {
     runtimeOnly(libs.h2)
 }
 
+// tag::applicationClient[]
 application {
     mainModule = "is.codion.demos.chinook.client"
     mainClass = "is.codion.demos.chinook.ui.ChinookAppPanel"
@@ -28,7 +29,9 @@ application {
         "-Dsun.awt.disablegrab=true"
     )
 }
+// end::applicationClient[]
 
+// tag::jlinkBasic[]
 jlink {
     imageName = project.name + "-" + project.version + "-" +
             OperatingSystem.current().familyName.replace(" ", "").lowercase()
@@ -43,6 +46,7 @@ jlink {
     )
 
     addExtraDependencies("slf4j-api")
+// end::jlinkBasic[]
 
     jpackage {
         if (OperatingSystem.current().isLinux) {
@@ -67,6 +71,7 @@ jlink {
     }
 }
 
+// tag::githubRelease[]
 if (properties.containsKey("githubAccessToken")) {
     githubRelease {
         token(properties["githubAccessToken"] as String)
@@ -79,3 +84,4 @@ if (properties.containsKey("githubAccessToken")) {
         })
     }
 }
+// end::githubRelease[]
