@@ -31,6 +31,7 @@ import is.codion.demos.chinook.domain.api.Chinook.Artist;
 import is.codion.demos.chinook.domain.api.Chinook.Genre;
 import is.codion.demos.chinook.domain.api.Chinook.MediaType;
 import is.codion.demos.chinook.domain.api.Chinook.Track;
+import is.codion.demos.chinook.migration.MigrationManager;
 import is.codion.framework.db.local.LocalEntityConnection;
 import is.codion.framework.domain.Domain;
 import is.codion.framework.domain.DomainModel;
@@ -66,8 +67,8 @@ public final class ConnectionSupplier implements Supplier<LocalEntityConnection>
 		LOG.info("Connection pool: {}", connectionPool.user());
 		LOG.info("Domain: {}", domain.type().name());
 		TaskScheduler.builder(this::printStatistics)
-					.interval(STATISTICS_PRINT_RATE, TimeUnit.SECONDS)
-					.start();
+						.interval(STATISTICS_PRINT_RATE, TimeUnit.SECONDS)
+						.start();
 	}
 
 	@Override
@@ -112,6 +113,11 @@ public final class ConnectionSupplier implements Supplier<LocalEntityConnection>
 			add(entities.definition(Artist.TYPE));
 			add(entities.definition(Album.TYPE));
 			add(entities.definition(Track.TYPE));
+		}
+
+		@Override
+		public void configure(Database database) throws DatabaseException {
+			MigrationManager.migrate(database);
 		}
 	}
 }

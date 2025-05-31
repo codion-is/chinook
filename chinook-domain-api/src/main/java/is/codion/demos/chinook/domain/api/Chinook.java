@@ -170,6 +170,19 @@ public interface Chinook {
 	}
 	// end::customer[]
 
+	// tag::preferences[]
+	interface Preferences {
+		EntityType TYPE = DOMAIN.entityType("chinook.preferences", Preferences.class.getName());
+
+		Column<Long> CUSTOMER_ID = TYPE.longColumn("customer_id");
+		Column<Long> PREFERRED_GENRE_ID = TYPE.longColumn("preferred_genre_id");
+		Column<Boolean> NEWSLETTER_SUBSCRIBED = TYPE.booleanColumn("newsletter_subscribed");
+
+		ForeignKey CUSTOMER_FK = TYPE.foreignKey("customer_fk", CUSTOMER_ID, Customer.ID);
+		ForeignKey PREFERRED_GENRE_FK = TYPE.foreignKey("preferred_genre_fk", PREFERRED_GENRE_ID, Genre.ID);
+	}
+	// end::preferences[]
+
 	// tag::genre[]
 	interface Genre {
 		EntityType TYPE = DOMAIN.entityType("chinook.genre", Genre.class.getName());
@@ -233,6 +246,7 @@ public interface Chinook {
 		Column<Integer> BYTES = TYPE.integerColumn("bytes");
 		Column<Integer> RATING = TYPE.integerColumn("rating");
 		Column<BigDecimal> UNITPRICE = TYPE.bigDecimalColumn("unitprice");
+		Column<Integer> PLAY_COUNT = TYPE.integerColumn("play_count");
 		Column<Void> RANDOM = TYPE.column("random()", Void.class);
 
 		ForeignKey ALBUM_FK = TYPE.foreignKey("album_fk", ALBUM_ID, Album.ID);
@@ -252,7 +266,8 @@ public interface Chinook {
 											MediaType.dto(track.get(MEDIATYPE_FK)),
 											track.get(MILLISECONDS),
 											track.get(RATING),
-											track.get(UNITPRICE));
+											track.get(UNITPRICE),
+											track.get(PLAY_COUNT));
 		}
 
 		record RaisePriceParameters(Collection<Long> trackIds, BigDecimal priceIncrease) implements Serializable {
@@ -266,7 +281,7 @@ public interface Chinook {
 		record Dto(Long id, String name, String artistName, Album.Dto album,
 							 Genre.Dto genre, MediaType.Dto mediaType,
 							 Integer milliseconds, Integer rating,
-							 BigDecimal unitPrice) {
+							 BigDecimal unitPrice, Integer playCount) {
 
 			public Entity entity(Entities entities) {
 				return entities.builder(TYPE)
@@ -279,6 +294,7 @@ public interface Chinook {
 								.with(MILLISECONDS, milliseconds)
 								.with(RATING, rating)
 								.with(UNITPRICE, unitPrice)
+								.with(PLAY_COUNT, playCount)
 								.build();
 			}
 		}

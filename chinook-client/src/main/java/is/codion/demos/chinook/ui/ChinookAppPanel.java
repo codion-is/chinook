@@ -52,7 +52,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -81,7 +80,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	private final ResourceBundle bundle = getBundle(ChinookAppPanel.class.getName());
 
 	public ChinookAppPanel(ChinookAppModel applicationModel) {
-		super(applicationModel, createPanels(applicationModel), createSupportPanelBuilders());
+		super(applicationModel, createPanels(applicationModel), createLookupPanelBuilders());
 	}
 
 	private static List<EntityPanel> createPanels(ChinookAppModel applicationModel) {
@@ -91,7 +90,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 						new PlaylistPanel(applicationModel.entityModels().get(Playlist.TYPE)));
 	}
 
-	private static Collection<EntityPanel.Builder> createSupportPanelBuilders() {
+	private static List<EntityPanel.Builder> createLookupPanelBuilders() {
 		EntityPanel.Builder genrePanelBuilder =
 						EntityPanel.builder(Genre.TYPE,
 										ChinookAppPanel::createGenrePanel);
@@ -108,7 +107,11 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 						EntityPanel.builder(Employee.TYPE,
 										ChinookAppPanel::createEmployeePanel);
 
-		return List.of(artistPanelBuilder, genrePanelBuilder, mediaTypePanelBuilder, employeePanelBuilder);
+		EntityPanel.Builder preferencesPanelBuilder =
+						EntityPanel.builder(Preferences.TYPE,
+										ChinookAppPanel::createPreferencesPanel);
+
+		return List.of(artistPanelBuilder, genrePanelBuilder, mediaTypePanelBuilder, employeePanelBuilder, preferencesPanelBuilder);
 	}
 
 	private static EntityPanel createGenrePanel(EntityConnectionProvider connectionProvider) {
@@ -160,6 +163,15 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		employeePanel.setPreferredSize(new Dimension(1000, 500));
 
 		return employeePanel;
+	}
+
+	private static EntityPanel createPreferencesPanel(EntityConnectionProvider connectionProvider) {
+		SwingEntityModel preferencesModel = new SwingEntityModel(Preferences.TYPE, connectionProvider);
+		preferencesModel.editModel().initializeComboBoxModels(Preferences.PREFERRED_GENRE_FK);
+		preferencesModel.tableModel().items().refresh();
+
+		return new EntityPanel(preferencesModel,
+						new PreferencesEditPanel(preferencesModel.editModel()));
 	}
 
 	@Override

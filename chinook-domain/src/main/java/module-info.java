@@ -29,6 +29,7 @@ module is.codion.demos.chinook.domain {
 	opens is.codion.demos.chinook.domain;//report resource
 	exports is.codion.demos.chinook.domain;
 	exports is.codion.demos.chinook.server;
+	exports is.codion.demos.chinook.migration;
 
 	provides is.codion.framework.domain.Domain
 					with is.codion.demos.chinook.domain.ChinookImpl;

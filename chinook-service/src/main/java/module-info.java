@@ -22,6 +22,6 @@
 module is.codion.demos.chinook.service {
 	requires io.javalin;
 	requires is.codion.framework.db.local;
-	requires is.codion.demos.chinook.domain.api;
+	requires is.codion.demos.chinook.domain;
 	requires com.fasterxml.jackson.databind;
 }

@@ -50,8 +50,7 @@ jlink {
         "--no-man-pages",
         "--add-modules",
         "is.codion.framework.db.local,is.codion.dbms.h2," +
-                "is.codion.plugin.logback.proxy,is.codion.plugin.hikari.pool," +
-                "is.codion.demos.chinook.domain"
+                "is.codion.plugin.logback.proxy,is.codion.plugin.hikari.pool"
     )
 
     addExtraDependencies("slf4j-api", "jetty-jakarta-servlet-api")
