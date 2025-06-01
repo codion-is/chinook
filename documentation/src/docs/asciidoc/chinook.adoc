@@ -1545,7 +1545,6 @@ include::{root-dir}/buildSrc/src/main/groovy/chinook.jasperreports.pdf.modules.g
 [source,groovy]
 ----
 module("net.sf.jasperreports:jasperreports-pdf", "net.sf.jasperreports.pdf") {
-    closeModule()
     exports("net.sf.jasperreports.export.pdf")
     // ... other exports
 }
@@ -1555,7 +1554,6 @@ WARNING: The most important technique here is converting `jasperreports-pdf` fro
 
 **Advanced Configuration Methods:**
 
-* **`closeModule()`** - Creates a closed module (no automatic exports)
 * **`exports("package")`** - Explicitly controls package visibility
 * **`requires("module")`** - Declares module dependencies
 * **`exportAllPackages()`** - Exports all packages found in the JAR
