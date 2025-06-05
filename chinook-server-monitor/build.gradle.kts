@@ -42,16 +42,22 @@ jlink {
     jpackage {
         if (OperatingSystem.current().isLinux) {
             icon = "../chinook.png"
+            installerType = "deb"
             installerOptions = listOf(
                 "--linux-shortcut"
             )
         }
         if (OperatingSystem.current().isWindows) {
             icon = "../chinook.ico"
+            installerType = "msi"
             installerOptions = listOf(
                 "--win-menu",
                 "--win-shortcut"
             )
+        }
+        if (OperatingSystem.current().isMacOsX) {
+            icon = "../chinook.icns"
+            installerType = "dmg"
         }
     }
 }
