@@ -1,0 +1,39 @@
+[versions]
+codion = "0.18.39-SNAPSHOT"
+h2 = "2.3.232"
+javalin = "6.6.0"
+jackson = "2.17.3"
+ikonli-foundation = "12.4.0"
+jasperreports = "7.0.3"
+
+[libraries]
+codion-framework-bom = { module = "is.codion:codion-framework-bom", version.ref = "codion" }
+codion-common-rmi = { module = "is.codion:codion-common-rmi" }
+codion-dbms-h2 = { module = "is.codion:codion-dbms-h2" }
+codion-tools-loadtest-ui = { module = "is.codion:codion-tools-loadtest-ui" }
+codion-framework-domain = { module = "is.codion:codion-framework-domain" }
+codion-framework-domain-test = { module = "is.codion:codion-framework-domain-test" }
+codion-framework-db-core = { module = "is.codion:codion-framework-db-core" }
+codion-framework-db-rmi = { module = "is.codion:codion-framework-db-rmi" }
+codion-framework-db-local = { module = "is.codion:codion-framework-db-local" }
+codion-framework-db-http = { module = "is.codion:codion-framework-db-http" }
+codion-tools-generator-model = { module = "is.codion:codion-tools-generator-model" }
+codion-swing-framework-ui = { module = "is.codion:codion-swing-framework-ui" }
+codion-tools-generator-ui = { module = "is.codion:codion-tools-generator-ui" }
+codion-plugin-jasperreports = { module = "is.codion:codion-plugin-jasperreports" }
+codion-plugin-logback-proxy = { module = "is.codion:codion-plugin-logback-proxy" }
+codion-plugin-imagepanel = { module = "is.codion:codion-plugin-imagepanel" }
+codion-plugin-hikari-pool = { module = "is.codion:codion-plugin-hikari-pool" }
+codion-plugin-flatlaf = { module = "is.codion:codion-plugin-flatlaf" }
+codion-plugin-flatlaf-intellij-themes = { module = "is.codion:codion-plugin-flatlaf-intellij-themes" }
+codion-framework-server = { module = "is.codion:codion-framework-server" }
+codion-framework-servlet = { module = "is.codion:codion-framework-servlet" }
+codion-tools-monitor-ui = { module = "is.codion:codion-tools-monitor-ui" }
+codion-plugin-swing-mcp = { module = "is.codion:codion-plugin-swing-mcp" }
+
+javalin = { module = "io.javalin:javalin", version.ref = "javalin" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+h2 = { module = "com.h2database:h2", version.ref = "h2" }
+ikonli-foundation = { module = "org.kordamp.ikonli:ikonli-foundation-pack", version.ref = "ikonli-foundation" }
+jasperreports-jdt = { module = "net.sf.jasperreports:jasperreports-jdt", version.ref = "jasperreports" }
+jasperreports-pdf = { module = "net.sf.jasperreports:jasperreports-pdf", version.ref = "jasperreports" }

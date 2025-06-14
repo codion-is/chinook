@@ -11,8 +11,8 @@ dependencies {
     implementation(libs.codion.plugin.imagepanel)
     implementation(libs.codion.plugin.flatlaf)
     implementation(libs.codion.plugin.flatlaf.intellij.themes)
-
     implementation(libs.ikonli.foundation)
+    implementation(libs.codion.plugin.swing.mcp)
 
     implementation(libs.jasperreports.pdf) {
         exclude(group = "net.sf.jasperreports")

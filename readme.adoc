@@ -43,10 +43,10 @@ The domain module includes a simple database migration system that demonstrates 
 Migration scripts are located in `src/main/resources/db/migration/` and follow the naming pattern `V{version}__{description}.sql`.
 
 Example migrations included:
+
 * V1: Initial schema (baseline)
 * V2: Add play count tracking to tracks
 * V3: Add customer preferences table
-* V4: Add album release date
 
 === chinook-domain-generator
 

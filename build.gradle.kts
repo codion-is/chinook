@@ -15,6 +15,10 @@ configure(subprojects) {
     apply(plugin = "java")
 
     version = rootProject.libs.versions.codion.get().replace("-SNAPSHOT", "")
+    
+    dependencies {
+        implementation(platform(rootProject.libs.codion.framework.bom))
+    }
 
     tasks.withType<JavaCompile>().configureEach {
         options.encoding = "UTF-8"

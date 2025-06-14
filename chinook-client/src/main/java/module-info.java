@@ -32,6 +32,7 @@ module is.codion.demos.chinook.client {
 	requires net.sf.jasperreports.pdf;
 	requires org.apache.commons.logging;
 	requires com.github.librepdf.openpdf;
+	requires is.codion.plugin.swing.mcp;
 
 	exports is.codion.demos.chinook.ui;
 	exports is.codion.demos.chinook.model;

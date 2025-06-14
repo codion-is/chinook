@@ -125,7 +125,7 @@ public final class ChinookImpl extends DomainModel {
 																		WHERE track.album_id = album.id"""),
 										Album.TAGS.define()
 														.column()
-														.columnClass(Array.class, new TagsConverter(), ResultSet::getArray),
+														.converter(Array.class, new TagsConverter(), ResultSet::getArray),
 										Album.RATING.define()
 														.subquery("""
 																		SELECT AVG(rating)
