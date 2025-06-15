@@ -5,6 +5,7 @@ javalin = "6.6.0"
 jackson = "2.17.3"
 ikonli-foundation = "12.4.0"
 jasperreports = "7.0.3"
+jib = "3.4.0"
 
 [libraries]
 codion-framework-bom = { module = "is.codion:codion-framework-bom", version.ref = "codion" }

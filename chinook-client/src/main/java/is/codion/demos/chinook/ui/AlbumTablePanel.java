@@ -87,7 +87,7 @@ public final class AlbumTablePanel extends EntityTablePanel {
 							.owner(Utilities.parentWindow(this))
 							.title(title)
 							.modal(false)
-							.onClosed(_ -> coverPanel.setImage(null))
+							.onClosed(e -> coverPanel.setImage(null))
 							.show();
 		}
 	}

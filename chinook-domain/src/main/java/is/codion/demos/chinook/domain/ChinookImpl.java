@@ -396,7 +396,7 @@ public final class ChinookImpl extends DomainModel {
 						.orderBy(ascending(Track.NAME))
 						// Implement a custom condition for specifying
 						// tracks that are not in a given playlist
-						.condition(Track.NOT_IN_PLAYLIST, (_, _) -> """
+						.condition(Track.NOT_IN_PLAYLIST, (c, v) -> """
 										track.id NOT IN (
 												SELECT track_id
 												FROM chinook.playlisttrack

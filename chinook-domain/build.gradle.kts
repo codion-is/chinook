@@ -5,6 +5,12 @@ plugins {
     id("io.github.f-cramer.jasperreports") version "0.0.4"
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 dependencies {
     api(project(":chinook-domain-api"))
 

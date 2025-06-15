@@ -13,6 +13,12 @@ java {
 
 configure(subprojects) {
     apply(plugin = "java")
+    
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(24))
+        }
+    }
 
     version = rootProject.libs.versions.codion.get().replace("-SNAPSHOT", "")
     
