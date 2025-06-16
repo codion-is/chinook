@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  chinook-server:
+    image: chinook-server:latest
+    container_name: chinook-server
+    ports:
+      - "1098:1098"  # RMI registry port
+      - "2223:2223"  # Server port (RMI)
+      - "4445:4445"  # Admin port
+      - "8088:8088"  # HTTP servlet port
+    environment:
+      - JAVA_OPTS=-Xmx512m
+    restart: unless-stopped
+    networks:
+      - chinook-network
+
+networks:
+  chinook-network:
+    driver: bridge

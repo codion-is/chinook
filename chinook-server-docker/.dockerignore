@@ -1,0 +1,30 @@
+# Gradle build directories
+build/
+!build/libs/
+!build/resources/
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+docs/
+
+# Scripts (except necessary ones)
+*.sh
+!src/docker/run.sh
+
+# Git
+.git/
+.gitignore
+
+# Docker files
+docker-compose*.yml
+Dockerfile

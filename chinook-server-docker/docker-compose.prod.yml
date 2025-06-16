@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  chinook-server:
+    image: chinook-server:${VERSION:-latest}
+    container_name: chinook-server
+    ports:
+      - "${RMI_REGISTRY_PORT:-1098}:1098"
+      - "${SERVER_PORT:-2223}:2223"
+      - "${ADMIN_PORT:-4445}:4445"
+      - "${HTTP_PORT:-8088}:8088"
+    environment:
+      - JAVA_OPTS=${JAVA_OPTS:--Xmx512m}
+      - CODION_DB_URL=${CODION_DB_URL:-jdbc:h2:mem:h2db}
+      - CODION_DB_USER=${CODION_DB_USER:-sa}
+      - CODION_DB_PASSWORD=${CODION_DB_PASSWORD:-}
+      - CODION_SERVER_ADMIN_USER=${CODION_SERVER_ADMIN_USER:-scott:tiger}
+      - CODION_SERVER_CONNECTION_POOL_USERS=${CODION_SERVER_CONNECTION_POOL_USERS:-scott:tiger}
+    restart: unless-stopped
+    networks:
+      - chinook-network
+    volumes:
+      - chinook-logs:/app/logs
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+networks:
+  chinook-network:
+    driver: bridge
+
+volumes:
+  chinook-logs:
+    driver: local
