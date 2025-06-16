@@ -21,12 +21,9 @@ application {
     applicationDefaultJvmArgs = listOf(
         "-Xmx64m",
         "-Dcodion.client.connectionType=http",
-        "-Dcodion.client.http.json=false",
-        "-Dcodion.client.http.hostname=vf5lwi7pgci5g32fw3drtsbovm0vbmsu.lambda-url.eu-north-1.on.aws",
-        "-Dcodion.client.http.secure=true",
-        "-Dcodion.client.http.securePort=443",
-        "-Dcodion.client.http.connectTimeout=30000",
-        "-Dcodion.client.http.socketTimeout=30000",
+        "-Dcodion.client.http.secure=false",
+        "-Dcodion.client.http.hostname=${serverHost}",
+        "-Dcodion.client.http.port=${serverHttpPort}",
         "-Dlogback.configurationFile=src/main/config/logback.xml",
         "-Dsun.awt.disablegrab=true"
     )
