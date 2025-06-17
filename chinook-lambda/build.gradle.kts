@@ -10,12 +10,12 @@ java {
 }
 
 dependencies {
-    implementation("is.codion:codion-framework-lambda:0.18.39-SNAPSHOT")
     implementation(project(":chinook-domain"))
-    
+    implementation(libs.codion.framework.lambda)
+
     // AWS Lambda runtime
-    implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
-    implementation("com.amazonaws:aws-lambda-java-events:3.11.4")
+    implementation(libs.aws.lambda.core)
+    implementation(libs.aws.lambda.events)
     
     // Database drivers
     implementation(libs.codion.dbms.h2)

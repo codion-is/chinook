@@ -1,11 +1,12 @@
 [versions]
-codion = "0.18.39-SNAPSHOT"
+codion = "0.18.39"
 h2 = "2.3.232"
 javalin = "6.6.0"
 jackson = "2.17.3"
 ikonli-foundation = "12.4.0"
 jasperreports = "7.0.3"
-jib = "3.4.0"
+aws-lambda-core = "1.2.3"
+aws-lambda-events = "3.11.4"
 
 [libraries]
 codion-framework-bom = { module = "is.codion:codion-framework-bom", version.ref = "codion" }
@@ -29,6 +30,7 @@ codion-plugin-flatlaf = { module = "is.codion:codion-plugin-flatlaf" }
 codion-plugin-flatlaf-intellij-themes = { module = "is.codion:codion-plugin-flatlaf-intellij-themes" }
 codion-framework-server = { module = "is.codion:codion-framework-server" }
 codion-framework-servlet = { module = "is.codion:codion-framework-servlet" }
+codion-framework-lambda = { module = "is.codion:codion-framework-lambda" }
 codion-tools-monitor-ui = { module = "is.codion:codion-tools-monitor-ui" }
 codion-plugin-swing-mcp = { module = "is.codion:codion-plugin-swing-mcp" }
 
@@ -38,3 +40,5 @@ h2 = { module = "com.h2database:h2", version.ref = "h2" }
 ikonli-foundation = { module = "org.kordamp.ikonli:ikonli-foundation-pack", version.ref = "ikonli-foundation" }
 jasperreports-jdt = { module = "net.sf.jasperreports:jasperreports-jdt", version.ref = "jasperreports" }
 jasperreports-pdf = { module = "net.sf.jasperreports:jasperreports-pdf", version.ref = "jasperreports" }
+aws-lambda-core = { module = "com.amazonaws:aws-lambda-java-core", version.ref = "aws-lambda-core" }
+aws-lambda-events = { module = "com.amazonaws:aws-lambda-java-events", version.ref = "aws-lambda-events" }
