@@ -67,11 +67,11 @@ else
         --zip-file fileb://chinook-lambda/build/libs/chinook-lambda.jar \
         --timeout 30 \
         --memory-size 1024 \
-        --environment 'Variables={"JAVA_TOOL_OPTIONS":"-Dcodion.db.url=jdbc:h2:mem:chinook;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=FALSE -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.username=scott -Dcodion.db.password=tiger","DEFAULT_USER":"scott:tiger","SERIALIZATION_FILTER_PATTERNS":"*"}' > /dev/null
+        --environment 'Variables={"JAVA_TOOL_OPTIONS":"-Dcodion.db.url=jdbc:h2:mem:h2db -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=10"}' > /dev/null
     echo "✓ Lambda function created"
 fi
 
-# Step 4: Create Function URL (simpler than API Gateway)
+# Step 4: Create Function URL
 echo -e "\n🌐 Creating public endpoint..."
 if ! aws lambda get-function-url-config --function-name chinook-lambda &> /dev/null 2>&1; then
     aws lambda create-function-url-config \

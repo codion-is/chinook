@@ -27,12 +27,14 @@ fi
 if [ "$1" == "efs" ]; then
   echo "Triggering Lambda to initialize H2 database..."
   
-  # Get the API endpoint
-  API_ID=$(aws apigatewayv2 get-apis --query "Items[?Name=='chinook-api'].ApiId" --output text)
-  ENDPOINT="https://$API_ID.execute-api.$(aws configure get region).amazonaws.com/prod"
+  # Get the Lambda Function URL
+  FUNCTION_URL=$(aws lambda get-function-url-config \
+    --function-name chinook-lambda \
+    --query FunctionUrl \
+    --output text)
   
   # Make a health check request to trigger initialization
-  curl -X GET "$ENDPOINT/health"
+  curl -X GET "$FUNCTION_URL/health"
   
   echo "H2 database initialized on EFS!"
 fi

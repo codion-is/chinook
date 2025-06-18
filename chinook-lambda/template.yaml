@@ -7,31 +7,29 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: build/distributions/chinook-lambda-deployment.zip
-      Handler: is.codion.demos.chinook.lambda.EntityProtocolHandler::handleRequest
+      Handler: is.codion.framework.lambda.LambdaEntityHandler::handleRequest
       Runtime: java21
-      MemorySize: 1024
+      MemorySize: 512
       Timeout: 30
       Environment:
         Variables:
-          DATABASE_URL: jdbc:h2:mem:chinook
-          DATABASE_USER: sa
-          DATABASE_PASSWORD: ""
-          DEFAULT_USER: "lambda:lambda"
-      Events:
-        EntityApi:
-          Type: Api
-          Properties:
-            Path: /entities
-            Method: POST
-            RequestParameters:
-              - method.request.header.Content-Type
-        HealthApi:
-          Type: Api
-          Properties:
-            Path: /health
-            Method: GET
+          JAVA_TOOL_OPTIONS: "-Dcodion.db.url=jdbc:h2:mem:h2db -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=600000"
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowOrigins:
+            - "*"
+          AllowMethods:
+            - GET
+            - POST
+            - OPTIONS
+          AllowHeaders:
+            - "*"
+          ExposeHeaders:
+            - "*"
+          MaxAge: 3600
 
 Outputs:
-  EntityServerApi:
-    Description: "API Gateway endpoint URL"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  EntityServerFunctionUrl:
+    Description: "Lambda Function URL endpoint"
+    Value: !GetAtt ChinookEntityServerUrl.FunctionUrl

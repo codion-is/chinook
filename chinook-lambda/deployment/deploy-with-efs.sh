@@ -51,17 +51,14 @@ aws lambda create-function \
   --function-name chinook-entity-server \
   --runtime java21 \
   --role arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/chinook-lambda-role \
-  --handler is.codion.demos.chinook.lambda.EntityProtocolHandler::handleRequest \
+  --handler is.codion.framework.lambda.LambdaEntityHandler::handleRequest \
   --zip-file fileb://../build/libs/chinook-lambda.jar \
   --timeout 30 \
   --memory-size 1024 \
   --vpc-config SubnetIds=$SUBNET_ID \
   --file-system-configs "Arn=arn:aws:elasticfilesystem:$(aws configure get region):$(aws sts get-caller-identity --query Account --output text):access-point/$ACCESS_POINT_ID,LocalMountPath=/mnt/efs" \
   --environment Variables="{\
-    DATABASE_URL=jdbc:h2:file:/mnt/efs/chinook;MODE=PostgreSQL;AUTO_SERVER=TRUE,\
-    DATABASE_USER=scott,\
-    DATABASE_PASSWORD=tiger,\
-    DEFAULT_USER=scott:tiger\
+    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:h2:file:/mnt/efs/chinook;MODE=PostgreSQL;AUTO_SERVER=TRUE;DATABASE_TO_UPPER=FALSE -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=10\"\
   }"
 
 echo "Lambda function created with EFS!"
