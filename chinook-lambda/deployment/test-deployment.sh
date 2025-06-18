@@ -49,7 +49,7 @@ EOF
 
 echo -e "\n3. To test with Codion client, update your connection:"
 echo "EntityConnectionProvider provider = HttpEntityConnectionProvider.builder()"
-echo "    .baseUrl(\"$ENDPOINT\")"
+echo "    .baseUrl(\"$FUNCTION_URL\")"
 echo "    .domain(Chinook.DOMAIN)"
 echo "    .https(true)"
 echo "    .user(User.parse(\"scott:tiger\"))"

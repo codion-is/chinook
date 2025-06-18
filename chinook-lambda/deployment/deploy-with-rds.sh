@@ -39,57 +39,41 @@ aws lambda create-function \
   --function-name chinook-entity-server \
   --runtime java21 \
   --role arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/chinook-lambda-role \
-  --handler is.codion.demos.chinook.lambda.EntityProtocolHandler::handleRequest \
+  --handler is.codion.framework.lambda.LambdaEntityHandler::handleRequest \
   --zip-file fileb://../build/libs/chinook-lambda.jar \
   --timeout 30 \
   --memory-size 1024 \
   --environment Variables="{\
-    DATABASE_URL=jdbc:postgresql://$ENDPOINT:5432/postgres,\
-    DATABASE_USER=chinook_admin,\
-    DATABASE_PASSWORD=ChinookPass123!,\
-    DEFAULT_USER=scott:tiger\
+    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:postgresql://$ENDPOINT:5432/postgres?user=chinook_admin&password=ChinookPass123! -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=10\"\
   }"
 
-# 4. Create API Gateway
-echo "Creating API Gateway..."
-API_ID=$(aws apigatewayv2 create-api \
-  --name chinook-api \
-  --protocol-type HTTP \
-  --query 'ApiId' \
-  --output text)
+# 4. Create Lambda Function URL
+echo "Creating Lambda Function URL..."
+aws lambda create-function-url-config \
+  --function-name chinook-entity-server \
+  --auth-type NONE \
+  --cors '{
+    "AllowOrigins": ["*"],
+    "AllowMethods": ["GET", "POST", "OPTIONS"],
+    "AllowHeaders": ["*"],
+    "ExposeHeaders": ["*"],
+    "MaxAge": 3600
+  }'
 
-# Create Lambda integration
-INTEGRATION_ID=$(aws apigatewayv2 create-integration \
-  --api-id $API_ID \
-  --integration-type AWS_PROXY \
-  --integration-uri arn:aws:lambda:$(aws configure get region):$(aws sts get-caller-identity --query Account --output text):function:chinook-entity-server \
-  --payload-format-version 2.0 \
-  --query 'IntegrationId' \
-  --output text)
-
-# Create routes
-aws apigatewayv2 create-route \
-  --api-id $API_ID \
-  --route-key 'POST /entities/serial/{proxy+}' \
-  --target integrations/$INTEGRATION_ID
-
-aws apigatewayv2 create-route \
-  --api-id $API_ID \
-  --route-key 'GET /health' \
-  --target integrations/$INTEGRATION_ID
-
-# Create deployment
-aws apigatewayv2 create-deployment \
-  --api-id $API_ID \
-  --stage-name prod
-
-# Grant API Gateway permission to invoke Lambda
+# Grant public access permission
 aws lambda add-permission \
   --function-name chinook-entity-server \
-  --statement-id apigateway-invoke \
-  --action lambda:InvokeFunction \
-  --principal apigateway.amazonaws.com
+  --statement-id FunctionURLAllowPublicAccess \
+  --action lambda:InvokeFunctionUrl \
+  --principal "*" \
+  --function-url-auth-type NONE
 
-echo "API Gateway created!"
-echo "Your API endpoint is:"
-echo "https://$API_ID.execute-api.$(aws configure get region).amazonaws.com/prod/"
+# Get the URL
+FUNCTION_URL=$(aws lambda get-function-url-config \
+  --function-name chinook-entity-server \
+  --query FunctionUrl \
+  --output text)
+
+echo "Lambda Function URL created!"
+echo "Your endpoint is:"
+echo "$FUNCTION_URL"

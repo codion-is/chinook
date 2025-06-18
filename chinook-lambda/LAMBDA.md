@@ -1,6 +1,6 @@
 # The Ultimate Guide to Codion Serverless Lambda Deployment
 
-**A comprehensive guide to running Codion applications on AWS Lambda, including lessons learned, API Gateway deep-dive, and production deployment strategies.**
+**A comprehensive guide to running Codion applications on AWS Lambda, including lessons learned and production deployment strategies.**
 
 ---
 
@@ -15,11 +15,11 @@ This module demonstrates how to deploy a **20-year-old desktop framework** as a 
 ## 🏗️ Architecture Overview
 
 ```
-Desktop Client    →    API Gateway    →    Lambda Function    →    Database
-     ↓                       ↓                     ↓                  ↓
-HttpEntityConnection   Binary Routing    ChinookLambdaHandler    H2/PostgreSQL
-     ↓                       ↓                     ↓                  ↓
-Java Serialization    Base64 Encoding   AbstractLambdaHandler   Connection Pool
+Desktop Client    →    Lambda Function URL    →    Lambda Function    →    Database
+     ↓                          ↓                         ↓                  ↓
+HttpEntityConnection    Direct Invocation      LambdaEntityHandler     H2/PostgreSQL
+     ↓                          ↓                         ↓                  ↓
+Java Serialization      Base64 Encoding        AbstractLambdaHandler   Connection Pool
 ```
 
 ### The Magic: Three-Layer Compatibility
@@ -60,78 +60,53 @@ aws iam attach-role-policy \
 aws lambda create-function \
   --function-name chinook-lambda \
   --runtime java21 \
-  --handler is.codion.demos.chinook.lambda.ChinookLambdaHandler::handleRequest \
+  --handler is.codion.framework.lambda.LambdaEntityHandler::handleRequest \
   --role arn:aws:iam::YOUR_ACCOUNT:role/chinook-lambda-role \
   --zip-file fileb://chinook-lambda/build/libs/chinook-lambda.jar \
   --memory-size 1024 \
   --timeout 30 \
   --environment Variables='{
-    "JAVA_TOOL_OPTIONS": "-Dcodion.db.url=jdbc:h2:mem:chinook;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=FALSE -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.username=scott -Dcodion.db.password=tiger",
-    "DEFAULT_USER": "scott:tiger"
+    "JAVA_TOOL_OPTIONS": "-Dcodion.db.url=jdbc:h2:mem:h2db -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=10"
   }'
 ```
 
-### 3. Create API Gateway (The Critical Part!)
-
-**⚠️ IMPORTANT**: Lambda Function URLs don't work because they don't pass request paths correctly. You MUST use API Gateway v1 (REST API) with binary media type support.
+### 3. Create Lambda Function URL
 
 ```bash
-# Create REST API Gateway with binary support
-API_ID=$(aws apigateway create-rest-api \
-  --name chinook-lambda-api \
-  --binary-media-types "application/octet-stream" "*/*" \
-  --query 'id' --output text)
+# Create Function URL for direct access
+aws lambda create-function-url-config \
+  --function-name chinook-lambda \
+  --auth-type NONE \
+  --cors '{
+    "AllowOrigins": ["*"],
+    "AllowMethods": ["GET", "POST", "OPTIONS"],
+    "AllowHeaders": ["*"],
+    "ExposeHeaders": ["*"],
+    "MaxAge": 3600
+  }'
 
-# Get root resource
-ROOT_ID=$(aws apigateway get-resources \
-  --rest-api-id $API_ID \
-  --query 'items[0].id' --output text)
-
-# Create proxy resource for all paths
-RESOURCE_ID=$(aws apigateway create-resource \
-  --rest-api-id $API_ID \
-  --parent-id $ROOT_ID \
-  --path-part '{proxy+}' \
-  --query 'id' --output text)
-
-# Create ANY method
-aws apigateway put-method \
-  --rest-api-id $API_ID \
-  --resource-id $RESOURCE_ID \
-  --http-method ANY \
-  --authorization-type NONE
-
-# Configure Lambda integration with binary content handling
-aws apigateway put-integration \
-  --rest-api-id $API_ID \
-  --resource-id $RESOURCE_ID \
-  --http-method ANY \
-  --type AWS_PROXY \
-  --integration-http-method POST \
-  --uri "arn:aws:apigateway:REGION:lambda:path/2015-03-31/functions/arn:aws:lambda:REGION:ACCOUNT:function:chinook-lambda/invocations" \
-  --content-handling CONVERT_TO_BINARY
-
-# Deploy API
-aws apigateway create-deployment \
-  --rest-api-id $API_ID \
-  --stage-name prod
-
-# Grant permission
+# Grant public access permission
 aws lambda add-permission \
   --function-name chinook-lambda \
-  --statement-id api-gateway-invoke \
-  --action lambda:InvokeFunction \
-  --principal apigateway.amazonaws.com \
-  --source-arn "arn:aws:execute-api:REGION:ACCOUNT:$API_ID/*/*"
+  --statement-id FunctionURLAllowPublicAccess \
+  --action lambda:InvokeFunctionUrl \
+  --principal "*" \
+  --function-url-auth-type NONE
 
-echo "Your API URL: https://$API_ID.execute-api.REGION.amazonaws.com/prod/"
+# Get the URL
+FUNCTION_URL=$(aws lambda get-function-url-config \
+  --function-name chinook-lambda \
+  --query FunctionUrl \
+  --output text)
+
+echo "Your Lambda URL: $FUNCTION_URL"
 ```
 
 ### 4. Connect Your Desktop Client
 
 ```java
 EntityConnectionProvider provider = HttpEntityConnectionProvider.builder()
-    .hostName("your-api-id.execute-api.region.amazonaws.com/prod")
+    .hostName("your-function-url.lambda-url.region.on.aws")
     .https(true)
     .securePort(443)
     .json(false)  // CRITICAL: Must be false for Java serialization
@@ -148,80 +123,11 @@ try (EntityConnection connection = provider.connection()) {
 
 ---
 
-## 🧠 API Gateway Deep Dive: Why It's Essential
-
-### The Problem with Lambda Function URLs
-
-Lambda Function URLs seem perfect but have a fatal flaw for Codion:
-
-```java
-// What HttpEntityConnection expects
-GET /entities/serial/select HTTP/1.1
-
-// What Lambda Function URL provides to your handler
-input.getPath() == null  // ❌ Path information lost!
-```
-
-**Root Cause**: Lambda Function URLs don't pass the URL path to the event object, making it impossible for the handler to route requests properly.
-
-### Why API Gateway v1 (REST API) is Required
-
-API Gateway v1 provides three critical features:
-
-#### 1. **Path Preservation**
-```java
-// API Gateway v1 event
-{
-  "path": "/entities/serial/select",    // ✅ Path preserved
-  "httpMethod": "POST",
-  "headers": {...},
-  "body": "base64-encoded-data"
-}
-```
-
-#### 2. **Binary Media Type Support**
-Codion uses Java serialization (binary data). API Gateway v1 with `CONVERT_TO_BINARY` automatically:
-- Detects `application/octet-stream` content type
-- Base64 encodes/decodes binary payloads
-- Preserves binary data integrity
-
-#### 3. **Proxy Resource Pattern**
-The `{proxy+}` resource captures all sub-paths:
-```
-/entities          → Handled
-/entities/serial/select → Handled  
-/health           → Handled
-/any/nested/path  → Handled
-```
-
-### Why API Gateway v2 (HTTP API) Doesn't Work
-
-API Gateway v2 lacks the `CONVERT_TO_BINARY` content handling strategy:
-
-```bash
-# This fails for binary content
-aws apigatewayv2 update-integration \
-  --content-handling-strategy CONVERT_TO_BINARY
-# Error: ContentHandlingStrategy not supported for HTTP APIs
-```
-
-**Lesson Learned**: Always use API Gateway v1 (REST API) for binary content like Java serialization.
-
----
-
 ## 🏗️ Implementation Architecture
 
-### ChinookLambdaHandler: The Bridge
+### LambdaEntityHandler: The Bridge
 
-```java
-public class ChinookLambdaHandler extends AbstractLambdaEntityHandler {
-    public ChinookLambdaHandler() {
-        super(new ChinookImpl());  // ← Same domain as desktop app
-    }
-}
-```
-
-**That's it!** The `AbstractLambdaEntityHandler` handles:
+The framework's `LambdaEntityHandler` automatically discovers and loads all available domains via ServiceLoader. It handles:
 - Java serialization protocol compatibility
 - Connection pooling for warm starts
 - Database initialization via standard Codion properties
@@ -232,7 +138,7 @@ public class ChinookLambdaHandler extends AbstractLambdaEntityHandler {
 
 ```java
 // Cold start (first request)
-ChinookLambdaHandler constructor → AbstractLambdaEntityHandler → 
+LambdaEntityHandler constructor → EntityServer initialization → 
   Database.instance() → Connection pool created → Ready
 
 // Warm start (subsequent requests)  
@@ -393,13 +299,13 @@ aws apigateway create-rest-api --name my-api
 JAVA_TOOL_OPTIONS="-Dcodion.db.url=jdbc:h2:mem:chinook;DATABASE_TO_UPPER=FALSE -Dcodion.db.initScripts=classpath:create_schema.sql"
 ```
 
-### Problem: Path not found (Lambda Function URL)
+### Problem: Path not found
 
 **Symptom**: `Unknown path requested: /` in Lambda logs
 
-**Root Cause**: Using Lambda Function URL instead of API Gateway
+**Root Cause**: Path routing issue in the handler
 
-**Solution**: Switch to API Gateway v1 with proxy resource pattern
+**Solution**: Ensure the Lambda handler properly processes the request path from the event
 
 ### Problem: Slow cold starts
 
@@ -483,10 +389,10 @@ aws cloudwatch get-metric-statistics \
   --metric-name Duration \
   --dimensions Name=FunctionName,Value=chinook-lambda
 
-# API Gateway
+# Lambda Function URL metrics
 aws cloudwatch get-metric-statistics \
-  --namespace AWS/ApiGateway \
-  --metric-name 4XXError,5XXError,Latency
+  --namespace AWS/Lambda \
+  --metric-name Errors,Throttles,ConcurrentExecutions
   
 # Custom application metrics (log parsing)
 grep "Pool:" /aws/lambda/chinook-lambda | \
@@ -499,7 +405,7 @@ grep "Pool:" /aws/lambda/chinook-lambda | \
 The `/health` endpoint provides runtime statistics:
 
 ```bash
-curl https://your-api.execute-api.region.amazonaws.com/prod/health
+curl https://your-function-url.lambda-url.region.on.aws/health
 ```
 
 ```json
@@ -539,14 +445,12 @@ EntityConnectionProvider provider = HttpEntityConnectionProvider.builder()
     .build();
 ```
 
-#### 2. **API Gateway Authentication**
+#### 2. **Lambda Function URL Authentication**
 ```bash
-# Add API key requirement
-aws apigateway update-method \
-  --rest-api-id $API_ID \
-  --resource-id $RESOURCE_ID \
-  --http-method ANY \
-  --patch-operations op=replace,path=/apiKeyRequired,value=true
+# Configure auth type for Function URL
+aws lambda update-function-url-config \
+  --function-name chinook-lambda \
+  --auth-type AWS_IAM  # Can be NONE or AWS_IAM
 ```
 
 #### 3. **Custom JWT Authentication**
@@ -673,7 +577,7 @@ public class ShardedLambdaHandler extends AbstractLambdaEntityHandler {
 
 2025: Serverless deployment
   ├── AWS Lambda handlers
-  ├── API Gateway integration
+  ├── Lambda Function URLs
   └── Cloud-native scaling
 ```
 
@@ -906,12 +810,12 @@ The same business logic could run at edge locations worldwide.
 ### Official Documentation
 - [Codion Framework Documentation](https://www.codion.is/)
 - [AWS Lambda Java Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/java-handler.html)
-- [API Gateway v1 Documentation](https://docs.aws.amazon.com/apigateway/latest/developerguide/)
+- [AWS Lambda Function URLs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-urls.html)
 
 ### Sample Code
-- `ChinookLambdaHandler.java`: Minimal serverless handler implementation
+- Uses framework's `LambdaEntityHandler` directly - no custom handler needed
 - `HttpConnectionTest.java`: Client connection testing
-- `create-api-gateway.sh`: Complete API Gateway setup script
+- `simple-deploy.sh`: Complete Lambda deployment script with Function URL
 
 ### Performance Testing
 - Use Apache Bench: `ab -n 1000 -c 10 https://your-api/health`
