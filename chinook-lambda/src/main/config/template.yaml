@@ -6,7 +6,7 @@ Resources:
   ChinookEntityServer:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: build/distributions/chinook-lambda-deployment.zip
+      CodeUri: ../../../build/libs/chinook-lambda.jar
       Handler: is.codion.framework.lambda.LambdaEntityHandler::handleRequest
       Runtime: java21
       MemorySize: 512
@@ -32,4 +32,4 @@ Resources:
 Outputs:
   EntityServerFunctionUrl:
     Description: "Lambda Function URL endpoint"
-    Value: !GetAtt ChinookEntityServerUrl.FunctionUrl
+    Value: !GetAtt ChinookEntityServer.FunctionUrl

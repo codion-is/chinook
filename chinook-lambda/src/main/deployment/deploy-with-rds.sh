@@ -29,9 +29,9 @@ echo "RDS instance created at: $ENDPOINT"
 
 # 2. Build Lambda package
 echo "Building Lambda deployment package..."
-cd ..
+cd ../../..
 ./gradlew :chinook-lambda:shadowJar
-cd deployment
+cd chinook-lambda/src/main/deployment
 
 # 3. Create Lambda function
 echo "Creating Lambda function..."
@@ -40,11 +40,11 @@ aws lambda create-function \
   --runtime java21 \
   --role arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/chinook-lambda-role \
   --handler is.codion.framework.lambda.LambdaEntityHandler::handleRequest \
-  --zip-file fileb://../build/libs/chinook-lambda.jar \
+  --zip-file fileb://../../../build/libs/chinook-lambda.jar \
   --timeout 30 \
-  --memory-size 1024 \
+  --memory-size 512 \
   --environment Variables="{\
-    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:postgresql://$ENDPOINT:5432/postgres?user=chinook_admin&password=ChinookPass123! -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=10\"\
+    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:postgresql://$ENDPOINT:5432/postgres?user=chinook_admin&password=ChinookPass123! -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=600000\"\
   }"
 
 # 4. Create Lambda Function URL

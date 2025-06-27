@@ -271,18 +271,39 @@ tasks.register("deployLambda") {
         }
         
         println("Deploying Chinook Lambda function...")
-        val deployScript = file("../chinook-lambda/simple-deploy.sh")
+        val deployScript = file("../chinook-lambda/deploy.sh")
         if (!deployScript.exists()) {
             throw GradleException("Deploy script not found: ${deployScript.absolutePath}")
         }
         
-        val process = ProcessBuilder("bash", deployScript.absolutePath)
+        val processBuilder = ProcessBuilder("bash", deployScript.absolutePath)
             .directory(file("../chinook-lambda"))
-            .inheritIO()
-            .start()
+            .redirectOutput(ProcessBuilder.Redirect.PIPE)
+            .redirectError(ProcessBuilder.Redirect.PIPE)
+        
+        // Pass JAVA_HOME from Gradle's environment
+        val javaHome = System.getProperty("java.home")
+        if (javaHome != null) {
+            processBuilder.environment()["JAVA_HOME"] = javaHome
+        }
+        
+        val process = processBuilder.start()
+        
+        // Capture output and error streams
+        val output = process.inputStream.bufferedReader().use { it.readText() }
+        val error = process.errorStream.bufferedReader().use { it.readText() }
+        
+        // Print output as it would appear normally
+        if (output.isNotEmpty()) {
+            println(output)
+        }
         
         val exitCode = process.waitFor()
         if (exitCode != 0) {
+            if (error.isNotEmpty()) {
+                println("Error output:")
+                println(error)
+            }
             throw GradleException("Lambda deployment failed with exit code: $exitCode")
         }
         

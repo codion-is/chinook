@@ -17,7 +17,7 @@ if [ "$1" == "rds" ]; then
     -h $ENDPOINT \
     -U chinook_admin \
     -d postgres \
-    -f ../../../chinook-domain/src/main/resources/create_schema.sql
+    -f ../../../../../chinook-domain/src/main/resources/create_schema.sql
     
   echo "RDS database initialized!"
 fi

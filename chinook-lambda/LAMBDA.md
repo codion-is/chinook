@@ -63,10 +63,10 @@ aws lambda create-function \
   --handler is.codion.framework.lambda.LambdaEntityHandler::handleRequest \
   --role arn:aws:iam::YOUR_ACCOUNT:role/chinook-lambda-role \
   --zip-file fileb://chinook-lambda/build/libs/chinook-lambda.jar \
-  --memory-size 1024 \
+  --memory-size 512 \
   --timeout 30 \
   --environment Variables='{
-    "JAVA_TOOL_OPTIONS": "-Dcodion.db.url=jdbc:h2:mem:h2db -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=10"
+    "JAVA_TOOL_OPTIONS": "-Dcodion.db.url=jdbc:h2:mem:h2db -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=600000"
   }'
 ```
 

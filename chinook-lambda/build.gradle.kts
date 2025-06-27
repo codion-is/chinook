@@ -1,6 +1,6 @@
 plugins {
     java
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.7"
 }
 
 java {
@@ -39,22 +39,4 @@ tasks.shadowJar {
 
     // Merge service files
     mergeServiceFiles()
-}
-
-tasks.register<Zip>("lambdaZip") {
-    dependsOn(tasks.shadowJar)
-    from(tasks.shadowJar.get().outputs.files.singleFile)
-    archiveFileName.set("chinook-lambda-deployment.zip")
-    destinationDirectory.set(layout.buildDirectory.dir("distributions"))
-}
-
-tasks.register("deployLambda") {
-    dependsOn("lambdaZip")
-    group = "aws"
-    description = "Build Lambda deployment package"
-
-    doLast {
-        println("Lambda deployment package created: build/distributions/chinook-lambda-deployment.zip")
-        println("Deploy with: aws lambda update-function-code --function-name chinook-api --zip-file fileb://build/distributions/chinook-lambda-deployment.zip")
-    }
 }

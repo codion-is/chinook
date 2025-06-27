@@ -69,7 +69,7 @@ The client will automatically:
 # Get the Lambda URL that will be used by the client
 ./gradlew :chinook-client-lambda:getLambdaUrl
 
-# Deploy the Lambda function (calls simple-deploy.sh)
+# Deploy the Lambda function (calls deploy.sh)
 ./gradlew :chinook-client-lambda:deployLambda
 
 # Deploy Lambda and run client automatically

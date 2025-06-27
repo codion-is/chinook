@@ -41,9 +41,9 @@ ACCESS_POINT_ID=$(aws efs create-access-point \
 
 # 4. Build Lambda package
 echo "Building Lambda deployment package..."
-cd ..
+cd ../../..
 ./gradlew :chinook-lambda:shadowJar
-cd deployment
+cd chinook-lambda/src/main/deployment
 
 # 5. Create Lambda function with EFS
 echo "Creating Lambda function with EFS..."
@@ -52,13 +52,13 @@ aws lambda create-function \
   --runtime java21 \
   --role arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/chinook-lambda-role \
   --handler is.codion.framework.lambda.LambdaEntityHandler::handleRequest \
-  --zip-file fileb://../build/libs/chinook-lambda.jar \
+  --zip-file fileb://../../../build/libs/chinook-lambda.jar \
   --timeout 30 \
-  --memory-size 1024 \
+  --memory-size 512 \
   --vpc-config SubnetIds=$SUBNET_ID \
   --file-system-configs "Arn=arn:aws:elasticfilesystem:$(aws configure get region):$(aws sts get-caller-identity --query Account --output text):access-point/$ACCESS_POINT_ID,LocalMountPath=/mnt/efs" \
   --environment Variables="{\
-    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:h2:file:/mnt/efs/chinook;MODE=PostgreSQL;AUTO_SERVER=TRUE;DATABASE_TO_UPPER=FALSE -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=10\"\
+    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:h2:file:/mnt/efs/chinook;MODE=PostgreSQL;AUTO_SERVER=TRUE;DATABASE_TO_UPPER=FALSE -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=600000\"\
   }"
 
 echo "Lambda function created with EFS!"
