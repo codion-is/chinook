@@ -12,20 +12,19 @@ dependencies {
     runtimeOnly(libs.codion.framework.db.http)
 }
 
-val serverHost: String by project
-val serverHttpPort: String by project
-
-// AWS Lambda URL retrieval and validation
-val lambdaHostname = resolveLambdaHostname()
-
 application {
     mainModule = "is.codion.demos.chinook.client"
     mainClass = "is.codion.demos.chinook.ui.ChinookAppPanel"
-    applicationDefaultJvmArgs = listOf(
+}
+
+// Configure JVM args lazily in the run task, in order to not trigger
+// the lambda hostname lookup during the configuration phase
+tasks.named<JavaExec>("run") {
+    jvmArgs = listOf(
         "-Xmx64m",
         "-Dcodion.client.connectionType=http",
         "-Dcodion.client.http.json=false",
-        "-Dcodion.client.http.hostname=$lambdaHostname",
+        "-Dcodion.client.http.hostname=${resolveLambdaHostname()}",
         "-Dcodion.client.http.secure=true",
         "-Dcodion.client.http.securePort=443",
         "-Dcodion.client.http.connectTimeout=30000",
