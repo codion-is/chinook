@@ -99,9 +99,9 @@ fun getLambdaFunctionUrl(functionName: String): String? {
             "--query", "FunctionUrl",
             "--output", "text"
         ).redirectOutput(ProcessBuilder.Redirect.PIPE)
-         .redirectError(ProcessBuilder.Redirect.PIPE)
-         .start()
-        
+            .redirectError(ProcessBuilder.Redirect.PIPE)
+            .start()
+
         if (process.waitFor() == 0) {
             val url = process.inputStream.bufferedReader().readText().trim()
             if (url.isNotEmpty() && url != "None") {
@@ -121,9 +121,9 @@ fun findLambdaFunctions(): List<String> {
             "--query", "Functions[?contains(FunctionName, 'chinook')].FunctionName",
             "--output", "text"
         ).redirectOutput(ProcessBuilder.Redirect.PIPE)
-         .redirectError(ProcessBuilder.Redirect.PIPE)
-         .start()
-        
+            .redirectError(ProcessBuilder.Redirect.PIPE)
+            .start()
+
         if (process.waitFor() == 0) {
             val output = process.inputStream.bufferedReader().readText().trim()
             if (output.isNotEmpty()) {
@@ -141,24 +141,25 @@ fun resolveLambdaHostname(): String {
     if (!explicitHostname.isNullOrEmpty()) {
         return explicitHostname
     }
-    
+
     // Check if AWS CLI is configured
     if (!isAwsCliConfigured()) {
         throw GradleException(
             "AWS CLI is not configured and no explicit hostname provided. " +
-            "Either configure AWS CLI with 'aws configure' or provide hostname with " +
-            "-Pcodion.client.lambda.hostname=your-lambda-url.amazonaws.com"
+                    "Either configure AWS CLI with 'aws configure' or provide hostname with " +
+                    "-Pcodion.client.lambda.hostname=your-lambda-url.amazonaws.com"
         )
     }
-    
+
     // Try to find and use a Chinook Lambda function
     val functions = findLambdaFunctions()
     when {
         functions.isEmpty() -> throw GradleException(
             "No Chinook Lambda functions found. " +
-            "Deploy a Lambda function first or provide hostname with " +
-            "-Pcodion.client.lambda.hostname=your-lambda-url.amazonaws.com"
+                    "Deploy a Lambda function first or provide hostname with " +
+                    "-Pcodion.client.lambda.hostname=your-lambda-url.amazonaws.com"
         )
+
         functions.size == 1 -> {
             val functionName = functions.first()
             val hostname = getLambdaFunctionUrl(functionName)
@@ -169,17 +170,18 @@ fun resolveLambdaHostname(): String {
             } else {
                 throw GradleException(
                     "Lambda function '$functionName' exists but has no Function URL configured. " +
-                    "Deploy with Function URL or provide hostname with " +
-                    "-Pcodion.client.lambda.hostname=your-lambda-url.amazonaws.com"
+                            "Deploy with Function URL or provide hostname with " +
+                            "-Pcodion.client.lambda.hostname=your-lambda-url.amazonaws.com"
                 )
             }
         }
+
         else -> {
             val functionList = functions.joinToString(", ")
             throw GradleException(
                 "Multiple Chinook Lambda functions found: $functionList. " +
-                "Specify which one to use with -Pcodion.client.lambda.function=function-name " +
-                "or provide hostname directly with -Pcodion.client.lambda.hostname=your-lambda-url.amazonaws.com"
+                        "Specify which one to use with -Pcodion.client.lambda.function=function-name " +
+                        "or provide hostname directly with -Pcodion.client.lambda.hostname=your-lambda-url.amazonaws.com"
             )
         }
     }
@@ -189,20 +191,21 @@ fun resolveLambdaHostname(): String {
 tasks.register("checkAwsConfig") {
     group = "aws"
     description = "Check if AWS CLI is properly configured"
-    
+
     doLast {
         if (isAwsCliConfigured()) {
             println("✓ AWS CLI is configured")
-            
+
             // Get account info
-            val accountProcess = ProcessBuilder("aws", "sts", "get-caller-identity", "--query", "Account", "--output", "text")
-                .redirectOutput(ProcessBuilder.Redirect.PIPE)
-                .start()
+            val accountProcess =
+                ProcessBuilder("aws", "sts", "get-caller-identity", "--query", "Account", "--output", "text")
+                    .redirectOutput(ProcessBuilder.Redirect.PIPE)
+                    .start()
             if (accountProcess.waitFor() == 0) {
                 val account = accountProcess.inputStream.bufferedReader().readText().trim()
                 println("  Account: $account")
             }
-            
+
             // Get region
             val regionProcess = ProcessBuilder("aws", "configure", "get", "region")
                 .redirectOutput(ProcessBuilder.Redirect.PIPE)
@@ -221,13 +224,13 @@ tasks.register("checkAwsConfig") {
 tasks.register("listLambdaFunctions") {
     group = "aws"
     description = "List available Chinook Lambda functions"
-    
+
     doLast {
         if (!isAwsCliConfigured()) {
             println("❌ AWS CLI is not configured. Run 'aws configure' first.")
             return@doLast
         }
-        
+
         val functions = findLambdaFunctions()
         if (functions.isEmpty()) {
             println("No Chinook Lambda functions found")
@@ -248,7 +251,7 @@ tasks.register("listLambdaFunctions") {
 tasks.register("getLambdaUrl") {
     group = "aws"
     description = "Get the Lambda Function URL for the client"
-    
+
     doLast {
         try {
             val hostname = resolveLambdaHostname()
@@ -263,40 +266,40 @@ tasks.register("getLambdaUrl") {
 tasks.register("deployLambda") {
     group = "aws"
     description = "Deploy the Chinook Lambda function"
-    
+
     doLast {
         if (!isAwsCliConfigured()) {
             throw GradleException("AWS CLI is not configured. Run 'aws configure' first.")
         }
-        
+
         println("Deploying Chinook Lambda function...")
         val deployScript = file("../chinook-lambda/deploy.sh")
         if (!deployScript.exists()) {
             throw GradleException("Deploy script not found: ${deployScript.absolutePath}")
         }
-        
+
         val processBuilder = ProcessBuilder("bash", deployScript.absolutePath)
             .directory(file("../chinook-lambda"))
             .redirectOutput(ProcessBuilder.Redirect.PIPE)
             .redirectError(ProcessBuilder.Redirect.PIPE)
-        
+
         // Pass JAVA_HOME from Gradle's environment
         val javaHome = System.getProperty("java.home")
         if (javaHome != null) {
             processBuilder.environment()["JAVA_HOME"] = javaHome
         }
-        
+
         val process = processBuilder.start()
-        
+
         // Capture output and error streams
         val output = process.inputStream.bufferedReader().use { it.readText() }
         val error = process.errorStream.bufferedReader().use { it.readText() }
-        
+
         // Print output as it would appear normally
         if (output.isNotEmpty()) {
             println(output)
         }
-        
+
         val exitCode = process.waitFor()
         if (exitCode != 0) {
             if (error.isNotEmpty()) {
@@ -305,7 +308,7 @@ tasks.register("deployLambda") {
             }
             throw GradleException("Lambda deployment failed with exit code: $exitCode")
         }
-        
+
         println("Lambda deployment completed successfully")
     }
 }
@@ -313,10 +316,10 @@ tasks.register("deployLambda") {
 tasks.register("deployAndRun") {
     group = "aws"
     description = "Deploy Lambda function and run the client"
-    
+
     dependsOn("deployLambda")
     finalizedBy("run")
-    
+
     doLast {
         println("Lambda deployed, starting client...")
     }
@@ -325,9 +328,9 @@ tasks.register("deployAndRun") {
 tasks.register("runWithLambda") {
     group = "aws"
     description = "Run the client with automatic Lambda URL detection"
-    
+
     dependsOn("run")
-    
+
     doFirst {
         // This will trigger hostname resolution before running
         val hostname = resolveLambdaHostname()
