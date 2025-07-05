@@ -66,7 +66,8 @@ public final class ConnectionSupplier implements Supplier<LocalEntityConnection>
 		LOG.info("Database: {}", database.url());
 		LOG.info("Connection pool: {}", connectionPool.user());
 		LOG.info("Domain: {}", domain.type().name());
-		TaskScheduler.builder(this::printStatistics)
+		TaskScheduler.builder()
+						.task(this::printStatistics)
 						.interval(STATISTICS_PRINT_RATE, TimeUnit.SECONDS)
 						.start();
 	}

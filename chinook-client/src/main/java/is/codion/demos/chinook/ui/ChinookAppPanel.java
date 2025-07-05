@@ -19,7 +19,8 @@
 package is.codion.demos.chinook.ui;
 
 import is.codion.common.model.CancelException;
-import is.codion.common.model.UserPreferences;
+import is.codion.common.model.preferences.FilePreferencesFactory;
+import is.codion.common.model.preferences.UserPreferences;
 import is.codion.common.state.State;
 import is.codion.common.user.User;
 import is.codion.demos.chinook.domain.api.Chinook;
@@ -76,8 +77,6 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	private static final Locale LOCALE_IS = Locale.of(LANGUAGE_IS, "IS");
 	private static final Locale LOCALE_EN = Locale.of(LANGUAGE_EN, "EN");
 
-	private static final String SELECT_LANGUAGE = "select_language";
-
 	/* Non-static so this is not initialized before main(), which sets the locale */
 	private final ResourceBundle bundle = getBundle(ChinookAppPanel.class.getName());
 
@@ -95,25 +94,25 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	}
 
 	private static List<EntityPanel.Builder> createLookupPanelBuilders() {
-		EntityPanel.Builder genrePanelBuilder =
-						EntityPanel.builder(Genre.TYPE,
-										ChinookAppPanel::createGenrePanel);
+		EntityPanel.Builder genrePanelBuilder = EntityPanel.builder()
+						.entityType(Genre.TYPE)
+						.panel(ChinookAppPanel::createGenrePanel);
 
-		EntityPanel.Builder mediaTypePanelBuilder =
-						EntityPanel.builder(MediaType.TYPE,
-										ChinookAppPanel::createMediaTypePanel);
+		EntityPanel.Builder mediaTypePanelBuilder = EntityPanel.builder()
+						.entityType(MediaType.TYPE)
+						.panel(ChinookAppPanel::createMediaTypePanel);
 
-		EntityPanel.Builder artistPanelBuilder =
-						EntityPanel.builder(Artist.TYPE,
-										ChinookAppPanel::createArtistPanel);
+		EntityPanel.Builder artistPanelBuilder = EntityPanel.builder()
+						.entityType(Artist.TYPE)
+						.panel(ChinookAppPanel::createArtistPanel);
 
-		EntityPanel.Builder employeePanelBuilder =
-						EntityPanel.builder(Employee.TYPE,
-										ChinookAppPanel::createEmployeePanel);
+		EntityPanel.Builder employeePanelBuilder = EntityPanel.builder()
+						.entityType(Employee.TYPE)
+						.panel(ChinookAppPanel::createEmployeePanel);
 
-		EntityPanel.Builder preferencesPanelBuilder =
-						EntityPanel.builder(Preferences.TYPE,
-										ChinookAppPanel::createPreferencesPanel);
+		EntityPanel.Builder preferencesPanelBuilder = EntityPanel.builder()
+						.entityType(Preferences.TYPE)
+						.panel(ChinookAppPanel::createPreferencesPanel);
 
 		return List.of(artistPanelBuilder, genrePanelBuilder, mediaTypePanelBuilder, employeePanelBuilder, preferencesPanelBuilder);
 	}
@@ -126,7 +125,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 
 		EntityPanel genrePanel = new EntityPanel(genreModel,
 						new GenreEditPanel(genreModel.editModel()), config ->
-						config.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
+						config.detailLayout(entityPanel -> TabbedDetailLayout.builder()
+										.panel(entityPanel)
 										.initialDetailState(HIDDEN)
 										.build()));
 		genrePanel.detailPanels().add(new EntityPanel(trackModel));
@@ -158,7 +158,8 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 
 		EntityPanel employeePanel = new EntityPanel(employeeModel,
 						new EmployeeTablePanel(employeeModel.tableModel()), config -> config
-						.detailLayout(entityPanel -> TabbedDetailLayout.builder(entityPanel)
+						.detailLayout(entityPanel -> TabbedDetailLayout.builder()
+										.panel(entityPanel)
 										.initialDetailState(HIDDEN)
 										.build()));
 		EntityPanel customerPanel = new EntityPanel(customerModel,
@@ -194,7 +195,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 						.map(controls -> controls.copy()
 										.controlAt(2, Control.builder()
 														.command(this::selectLanguage)
-														.caption(bundle.getString(SELECT_LANGUAGE))
+														.caption(bundle.getString("language"))
 														.build())
 										.build());
 	}
@@ -213,7 +214,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 						.selected(currentLanguage.equals(LANGUAGE_IS))
 						.buttonGroup(buttonGroup)
 						.build(languagePanel::add);
-		showMessageDialog(this, languagePanel, bundle.getString("language"), JOptionPane.QUESTION_MESSAGE);
+		showMessageDialog(this, languagePanel, bundle.getString("language_title"), JOptionPane.QUESTION_MESSAGE);
 		String selectedLanguage = isButton.isSelected() ? LANGUAGE_IS : LANGUAGE_EN;
 		if (!currentLanguage.equals(selectedLanguage)) {
 			UserPreferences.set(LANGUAGE_PREFERENCES_KEY, selectedLanguage);
@@ -222,6 +223,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	}
 
 	public static void main(String[] args) throws CancelException {
+		System.setProperty("java.util.prefs.PreferencesFactory", FilePreferencesFactory.class.getName());
 		String language = UserPreferences.get(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
 		Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
 		FrameworkIcons.instance().add(Foundation.PLUS, Foundation.MINUS);

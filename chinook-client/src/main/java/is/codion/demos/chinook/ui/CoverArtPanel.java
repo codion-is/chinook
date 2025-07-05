@@ -21,10 +21,10 @@ package is.codion.demos.chinook.ui;
 import is.codion.common.state.State;
 import is.codion.common.value.Value;
 import is.codion.plugin.imagepanel.NavigableImagePanel;
-import is.codion.swing.common.ui.FileTransferHandler;
 import is.codion.swing.common.ui.Utilities;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.dialog.Dialogs;
+import is.codion.swing.common.ui.transfer.FileTransferHandler;
 import is.codion.swing.framework.ui.icon.FrameworkIcons;
 
 import org.kordamp.ikonli.foundation.Foundation;
@@ -82,14 +82,16 @@ final class CoverArtPanel extends JPanel {
 		this.imageBytes = imageBytes;
 		this.imageSelected = State.state(!imageBytes.isNull());
 		this.imagePanel = createImagePanel();
-		this.addButton = button(Control.builder()
-						.command(this::addCover)
-						.smallIcon(ICONS.get(Foundation.PLUS)))
+		this.addButton = button()
+						.control(Control.builder()
+										.command(this::addCover)
+										.smallIcon(ICONS.get(Foundation.PLUS)))
 						.transferFocusOnEnter(true)
 						.build();
-		this.removeButton = button(Control.builder()
-						.command(this::removeCover)
-						.smallIcon(ICONS.get(Foundation.MINUS)))
+		this.removeButton = button()
+						.control(Control.builder()
+										.command(this::removeCover)
+										.smallIcon(ICONS.get(Foundation.MINUS)))
 						.transferFocusOnEnter(true)
 						.enabled(imageSelected)
 						.build();
@@ -110,7 +112,8 @@ final class CoverArtPanel extends JPanel {
 						.preferredSize(EMBEDDED_SIZE)
 						.centerComponent(imagePanel)
 						.southComponent(borderLayoutPanel()
-										.eastComponent(panel(new GridLayout(1, 2, 0, 0))
+										.eastComponent(panel()
+														.layout(new GridLayout(1, 2, 0, 0))
 														.addAll(addButton, removeButton)
 														.build())
 										.build())
@@ -125,10 +128,11 @@ final class CoverArtPanel extends JPanel {
 	}
 
 	private void addCover() throws IOException {
-		File coverFile = Dialogs.fileSelectionDialog()
+		File coverFile = Dialogs.select()
+						.files()
 						.owner(this)
 						.title(BUNDLE.getString("select_image"))
-						.fileFilter(IMAGE_FILE_FILTER)
+						.filter(IMAGE_FILE_FILTER)
 						.selectFile();
 		imageBytes.set(Files.readAllBytes(coverFile.toPath()));
 	}
@@ -160,7 +164,8 @@ final class CoverArtPanel extends JPanel {
 		remove(centerPanel);
 		revalidate();
 		repaint();
-		Dialogs.componentDialog(centerPanel)
+		Dialogs.builder()
+						.component(centerPanel)
 						.owner(this)
 						.modal(false)
 						.title(BUNDLE.getString("cover"))

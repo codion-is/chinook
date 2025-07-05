@@ -26,6 +26,7 @@ import is.codion.demos.chinook.domain.api.Chinook.Genre;
 import is.codion.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.domain.entity.Entity;
+import is.codion.swing.common.model.component.list.FilterListModel;
 import is.codion.swing.common.ui.component.Components;
 import is.codion.swing.common.ui.component.list.FilterList;
 import is.codion.swing.common.ui.component.text.NumberField;
@@ -41,7 +42,6 @@ import java.util.ResourceBundle;
 import static is.codion.common.Text.nullOrEmpty;
 import static is.codion.framework.db.EntityConnection.Select.all;
 import static is.codion.framework.domain.entity.OrderBy.ascending;
-import static is.codion.swing.common.model.component.list.FilterListModel.filterListModel;
 import static is.codion.swing.common.ui.component.Components.*;
 import static is.codion.swing.common.ui.layout.Layouts.borderLayout;
 import static java.util.ResourceBundle.getBundle;
@@ -86,7 +86,8 @@ final class RandomPlaylistParametersPanel extends JPanel {
 	}
 
 	private JTextField createPlaylistNameField() {
-		return stringField(model.playlistName)
+		return stringField()
+						.link(model.playlistName)
 						.transferFocusOnEnter(true)
 						.selectAllOnFocusGained(true)
 						.maximumLength(120)
@@ -95,7 +96,8 @@ final class RandomPlaylistParametersPanel extends JPanel {
 	}
 
 	private NumberField<Integer> createNoOfTracksField() {
-		return integerField(model.noOfTracks)
+		return integerField()
+						.link(model.noOfTracks)
 						.valueRange(1, 5000)
 						.transferFocusOnEnter(true)
 						.selectAllOnFocusGained(true)
@@ -104,8 +106,12 @@ final class RandomPlaylistParametersPanel extends JPanel {
 	}
 
 	private FilterList<Entity> createGenreList(EntityConnectionProvider connectionProvider) {
-		return Components.list(filterListModel(allGenres(connectionProvider)))
-						.selectedItems(model.genres)
+		return Components.list()
+						.model(FilterListModel.builder()
+										.items(allGenres(connectionProvider))
+										.build())
+						.selectedItems()
+						.link(model.genres)
 						.visibleRowCount(5)
 						.build();
 	}

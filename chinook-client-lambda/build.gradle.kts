@@ -29,6 +29,7 @@ tasks.named<JavaExec>("run") {
         "-Dcodion.client.http.securePort=443",
         "-Dcodion.client.http.connectTimeout=30000",
         "-Dcodion.client.http.socketTimeout=30000",
+        "-Dcodion.client.http.disconnectOnClose=false",
         "-Dlogback.configurationFile=src/main/config/logback.xml",
         "-Dsun.awt.disablegrab=true"
     )

@@ -25,6 +25,7 @@ import is.codion.swing.common.ui.component.list.FilterList;
 import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
+import is.codion.swing.common.ui.dialog.Dialogs;
 import is.codion.swing.common.ui.key.KeyEvents;
 import is.codion.swing.framework.ui.icon.FrameworkIcons;
 
@@ -38,7 +39,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static is.codion.swing.common.ui.component.Components.*;
-import static is.codion.swing.common.ui.dialog.Dialogs.inputDialog;
 import static is.codion.swing.common.ui.layout.Layouts.borderLayout;
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.awt.event.KeyEvent.*;
@@ -89,7 +89,8 @@ final class AlbumTagPanel extends JPanel {
 
 	private JPanel createCenterPanel() {
 		return borderLayoutPanel()
-						.centerComponent(scrollPane(tagsValue.component())
+						.centerComponent(scrollPane()
+										.view(tagsValue.component())
 										.preferredWidth(120)
 										.build())
 						.southComponent(borderLayoutPanel()
@@ -100,26 +101,31 @@ final class AlbumTagPanel extends JPanel {
 	}
 
 	private JPanel createButtonPanel(Control leftControl, Control rightControl) {
-		return buttonPanel(Controls.builder()
-						.control(leftControl)
-						.control(rightControl))
+		return buttonPanel()
+						.controls(Controls.builder()
+										.control(leftControl)
+										.control(rightControl))
 						.transferFocusOnEnter(true)
 						.buttonGap(0)
 						.build();
 	}
 
 	private void setupKeyEvents() {
-		KeyEvents.builder(VK_INSERT)
+		KeyEvents.builder()
+						.keyCode(VK_INSERT)
 						.action(addTagControl)
 						.enable(tagsValue.component());
-		KeyEvents.builder(VK_DELETE)
+		KeyEvents.builder()
+						.keyCode(VK_DELETE)
 						.action(removeTagControl)
 						.enable(tagsValue.component());
-		KeyEvents.builder(VK_UP)
+		KeyEvents.builder()
+						.keyCode(VK_UP)
 						.modifiers(CTRL_DOWN_MASK)
 						.action(moveSelectionUpControl)
 						.enable(tagsValue.component());
-		KeyEvents.builder(VK_DOWN)
+		KeyEvents.builder()
+						.keyCode(VK_DOWN)
 						.modifiers(CTRL_DOWN_MASK)
 						.action(moveSelectionDownControl)
 						.enable(tagsValue.component());
@@ -127,8 +133,9 @@ final class AlbumTagPanel extends JPanel {
 
 	private void addTag() {
 		State tagNull = State.state(true);
-		tagItems.add(inputDialog(stringField()
-						.consumer(tag -> tagNull.set(tag == null)))
+		tagItems.add(Dialogs.input()
+						.component(stringField()
+										.consumer(tag -> tagNull.set(tag == null)))
 						.owner(this)
 						.title(FrameworkMessages.add())
 						.valid(tagNull.not())

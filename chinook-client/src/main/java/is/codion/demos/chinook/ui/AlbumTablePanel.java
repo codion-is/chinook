@@ -22,12 +22,12 @@ import is.codion.demos.chinook.domain.api.Chinook.Album;
 import is.codion.plugin.imagepanel.NavigableImagePanel;
 import is.codion.swing.common.model.component.list.FilterListModel;
 import is.codion.swing.common.ui.Utilities;
-import is.codion.swing.common.ui.Windows;
 import is.codion.swing.common.ui.component.Components;
 import is.codion.swing.common.ui.component.value.AbstractComponentValue;
 import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.dialog.Dialogs;
+import is.codion.swing.common.ui.window.Windows;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.ui.EntityTableCellRenderer;
@@ -83,7 +83,8 @@ public final class AlbumTablePanel extends EntityTablePanel {
 			dialog.toFront();
 		}
 		else {
-			Dialogs.componentDialog(coverPanel)
+			Dialogs.builder()
+							.component(coverPanel)
 							.owner(Utilities.parentWindow(this))
 							.title(title)
 							.modal(false)
@@ -114,12 +115,14 @@ public final class AlbumTablePanel extends EntityTablePanel {
 	private static final class TagComponentValue extends AbstractComponentValue<List<String>, AlbumTagPanel> {
 
 		private TagComponentValue(List<String> tags) {
-			super(new AlbumTagPanel(Components.list(FilterListModel.<String>filterListModel())
+			super(new AlbumTagPanel(Components.list()
+							.model(FilterListModel.builder()
+											// The initial tags to display
+											.items(tags)
+											.build())
 							// A list component value based on the items in
 							// the model, as opposed to the selected items
 							.items()
-							// The initial tags to display
-							.value(tags)
 							.buildValue()));
 		}
 

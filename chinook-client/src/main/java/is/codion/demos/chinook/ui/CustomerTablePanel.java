@@ -62,7 +62,8 @@ public final class CustomerTablePanel extends EntityTablePanel {
 	}
 
 	private void viewCustomerReport() {
-		Dialogs.progressWorkerDialog(this::fillCustomerReport)
+		Dialogs.progressWorker()
+						.task(this::fillCustomerReport)
 						.owner(this)
 						.title(BUNDLE.getString("customer_report"))
 						.onResult(this::viewReport)
@@ -81,7 +82,8 @@ public final class CustomerTablePanel extends EntityTablePanel {
 	}
 
 	private void viewReport(JasperPrint customerReport) {
-		Dialogs.componentDialog(new JRViewer(customerReport))
+		Dialogs.builder()
+            .component(new JRViewer(customerReport))
 						.owner(this)
 						.modal(false)
 						.title(BUNDLE.getString("customer_report"))

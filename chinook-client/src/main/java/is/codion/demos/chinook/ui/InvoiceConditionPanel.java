@@ -213,7 +213,8 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 				setLayout(new BorderLayout());
 				setBorder(createTitledBorder(createEmptyBorder(), definition.attributes().definition(Invoice.CUSTOMER_FK).caption()));
 				conditionModel.operands().in().value().link(conditionModel.operands().equal());
-				searchField = EntitySearchField.builder(conditionModel.inSearchModel())
+				searchField = EntitySearchField.builder()
+								.model(conditionModel.inSearchModel())
 								.multiSelection()
 								.columns(25)
 								.build();
@@ -247,15 +248,18 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 							.columns(4)
 							.horizontalAlignment(SwingConstants.CENTER)
 							.buildValue();
-			private final ComponentValue<Month, JSpinner> monthValue = Components.<Month>itemSpinner(new MonthSpinnerModel())
+			private final ComponentValue<Month, JSpinner> monthValue = Components.<Month>itemSpinner()
+							.model(new MonthSpinnerModel())
 							.listener(this::updateCondition)
 							.editable(false)
 							.columns(3)
 							.horizontalAlignment(SwingConstants.LEFT)
-							.keyEvent(KeyEvents.builder(KeyEvent.VK_UP)
+							.keyEvent(KeyEvents.builder()
+											.keyCode(KeyEvent.VK_UP)
 											.modifiers(InputEvent.CTRL_DOWN_MASK)
 											.action(command(this::incrementYear)))
-							.keyEvent(KeyEvents.builder(KeyEvent.VK_DOWN)
+							.keyEvent(KeyEvents.builder()
+											.keyCode(KeyEvent.VK_DOWN)
 											.modifiers(InputEvent.CTRL_DOWN_MASK)
 											.action(command(this::decrementYear)))
 							.buildValue();
