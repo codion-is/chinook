@@ -5,16 +5,12 @@ plugins {
 version = libs.versions.codion.get().replace("-SNAPSHOT", "")
 
 tasks.asciidoctor {
-    inputs.dir("../chinook-domain-api/src/main/java")
-    inputs.dir("../chinook-domain/src/main/java")
-    inputs.dir("../chinook-client/src/main/java")
-    inputs.dir("../chinook-load-test/src/main/java")
-    inputs.dir("../chinook-service/src/main/java")
-    inputs.dir("../chinook-service-load-test/src/main/java")
-    inputs.dir("../chinook-domain/src/main/resources")
-    inputs.dir("../chinook-domain/src/test/java")
-    inputs.dir("../chinook-client/src/test/java")
-    inputs.dir("../chinook-service/src/test/java")
+    dependsOn(rootProject.subprojects.map { it.tasks.build })
+    rootProject.subprojects.forEach { subproject ->
+        inputs.file(subproject.buildFile)
+        inputs.files(subproject.sourceSets.main.get().allSource)
+        inputs.files(subproject.sourceSets.test.get().allSource)
+    }
 
     baseDirFollowsSourceFile()
 
