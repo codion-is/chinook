@@ -80,8 +80,8 @@ public final class ChinookAuthenticator implements Authenticator {
 	 * Handles logins from clients of this type
 	 */
 	@Override
-	public Optional<String> type() {
-		return Optional.of("is.codion.demos.chinook.ui.ChinookAppPanel");
+	public Optional<String> clientType() {
+		return Optional.of("Chinook");
 	}
 
 	@Override

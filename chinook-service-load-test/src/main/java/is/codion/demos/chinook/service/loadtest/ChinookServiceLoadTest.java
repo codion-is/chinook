@@ -58,7 +58,9 @@ public final class ChinookServiceLoadTest {
 
 	public static void main(String[] args) {
 		LoadTest<HttpClient> loadTest =
-						LoadTest.builder(user -> newHttpClient(), HttpClient::close)
+						LoadTest.builder()
+										.createApplication(_ -> newHttpClient())
+										.closeApplication(HttpClient::close)
 										.scenarios(SCENARIOS)
 										.user(user("n/a"))
 										.build();

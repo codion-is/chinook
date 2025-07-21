@@ -31,7 +31,6 @@ import is.codion.demos.chinook.client.loadtest.scenarios.ViewGenre;
 import is.codion.demos.chinook.client.loadtest.scenarios.ViewInvoice;
 import is.codion.demos.chinook.domain.api.Chinook;
 import is.codion.demos.chinook.model.ChinookAppModel;
-import is.codion.demos.chinook.ui.ChinookAppPanel;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.tools.loadtest.LoadTest;
 import is.codion.tools.loadtest.LoadTest.Scenario;
@@ -67,7 +66,7 @@ public final class ChinookLoadTest {
 		public EntityConnectionProvider apply(User user) {
 			EntityConnectionProvider connectionProvider = EntityConnectionProvider.builder()
 							.domain(Chinook.DOMAIN)
-							.clientType(ChinookAppPanel.class.getName())
+							.clientType("Chinook")
 							.clientVersion(ChinookAppModel.VERSION)
 							.user(user)
 							.build();
@@ -79,7 +78,9 @@ public final class ChinookLoadTest {
 
 	public static void main(String[] args) {
 		LoadTest<EntityConnectionProvider> loadTest =
-						LoadTest.builder(new ConnectionProviderFactory(), EntityConnectionProvider::close)
+						LoadTest.builder()
+										.createApplication(new ConnectionProviderFactory())
+										.closeApplication(EntityConnectionProvider::close)
 										.scenarios(SCENARIOS)
 										.user(UNIT_TEST_USER)
 										.build();
