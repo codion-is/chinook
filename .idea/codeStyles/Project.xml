@@ -7,6 +7,7 @@
       </option>
       <option name="IMPORT_LAYOUT_TABLE">
         <value>
+          <package name="" withSubpackages="true" static="false" module="true" />
           <package name="is.codion" withSubpackages="true" static="false" />
           <emptyLine />
           <package name="" withSubpackages="true" static="false" />
@@ -21,6 +22,9 @@
       <option name="JD_ALIGN_EXCEPTION_COMMENTS" value="false" />
       <option name="JD_ADD_BLANK_AFTER_DESCRIPTION" value="false" />
     </JavaCodeStyleSettings>
+    <ScalaCodeStyleSettings>
+      <option name="MULTILINE_STRING_CLOSING_QUOTES_ON_NEW_LINE" value="true" />
+    </ScalaCodeStyleSettings>
     <codeStyleSettings language="JAVA">
       <option name="RIGHT_MARGIN" value="140" />
       <option name="BLANK_LINES_AROUND_METHOD" value="0" />
