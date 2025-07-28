@@ -2,6 +2,7 @@ package is.codion.demos.chinook.lambda;
 
 import is.codion.common.user.User;
 import is.codion.demos.chinook.domain.api.Chinook;
+import is.codion.demos.chinook.domain.api.Chinook.Artist;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.db.http.HttpEntityConnectionProvider;
@@ -41,7 +42,7 @@ public class HttpConnectionTest {
 			System.out.println("\nTest 2: Count artists");
 			int artistCount = 0;
 			try {
-				artistCount = connection.count(EntityConnection.Count.where(Condition.all(Chinook.Artist.TYPE)));
+				artistCount = connection.count(EntityConnection.Count.where(Condition.all(Artist.TYPE)));
 				System.out.println("Artist count: " + artistCount);
 			} catch (Exception e) {
 				System.out.println("Count failed (expected on empty DB): " + e.getMessage());
@@ -51,18 +52,18 @@ public class HttpConnectionTest {
 			System.out.println("\nTest 3: Insert and select an artist");
 			if (artistCount == 0) {
 				System.out.println("No artists found, inserting test artist...");
-				Entity newArtist = connection.entities().builder(Chinook.Artist.TYPE)
-								.with(Chinook.Artist.NAME, "Test Artist")
+				Entity newArtist = connection.entities().entity(Artist.TYPE)
+								.with(Artist.NAME, "Test Artist")
 								.build();
 				Entity inserted = connection.insertSelect(newArtist);
-				System.out.println("Inserted artist: " + inserted.get(Chinook.Artist.NAME) +
-								" with ID: " + inserted.get(Chinook.Artist.ID));
+				System.out.println("Inserted artist: " + inserted.get(Artist.NAME) +
+								" with ID: " + inserted.get(Artist.ID));
 			}
 			else {
 				Entity artist = connection.selectSingle(
-								Chinook.Artist.ID.equalTo(1L)
+								Artist.ID.equalTo(1L)
 				);
-				System.out.println("First artist: " + artist.get(Chinook.Artist.NAME));
+				System.out.println("First artist: " + artist.get(Artist.NAME));
 			}
 
 			System.out.println("\n✓ All tests passed!");

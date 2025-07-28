@@ -80,7 +80,7 @@ public interface Chinook {
 		record Dto(Long id, String name) {
 
 			public Entity entity(Entities entities) {
-				return entities.builder(TYPE)
+				return entities.entity(TYPE)
 								.with(ID, id)
 								.with(NAME, name)
 								.build();
@@ -112,7 +112,7 @@ public interface Chinook {
 		record Dto(Long id, String title, Artist.Dto artist) {
 
 			public Entity entity(Entities entities) {
-				return entities.builder(TYPE)
+				return entities.entity(TYPE)
 								.with(ID, id)
 								.with(TITLE, title)
 								.with(ARTIST_FK, artist.entity(entities))
@@ -198,7 +198,7 @@ public interface Chinook {
 		record Dto(Long id, String name) {
 
 			public Entity entity(Entities entities) {
-				return entities.builder(TYPE)
+				return entities.entity(TYPE)
 								.with(ID, id)
 								.with(NAME, name)
 								.build();
@@ -222,7 +222,7 @@ public interface Chinook {
 		record Dto(Long id, String name) {
 
 			public Entity entity(Entities entities) {
-				return entities.builder(TYPE)
+				return entities.entity(TYPE)
 								.with(ID, id)
 								.with(NAME, name)
 								.build();
@@ -284,7 +284,7 @@ public interface Chinook {
 							 BigDecimal unitPrice, Integer playCount) {
 
 			public Entity entity(Entities entities) {
-				return entities.builder(TYPE)
+				return entities.entity(TYPE)
 								.with(ID, id)
 								.with(NAME, name)
 								.with(ARTIST_NAME, artistName)
