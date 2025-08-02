@@ -1,6 +1,6 @@
 plugins {
     id("application")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.8"
 }
 
 val serverHost: String = "0.0.0.0"
@@ -62,14 +62,13 @@ dependencies {
     }
 }
 
-
-// Task to build Docker image
 tasks.register("dockerBuild") {
+    group = "docker"
     dependsOn("shadowJar")
     doLast {
-        exec {
+        providers.exec {
             workingDir = projectDir
             commandLine("docker", "build", "-t", "chinook-server:latest", "-f", "src/docker/Dockerfile", ".")
-        }
+        }.result.get()
     }
 }
