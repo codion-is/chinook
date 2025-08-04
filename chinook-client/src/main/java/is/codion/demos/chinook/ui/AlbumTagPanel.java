@@ -83,8 +83,12 @@ final class AlbumTagPanel extends JPanel {
 		setupKeyEvents();
 	}
 
-	ComponentValue<List<String>, FilterList<String>> tagsValue() {
-		return tagsValue;
+	List<String> get() {
+		return tagsValue.get();
+	}
+
+	void set(List<String> value) {
+		tagsValue.set(value);
 	}
 
 	private JPanel createCenterPanel() {
@@ -204,7 +208,7 @@ final class AlbumTagPanel extends JPanel {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			if (!movingTags.get()) {
+			if (!movingTags.is()) {
 				selectionEmpty.set(tagsValue.component().isSelectionEmpty());
 			}
 		}

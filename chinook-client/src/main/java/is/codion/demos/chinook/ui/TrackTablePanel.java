@@ -45,7 +45,6 @@ import static is.codion.common.Text.rightPad;
 import static is.codion.demos.chinook.ui.DurationComponentValue.minutes;
 import static is.codion.demos.chinook.ui.DurationComponentValue.seconds;
 import static is.codion.swing.common.ui.component.Components.bigDecimalField;
-import static is.codion.swing.common.ui.component.table.FilterTableCellEditor.filterTableCellEditor;
 import static is.codion.swing.common.ui.key.KeyEvents.keyStroke;
 import static is.codion.swing.framework.ui.component.EntityComponents.entityComponents;
 import static java.awt.event.KeyEvent.VK_INSERT;
@@ -118,7 +117,9 @@ public final class TrackTablePanel extends EntityTablePanel {
 	}
 
 	private static FilterTableCellEditor<Integer> durationEditor() {
-		return filterTableCellEditor(() -> new DurationComponentValue(true));
+		return FilterTableCellEditor.builder()
+						.component(() -> new DurationComponentValue(true))
+						.build();
 	}
 
 	private static FilterTableCellRenderer<Integer> ratingRenderer(SwingEntityTableModel tableModel) {
@@ -129,7 +130,9 @@ public final class TrackTablePanel extends EntityTablePanel {
 	}
 
 	private static FilterTableCellEditor<Integer> ratingEditor(EntityDefinition entityDefinition) {
-		return filterTableCellEditor(() -> ratingSpinner(entityDefinition).buildValue());
+		return FilterTableCellEditor.builder()
+						.component(() -> ratingSpinner(entityDefinition).buildValue())
+						.build();
 	}
 
 	private static NumberSpinnerBuilder<Integer> ratingSpinner(EntityDefinition entityDefinition) {
@@ -140,11 +143,8 @@ public final class TrackTablePanel extends EntityTablePanel {
 					implements EditComponentFactory<Integer, JSpinner> {
 
 		@Override
-		public ComponentValue<Integer, JSpinner> component(SwingEntityEditModel editModel,
-																											 Integer value) {
-			return ratingSpinner(editModel.entityDefinition())
-							.value(value)
-							.buildValue();
+		public ComponentValue<Integer, JSpinner> component(SwingEntityEditModel editModel) {
+			return ratingSpinner(editModel.entityDefinition()).buildValue();
 		}
 	}
 
@@ -152,16 +152,13 @@ public final class TrackTablePanel extends EntityTablePanel {
 					implements EditComponentFactory<Integer, DurationPanel> {
 
 		@Override
-		public Optional<String> caption(AttributeDefinition<Integer> attribute) {
+		public Optional<String> caption(AttributeDefinition<Integer> attributeDefinition) {
 			return Optional.empty();
 		}
 
 		@Override
-		public ComponentValue<Integer, DurationPanel> component(SwingEntityEditModel editModel, Integer value) {
-			DurationComponentValue durationValue = new DurationComponentValue(false);
-			durationValue.set(value);
-
-			return durationValue;
+		public ComponentValue<Integer, DurationPanel> component(SwingEntityEditModel editModel) {
+			return new DurationComponentValue(false);
 		}
 	}
 }

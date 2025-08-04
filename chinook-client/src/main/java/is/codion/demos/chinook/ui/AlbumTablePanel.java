@@ -88,7 +88,7 @@ public final class AlbumTablePanel extends EntityTablePanel {
 							.owner(Utilities.parentWindow(this))
 							.title(title)
 							.modal(false)
-							.onClosed(e -> coverPanel.setImage(null))
+							.onClosed(_ -> coverPanel.setImage(null))
 							.show();
 		}
 	}
@@ -106,19 +106,17 @@ public final class AlbumTablePanel extends EntityTablePanel {
 					implements EditComponentFactory<List<String>, AlbumTagPanel> {
 
 		@Override
-		public ComponentValue<List<String>, AlbumTagPanel> component(SwingEntityEditModel editModel,
-																																 List<String> value) {
-			return new TagComponentValue(value);
+		public ComponentValue<List<String>, AlbumTagPanel> component(SwingEntityEditModel editModel) {
+			return new TagComponentValue();
 		}
 	}
 
 	private static final class TagComponentValue extends AbstractComponentValue<List<String>, AlbumTagPanel> {
 
-		private TagComponentValue(List<String> tags) {
+		private TagComponentValue() {
 			super(new AlbumTagPanel(Components.list()
 							.model(FilterListModel.builder()
-											// The initial tags to display
-											.items(tags)
+											.<String>items()
 											.build())
 							// A list component value based on the items in
 							// the model, as opposed to the selected items
@@ -128,12 +126,12 @@ public final class AlbumTablePanel extends EntityTablePanel {
 
 		@Override
 		protected List<String> getComponentValue() {
-			return component().tagsValue().get();
+			return component().get();
 		}
 
 		@Override
 		protected void setComponentValue(List<String> value) {
-			component().tagsValue().set(value);
+			component().set(value);
 		}
 	}
 }
