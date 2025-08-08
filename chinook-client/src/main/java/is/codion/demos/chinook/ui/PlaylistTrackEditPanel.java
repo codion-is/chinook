@@ -47,9 +47,8 @@ final class PlaylistTrackEditPanel extends EntityEditPanel {
 
 		setLayout(borderLayout());
 		add(borderLayoutPanel()
-						.westComponent(createLabel(PlaylistTrack.TRACK_FK).build())
-						.centerComponent(component(PlaylistTrack.TRACK_FK).get())
-						.border(new EmptyBorder(Layouts.GAP.get(), Layouts.GAP.get(), 0, Layouts.GAP.get()))
-						.build(), BorderLayout.CENTER);
+						.west(component(PlaylistTrack.TRACK_FK).label())
+						.center(component(PlaylistTrack.TRACK_FK).get())
+						.border(new EmptyBorder(Layouts.GAP.get(), Layouts.GAP.get(), 0, Layouts.GAP.get())), BorderLayout.CENTER);
 	}
 }
