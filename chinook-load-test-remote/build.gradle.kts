@@ -41,6 +41,12 @@ jlink {
         "is.codion.framework.db.rmi,is.codion.plugin.logback.proxy"
     )
 
+    // Due to a transitive io.modelcontextprotocol.sdk:mcp dependency
+    mergedModule {
+        excludeProvides(mapOf("service" to "io.micrometer.context.ContextAccessor"))
+        excludeProvides(mapOf("service" to "reactor.blockhound.integration.BlockHoundIntegration"))
+    }
+
     jpackage {
         if (OperatingSystem.current().isLinux) {
             icon = "../chinook.png"
