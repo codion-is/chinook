@@ -75,13 +75,16 @@ public final class AlbumEditPanel extends EntityEditPanel {
 
 	private AlbumTagPanel createAlbumTagPanel() {
 		// We create JList based value for the album tags.
-		ComponentValue<List<String>, FilterList<String>> tagsValue =
+		ComponentValue<FilterList<String>, List<String>> tagsValue =
 						createList(FilterListModel.builder()
 										.<String>items()
 										.build())
 										// The value should be based on the items in
 										// the list as opposed to the selected items
 										.items(Album.TAGS)
+										// Use null instead of an empty list, in
+										// order to match the null column value.
+										.nullable(true)
 										.buildValue();
 		// We then base the custom AlbumTagPanel component
 		// on the above component value

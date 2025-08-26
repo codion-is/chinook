@@ -47,34 +47,34 @@ final class AlbumTagPanel extends JPanel {
 
 	private static final FrameworkIcons ICONS = FrameworkIcons.instance();
 
-	private final ComponentValue<List<String>, FilterList<String>> tagsValue;
+	private final ComponentValue<FilterList<String>, List<String>> tagsValue;
 	private final FilterModel.Items<String> tagItems;
 	private final State selectionEmpty = State.state(true);
 	private final State movingTags = State.state(false);
 	private final Control addTagControl = Control.builder()
 					.command(this::addTag)
-					.smallIcon(ICONS.get(Foundation.PLUS))
+					.icon(ICONS.get(Foundation.PLUS))
 					.build();
 	private final Control removeTagControl = Control.builder()
 					.command(this::removeTag)
-					.smallIcon(ICONS.get(Foundation.MINUS))
+					.icon(ICONS.get(Foundation.MINUS))
 					.enabled(selectionEmpty.not())
 					.build();
 	private final Control moveSelectionUpControl = Control.builder()
 					.command(this::moveSelectedTagsUp)
-					.smallIcon(ICONS.up())
+					.icon(ICONS.up())
 					.enabled(selectionEmpty.not())
 					.build();
 	private final Control moveSelectionDownControl = Control.builder()
 					.command(this::moveSelectedTagsDown)
-					.smallIcon(ICONS.down())
+					.icon(ICONS.down())
 					.enabled(selectionEmpty.not())
 					.build();
 
 	/**
 	 * @param tagsValue the list value providing the list component
 	 */
-	AlbumTagPanel(ComponentValue<List<String>, FilterList<String>> tagsValue) {
+	AlbumTagPanel(ComponentValue<FilterList<String>, List<String>> tagsValue) {
 		super(borderLayout());
 		this.tagsValue = tagsValue;
 		this.tagsValue.component().addListSelectionListener(new UpdateSelectionEmptyState());

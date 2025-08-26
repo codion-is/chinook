@@ -54,7 +54,7 @@ public final class PlaylistTablePanel extends EntityTablePanel {
 						.control(Control.builder()
 										.command(this::randomPlaylist)
 										.caption(BUNDLE.getString("random_playlist"))
-										.smallIcon(FrameworkIcons.instance().add()))
+										.icon(FrameworkIcons.instance().add()))
 						// and a separator
 						.separator()
 						// and the remaining default controls
@@ -81,7 +81,7 @@ public final class PlaylistTablePanel extends EntityTablePanel {
 	}
 
 	private static final class RandomPlaylistParametersValue
-					extends AbstractComponentValue<RandomPlaylistParameters, RandomPlaylistParametersPanel> {
+					extends AbstractComponentValue<RandomPlaylistParametersPanel, RandomPlaylistParameters> {
 
 		private RandomPlaylistParametersValue(EntityConnectionProvider connectionProvider) {
 			super(new RandomPlaylistParametersPanel(connectionProvider));
