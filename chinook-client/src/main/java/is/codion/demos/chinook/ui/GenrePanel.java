@@ -14,28 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (c) 2004 - 2022, Björn Darri Sigurðsson.
+ * Copyright (c) 2025, Björn Darri Sigurðsson.
  */
 package is.codion.demos.chinook.ui;
 
 import is.codion.demos.chinook.domain.api.Chinook.Track;
-import is.codion.demos.chinook.model.AlbumModel;
-import is.codion.demos.chinook.model.TrackEditModel;
-import is.codion.demos.chinook.model.TrackTableModel;
-import is.codion.swing.framework.model.SwingEntityModel;
+import is.codion.demos.chinook.model.GenreModel;
 import is.codion.swing.framework.ui.EntityPanel;
+import is.codion.swing.framework.ui.TabbedDetailLayout;
 
-public final class AlbumPanel extends EntityPanel {
+import static is.codion.swing.framework.ui.EntityPanel.PanelState.HIDDEN;
 
-	public AlbumPanel(AlbumModel albumModel) {
-		super(albumModel,
-						new AlbumEditPanel(albumModel.editModel()),
-						new AlbumTablePanel(albumModel.tableModel()));
-		SwingEntityModel trackModel = albumModel.detailModels().get(Track.TYPE);
-		EntityPanel trackPanel = new EntityPanel(trackModel,
-						new TrackEditPanel((TrackEditModel) trackModel.editModel(), trackModel.tableModel().selection()),
-						new TrackTablePanel((TrackTableModel) trackModel.tableModel()));
+public final class GenrePanel extends EntityPanel {
 
-		detailPanels().add(trackPanel);
+	public GenrePanel(GenreModel genreModel) {
+		super(genreModel, new GenreEditPanel(genreModel.editModel()), config ->
+						config.detailLayout(entityPanel -> TabbedDetailLayout.builder()
+										.panel(entityPanel)
+										.initialDetailState(HIDDEN)
+										.build()));
+		detailPanels().add(new EntityPanel(genreModel.detailModels().get(Track.TYPE)));
 	}
 }

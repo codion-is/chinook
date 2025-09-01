@@ -23,9 +23,13 @@ import is.codion.common.model.preferences.UserPreferences;
 import is.codion.common.state.State;
 import is.codion.common.user.User;
 import is.codion.demos.chinook.domain.api.Chinook;
+import is.codion.demos.chinook.model.AlbumModel;
 import is.codion.demos.chinook.model.ArtistTableModel;
 import is.codion.demos.chinook.model.ChinookAppModel;
-import is.codion.demos.chinook.model.TrackTableModel;
+import is.codion.demos.chinook.model.CustomerModel;
+import is.codion.demos.chinook.model.EmployeeModel;
+import is.codion.demos.chinook.model.GenreModel;
+import is.codion.demos.chinook.model.PlaylistModel;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.plugin.flatlaf.intellij.themes.materialtheme.MaterialTheme;
 import is.codion.plugin.swing.mcp.SwingMcpPlugin;
@@ -43,7 +47,6 @@ import is.codion.swing.framework.ui.EntityPanel;
 import is.codion.swing.framework.ui.EntityPanel.WindowType;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
-import is.codion.swing.framework.ui.TabbedDetailLayout;
 import is.codion.swing.framework.ui.icon.FrameworkIcons;
 
 import org.kordamp.ikonli.foundation.Foundation;
@@ -54,7 +57,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import java.awt.Dimension;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -64,7 +66,6 @@ import static is.codion.demos.chinook.domain.api.Chinook.*;
 import static is.codion.swing.common.ui.component.Components.gridLayoutPanel;
 import static is.codion.swing.common.ui.component.Components.radioButton;
 import static is.codion.swing.common.ui.key.KeyEvents.keyStroke;
-import static is.codion.swing.framework.ui.EntityPanel.PanelState.HIDDEN;
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.util.ResourceBundle.getBundle;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -88,9 +89,9 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 
 	private static List<EntityPanel> createPanels(ChinookAppModel applicationModel) {
 		return List.of(
-						new CustomerPanel(applicationModel.entityModels().get(Customer.TYPE)),
-						new AlbumPanel(applicationModel.entityModels().get(Album.TYPE)),
-						new PlaylistPanel(applicationModel.entityModels().get(Playlist.TYPE)));
+						new CustomerPanel((CustomerModel) applicationModel.entityModels().get(Customer.TYPE)),
+						new AlbumPanel((AlbumModel) applicationModel.entityModels().get(Album.TYPE)),
+						new PlaylistPanel((PlaylistModel) applicationModel.entityModels().get(Playlist.TYPE)));
 	}
 
 	private static List<EntityPanel.Builder> createLookupPanelBuilders() {
@@ -118,20 +119,10 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	}
 
 	private static EntityPanel createGenrePanel(EntityConnectionProvider connectionProvider) {
-		SwingEntityModel genreModel = new SwingEntityModel(Genre.TYPE, connectionProvider);
-		SwingEntityModel trackModel = new SwingEntityModel(new TrackTableModel(connectionProvider));
-		genreModel.detailModels().add(trackModel);
+		GenreModel genreModel = new GenreModel(connectionProvider);
 		genreModel.tableModel().items().refresh();
 
-		EntityPanel genrePanel = new EntityPanel(genreModel,
-						new GenreEditPanel(genreModel.editModel()), config ->
-						config.detailLayout(entityPanel -> TabbedDetailLayout.builder()
-										.panel(entityPanel)
-										.initialDetailState(HIDDEN)
-										.build()));
-		genrePanel.detailPanels().add(new EntityPanel(trackModel));
-
-		return genrePanel;
+		return new GenrePanel(genreModel);
 	}
 
 	private static EntityPanel createMediaTypePanel(EntityConnectionProvider connectionProvider) {
@@ -151,23 +142,10 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	}
 
 	private static EntityPanel createEmployeePanel(EntityConnectionProvider connectionProvider) {
-		SwingEntityModel employeeModel = new SwingEntityModel(Employee.TYPE, connectionProvider);
-		SwingEntityModel customerModel = new SwingEntityModel(Customer.TYPE, connectionProvider);
-		employeeModel.detailModels().add(customerModel);
+		EmployeeModel employeeModel = new EmployeeModel(connectionProvider);
 		employeeModel.tableModel().items().refresh();
 
-		EntityPanel employeePanel = new EntityPanel(employeeModel,
-						new EmployeeTablePanel(employeeModel.tableModel()), config -> config
-						.detailLayout(entityPanel -> TabbedDetailLayout.builder()
-										.panel(entityPanel)
-										.initialDetailState(HIDDEN)
-										.build()));
-		EntityPanel customerPanel = new EntityPanel(customerModel,
-						new CustomerTablePanel(customerModel.tableModel()));
-		employeePanel.detailPanels().add(customerPanel);
-		employeePanel.setPreferredSize(new Dimension(1000, 500));
-
-		return employeePanel;
+		return new EmployeePanel(employeeModel);
 	}
 
 	private static EntityPanel createPreferencesPanel(EntityConnectionProvider connectionProvider) {
@@ -228,7 +206,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		FrameworkIcons.instance().add(Foundation.PLUS, Foundation.MINUS);
 		Completion.COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
 		EntityApplicationPanel.CACHE_ENTITY_PANELS.set(true);
-		EntityApplicationPanel.TRACING.set(true);
+		EntityApplicationPanel.SQL_TRACING.set(true);
 		EntityPanel.Config.TOOLBAR_CONTROLS.set(true);
 		EntityPanel.Config.WINDOW_TYPE.set(WindowType.FRAME);
 		EntityEditPanel.Config.MODIFIED_WARNING.set(true);
