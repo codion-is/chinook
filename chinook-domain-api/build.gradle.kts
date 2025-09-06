@@ -6,6 +6,7 @@ plugins {
 
 java {
     toolchain {
+        // Since aws-lambda only supports 21
         languageVersion.set(JavaLanguageVersion.of(21))
     }
 }

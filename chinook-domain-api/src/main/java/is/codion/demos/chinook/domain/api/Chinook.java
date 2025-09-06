@@ -389,8 +389,8 @@ public interface Chinook {
 	}
 	// end::invoiceLineTotal[]
 
-	// tag::customerStringFactory[]
-	final class CustomerStringFactory
+	// tag::customerFormatter[]
+	final class CustomerFormatter
 					implements Function<Entity, String>, Serializable {
 
 		@Serial
@@ -415,7 +415,7 @@ public interface Chinook {
 			};
 		}
 	}
-	// end::customerStringFactory[]
+	// end::customerFormatter[]
 
 	// tag::coverFormatter[]
 	final class CoverFormatter extends Format {

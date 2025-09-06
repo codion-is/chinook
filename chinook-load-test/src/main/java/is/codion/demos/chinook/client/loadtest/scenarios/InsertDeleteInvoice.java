@@ -57,7 +57,7 @@ public final class InsertDeleteInvoice implements Performer<EntityConnectionProv
 						.build());
 
 		Set<Long> invoiceTrackIds = IntStream.range(0, 10)
-						.mapToObj(i -> randomTrackId())
+						.mapToObj(_ -> randomTrackId())
 						.collect(toSet());
 		List<Entity> invoiceLines = new ArrayList<>();
 		for (Entity track : connection.select(Track.ID.in(invoiceTrackIds))) {
