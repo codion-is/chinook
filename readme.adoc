@@ -1,282 +1,243 @@
 = Codion Chinook Demo
+:toc: left
+:toclevels: 3
+:imagesdir: documentation/src/docs/asciidoc/images
 
-A demo application based on the https://codion.is[Codion application framework].
+A comprehensive demonstration of the https://codion.is[Codion Application Framework], showcasing how a single codebase can seamlessly deploy as desktop, client-server, web service, and serverless applications.
 
-image::documentation/src/docs/asciidoc/images/customers.png[Chinook client]
+image::customers.png[Chinook Application, 800]
 
-== Documentation
+== Overview
 
-Build the tutorial by running this Gradle target:
+The Chinook demo is a full-featured enterprise application based on the https://github.com/lerocha/chinook-database[Chinook music store database]. It demonstrates the complete capabilities of the Codion framework through a real-world business application managing artists, albums, tracks, customers, and invoices.
+
+=== Key Achievements
+
+* **One Codebase, Multiple Deployments**: Desktop, client-server, web services, serverless
+* **Type-Safe Throughout**: Compile-time checking from database to UI
+* **Production-Ready**: Connection pooling, authentication, monitoring, load testing
+* **Modern Yet Stable**: Java 24 (21 for Lambda), modules, virtual threads, while supporting legacy deployments
+
+== Quick Start
+
+=== Run Locally (Desktop Mode)
+
+The simplest way to experience Chinook—no server required:
 
 [source,shell]
 ----
-gradlew documentation:asciidoctor
+./gradlew chinook-client-local:run
 ----
 
-...and browse the tutorial here:
+This launches the full desktop application with an embedded H2 database.
+
+=== Run as Client-Server
+
+Start the server:
+[source,shell]
+----
+./gradlew chinook-server:run
+----
+
+Then connect with a client:
+[source,shell]
+----
+# Connect via RMI
+./gradlew chinook-client-remote:run
+
+# Or connect via HTTP
+./gradlew chinook-client-http:run
+----
+
+== Architecture
+
+=== Domain-Driven Design
+
+The domain model defines entities with type-safe attributes and relationships:
+
+[source,java]
+----
+interface Album extends EntityDefinition {
+    EntityType TYPE = DOMAIN.entityType("chinook.album");
+    
+    Column<Long> ID = TYPE.longColumn("albumid");
+    Column<String> TITLE = TYPE.stringColumn("title");
+    Column<byte[]> COVER = TYPE.byteArrayColumn("cover");
+    ForeignKey ARTIST_FK = TYPE.foreignKey("artist_fk", ARTIST_ID, Artist.ID);
+    
+    // Derived attribute calculated from track ratings
+    Attribute<Double> RATING = TYPE.doubleAttribute("rating");
+}
+----
+
+=== Deployment Architecture
+
 [source]
 ----
-documentation/build/docs/asciidoc/chinook.html
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  Desktop Client │     │  Desktop Client │     │  Desktop Client │
+│  (Swing UI)     │     │  (Swing UI)     │     │  (Swing UI)     │
+└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  Local JDBC     │     │  Entity Server  │     │  AWS Lambda     │
+│  (Embedded H2)  │     │  (RMI/HTTP)     │     │  (Serverless)   │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+   ┌──────────┐            ┌──────────┐            ┌──────────┐
+   │    H2    │            │    H2    │            │    H2    │
+   │ In-Memory│            │PostgreSQL│            │   RDS    │
+   └──────────┘            └──────────┘            └──────────┘
 ----
 
-== Modules
+== Features Demonstrated
 
-Many of the following modules are configuration-only, that is, contain no source-code, just Gradle build files configuring the application for running and packaging.
+=== Domain Layer
 
-=== chinook-domain-api
+* **Entity Definitions**: Type-safe column definitions with validation
+* **Foreign Key Relationships**: Automatic referential integrity
+* **Derived Attributes**: Calculated fields with dependency tracking
+* **Custom Types**: Array columns for tags, byte arrays for images
+* **Database Functions**: Stored procedures and functions integration
+* **Migration System**: Version-controlled schema evolution
 
-The domain model API.
+=== UI Layer
 
-=== chinook-domain
+* **Master-Detail Views**: Synchronized selection and editing
+* **Advanced Components**: Custom editors, renderers, and input controls
+* **Keyboard Navigation**: Comprehensive shortcuts for power users
+* **Search and Filtering**: Powerful condition-based queries
+* **Internationalization**: Full i18n support
+* **Preferences**: User settings persistence
 
-The domain model implementation.
+=== Infrastructure
 
-==== Database Migration
+* **Connection Modes**: Local JDBC, RMI, HTTP, Lambda
+* **Authentication**: Pluggable authentication with user management
+* **Connection Pooling**: HikariCP integration
+* **Load Testing**: Comprehensive scenarios with real-world patterns
+* **Monitoring**: Server monitoring UI and metrics
+* **Native Packaging**: Platform-specific installers via jpackage
 
-The domain module includes a simple database migration system that demonstrates how Codion's `Domain.configure(Database)` method can be used for schema evolution. The migration system:
+== Module Structure
 
-* Tracks applied migrations in a `SCHEMA_MIGRATION` table
-* Executes migrations in version order
-* Records success/failure of each migration
-* Can be enabled/disabled via the `chinook.migration.enabled` property
+The modular architecture demonstrates clean separation of concerns:
 
-Migration scripts are located in `src/main/resources/db/migration/` and follow the naming pattern `V{version}__{description}.sql`.
+=== Core Modules
 
-Example migrations included:
+* **chinook-domain-api**: Domain model interfaces and contracts
+* **chinook-domain**: Domain implementation with business logic
+* **chinook-client**: Swing UI implementation
 
-* V1: Initial schema (baseline)
-* V2: Add play count tracking to tracks
-* V3: Add customer preferences table
+=== Deployment Configurations
 
-=== chinook-domain-generator
+* **chinook-client-local**: Desktop with embedded database
+* **chinook-client-remote**: RMI client configuration
+* **chinook-client-http**: HTTP client configuration
+* **chinook-client-lambda**: Serverless client configuration
+* **chinook-server**: Multi-protocol server (RMI + HTTP)
+* **chinook-service**: REST API with Javalin
+* **chinook-lambda**: AWS Lambda deployment
 
-Configuration for the Codion Domain Generator.
+=== Supporting Modules
 
-==== Run
+* **chinook-load-test**: Application load testing
+* **chinook-service-load-test**: REST API load testing
+* **chinook-server-monitor**: Server monitoring UI
+* **chinook-server-docker**: Containerized server deployment
+
+== Building and Packaging
+
+=== Generate Native Installers
+
+Create platform-specific installers with custom runtime:
 
 [source,shell]
 ----
-gradlew chinook-domain-generator:run
+# Windows: MSI installer
+# Linux: DEB package
+# macOS: DMG installer
+./gradlew chinook-client-local:jpackage
 ----
 
-=== chinook-client
-
-Swing client application.
-
-=== chinook-client-local
-
-Configuration only.
-Swing client configured with a local JDBC connection.
-
-==== Run
+=== Create Docker Image
 
 [source,shell]
 ----
-gradlew chinook-client-local:run
+./gradlew chinook-server-docker:buildDockerImage
 ----
 
-NOTE: The client runs with an in-memory H2 database, created on startup, so changes to data do not persist.
-
-==== Package
+=== Build Documentation
 
 [source,shell]
 ----
-gradlew chinook-client-local:jlink
-gradlew chinook-client-local:jpackage
+./gradlew documentation:asciidoctor
+# View at: documentation/build/docs/asciidoc/chinook.html
 ----
 
-=== chinook-client-http
+== Testing
 
-Configuration only.
-Swing client configured with a HTTP connection.
+=== Load Test Scenarios
 
-==== Run
+The load tests simulate realistic usage patterns:
 
-NOTE: The server must be running
+* User authentication cycles
+* Concurrent data modifications
+* Report generation
+* Complex searches
+* Bulk operations
 
+Run load tests:
 [source,shell]
 ----
-gradlew chinook-client-http:run
+# Test RMI server
+./gradlew chinook-load-test-remote:run
+
+# Test HTTP server
+./gradlew chinook-load-test-http:run
+
+# Test REST service
+./gradlew chinook-service-load-test:run
 ----
 
-==== Package
+== Configuration
 
-[source,shell]
+Key configuration properties in `gradle.properties`:
+
+[source,properties]
 ----
-gradlew chinook-client-http:jlink
-gradlew chinook-client-http:jpackage
-----
-
-=== chinook-client-remote
-
-Configuration only.
-Swing client configured with a RMI connection.
-
-==== Run
-
-NOTE: The server must be running
-
-[source,shell]
-----
-gradlew chinook-client-remote:run
-----
-
-==== Package
-
-[source,shell]
-----
-gradlew chinook-client-remote:jlink
-gradlew chinook-client-remote:jpackage
-----
-
-=== chinook-load-test
-
-Load-test for the application.
-
-=== chinook-load-test-http
-
-Configuration only.
-Load-test with a HTTP connection.
-
-==== Run
-
-NOTE: The server must be running
-
-[source,shell]
-----
-gradlew chinook-load-test-http:run
-----
-
-==== Package
-
-[source,shell]
-----
-gradlew chinook-load-test-http:jlink
-gradlew chinook-load-test-http:jpackage
-----
-
-=== chinook-load-test-remote
-
-Configuration only.
-Load-test with a RMI connection.
-
-==== Run
-
-NOTE: The server must be running
-
-[source,shell]
-----
-gradlew chinook-load-test-remote:run
-----
-
-==== Package
-
-[source,shell]
-----
-gradlew chinook-load-test-remote:jlink
-gradlew chinook-load-test-remote:jpackage
-----
-
-=== chinook-server
-
-Configuration only.
-A Codion server configured for the Chinook application.
-
-NOTE: The server runs with an in-memory H2 database, created on startup, so changes to data do not persist.
-
-==== Configuration
-
-The server host name and ports are configured in *gradle.properties*.
-
-[source,shell]
-----
+# Server configuration
 serverHost=localhost
 serverPort=2223
 serverHttpPort=8088
 serverRegistryPort=1098
 serverAdminPort=4445
-----
 
-==== Run
-
-[source,shell]
-----
-gradlew chinook-server:run
-----
-
-==== Package
-
-[source,shell]
-----
-gradlew chinook-server:jlink
-gradlew chinook-server:jpackage
-----
-
-=== chinook-server-monitor
-
-Configuration only.
-A Codion server monitor configured for the server.
-
-==== Run
-
-[source,shell]
-----
-gradlew chinook-server-monitor:run
-----
-
-==== Package
-
-[source,shell]
-----
-gradlew chinook-server-monitor:jlink
-gradlew chinook-server-monitor:jpackage
-----
-
-=== chinook-service
-
-An example of using the Codion persistance layer in a webservice, based on https://javalin.io[Javalin].
-
-==== Configuration
-
-The service port is configured in *gradle.properties*.
-
-[source,shell]
-----
+# REST service configuration
 servicePort=8089
+
+# Database configuration (via system properties)
+codion.db.url=jdbc:h2:mem:chinook
+codion.db.initScripts=classpath:create_schema.sql
 ----
 
-==== Run
+== Requirements
 
-[source,shell]
-----
-gradlew chinook-service:run
-----
+* Java 24 or higher (Lambda uses 21)
+* Gradle 8.5 or higher
+* AWS CLI (for Lambda deployment)
+* Docker (for container deployment)
 
-==== Package
+== License
 
-[source,shell]
-----
-gradlew chinook-service:jlink
-gradlew chinook-service:jpackage
-----
+This demo is licensed under the GNU General Public License v3.0. See the COPYING file for details.
 
-=== chinook-service-load-test
+== Learn More
 
-A load-test for the service.
+* https://codion.is/doc[Codion Framework Documentation]
+* https://github.com/codion-is/codion[Codion Framework Source]
+* link:documentation/build/docs/asciidoc/chinook.html[Chinook Tutorial] (after building)
 
-==== Run
-
-NOTE: The service must be running
-
-[source,shell]
-----
-gradlew chinook-service-load-test:run
-----
-
-==== Package
-
-[source,shell]
-----
-gradlew chinook-service-load-test:jlink
-gradlew chinook-service-load-test:jpackage
-----
+---
