@@ -11,13 +11,6 @@ image::customers.png[Chinook Application, 800]
 
 The Chinook demo is a full-featured enterprise application based on the https://github.com/lerocha/chinook-database[Chinook music store database]. It demonstrates the complete capabilities of the Codion framework through a real-world business application managing artists, albums, tracks, customers, and invoices.
 
-=== Key Achievements
-
-* **One Codebase, Multiple Deployments**: Desktop, client-server, web services, serverless
-* **Type-Safe Throughout**: Compile-time checking from database to UI
-* **Production-Ready**: Connection pooling, authentication, monitoring, load testing
-* **Modern Yet Stable**: Java 24 (21 for Lambda), modules, virtual threads, while supporting legacy deployments
-
 == Quick Start
 
 === Run Locally (Desktop Mode)
@@ -29,7 +22,7 @@ The simplest way to experience Chinook—no server required:
 ./gradlew chinook-client-local:run
 ----
 
-This launches the full desktop application with an embedded H2 database.
+This launches the full desktop application with an embedded in-memory H2 database.
 
 === Run as Client-Server
 
