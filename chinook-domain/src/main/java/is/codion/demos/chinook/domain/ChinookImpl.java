@@ -166,7 +166,7 @@ public final class ChinookImpl extends DomainModel {
 														.column(),
 										Employee.HIREDATE.define()
 														.column()
-														.localeDateTimePattern(LocaleDateTimePattern.builder()
+														.dateTimePattern(LocaleDateTimePattern.builder()
 																		.delimiterDot()
 																		.yearFourDigits()
 																		.build()),
@@ -370,12 +370,12 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.nullable(false)
 														.defaultValue(5)
-														.valueRange(1, 10),
+														.range(1, 10),
 										Track.UNITPRICE.define()
 														.column()
 														.nullable(false)
-														.minimumValue(0)
-														.maximumFractionDigits(2),
+														.minimum(0)
+														.fractionDigits(2),
 										Track.PLAY_COUNT.define()
 														.column()
 														.nullable(false)
@@ -423,7 +423,7 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.nullable(false)
 														.defaultValue(Invoice.DATE_DEFAULT_VALUE)
-														.localeDateTimePattern(LocaleDateTimePattern.builder()
+														.dateTimePattern(LocaleDateTimePattern.builder()
 																		.delimiterDot()
 																		.yearFourDigits()
 																		.build()),
@@ -444,13 +444,13 @@ public final class ChinookImpl extends DomainModel {
 														.maximumLength(10),
 										Invoice.TOTAL.define()
 														.column()
-														.maximumFractionDigits(2),
+														.fractionDigits(2),
 										Invoice.CALCULATED_TOTAL.define()
 														.subquery("""
 																		SELECT SUM(unitprice * quantity)
 																		FROM chinook.invoiceline
 																		WHERE invoice_id = invoice.id""")
-														.maximumFractionDigits(2))
+														.fractionDigits(2))
 						.keyGenerator(identity())
 						.orderBy(OrderBy.builder()
 										.ascending(Invoice.CUSTOMER_ID)

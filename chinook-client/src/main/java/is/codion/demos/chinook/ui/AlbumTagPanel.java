@@ -53,21 +53,21 @@ final class AlbumTagPanel extends JPanel {
 	private final State movingTags = State.state(false);
 	private final Control addTagControl = Control.builder()
 					.command(this::addTag)
-					.icon(ICONS.get(Foundation.PLUS))
+					.smallIcon(ICONS.get(Foundation.PLUS).small())
 					.build();
 	private final Control removeTagControl = Control.builder()
 					.command(this::removeTag)
-					.icon(ICONS.get(Foundation.MINUS))
+					.smallIcon(ICONS.get(Foundation.MINUS).small())
 					.enabled(selectionEmpty.not())
 					.build();
 	private final Control moveSelectionUpControl = Control.builder()
 					.command(this::moveSelectedTagsUp)
-					.icon(ICONS.up())
+					.smallIcon(ICONS.up().small())
 					.enabled(selectionEmpty.not())
 					.build();
 	private final Control moveSelectionDownControl = Control.builder()
 					.command(this::moveSelectedTagsDown)
-					.icon(ICONS.down())
+					.smallIcon(ICONS.down().small())
 					.enabled(selectionEmpty.not())
 					.build();
 
@@ -166,7 +166,7 @@ final class AlbumTagPanel extends JPanel {
 		movingTags.set(true);
 		try {
 			int[] selected = tagsValue.component().getSelectedIndices();
-			if (selected.length > 0 && selected[selected.length - 1] != tagItems.included().count() - 1) {
+			if (selected.length > 0 && selected[selected.length - 1] != tagItems.included().size() - 1) {
 				moveTagsDown(selected);
 				moveSelectionDown(selected);
 			}
