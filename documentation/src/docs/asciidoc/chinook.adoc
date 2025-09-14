@@ -944,6 +944,22 @@ include::{dir-source-client}/is/codion/demos/chinook/ui/TrackEditComponentFactor
 include::{dir-source-client}/is/codion/demos/chinook/ui/TrackSelector.java[lines=19..-1]
 ----
 
+[#_analyticsmodel]
+== AnalyticsModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/demos/chinook/model/AnalyticsModel.java[lines=19..-1]
+----
+
+[#_analyticspanel]
+== AnalyticsPanel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/demos/chinook/ui/AnalyticsPanel.java[lines=19..-1]
+----
+
 == ChinookAppModel
 
 [source,java,options="nowrap"]

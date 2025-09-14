@@ -17,6 +17,7 @@ dependencies {
     implementation(libs.jasperreports.pdf) {
         exclude(group = "net.sf.jasperreports")
     }
+    implementation(libs.jfreechart)
 
     runtimeOnly(libs.codion.plugin.logback.proxy)
 

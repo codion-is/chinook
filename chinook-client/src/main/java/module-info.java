@@ -30,6 +30,7 @@ module is.codion.demos.chinook.client {
 	requires org.kordamp.ikonli.foundation;
 	requires net.sf.jasperreports.core;
 	requires net.sf.jasperreports.pdf;
+	requires org.jfree.jfreechart;
 	requires org.apache.commons.logging;
 	requires com.github.librepdf.openpdf;
 	requires is.codion.plugin.swing.mcp;
