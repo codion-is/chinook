@@ -24,6 +24,7 @@ import is.codion.common.db.operation.DatabaseFunction;
 import is.codion.common.db.operation.DatabaseProcedure;
 import is.codion.common.db.result.ResultPacker;
 import is.codion.common.format.LocaleDateTimePattern;
+import is.codion.demos.chinook.domain.api.Chinook;
 import is.codion.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
 import is.codion.demos.chinook.migration.MigrationManager;
@@ -36,6 +37,7 @@ import is.codion.framework.domain.entity.EntityDefinition;
 import is.codion.framework.domain.entity.EntityFormatter;
 import is.codion.framework.domain.entity.OrderBy;
 import is.codion.framework.domain.entity.attribute.Column;
+import is.codion.framework.domain.entity.attribute.ColumnTemplate;
 import is.codion.framework.domain.entity.query.EntitySelectQuery;
 
 import java.math.BigDecimal;
@@ -44,6 +46,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -55,6 +58,24 @@ import static is.codion.plugin.jasperreports.JasperReports.classPathReport;
 
 // tag::chinook[]
 public final class ChinookImpl extends DomainModel {
+
+	// tag::columnTemplates[]
+	private static final ColumnTemplate<String> REQUIRED_SEARCHABLE =
+					column -> column.define()
+									.column()
+									.nullable(false)
+									.searchable(true);
+	private static final ColumnTemplate<LocalDateTime> INSERT_TIME =
+					column -> column.define()
+									.column()
+									.readOnly(true)
+									.captionResource(Chinook.class.getName(), "insert_time");
+	private static final ColumnTemplate<String> INSERT_USER =
+					column -> column.define()
+									.column()
+									.readOnly(true)
+									.captionResource(Chinook.class.getName(), "insert_user");
+	// end::columnTemplates[]
 
 	public ChinookImpl() {
 		super(DOMAIN);
@@ -78,9 +99,7 @@ public final class ChinookImpl extends DomainModel {
 										Artist.ID.define()
 														.primaryKey(),
 										Artist.NAME.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
+														.column(REQUIRED_SEARCHABLE)
 														.maximumLength(120),
 										Artist.NUMBER_OF_ALBUMS.define()
 														.subquery("""
@@ -112,9 +131,7 @@ public final class ChinookImpl extends DomainModel {
 														.foreignKey()
 														.attributes(Artist.NAME),
 										Album.TITLE.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
+														.column(REQUIRED_SEARCHABLE)
 														.maximumLength(160),
 										Album.COVER.define()
 														.column()
@@ -131,7 +148,11 @@ public final class ChinookImpl extends DomainModel {
 														.subquery("""
 																		SELECT AVG(rating)
 																		FROM chinook.track
-																		WHERE track.album_id = album.id"""))
+																		WHERE track.album_id = album.id"""),
+										Album.INSERT_TIME.define()
+														.column(INSERT_TIME),
+										Album.INSERT_USER.define()
+														.column(INSERT_USER))
 						.keyGenerator(identity())
 						.orderBy(ascending(Album.ARTIST_ID, Album.TITLE))
 						.formatter(Album.TITLE)
@@ -145,14 +166,10 @@ public final class ChinookImpl extends DomainModel {
 										Employee.ID.define()
 														.primaryKey(),
 										Employee.LASTNAME.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
+														.column(REQUIRED_SEARCHABLE)
 														.maximumLength(20),
 										Employee.FIRSTNAME.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
+														.column(REQUIRED_SEARCHABLE)
 														.maximumLength(20),
 										Employee.TITLE.define()
 														.column()
@@ -192,10 +209,12 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.maximumLength(24),
 										Employee.EMAIL.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
-														.maximumLength(60))
+														.column(REQUIRED_SEARCHABLE)
+														.maximumLength(60),
+										Employee.INSERT_TIME.define()
+														.column(INSERT_TIME),
+										Employee.INSERT_USER.define()
+														.column(INSERT_USER))
 						.keyGenerator(identity())
 						.validator(new EmailValidator(Employee.EMAIL))
 						.orderBy(ascending(Employee.LASTNAME, Employee.FIRSTNAME))
@@ -214,14 +233,10 @@ public final class ChinookImpl extends DomainModel {
 										Customer.ID.define()
 														.primaryKey(),
 										Customer.LASTNAME.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
+														.column(REQUIRED_SEARCHABLE)
 														.maximumLength(20),
 										Customer.FIRSTNAME.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
+														.column(REQUIRED_SEARCHABLE)
 														.maximumLength(40),
 										Customer.COMPANY.define()
 														.column()
@@ -248,15 +263,17 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.maximumLength(24),
 										Customer.EMAIL.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
+														.column(REQUIRED_SEARCHABLE)
 														.maximumLength(60),
 										Customer.SUPPORTREP_ID.define()
 														.column(),
 										Customer.SUPPORTREP_FK.define()
 														.foreignKey()
-														.attributes(Employee.FIRSTNAME, Employee.LASTNAME))
+														.attributes(Employee.FIRSTNAME, Employee.LASTNAME),
+										Customer.INSERT_TIME.define()
+														.column(INSERT_TIME),
+										Customer.INSERT_USER.define()
+														.column(INSERT_USER))
 						.keyGenerator(identity())
 						.validator(new EmailValidator(Customer.EMAIL))
 						.orderBy(ascending(Customer.LASTNAME, Customer.FIRSTNAME))
@@ -292,9 +309,7 @@ public final class ChinookImpl extends DomainModel {
 										Genre.ID.define()
 														.primaryKey(),
 										Genre.NAME.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
+														.column(REQUIRED_SEARCHABLE)
 														.maximumLength(120))
 						.keyGenerator(identity())
 						.orderBy(ascending(Genre.NAME))
@@ -341,11 +356,9 @@ public final class ChinookImpl extends DomainModel {
 														// Read-only column from a joined table
 														.readOnly(true),
 										Track.NAME.define()
-														.column()
+														.column(REQUIRED_SEARCHABLE)
 														// Ambiguous column due to join
 														.expression("track.name")
-														.searchable(true)
-														.nullable(false)
 														.maximumLength(200),
 										Track.GENRE_ID.define()
 														.column(),
@@ -383,7 +396,15 @@ public final class ChinookImpl extends DomainModel {
 										Track.RANDOM.define()
 														.column()
 														.readOnly(true)
-														.selected(false))
+														.selected(false),
+										Track.INSERT_TIME.define()
+														.column(INSERT_TIME)
+														// Ambiguous column due to join
+														.expression("track.insert_time"),
+										Track.INSERT_USER.define()
+														.column(INSERT_USER)
+														// Ambiguous column due to join
+														.expression("track.insert_user"))
 						.keyGenerator(identity())
 						.selectQuery(EntitySelectQuery.builder()
 										// Override the default FROM clause, joining
@@ -446,13 +467,17 @@ public final class ChinookImpl extends DomainModel {
 														.column()
 														.fractionDigits(2)
 														.nullable(false)
-														.hasDatabaseDefault(true),
+														.withDefault(true),
 										Invoice.CALCULATED_TOTAL.define()
 														.subquery("""
 																		SELECT SUM(unitprice * quantity)
 																		FROM chinook.invoiceline
 																		WHERE invoice_id = invoice.id""")
-														.fractionDigits(2))
+														.fractionDigits(2),
+										Invoice.INSERT_TIME.define()
+														.column(INSERT_TIME),
+										Invoice.INSERT_USER.define()
+														.column(INSERT_USER))
 						.keyGenerator(identity())
 						.orderBy(OrderBy.builder()
 										.ascending(Invoice.CUSTOMER_ID)
@@ -490,7 +515,11 @@ public final class ChinookImpl extends DomainModel {
 														.defaultValue(1),
 										InvoiceLine.TOTAL.define()
 														.derived(InvoiceLine.QUANTITY, InvoiceLine.UNITPRICE)
-														.value(new InvoiceLineTotal()))
+														.value(new InvoiceLineTotal()),
+										InvoiceLine.INSERT_TIME.define()
+														.column(INSERT_TIME),
+										InvoiceLine.INSERT_USER.define()
+														.column(INSERT_USER))
 						.keyGenerator(identity())
 						.build();
 	}
@@ -502,9 +531,7 @@ public final class ChinookImpl extends DomainModel {
 										Playlist.ID.define()
 														.primaryKey(),
 										Playlist.NAME.define()
-														.column()
-														.searchable(true)
-														.nullable(false)
+														.column(REQUIRED_SEARCHABLE)
 														.maximumLength(120))
 						.keyGenerator(identity())
 						.orderBy(ascending(Playlist.NAME))
