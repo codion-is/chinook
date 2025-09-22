@@ -62,7 +62,7 @@ import static java.util.ResourceBundle.getBundle;
 // tag::chinook[]
 public interface Chinook {
 
-	DomainType DOMAIN = domainType("ChinookImpl");
+	DomainType DOMAIN = domainType(Chinook.class);
 	// end::chinook[]
 
 	// tag::artist[]

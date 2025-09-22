@@ -18,7 +18,7 @@
  */
 package is.codion.demos.chinook.model;
 
-import is.codion.demos.chinook.domain.api.Chinook;
+import is.codion.demos.chinook.domain.api.Chinook.Genre;
 import is.codion.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.db.EntityConnectionProvider;
@@ -115,7 +115,7 @@ public final class AnalyticsModel {
 
 		private TopArtists() {
 			this.genreComboBoxModel = EntityComboBoxModel.builder()
-							.entityType(Chinook.Genre.TYPE)
+							.entityType(Genre.TYPE)
 							.connectionProvider(connectionProvider)
 							.onSelection(this::refresh)
 							.nullCaption(BUNDLE.getString("all_genres"))
