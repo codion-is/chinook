@@ -716,7 +716,7 @@ include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=coverFormatter]
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=coverFormat]
 ----
 
 [#_track_domain_implementation]

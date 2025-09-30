@@ -436,8 +436,8 @@ public interface Chinook {
 	}
 	// end::customerFormatter[]
 
-	// tag::coverFormatter[]
-	final class CoverFormatter extends Format {
+	// tag::coverFormat[]
+	final class CoverFormat extends Format {
 
 		private final NumberFormat kbFormat = NumberFormat.getIntegerInstance();
 
@@ -455,7 +455,7 @@ public interface Chinook {
 			throw new UnsupportedOperationException();
 		}
 	}
-	// end::coverFormatter[]
+	// end::coverFormat[]
 
 	// tag::emailValidator[]
 	final class EmailValidator extends DefaultEntityValidator {
