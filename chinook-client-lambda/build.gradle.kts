@@ -23,7 +23,6 @@ tasks.named<JavaExec>("run") {
     jvmArgs = listOf(
         "-Xmx64m",
         "-Dcodion.client.connectionType=http",
-        "-Dcodion.client.http.json=false",
         "-Dcodion.client.http.hostname=${resolveLambdaHostname()}",
         "-Dcodion.client.http.secure=true",
         "-Dcodion.client.http.securePort=443",
