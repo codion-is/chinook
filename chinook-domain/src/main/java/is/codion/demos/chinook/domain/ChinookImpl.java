@@ -553,7 +553,9 @@ public final class ChinookImpl extends DomainModel {
 										PlaylistTrack.PLAYLIST_FK.define()
 														.foreignKey(),
 										PlaylistTrack.ARTIST.define()
-														.denormalized(PlaylistTrack.ALBUM, Album.ARTIST_FK),
+														.denormalized()
+														.from(PlaylistTrack.ALBUM)
+														.attribute(Album.ARTIST_FK),
 										PlaylistTrack.TRACK_ID.define()
 														.column()
 														.nullable(false),
@@ -561,7 +563,9 @@ public final class ChinookImpl extends DomainModel {
 														.foreignKey()
 														.referenceDepth(3),
 										PlaylistTrack.ALBUM.define()
-														.denormalized(PlaylistTrack.TRACK_FK, Track.ALBUM_FK))
+														.denormalized()
+														.from(PlaylistTrack.TRACK_FK)
+														.attribute(Track.ALBUM_FK))
 						.keyGenerator(identity())
 						.formatter(EntityFormatter.builder()
 										.value(PlaylistTrack.PLAYLIST_FK)
