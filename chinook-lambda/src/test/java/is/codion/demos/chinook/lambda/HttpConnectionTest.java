@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 
 public class HttpConnectionTest {
 
+	private static final String LAMBDA_URL = "insert.lambda.url";
+
 	@Test
 	@Disabled("Integration test - requires deployed Lambda")
 	public void testLambdaConnection() throws Exception {
@@ -21,7 +23,7 @@ public class HttpConnectionTest {
 
 		// Configure connection
 		EntityConnectionProvider connectionProvider = HttpEntityConnectionProvider.builder()
-						.hostName("vf5lwi7pgci5g32fw3drtsbovm0vbmsu.lambda-url.eu-north-1.on.aws")
+						.hostName(LAMBDA_URL)
 						.https(true)
 						.securePort(443)
 						.json(false)

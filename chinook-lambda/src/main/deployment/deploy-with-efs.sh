@@ -58,7 +58,7 @@ aws lambda create-function \
   --vpc-config SubnetIds=$SUBNET_ID \
   --file-system-configs "Arn=arn:aws:elasticfilesystem:$(aws configure get region):$(aws sts get-caller-identity --query Account --output text):access-point/$ACCESS_POINT_ID,LocalMountPath=/mnt/efs" \
   --environment Variables="{\
-    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:h2:file:/mnt/efs/chinook;MODE=PostgreSQL;AUTO_SERVER=TRUE;DATABASE_TO_UPPER=FALSE -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=600000\"\
+    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:h2:file:/mnt/efs/chinook;MODE=PostgreSQL;AUTO_SERVER=TRUE;DATABASE_TO_UPPER=FALSE -Dcodion.db.initScripts=classpath:create_schema.sql -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactory=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=600000\"\
   }"
 
 echo "Lambda function created with EFS!"

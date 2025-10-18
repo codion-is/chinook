@@ -1,5 +1,6 @@
 [versions]
-codion = "0.18.54"
+codion = "0.18.55"
+flatlaf = "3.6.2"
 h2 = "2.3.232"
 javalin = "6.7.0"
 jackson = "2.19.1"
@@ -42,5 +43,6 @@ ikonli-foundation = { module = "org.kordamp.ikonli:ikonli-foundation-pack", vers
 jasperreports-jdt = { module = "net.sf.jasperreports:jasperreports-jdt", version.ref = "jasperreports" }
 jasperreports-pdf = { module = "net.sf.jasperreports:jasperreports-pdf", version.ref = "jasperreports" }
 jfreechart = { module = "org.jfree:jfreechart", version.ref = "jfreechart" }
+flatlaf-extras = { module = "com.formdev:flatlaf-extras", version.ref = "flatlaf" }
 aws-lambda-core = { module = "com.amazonaws:aws-lambda-java-core", version.ref = "aws-lambda-core" }
 aws-lambda-events = { module = "com.amazonaws:aws-lambda-java-events", version.ref = "aws-lambda-events" }

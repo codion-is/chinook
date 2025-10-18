@@ -29,6 +29,8 @@ tasks.named<JavaExec>("run") {
         "-Dcodion.client.http.connectTimeout=30000",
         "-Dcodion.client.http.socketTimeout=30000",
         "-Dcodion.client.http.disconnectOnClose=false",
+        // Prevent the lambda URL from appearing in the frame title
+        "-Dis.codion.framework.db.EntityConnectionProvider.description=lambda",
         "-Dlogback.configurationFile=src/main/config/logback.xml",
         "-Dsun.awt.disablegrab=true"
     )

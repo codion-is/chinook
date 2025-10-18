@@ -44,7 +44,7 @@ aws lambda create-function \
   --timeout 30 \
   --memory-size 512 \
   --environment Variables="{\
-    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:postgresql://$ENDPOINT:5432/postgres?user=chinook_admin&password=ChinookPass123! -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactoryClassName=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=600000\"\
+    JAVA_TOOL_OPTIONS=\"-Dcodion.db.url=jdbc:postgresql://$ENDPOINT:5432/postgres?user=chinook_admin&password=ChinookPass123! -Dcodion.db.countQueries=true -Dcodion.server.connectionPoolUsers=scott:tiger -Dcodion.server.objectInputFilterFactory=is.codion.common.rmi.server.SerializationFilterFactory -Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt -Dcodion.server.idleConnectionTimeout=600000\"\
   }"
 
 # 4. Create Lambda Function URL

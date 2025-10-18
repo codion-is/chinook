@@ -388,6 +388,16 @@ public interface Chinook {
 	}
 	// end::playlistTrack[]
 
+	// tag::artistRevenue[]
+	interface ArtistRevenue {
+		EntityType TYPE = DOMAIN.entityType("chinook.artist_revenue");
+
+		Column<Long> ARTIST_ID = TYPE.longColumn("artist_id");
+		Column<String> NAME = TYPE.stringColumn("name");
+		Column<BigDecimal> TOTAL_REVENUE = TYPE.bigDecimalColumn("total_revenue");
+	}
+	// end::artistRevenue[]
+
 	// tag::invoiceLineTotal[]
 	final class InvoiceLineTotal
 					implements DerivedValue<BigDecimal> {

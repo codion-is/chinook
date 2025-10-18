@@ -31,6 +31,7 @@ module is.codion.demos.chinook.client {
 	requires net.sf.jasperreports.core;
 	requires net.sf.jasperreports.pdf;
 	requires org.jfree.jfreechart;
+	requires com.formdev.flatlaf.extras;
 	requires org.apache.commons.logging;
 	requires com.github.librepdf.openpdf;
 	requires is.codion.plugin.swing.mcp;
