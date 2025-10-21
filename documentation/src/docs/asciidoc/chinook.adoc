@@ -204,6 +204,11 @@ include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java
 include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=customer]
 ----
 
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=orderByName]
+----
+
 ==== Model
 
 ===== CustomerModel
@@ -416,6 +421,11 @@ include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=employee]
+----
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=orderByName]
 ----
 
 ==== Model

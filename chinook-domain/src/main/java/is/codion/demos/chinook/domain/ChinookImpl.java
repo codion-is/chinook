@@ -49,6 +49,7 @@ import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import static is.codion.demos.chinook.domain.api.Chinook.*;
 import static is.codion.framework.db.EntityConnection.Select.where;
@@ -217,7 +218,7 @@ public final class ChinookImpl extends DomainModel {
 										Employee.INSERT_USER.define()
 														.column(INSERT_USER))
 						.validator(new EmailValidator(Employee.EMAIL))
-						.orderBy(ascending(Employee.LASTNAME, Employee.FIRSTNAME))
+						.orderBy(name(Employee.FIRSTNAME, Employee.LASTNAME))
 						.formatter(EntityFormatter.builder()
 										.value(Employee.LASTNAME)
 										.text(", ")
@@ -276,7 +277,7 @@ public final class ChinookImpl extends DomainModel {
 										Customer.INSERT_USER.define()
 														.column(INSERT_USER))
 						.validator(new EmailValidator(Customer.EMAIL))
-						.orderBy(ascending(Customer.LASTNAME, Customer.FIRSTNAME))
+						.orderBy(name(Customer.FIRSTNAME, Customer.LASTNAME))
 						.formatter(new CustomerFormatter())
 						.build();
 	}
@@ -605,6 +606,17 @@ public final class ChinookImpl extends DomainModel {
 						.build();
 	}
 	// end::artistRevenue[]
+
+	// tag::orderByName[]
+	private static OrderBy name(Column<String> firstName, Column<String> lastName) {
+		String language = Locale.getDefault().getLanguage();
+		return switch (language) {
+			case "en" -> ascending(lastName, firstName);
+			case "is" -> ascending(firstName, lastName);
+			default -> throw new IllegalArgumentException("Unsupported language: " + language);
+		};
+	}
+	// end::orderByName[]
 
 	// tag::tagsConverter[]
 	private static final class TagsConverter implements Column.Converter<List<String>, Array> {
