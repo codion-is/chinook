@@ -67,22 +67,22 @@ interface Album extends EntityDefinition {
 
 [source]
 ----
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Desktop Client │     │  Desktop Client │     │  Desktop Client │
-│  (Swing UI)     │     │  (Swing UI)     │     │  (Swing UI)     │
-└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Local JDBC     │     │  Entity Server  │     │  AWS Lambda     │
-│  (Embedded H2)  │     │  (RMI/HTTP)     │     │  (Serverless)   │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-   ┌──────────┐            ┌──────────┐            ┌──────────┐
-   │    H2    │            │    H2    │            │    H2    │
-   │ In-Memory│            │PostgreSQL│            │   RDS    │
-   └──────────┘            └──────────┘            └──────────┘
+┌─────────────────┐     ┌─────────────────┐
+│  Desktop Client │     │  Desktop Client │
+│  (Swing UI)     │     │  (Swing UI)     │
+└────────┬────────┘     └────────┬────────┘
+         │                       │
+         ▼                       ▼
+┌─────────────────┐     ┌─────────────────┐
+│  Local JDBC     │     │  Entity Server  │
+│  (Embedded H2)  │     │  (RMI/HTTP)     │
+└─────────────────┘     └─────────────────┘
+         │                       │
+         ▼                       ▼
+   ┌──────────┐            ┌──────────┐
+   │    H2    │            │    H2    │
+   │ In-Memory│            │PostgreSQL│
+   └──────────┘            └──────────┘
 ----
 
 == Features Demonstrated
@@ -107,7 +107,7 @@ interface Album extends EntityDefinition {
 
 === Infrastructure
 
-* **Connection Modes**: Local JDBC, RMI, HTTP, Lambda
+* **Connection Modes**: Local JDBC, RMI, HTTP
 * **Authentication**: Pluggable authentication with user management
 * **Connection Pooling**: HikariCP integration
 * **Load Testing**: Comprehensive scenarios with real-world patterns
@@ -129,10 +129,8 @@ The modular architecture demonstrates clean separation of concerns:
 * **chinook-client-local**: Desktop with embedded database
 * **chinook-client-remote**: RMI client configuration
 * **chinook-client-http**: HTTP client configuration
-* **chinook-client-lambda**: Serverless client configuration
 * **chinook-server**: Multi-protocol server (RMI + HTTP)
 * **chinook-service**: REST API with Javalin
-* **chinook-lambda**: AWS Lambda deployment
 
 === Supporting Modules
 
@@ -218,9 +216,8 @@ codion.db.initScripts=classpath:create_schema.sql
 
 == Requirements
 
-* Java 24 or higher (Lambda uses 21)
+* Java 25 or higher
 * Gradle 8.5 or higher
-* AWS CLI (for Lambda deployment)
 * Docker (for container deployment)
 
 == License

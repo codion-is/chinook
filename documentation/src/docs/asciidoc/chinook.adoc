@@ -1496,19 +1496,6 @@ include::{root-dir}/chinook-client-http/build.gradle.kts[tag=**]
 ----
 ====
 
-=== chinook-client-lambda
-
-NOTE: Configuration only, client with an AWS Lambda connection.
-
-.build.gradle.kts
-[%collapsible]
-====
-[source,kotlin,options="nowrap"]
-----
-include::{root-dir}/chinook-client-lambda/build.gradle.kts[tag=**]
-----
-====
-
 === chinook-load-test
 
 .build.gradle.kts
@@ -1582,19 +1569,6 @@ NOTE: Configuration only, server-monitor.
 [source,kotlin,options="nowrap"]
 ----
 include::{root-dir}/chinook-server-monitor/build.gradle.kts[tag=**]
-----
-====
-
-=== chinook-lambda
-
-AWS Lambda service deployment.
-
-.build.gradle.kts
-[%collapsible]
-====
-[source,kotlin,options="nowrap"]
-----
-include::{root-dir}/chinook-lambda/build.gradle.kts[tag=**]
 ----
 ====
 
