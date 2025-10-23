@@ -77,11 +77,12 @@ jlink {
         }
     }
 }
-
-githubRelease {
-    token(properties["githubAccessToken"] as String)
-    owner = "codion-is"
-    repo = "chinook"
-    allowUploadToExisting = true
-    releaseAssets.from(tasks.named("jlinkZip").get().outputs.files)
+if (properties.containsKey("githubAccessToken")) {
+    githubRelease {
+        token(properties["githubAccessToken"] as String)
+        owner = "codion-is"
+        repo = "chinook"
+        allowUploadToExisting = true
+        releaseAssets.from(tasks.named("jlinkZip").get().outputs.files)
+    }
 }
