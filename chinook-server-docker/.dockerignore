@@ -3,6 +3,9 @@ build/
 !build/libs/
 !build/resources/
 
+# Logs directory
+logs/
+
 # IDE files
 .idea/
 *.iml

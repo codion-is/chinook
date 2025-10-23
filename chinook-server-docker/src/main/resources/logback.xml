@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!-- Console appender for general server logs - captured by Docker -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- SIFT appender for individual client logs -->
     <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
             <key>logIdentifier</key>
@@ -7,9 +15,10 @@
         </discriminator>
         <sift>
             <appender name="FILE-${logIdentifier}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <file>${user.home}/logs/chinook-server/${logIdentifier}.log</file>
+                <!-- Use /app/logs for Docker volume mount -->
+                <file>/app/logs/${logIdentifier}.log</file>
                 <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-                    <fileNamePattern>${user.home}/logs/chinook-server/${logIdentifier}.%i.log.zip</fileNamePattern>
+                    <fileNamePattern>/app/logs/${logIdentifier}.%i.log.zip</fileNamePattern>
                     <minIndex>1</minIndex>
                     <maxIndex>3</maxIndex>
                 </rollingPolicy>
@@ -24,9 +33,12 @@
         </sift>
     </appender>
 
+    <!-- Suppress verbose Jetty logs -->
     <logger name="org.eclipse.jetty" level="ERROR"/>
 
-    <root level="ERROR">
+    <!-- Root logger - both console (for Docker) and SIFT (for client logs) -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="SIFT"/>
     </root>
 </configuration>
