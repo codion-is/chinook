@@ -5,20 +5,20 @@ plugins {
     id("com.github.breadmoirai.github-release") version "2.5.2" apply false
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(25))
-    }
-}
-
 configure(subprojects) {
     apply(plugin = "java")
 
-    version = rootProject.libs.versions.codion.get().replace("-SNAPSHOT", "")
-    
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(25))
+        }
+    }
+
     dependencies {
         implementation(platform(rootProject.libs.codion.framework.bom))
     }
+
+    version = rootProject.libs.versions.codion.get().replace("-SNAPSHOT", "")
 
     tasks.withType<JavaCompile>().configureEach {
         options.encoding = "UTF-8"
