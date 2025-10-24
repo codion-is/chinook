@@ -33,14 +33,14 @@ import is.codion.demos.chinook.domain.api.Chinook;
 import is.codion.demos.chinook.model.ChinookAppModel;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.tools.loadtest.LoadTest;
-import is.codion.tools.loadtest.LoadTest.Scenario;
+import is.codion.tools.loadtest.Scenario;
 import is.codion.tools.loadtest.model.LoadTestModel;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
-import static is.codion.tools.loadtest.LoadTest.Scenario.scenario;
+import static is.codion.tools.loadtest.Scenario.scenario;
 import static is.codion.tools.loadtest.ui.LoadTestPanel.loadTestPanel;
 
 public final class ChinookLoadTest {

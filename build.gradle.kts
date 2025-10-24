@@ -5,6 +5,12 @@ plugins {
     id("com.github.breadmoirai.github-release") version "2.5.2" apply false
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
 configure(subprojects) {
     apply(plugin = "java")
 

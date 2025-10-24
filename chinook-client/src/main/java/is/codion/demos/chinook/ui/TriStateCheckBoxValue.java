@@ -26,7 +26,7 @@ final class TriStateCheckBoxValue extends AbstractComponentValue<FlatTriStateChe
 
 	TriStateCheckBoxValue() {
 		super(new FlatTriStateCheckBox());
-		component().addItemListener(_ -> notifyListeners());
+		component().addItemListener(_ -> notifyObserver());
 	}
 
 	@Override
