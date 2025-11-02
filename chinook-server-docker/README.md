@@ -8,9 +8,21 @@ This module provides a Docker container for the Chinook server application.
 - Docker Compose (optional)
 - Java 25+ (for building the jlink image)
 
-## Building
+## Building and Deploying
 
-To build the Docker image, run:
+### Quick Deploy (Recommended)
+
+To build and deploy (restart the container with the updated image):
+
+```bash
+./gradlew :chinook-server-docker:dockerDeploy
+```
+
+This single command rebuilds the image and restarts the container. Use this whenever you modify configuration files in `chinook-server` (logback.xml, serialization-filter-patterns.txt, etc.).
+
+### Build Only
+
+To only build the Docker image without deploying:
 
 ```bash
 ./build-docker.sh
@@ -36,6 +48,8 @@ The Docker image uses a custom JRE created by jlink from the `chinook-server` mo
 - Reduces image size significantly
 - Includes only the required Java modules
 - Uses the jlink launcher script with all configuration built-in
+
+**Note**: This module requires the Linux jlink image from `chinook-server`. The build process specifically looks for the `-linux` jlink output. While you can build Docker images from Windows or macOS, the jlink image itself must be built for Linux (which is what Docker containers run). See [The Badass JLink Plugin](https://badass-jlink-plugin.beryx.org) for information on how to work around this.
 
 ## Running
 
@@ -97,7 +111,7 @@ The server uses dual logging:
 
 2. **Client-specific logs**: Individual client logs written to files in `/app/logs/`
    - `codion_server.log` - Default server log
-   - `user@hostname.log` - Individual client connection logs
+   - `user@Chinook.log` - Individual client connection logs
 
    Access client logs via volume mount in `./logs/` directory, or directly from the container:
    ```bash
@@ -105,7 +119,7 @@ The server uses dual logging:
    docker exec chinook-server ls -la /app/logs/
 
    # View a specific log
-   docker exec chinook-server cat /app/logs/scott@hostname.log
+   docker exec chinook-server cat /app/logs/scott@Chinook.log
 
    # Copy logs out of container
    docker cp chinook-server:/app/logs/ ./server-logs/
@@ -114,3 +128,21 @@ The server uses dual logging:
 ## Security
 
 The container runs as a non-root user (uid 1000) for improved security.
+
+## Troubleshooting
+
+### No log files appearing in ./logs directory
+
+If the container starts successfully but no log files appear in the `./logs/` directory on the host, it's likely a permissions issue. The server runs as user `chinook` (uid 1000) inside the container, so the mounted logs directory on the host must be writable by uid 1000.
+
+Fix it with:
+```bash
+sudo chown -R 1000:1000 ./logs
+```
+
+Then restart the container:
+```bash
+docker compose restart
+```
+
+This issue typically occurs when the `./logs` directory is created by Docker with root ownership before the container starts.

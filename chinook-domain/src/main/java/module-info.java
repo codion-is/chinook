@@ -24,7 +24,9 @@ module is.codion.demos.chinook.domain {
 	requires is.codion.common.rmi;
 	requires is.codion.framework.db.core;
 	requires is.codion.framework.db.local;
+	requires is.codion.framework.json.domain;
 	requires transitive is.codion.demos.chinook.domain.api;
+	requires net.sf.jasperreports.core;//object mapper
 
 	opens is.codion.demos.chinook.domain;//report resource
 	exports is.codion.demos.chinook.domain;
@@ -35,4 +37,6 @@ module is.codion.demos.chinook.domain {
 					with is.codion.demos.chinook.domain.ChinookImpl;
 	provides is.codion.common.rmi.server.Authenticator
 					with is.codion.demos.chinook.server.ChinookAuthenticator;
+	provides is.codion.framework.json.domain.EntityObjectMapperFactory
+					with is.codion.demos.chinook.domain.ChinookObjectMapperFactory;
 }

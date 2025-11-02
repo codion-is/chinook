@@ -142,6 +142,10 @@ This demo application is based on the Chinook music store sample database.
 
 ** <<_database_migration, MigrationManager>> - Hybrid JDBC/Entity approach for schema versioning
 
+* Serialization filter logging
+
+** <<_chinook_server, Chinook Server>> - Configuring java.util.logging from the classpath
+
 * Distribution and packaging
 
 ** <<_distribution, Distribution>> - JLink/JPackage configuration with modular dependencies
@@ -150,6 +154,7 @@ NOTE: For the Gradle build configuration see <<#_build, Build>> section.
 
 This tutorial assumes you have at least skimmed the https://codion.is/doc/{codion-version}/manual/manual.html#_domain_model[Domain model] part of the Codion manual.
 
+[#_domain_model]
 == Domain model
 
 === API
@@ -1191,6 +1196,7 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 include::{dir-source-client}/is/codion/demos/chinook/ui/TriStateCheckBoxValue.java[lines=19..-1]
 ----
 
+[#_preferenceseditpanel]
 ===== PreferencesEditPanel
 
 [source,java,options="nowrap"]
@@ -1533,6 +1539,7 @@ include::{root-dir}/chinook-load-test-http/build.gradle.kts[tag=**]
 ----
 ====
 
+[#_chinook_server]
 === chinook-server
 
 NOTE: Configuration only, configures the server with the chinook domain.

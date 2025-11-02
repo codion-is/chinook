@@ -10,6 +10,7 @@ dependencies {
 
     implementation(libs.codion.common.rmi)
     implementation(libs.codion.framework.db.local)
+    implementation(libs.codion.framework.json.domain)
 
     jasperreportsClasspath(libs.jasperreports.jdt) {
         exclude(group = "net.sf.jasperreports")

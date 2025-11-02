@@ -10,7 +10,7 @@ tasks.register("prepareJlinkImage") {
         // Find the jlink directory (chinook-server-VERSION-linux/)
         val jlinkDir = serverBuildDir.listFiles()?.find {
             it.isDirectory && it.name.startsWith("chinook-server-") && it.name.endsWith("-linux")
-        } ?: throw GradleException("Could not find jlink image directory in ${serverBuildDir}")
+        } ?: throw GradleException("Could not find a linux based jlink image directory in ${serverBuildDir}")
 
         val targetDir = project.layout.buildDirectory.dir("jlink-image").get().asFile
         delete(targetDir)
@@ -34,5 +34,27 @@ tasks.register("dockerBuild") {
             workingDir = projectDir
             commandLine("docker", "build", "-t", "chinook-server:latest", "-f", "src/docker/Dockerfile", "build")
         }.result.get()
+    }
+}
+
+tasks.register("dockerDeploy") {
+    group = "docker"
+    description = "Build and deploy the Docker container (restart with updated image)"
+    dependsOn("dockerBuild")
+
+    doLast {
+        println("Stopping existing container...")
+        providers.exec {
+            workingDir = projectDir
+            commandLine("docker", "compose", "down")
+        }.result.get()
+
+        println("Starting container with updated image...")
+        providers.exec {
+            workingDir = projectDir
+            commandLine("docker", "compose", "up", "-d")
+        }.result.get()
+
+        println("Container deployed successfully!")
     }
 }

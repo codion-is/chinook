@@ -2,10 +2,14 @@ java.lang.**
 java.math.**
 java.time.**
 java.util.**
-is.codion.**
+is.codion.common.**
+is.codion.framework.**
+is.codion.plugin.jasperreports.*
+is.codion.demos.chinook.domain.api.*
 # ServerMonitor
 ch.qos.logback.classic.Level
-# JasperReports
-net.sf.jasperreports.**
+# For loading JasperReport from classpath
+net.sf.jasperreports.compilers.**
+net.sf.jasperreports.engine.**
 # Reject all other classes
 !*

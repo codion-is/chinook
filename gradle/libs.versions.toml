@@ -1,5 +1,5 @@
 [versions]
-codion = "0.18.56"
+codion = "0.18.57"
 flatlaf = "3.6.2"
 h2 = "2.3.232"
 javalin = "6.7.0"
@@ -19,11 +19,13 @@ codion-framework-db-core = { module = "is.codion:codion-framework-db-core" }
 codion-framework-db-rmi = { module = "is.codion:codion-framework-db-rmi" }
 codion-framework-db-local = { module = "is.codion:codion-framework-db-local" }
 codion-framework-db-http = { module = "is.codion:codion-framework-db-http" }
+codion-framework-json-domain = { module = "is.codion:codion-framework-json-domain" }
 codion-tools-generator-model = { module = "is.codion:codion-tools-generator-model" }
 codion-swing-framework-ui = { module = "is.codion:codion-swing-framework-ui" }
 codion-tools-generator-ui = { module = "is.codion:codion-tools-generator-ui" }
 codion-plugin-jasperreports = { module = "is.codion:codion-plugin-jasperreports" }
 codion-plugin-logback-proxy = { module = "is.codion:codion-plugin-logback-proxy" }
+codion-plugin-jul-proxy = { module = "is.codion:codion-plugin-jul-proxy" }
 codion-plugin-imagepanel = { module = "is.codion:codion-plugin-imagepanel" }
 codion-plugin-hikari-pool = { module = "is.codion:codion-plugin-hikari-pool" }
 codion-plugin-flatlaf = { module = "is.codion:codion-plugin-flatlaf" }
