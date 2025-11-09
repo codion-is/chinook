@@ -11,7 +11,7 @@ dependencies {
     runtimeOnly(libs.codion.framework.servlet)
     runtimeOnly(libs.codion.plugin.hikari.pool)
     // To configure serialization logging from classpath
-    runtimeOnly(libs.codion.plugin.jul.proxy)
+    runtimeOnly(libs.codion.tools.jul.classpath)
     runtimeOnly(libs.codion.dbms.h2)
     runtimeOnly(libs.h2)
 
@@ -45,7 +45,7 @@ application {
         "-Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt",
         // Configure separate logging for serialization filter rejections
         "-Djava.util.logging.config.file=serialization-logging.properties",
-        "-Djava.util.logging.config.class=is.codion.plugin.jul.ClasspathConfiguration",
+        "-Djava.util.logging.config.class=is.codion.tools.jul.classpath.ClasspathConfiguration",
         //SSL configuration
         "-Dcodion.server.classpathKeyStore=keystore.jks",
         "-Djavax.net.ssl.keyStorePassword=crappypass",
@@ -87,8 +87,7 @@ jlink {
         "--ignore-signing-information",
         "--add-modules",
         "is.codion.framework.db.local,is.codion.dbms.h2,is.codion.plugin.hikari.pool," +
-                "is.codion.plugin.logback.proxy,is.codion.plugin.jul.proxy," +
-                "is.codion.demos.chinook.domain,is.codion.framework.servlet"
+                "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain,is.codion.framework.servlet"
     )
 
     addExtraDependencies("slf4j-api")

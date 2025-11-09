@@ -18,7 +18,7 @@
  */
 package is.codion.demos.chinook.client.loadtest;
 
-import is.codion.common.user.User;
+import is.codion.common.utilities.user.User;
 import is.codion.demos.chinook.client.loadtest.scenarios.InsertDeleteAlbum;
 import is.codion.demos.chinook.client.loadtest.scenarios.InsertDeleteInvoice;
 import is.codion.demos.chinook.client.loadtest.scenarios.LogoutLogin;

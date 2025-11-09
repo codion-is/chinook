@@ -20,8 +20,8 @@ package is.codion.demos.chinook.ui;
 
 import is.codion.common.model.CancelException;
 import is.codion.common.model.preferences.UserPreferences;
-import is.codion.common.state.State;
-import is.codion.common.user.User;
+import is.codion.common.reactive.state.State;
+import is.codion.common.utilities.user.User;
 import is.codion.demos.chinook.domain.api.Chinook;
 import is.codion.demos.chinook.model.AlbumModel;
 import is.codion.demos.chinook.model.ArtistTableModel;
@@ -32,7 +32,6 @@ import is.codion.demos.chinook.model.GenreModel;
 import is.codion.demos.chinook.model.PlaylistModel;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.plugin.flatlaf.intellij.themes.materialtheme.MaterialTheme;
-import is.codion.plugin.swing.mcp.SwingMcpPlugin;
 import is.codion.swing.common.ui.Utilities;
 import is.codion.swing.common.ui.component.calendar.CalendarPanel;
 import is.codion.swing.common.ui.component.combobox.Completion;
@@ -52,6 +51,7 @@ import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.EntityTablePanel.SelectionMode;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
 import is.codion.swing.framework.ui.icon.FrameworkIcons;
+import is.codion.tools.swing.mcp.SwingMcpPlugin;
 
 import org.kordamp.ikonli.foundation.Foundation;
 

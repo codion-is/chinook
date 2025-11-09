@@ -18,7 +18,7 @@
  */
 package is.codion.demos.chinook.service.loadtest;
 
-import is.codion.common.property.PropertyValue;
+import is.codion.common.utilities.property.PropertyValue;
 import is.codion.demos.chinook.service.loadtest.scenarios.AlbumById;
 import is.codion.demos.chinook.service.loadtest.scenarios.Albums;
 import is.codion.demos.chinook.service.loadtest.scenarios.ArtistById;
@@ -33,8 +33,8 @@ import is.codion.tools.loadtest.model.LoadTestModel;
 import java.net.http.HttpClient;
 import java.util.List;
 
-import static is.codion.common.Configuration.integerValue;
-import static is.codion.common.user.User.user;
+import static is.codion.common.utilities.Configuration.integerValue;
+import static is.codion.common.utilities.user.User.user;
 import static is.codion.tools.loadtest.Scenario.scenario;
 import static is.codion.tools.loadtest.ui.LoadTestPanel.loadTestPanel;
 import static java.net.http.HttpClient.newHttpClient;

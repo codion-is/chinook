@@ -22,7 +22,6 @@
 module is.codion.demos.chinook.client {
 	requires is.codion.swing.common.ui;
 	requires is.codion.swing.framework.ui;
-	requires is.codion.plugin.imagepanel;
 	requires is.codion.plugin.flatlaf;
 	requires is.codion.plugin.flatlaf.intellij.themes;
 
@@ -34,11 +33,11 @@ module is.codion.demos.chinook.client {
 	requires com.formdev.flatlaf.extras;
 	requires org.apache.commons.logging;
 	requires com.github.librepdf.openpdf;
-	requires is.codion.plugin.swing.mcp;
+	requires is.codion.tools.swing.mcp;
 
 	exports is.codion.demos.chinook.ui;
 	exports is.codion.demos.chinook.model;
 
-	provides is.codion.common.resource.Resources
+	provides is.codion.common.utilities.resource.Resources
 					with is.codion.demos.chinook.i18n.ChinookResources;
 }

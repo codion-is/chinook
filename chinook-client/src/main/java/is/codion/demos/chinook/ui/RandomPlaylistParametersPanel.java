@@ -18,10 +18,10 @@
  */
 package is.codion.demos.chinook.ui;
 
-import is.codion.common.state.ObservableState;
-import is.codion.common.state.State;
-import is.codion.common.value.Value;
-import is.codion.common.value.ValueList;
+import is.codion.common.reactive.state.ObservableState;
+import is.codion.common.reactive.state.State;
+import is.codion.common.reactive.value.Value;
+import is.codion.common.reactive.value.ValueList;
 import is.codion.demos.chinook.domain.api.Chinook.Genre;
 import is.codion.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParameters;
 import is.codion.framework.db.EntityConnectionProvider;
@@ -37,7 +37,7 @@ import java.awt.BorderLayout;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
-import static is.codion.common.Text.nullOrEmpty;
+import static is.codion.common.utilities.Text.nullOrEmpty;
 import static is.codion.framework.db.EntityConnection.Select.all;
 import static is.codion.framework.domain.entity.OrderBy.ascending;
 import static is.codion.swing.common.ui.component.Components.*;

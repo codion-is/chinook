@@ -18,7 +18,7 @@
  */
 package is.codion.demos.chinook.service;
 
-import is.codion.common.property.PropertyValue;
+import is.codion.common.utilities.property.PropertyValue;
 import is.codion.demos.chinook.service.connection.ConnectionSupplier;
 import is.codion.demos.chinook.service.handler.AlbumHandler;
 import is.codion.demos.chinook.service.handler.ArtistHandler;
@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 
-import static is.codion.common.Configuration.integerValue;
+import static is.codion.common.utilities.Configuration.integerValue;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 final class ChinookService {

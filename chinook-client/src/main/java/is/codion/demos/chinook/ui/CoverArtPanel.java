@@ -18,11 +18,12 @@
  */
 package is.codion.demos.chinook.ui;
 
-import is.codion.common.state.ObservableState;
-import is.codion.common.state.State;
-import is.codion.common.value.Value;
-import is.codion.plugin.imagepanel.NavigableImagePanel;
+import is.codion.common.reactive.state.ObservableState;
+import is.codion.common.reactive.state.State;
+import is.codion.common.reactive.value.Value;
 import is.codion.swing.common.ui.Utilities;
+import is.codion.swing.common.ui.component.image.ImagePanel;
+import is.codion.swing.common.ui.component.image.ImagePanel.ZoomDevice;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.dialog.Dialogs;
 import is.codion.swing.common.ui.transfer.FileTransferHandler;
@@ -48,7 +49,7 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static is.codion.common.state.State.present;
+import static is.codion.common.reactive.state.State.present;
 import static is.codion.swing.common.ui.component.Components.*;
 import static is.codion.swing.common.ui.layout.Layouts.borderLayout;
 import static java.util.ResourceBundle.getBundle;
@@ -62,7 +63,6 @@ final class CoverArtPanel extends JPanel {
 	private static final ResourceBundle BUNDLE = getBundle(CoverArtPanel.class.getName());
 	private static final FrameworkIcons ICONS = FrameworkIcons.instance();
 
-	private static final Dimension EMBEDDED_SIZE = new Dimension(200, 200);
 	private static final Dimension DIALOG_SIZE = new Dimension(400, 400);
 	private static final FileNameExtensionFilter IMAGE_FILE_FILTER =
 					new FileNameExtensionFilter(BUNDLE.getString("images"),
@@ -71,7 +71,7 @@ final class CoverArtPanel extends JPanel {
 	private final JButton addButton;
 	private final JButton removeButton;
 	private final JPanel centerPanel;
-	private final NavigableImagePanel imagePanel;
+	private final ImagePanel imagePanel;
 	private final Value<byte[]> imageBytes;
 	private final ObservableState imageSelected;
 	private final State embedded = State.state(true);
@@ -111,7 +111,6 @@ final class CoverArtPanel extends JPanel {
 
 	private JPanel createCenterPanel() {
 		return borderLayoutPanel()
-						.preferredSize(EMBEDDED_SIZE)
 						.center(imagePanel)
 						.south(borderLayoutPanel()
 										.east(panel()
@@ -121,7 +120,7 @@ final class CoverArtPanel extends JPanel {
 	}
 
 	private void bindEvents() {
-		imageBytes.addConsumer(bytes -> imagePanel.setImage(readImage(bytes)));
+		imageBytes.addConsumer(bytes -> imagePanel.image().set(readImage(bytes)));
 		embedded.addConsumer(this::setEmbedded);
 		imagePanel.addMouseListener(new EmbeddingMouseListener());
 	}
@@ -152,8 +151,6 @@ final class CoverArtPanel extends JPanel {
 
 	private void embed() {
 		Utilities.disposeParentWindow(centerPanel);
-		centerPanel.setSize(EMBEDDED_SIZE);
-		imagePanel.resetView();
 		add(centerPanel, BorderLayout.CENTER);
 		revalidate();
 		repaint();
@@ -168,26 +165,24 @@ final class CoverArtPanel extends JPanel {
 						.owner(this)
 						.modal(false)
 						.title(BUNDLE.getString("cover"))
-						.onClosed(windowEvent -> embedded.set(true))
-						.onOpened(windowEvent -> imagePanel.resetView())
+						.onClosed(_ -> embedded.set(true))
+						.onOpened(_ -> imagePanel.reset())
 						.size(DIALOG_SIZE)
 						.show();
 	}
 
 	private void configureImagePanel(boolean embedded) {
-		imagePanel.setZoomDevice(embedded ? NavigableImagePanel.ZoomDevice.NONE : NavigableImagePanel.ZoomDevice.MOUSE_WHEEL);
-		imagePanel.setMoveImageEnabled(!embedded);
+		imagePanel.zoomDevice().set(embedded ? ZoomDevice.NONE : ZoomDevice.MOUSE_WHEEL);
+		imagePanel.movable().set(!embedded);
+		imagePanel.navigable().set(!embedded);
 	}
 
-	private NavigableImagePanel createImagePanel() {
-		NavigableImagePanel panel = new NavigableImagePanel();
-		panel.setZoomDevice(NavigableImagePanel.ZoomDevice.NONE);
-		panel.setNavigationImageEnabled(false);
-		panel.setMoveImageEnabled(false);
-		panel.setTransferHandler(new CoverTransferHandler());
-		panel.setBorder(createEtchedBorder());
-
-		return panel;
+	private ImagePanel createImagePanel() {
+		return ImagePanel.builder()
+						.transferHandler(new CoverTransferHandler())
+						.border(createEtchedBorder())
+						.autoResize(true)
+						.build();
 	}
 
 	private static BufferedImage readImage(byte[] bytes) {

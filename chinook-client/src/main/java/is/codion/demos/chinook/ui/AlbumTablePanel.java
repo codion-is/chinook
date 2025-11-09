@@ -19,15 +19,15 @@
 package is.codion.demos.chinook.ui;
 
 import is.codion.demos.chinook.domain.api.Chinook.Album;
-import is.codion.plugin.imagepanel.NavigableImagePanel;
 import is.codion.swing.common.model.component.list.FilterListModel;
 import is.codion.swing.common.ui.Utilities;
 import is.codion.swing.common.ui.component.Components;
+import is.codion.swing.common.ui.component.image.ImagePanel;
+import is.codion.swing.common.ui.component.image.ImagePanel.ZoomDevice;
 import is.codion.swing.common.ui.component.value.AbstractComponentValue;
 import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.dialog.Dialogs;
-import is.codion.swing.common.ui.window.Windows;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityTableModel;
 import is.codion.swing.framework.ui.EntityTableCellRenderer;
@@ -42,10 +42,11 @@ import java.io.IOException;
 import java.util.List;
 
 import static is.codion.demos.chinook.ui.TrackTablePanel.RATINGS;
+import static is.codion.swing.common.ui.window.Windows.screenSizeRatio;
 
 public final class AlbumTablePanel extends EntityTablePanel {
 
-	private final NavigableImagePanel coverPanel;
+	private final ImagePanel coverPanel;
 
 	public AlbumTablePanel(SwingEntityTableModel tableModel) {
 		super(tableModel, config -> config
@@ -57,8 +58,12 @@ public final class AlbumTablePanel extends EntityTablePanel {
 										.formatter(RATINGS::get)
 										.toolTipData(true)
 										.build()));
-		coverPanel = new NavigableImagePanel();
-		coverPanel.setPreferredSize(Windows.screenSizeRatio(0.5));
+		coverPanel = ImagePanel.builder()
+						.preferredSize(screenSizeRatio(0.5))
+						.zoomDevice(ZoomDevice.MOUSE_WHEEL)
+						.navigable(true)
+						.movable(true)
+						.build();
 		table().doubleClick().set(viewCoverControl());
 	}
 
@@ -76,7 +81,7 @@ public final class AlbumTablePanel extends EntityTablePanel {
 	}
 
 	private void displayCover(String title, byte[] coverBytes) {
-		coverPanel.setImage(readImage(coverBytes));
+		coverPanel.image().set(readImage(coverBytes));
 		if (coverPanel.isShowing()) {
 			JDialog dialog = Utilities.parentDialog(coverPanel);
 			dialog.setTitle(title);
@@ -88,7 +93,7 @@ public final class AlbumTablePanel extends EntityTablePanel {
 							.owner(Utilities.parentWindow(this))
 							.title(title)
 							.modal(false)
-							.onClosed(_ -> coverPanel.setImage(null))
+							.onClosed(_ -> coverPanel.image().clear())
 							.show();
 		}
 	}
