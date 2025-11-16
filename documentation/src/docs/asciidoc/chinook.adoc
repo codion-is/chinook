@@ -44,9 +44,9 @@ This demo application is based on the Chinook music store sample database.
 
 * Custom input fields
 
-** <<_coverartpanel, CoverArtPanel>>
+** <<_coverartvalue, CoverArtValue>>
 
-** <<_albumtagpanel, AlbumTagPanel>>
+** <<_albumtagsvalue, AlbumTagsValue>>
 
 *** Used in <<_albumeditpanel, AlbumEditPanel>>
 
@@ -699,20 +699,20 @@ include::{dir-source-client}/is/codion/demos/chinook/ui/AlbumPanel.java[lines=19
 include::{dir-source-client}/is/codion/demos/chinook/ui/AlbumEditPanel.java[lines=19..-1]
 ----
 
-[#_coverartpanel]
-===== CoverArtPanel
+[#_coverartvalue]
+===== CoverArtValue
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/demos/chinook/ui/CoverArtPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/CoverArtValue.java[lines=19..-1]
 ----
 
-[#_albumtagpanel]
-===== AlbumTagPanel
+[#_albumtagsvalue]
+===== AlbumTagsValue
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/demos/chinook/ui/AlbumTagPanel.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/AlbumTagsValue.java[lines=19..-1]
 ----
 
 [#_albumtablepanel]
@@ -1054,7 +1054,7 @@ include::{dir-test-source-domain}/is/codion/demos/chinook/domain/ChinookTest.jav
 
 [source,java,options="nowrap"]
 ----
-include::{dir-test-source-client}/is/codion/demos/chinook/ui/PanelTest.java[lines=19..-1]
+include::{dir-test-source-client}/is/codion/demos/chinook/ui/ChinookPanelsTest.java[lines=19..-1]
 ----
 
 [#_load_test]

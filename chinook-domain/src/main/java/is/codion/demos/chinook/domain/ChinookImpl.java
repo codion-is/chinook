@@ -513,7 +513,7 @@ public final class ChinookImpl extends DomainModel {
 										InvoiceLine.TOTAL.define()
 														.derived()
 														.from(InvoiceLine.QUANTITY, InvoiceLine.UNITPRICE)
-														.value(new InvoiceLineTotal()),
+														.with(new InvoiceLineTotal()),
 										InvoiceLine.INSERT_TIME.define()
 														.column(INSERT_TIME)
 														.hidden(true),
@@ -553,7 +553,7 @@ public final class ChinookImpl extends DomainModel {
 										PlaylistTrack.ARTIST.define()
 														.denormalized()
 														.from(PlaylistTrack.ALBUM)
-														.attribute(Album.ARTIST_FK),
+														.using(Album.ARTIST_FK),
 										PlaylistTrack.TRACK_ID.define()
 														.column()
 														.nullable(false),
@@ -563,7 +563,7 @@ public final class ChinookImpl extends DomainModel {
 										PlaylistTrack.ALBUM.define()
 														.denormalized()
 														.from(PlaylistTrack.TRACK_FK)
-														.attribute(Track.ALBUM_FK))
+														.using(Track.ALBUM_FK))
 						.formatter(EntityFormatter.builder()
 										.value(PlaylistTrack.PLAYLIST_FK)
 										.text(" - ")
@@ -623,14 +623,14 @@ public final class ChinookImpl extends DomainModel {
 		private final ResultPacker<String> packer = resultSet -> resultSet.getString(ARRAY_VALUE_INDEX);
 
 		@Override
-		public Array toColumnValue(List<String> value, Statement statement) throws SQLException {
+		public Array toColumn(List<String> value, Statement statement) throws SQLException {
 			return value.isEmpty() ? null :
 							statement.getConnection().createArrayOf("VARCHAR", value.toArray(new Object[0]));
 		}
 
 		@Override
-		public List<String> fromColumnValue(Array columnValue) throws SQLException {
-			try (ResultSet resultSet = columnValue.getResultSet()) {
+		public List<String> fromColumn(Array value) throws SQLException {
+			try (ResultSet resultSet = value.getResultSet()) {
 				return packer.pack(resultSet);
 			}
 		}

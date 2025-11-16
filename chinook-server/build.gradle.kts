@@ -43,6 +43,7 @@ application {
         //The serialization whitelist
         "-Dcodion.server.objectInputFilterFactory=is.codion.common.rmi.server.SerializationFilterFactory",
         "-Dcodion.server.serialization.filter.patternFile=classpath:serialization-filter-patterns.txt",
+//        "-Dcodion.server.serialization.filter.dryRunFile=serialization-filter-dryrun.txt",
         // Configure separate logging for serialization filter rejections
         "-Djava.util.logging.config.file=serialization-logging.properties",
         "-Djava.util.logging.config.class=is.codion.tools.jul.classpath.ClasspathConfiguration",
