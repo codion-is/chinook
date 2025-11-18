@@ -34,11 +34,12 @@ jlink {
             OperatingSystem.current().familyName.replace(" ", "").lowercase()
     moduleName = application.mainModule
     options = listOf(
+        "--include-locales", "en,is",
         "--strip-debug",
         "--no-header-files",
         "--no-man-pages",
         "--add-modules",
-        "is.codion.framework.db.http,is.codion.plugin.logback.proxy"
+        "jdk.localedata,is.codion.framework.db.http,is.codion.plugin.logback.proxy"
     )
 
     // Due to a transitive io.modelcontextprotocol.sdk:mcp dependency

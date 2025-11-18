@@ -37,11 +37,12 @@ jlink {
             OperatingSystem.current().familyName.replace(" ", "").lowercase()
     moduleName = application.mainModule
     options = listOf(
+        "--include-locales", "en,is",
         "--strip-debug",
         "--no-header-files",
         "--no-man-pages",
         "--add-modules",
-        "is.codion.framework.db.local,is.codion.dbms.h2," +
+        "jdk.localedata,is.codion.framework.db.local,is.codion.dbms.h2," +
                 "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain"
     )
 

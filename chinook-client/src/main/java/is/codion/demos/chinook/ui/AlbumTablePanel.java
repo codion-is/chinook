@@ -19,13 +19,11 @@
 package is.codion.demos.chinook.ui;
 
 import is.codion.demos.chinook.domain.api.Chinook.Album;
-import is.codion.swing.common.ui.Utilities;
+import is.codion.swing.common.ui.ancestor.Ancestor;
 import is.codion.swing.common.ui.component.image.ImagePane;
-import is.codion.swing.common.ui.component.image.ImagePane.ZoomDevice;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.dialog.Dialogs;
 import is.codion.swing.framework.model.SwingEntityTableModel;
-import is.codion.swing.framework.ui.EntityTableCellRenderer;
 import is.codion.swing.framework.ui.EntityTablePanel;
 
 import javax.imageio.ImageIO;
@@ -35,6 +33,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import static is.codion.demos.chinook.ui.TrackTablePanel.RATINGS;
+import static is.codion.swing.common.ui.component.image.ImagePane.ZoomDevice.MOUSE_WHEEL;
 import static is.codion.swing.common.ui.window.Windows.screenSizeRatio;
 
 public final class AlbumTablePanel extends EntityTablePanel {
@@ -47,13 +46,12 @@ public final class AlbumTablePanel extends EntityTablePanel {
 						.editComponentFactory(Album.TAGS, _ -> new AlbumTagsValue())
 						// Custom cell renderer for Album.RATING
 						// rendering the rating as stars, i.e. *****
-						.cellRenderer(Album.RATING, EntityTableCellRenderer.builder(Album.RATING, tableModel)
+						.cellRenderer(Album.RATING, renderer -> renderer
 										.formatter(RATINGS::get)
-										.toolTipData(true)
-										.build()));
+										.toolTip(Object::toString)));
 		coverPane = ImagePane.builder()
 						.preferredSize(screenSizeRatio(0.5))
-						.zoomDevice(ZoomDevice.MOUSE_WHEEL)
+						.zoomDevice(MOUSE_WHEEL)
 						.navigable(true)
 						.movable(true)
 						.build();
@@ -76,14 +74,15 @@ public final class AlbumTablePanel extends EntityTablePanel {
 	private void displayCover(String title, byte[] coverBytes) {
 		coverPane.image().set(readImage(coverBytes));
 		if (coverPane.isShowing()) {
-			JDialog dialog = Utilities.parentDialog(coverPane);
-			dialog.setTitle(title);
-			dialog.toFront();
+			Ancestor.ofType(JDialog.class).of(coverPane).optional().ifPresent(dialog -> {
+				dialog.setTitle(title);
+				dialog.toFront();
+			});
 		}
 		else {
 			Dialogs.builder()
 							.component(coverPane)
-							.owner(Utilities.parentWindow(this))
+							.owner(Ancestor.window().of(this).get())
 							.title(title)
 							.modal(false)
 							.onClosed(_ -> coverPane.image().clear())
