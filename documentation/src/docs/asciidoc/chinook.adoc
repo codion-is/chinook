@@ -960,7 +960,7 @@ include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistTrackTablePanel.
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/demos/chinook/ui/TrackEditComponentFactory.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/TrackEditComponent.java[lines=19..-1]
 ----
 
 [#_trackselectorfactory]

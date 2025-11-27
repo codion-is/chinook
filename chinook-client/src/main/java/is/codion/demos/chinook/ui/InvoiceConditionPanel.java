@@ -23,9 +23,8 @@ import is.codion.common.utilities.Operator;
 import is.codion.common.utilities.item.Item;
 import is.codion.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.domain.entity.EntityDefinition;
 import is.codion.framework.domain.entity.attribute.Attribute;
-import is.codion.framework.model.EntityTableConditionModel;
+import is.codion.framework.model.EntityConditionModel;
 import is.codion.framework.model.ForeignKeyConditionModel;
 import is.codion.swing.common.ui.Utilities;
 import is.codion.swing.common.ui.component.Components;
@@ -88,12 +87,12 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 												Map<Attribute<?>, ConditionPanel<?>> conditionPanels,
 												FilterTableColumnModel<Attribute<?>> columnModel,
 												Consumer<TableConditionPanel<Attribute<?>>> onPanelInitialized) {
-		super(tableModel.queryModel().condition().conditionModel(),
+		super(tableModel.query().condition(),
 						attribute -> columnModel.column(attribute).getHeaderValue().toString());
 		setLayout(new BorderLayout());
-		tableModel.queryModel().condition().persist().add(Invoice.DATE);
+		tableModel.query().condition().persist().add(Invoice.DATE);
 		this.simpleConditionPanel = new SimpleConditionPanel(tableModel);
-		this.advancedConditionPanel = filterTableConditionPanel(tableModel.queryModel().condition().conditionModel(),
+		this.advancedConditionPanel = filterTableConditionPanel(tableModel.query().condition(),
 						conditionPanels, columnModel, onPanelInitialized);
 		view().link(advancedConditionPanel.view());
 	}
@@ -164,10 +163,9 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 		private SimpleConditionPanel(SwingEntityTableModel tableModel) {
 			super(new BorderLayout());
 			setBorder(createEmptyBorder(5, 5, 5, 5));
-			EntityTableConditionModel entityConditionModel = tableModel.queryModel().condition();
-			ForeignKeyConditionModel customerConditionModel = entityConditionModel.get(Invoice.CUSTOMER_FK);
-			customerConditionPanel = new CustomerConditionPanel(customerConditionModel, tableModel.entityDefinition());
-			dateConditionPanel = new DateConditionPanel(entityConditionModel.get(Invoice.DATE));
+			EntityConditionModel condition = tableModel.query().condition();
+			customerConditionPanel = new CustomerConditionPanel(condition.get(Invoice.CUSTOMER_FK), tableModel);
+			dateConditionPanel = new DateConditionPanel(condition.get(Invoice.DATE));
 			dateConditionPanel.yearValue.addListener(tableModel.items()::refresh);
 			dateConditionPanel.monthValue.addListener(tableModel.items()::refresh);
 			conditionPanels.put(Invoice.CUSTOMER_FK, customerConditionPanel);
@@ -207,10 +205,11 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 
 			private final EntitySearchField searchField;
 
-			private CustomerConditionPanel(ForeignKeyConditionModel conditionModel, EntityDefinition definition) {
+			private CustomerConditionPanel(ForeignKeyConditionModel conditionModel, SwingEntityTableModel tableModel) {
 				super(conditionModel);
 				setLayout(new BorderLayout());
-				setBorder(createTitledBorder(createEmptyBorder(), definition.attributes().definition(Invoice.CUSTOMER_FK).caption()));
+				setBorder(createTitledBorder(createEmptyBorder(),
+								tableModel.entityDefinition().attributes().definition(Invoice.CUSTOMER_FK).caption()));
 				searchField = EntitySearchField.builder()
 								.model(conditionModel.inSearchModel())
 								.multiSelection()
