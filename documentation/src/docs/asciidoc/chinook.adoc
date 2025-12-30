@@ -104,7 +104,7 @@ This demo application is based on the Chinook music store sample database.
 
 *** <<_playlisttracktablepanel, PlaylistTrackTablePanel>>
 
-*** <<_trackeditcomponentfactory, TrackEditComponentFactory>>
+*** <<_trackeditcomponent, TrackEditComponent>>
 
 * Common Table Expression
 
@@ -955,8 +955,8 @@ include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistTrackEditPanel.j
 include::{dir-source-client}/is/codion/demos/chinook/ui/PlaylistTrackTablePanel.java[lines=19..-1]
 ----
 
-[#_trackeditcomponentfactory]
-===== TrackEditComponentFactory
+[#_trackeditcomponent]
+===== TrackEditComponent
 
 [source,java,options="nowrap"]
 ----
