@@ -26,7 +26,6 @@ module is.codion.demos.chinook.client {
 	requires is.codion.plugin.flatlaf.intellij.themes;
 
 	requires is.codion.demos.chinook.domain.api;
-	requires org.kordamp.ikonli.foundation;
 	requires net.sf.jasperreports.core;
 	requires net.sf.jasperreports.pdf;
 	requires org.jfree.jfreechart;

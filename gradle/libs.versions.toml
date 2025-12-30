@@ -1,10 +1,9 @@
 [versions]
-codion = "0.18.62"
+codion = "0.18.63"
 flatlaf = "3.6.2"
 h2 = "2.3.232"
 javalin = "6.7.0"
 jackson = "2.19.1"
-ikonli-foundation = "12.4.0"
 jasperreports = "7.0.3"
 jfreechart = "1.5.6"
 
@@ -37,7 +36,6 @@ codion-tools-swing-mcp = { module = "is.codion:codion-tools-swing-mcp" }
 javalin = { module = "io.javalin:javalin", version.ref = "javalin" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
-ikonli-foundation = { module = "org.kordamp.ikonli:ikonli-foundation-pack", version.ref = "ikonli-foundation" }
 jasperreports-jdt = { module = "net.sf.jasperreports:jasperreports-jdt", version.ref = "jasperreports" }
 jasperreports-pdf = { module = "net.sf.jasperreports:jasperreports-pdf", version.ref = "jasperreports" }
 jfreechart = { module = "org.jfree:jfreechart", version.ref = "jfreechart" }

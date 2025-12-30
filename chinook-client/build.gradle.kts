@@ -10,8 +10,10 @@ dependencies {
     implementation(libs.codion.swing.framework.ui)
     implementation(libs.codion.plugin.flatlaf)
     implementation(libs.codion.plugin.flatlaf.intellij.themes)
-    implementation(libs.flatlaf.extras)
-    implementation(libs.ikonli.foundation)
+    implementation(libs.flatlaf.extras) {
+        // https://github.com/weisJ/jsvg/issues/134
+        exclude(group = "com.github.weisj", module = "jsvg")
+    }
     implementation(libs.codion.tools.swing.mcp)
 
     implementation(libs.jasperreports.pdf) {

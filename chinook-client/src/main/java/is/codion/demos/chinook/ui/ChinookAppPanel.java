@@ -53,8 +53,6 @@ import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
 import is.codion.swing.framework.ui.icon.FrameworkIcons;
 import is.codion.tools.swing.mcp.SwingMcpPlugin;
 
-import org.kordamp.ikonli.foundation.Foundation;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -183,7 +181,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 										.control(Control.builder()
 														.command(this::displayAnalytics)
 														.caption(bundle.getString("analytics"))
-														.icon(FrameworkIcons.instance().get(Foundation.GRAPH_PIE))
+														.icon(FrameworkIcons.instance().get("graph-pie"))
 														.build())
 										.separator()
 										.control(Control.builder()
@@ -244,7 +242,10 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	public static void main(String[] args) throws CancelException {
 		String language = UserPreferences.get(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
 		Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
-		FrameworkIcons.instance().add(Foundation.PLUS, Foundation.MINUS, Foundation.GRAPH_PIE);
+		FrameworkIcons icons = FrameworkIcons.instance();
+		icons.put("plus", ChinookAppPanel.class.getResource("plus.svg"));
+		icons.put("minus", ChinookAppPanel.class.getResource("minus.svg"));
+		icons.put("graph-pie", ChinookAppPanel.class.getResource("graph-pie.svg"));
 		Completion.COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
 		EntityApplicationPanel.CACHE_ENTITY_PANELS.set(true);
 		EntityApplicationPanel.SQL_TRACING.set(true);
@@ -261,6 +262,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		EntityTablePanel.Config.INCLUDE_QUERY_INSPECTOR.set(true);
 		EntityTablePanel.Config.INCLUDE_EXPORT.set(true);
 		FilterTable.AUTO_RESIZE_MODE.set(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		FilterTable.PAINT_REMAINING_ROWS.set(true);
 		FilterTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
 		FilterTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
 		ValidIndicatorFactory.FACTORY_CLASS.set("is.codion.plugin.flatlaf.indicator.FlatLafValidIndicatorFactory");
