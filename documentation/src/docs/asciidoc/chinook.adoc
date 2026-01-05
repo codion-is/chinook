@@ -50,7 +50,7 @@ This demo application is based on the Chinook music store sample database.
 
 *** Used in <<_albumeditpanel, AlbumEditPanel>>
 
-** <<_durationcomponentvalue, DurationComponentValue>>
+** <<_durationpanelbuilder, DurationPanelBuilder>>
 
 *** Used in <<_trackeditpanel, TrackEditPanel>> and <<_tracktablepanel, TrackTablePanel>>
 
@@ -799,12 +799,12 @@ include::{dir-source-client}/is/codion/demos/chinook/ui/TrackEditPanel.java[line
 include::{dir-source-client}/is/codion/demos/chinook/ui/TrackTablePanel.java[lines=19..-1]
 ----
 
-[#_durationcomponentvalue]
-===== DurationComponentValue
+[#_durationpanelbuilder]
+===== DurationPanelBuilder
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-client}/is/codion/demos/chinook/ui/DurationComponentValue.java[lines=19..-1]
+include::{dir-source-client}/is/codion/demos/chinook/ui/DurationPanelBuilder.java[lines=19..-1]
 ----
 
 == Playlists

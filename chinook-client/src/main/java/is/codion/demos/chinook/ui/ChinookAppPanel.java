@@ -38,6 +38,7 @@ import is.codion.swing.common.ui.component.combobox.Completion;
 import is.codion.swing.common.ui.component.indicator.ValidIndicatorFactory;
 import is.codion.swing.common.ui.component.table.FilterTable;
 import is.codion.swing.common.ui.component.table.FilterTableCellRenderer;
+import is.codion.swing.common.ui.component.table.FilterTableHeaderRenderer;
 import is.codion.swing.common.ui.control.Control;
 import is.codion.swing.common.ui.control.Controls;
 import is.codion.swing.common.ui.dialog.Dialogs;
@@ -254,7 +255,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		EntityEditPanel.Config.MODIFIED_WARNING.set(true);
 		EntityEditPanel.Config.INCLUDE_QUERY_INSPECTOR.set(true);
 		// Add a CTRL/⌘ modifier to the DELETE key shortcut for table panels
-		EntityTablePanel.ControlKeys.DELETE.defaultKeystroke().map(keyStroke ->
+		EntityTablePanel.ControlKeys.DELETE.defaultKeystroke().update(keyStroke ->
 						keyStroke(keyStroke.getKeyCode(), MENU_SHORTCUT_MASK));
 		EntityTablePanel.Config.COLUMN_SELECTION.set(SelectionMode.MENU);
 		EntityTablePanel.Config.AUTO_RESIZE_MODE_SELECTION.set(SelectionMode.MENU);
@@ -265,6 +266,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		FilterTable.PAINT_REMAINING_ROWS.set(true);
 		FilterTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
 		FilterTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
+		FilterTableHeaderRenderer.FOCUSED_COLUMN_INDICATOR.set(true);
 		ValidIndicatorFactory.FACTORY_CLASS.set("is.codion.plugin.flatlaf.indicator.FlatLafValidIndicatorFactory");
 		CalendarPanel.WEEK_NUMBERS.set(true);
 		ReferentialIntegrityErrorHandling.REFERENTIAL_INTEGRITY_ERROR_HANDLING

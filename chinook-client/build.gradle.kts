@@ -8,7 +8,7 @@ dependencies {
     implementation(project(":chinook-domain-api"))
 
     implementation(libs.codion.swing.framework.ui)
-    implementation(libs.codion.plugin.flatlaf)
+    implementation(libs.codion.plugin.flatlaf.lookandfeels)
     implementation(libs.codion.plugin.flatlaf.intellij.themes)
     implementation(libs.flatlaf.extras) {
         // https://github.com/weisJ/jsvg/issues/134

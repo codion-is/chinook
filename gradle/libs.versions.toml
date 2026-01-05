@@ -1,6 +1,6 @@
 [versions]
-codion = "0.18.63"
-flatlaf = "3.6.2"
+codion = "0.18.64"
+flatlaf = "3.7"
 h2 = "2.3.232"
 javalin = "6.7.0"
 jackson = "2.19.1"
@@ -26,7 +26,7 @@ codion-tools-jul-classpath = { module = "is.codion:codion-tools-jul-classpath" }
 codion-plugin-jasperreports = { module = "is.codion:codion-plugin-jasperreports" }
 codion-plugin-logback-proxy = { module = "is.codion:codion-plugin-logback-proxy" }
 codion-plugin-hikari-pool = { module = "is.codion:codion-plugin-hikari-pool" }
-codion-plugin-flatlaf = { module = "is.codion:codion-plugin-flatlaf" }
+codion-plugin-flatlaf-lookandfeels = { group = "is.codion", name = "codion-plugin-flatlaf-lookandfeels" }
 codion-plugin-flatlaf-intellij-themes = { module = "is.codion:codion-plugin-flatlaf-intellij-themes" }
 codion-framework-server = { module = "is.codion:codion-framework-server" }
 codion-framework-servlet = { module = "is.codion:codion-framework-servlet" }
