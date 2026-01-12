@@ -34,12 +34,11 @@ final class PlaylistTrackEditPanel extends EntityEditPanel {
 	PlaylistTrackEditPanel(SwingEntityEditModel editModel) {
 		super(editModel, config -> config
 						// Skip confirmation when deleting
-						.deleteConfirmer(Confirmer.NONE));
+						.confirmDelete(false));
 	}
 
 	@Override
 	protected void initializeUI() {
-		focus().initial().set(PlaylistTrack.TRACK_FK);
 		createSearchField(PlaylistTrack.TRACK_FK)
 						.selector(new TrackSelector())
 						.transferFocusOnEnter(false)

@@ -34,13 +34,11 @@ final class PlaylistEditPanel extends EntityEditPanel {
 	PlaylistEditPanel(SwingEntityEditModel editModel) {
 		super(editModel, config -> config
 						// Skip confirmation when updating
-						.updateConfirmer(Confirmer.NONE));
+						.confirmUpdate(false));
 	}
 
 	@Override
 	protected void initializeUI() {
-		focus().initial().set(Playlist.NAME);
-
 		createTextField(Playlist.NAME)
 						.transferFocusOnEnter(false)
 						.columns(20);
