@@ -22,8 +22,8 @@ import is.codion.common.reactive.state.ObservableState;
 import is.codion.demos.chinook.ui.DurationPanelBuilder.DurationPanel;
 import is.codion.swing.common.ui.component.Components;
 import is.codion.swing.common.ui.component.builder.AbstractComponentValueBuilder;
-import is.codion.swing.common.ui.component.indicator.ModifiedIndicatorFactory;
-import is.codion.swing.common.ui.component.indicator.ValidIndicatorFactory;
+import is.codion.swing.common.ui.component.indicator.ModifiedIndicator;
+import is.codion.swing.common.ui.component.indicator.ValidIndicator;
 import is.codion.swing.common.ui.component.table.FilterTableCellEditor;
 import is.codion.swing.common.ui.component.text.NumberField;
 import is.codion.swing.common.ui.component.value.AbstractComponentValue;
@@ -63,7 +63,7 @@ final class DurationPanelBuilder extends AbstractComponentValueBuilder<DurationP
 	}
 
 	@Override
-	protected void enableTransferFocusOnEnter(DurationPanel component, TransferFocusOnEnter transferFocusOnEnter) {
+	protected void enable(TransferFocusOnEnter transferFocusOnEnter, DurationPanel component) {
 		transferFocusOnEnter.enable(component.minutesField);
 		transferFocusOnEnter.enable(component.secondsField);
 		// If the component is being used as a table cell editor, the focus jumps outside
@@ -74,17 +74,17 @@ final class DurationPanelBuilder extends AbstractComponentValueBuilder<DurationP
 	}
 
 	@Override
-	protected void enableValidIndicator(ValidIndicatorFactory validIndicatorFactory, DurationPanel component, ObservableState valid) {
-		validIndicatorFactory.enable(component.minutesField, valid);
-		validIndicatorFactory.enable(component.secondsField, valid);
-		validIndicatorFactory.enable(component.millisecondsField, valid);
+	protected void enable(ValidIndicator validIndicator, DurationPanel component, ObservableState valid) {
+		validIndicator.enable(component.minutesField, valid);
+		validIndicator.enable(component.secondsField, valid);
+		validIndicator.enable(component.millisecondsField, valid);
 	}
 
 	@Override
-	protected void enableModifiedIndicator(ModifiedIndicatorFactory modifiedIndicatorFactory, DurationPanel component, ObservableState modified) {
-		modifiedIndicatorFactory.enable(component.minutesField, modified);
-		modifiedIndicatorFactory.enable(component.secondsField, modified);
-		modifiedIndicatorFactory.enable(component.millisecondsField, modified);
+	protected void enable(ModifiedIndicator modifiedIndicator, DurationPanel component, ObservableState modified) {
+		modifiedIndicator.enable(component.minutesField, modified);
+		modifiedIndicator.enable(component.secondsField, modified);
+		modifiedIndicator.enable(component.millisecondsField, modified);
 	}
 
 	static Integer minutes(Integer milliseconds) {
