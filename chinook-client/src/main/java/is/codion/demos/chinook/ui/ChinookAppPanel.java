@@ -46,13 +46,14 @@ import is.codion.swing.framework.model.SwingEntityModel;
 import is.codion.swing.framework.ui.EntityApplication;
 import is.codion.swing.framework.ui.EntityApplicationPanel;
 import is.codion.swing.framework.ui.EntityEditPanel;
+import is.codion.swing.framework.ui.EntityEditorPanel;
 import is.codion.swing.framework.ui.EntityPanel;
 import is.codion.swing.framework.ui.EntityPanel.WindowType;
 import is.codion.swing.framework.ui.EntityTablePanel;
 import is.codion.swing.framework.ui.EntityTablePanel.SelectionMode;
 import is.codion.swing.framework.ui.ReferentialIntegrityErrorHandling;
 import is.codion.swing.framework.ui.icon.FrameworkIcons;
-import is.codion.tools.swing.mcp.SwingMcpPlugin;
+import is.codion.tools.swing.mcp.SwingMcpServer;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
@@ -84,7 +85,10 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	/* Non-static so this is not initialized before main(), which sets the locale */
 	private final ResourceBundle bundle = getBundle(ChinookAppPanel.class.getName());
 
-	private final State mcpServerController = SwingMcpPlugin.mcpServer(this, true);
+	private final State mcpController = SwingMcpServer.builder()
+					.component(this)
+					.narrator(true)
+					.build();
 
 	private AnalyticsPanel analyticsPanel;
 
@@ -161,7 +165,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 
 	private static EntityPanel createPreferencesPanel(EntityConnectionProvider connectionProvider) {
 		SwingEntityModel preferencesModel = new SwingEntityModel(Preferences.TYPE, connectionProvider);
-		preferencesModel.editModel().initializeComboBoxModels(Preferences.PREFERRED_GENRE_FK);
+		preferencesModel.editModel().editor().comboBoxModels().initialize(Preferences.PREFERRED_GENRE_FK);
 		// Foreign key values persist by default,
 		// but that doesn't make sense with these two
 		preferencesModel.editModel().editor().value(Preferences.CUSTOMER_FK).persist().set(false);
@@ -186,7 +190,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 														.build())
 										.separator()
 										.control(Control.builder()
-														.toggle(mcpServerController)
+														.toggle(mcpController)
 														.caption("MCP Server"))
 										.build());
 	}
@@ -252,7 +256,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		EntityApplicationPanel.SQL_TRACING.set(true);
 		EntityPanel.Config.TOOLBAR_CONTROLS.set(true);
 		EntityPanel.Config.WINDOW_TYPE.set(WindowType.FRAME);
-		EntityEditPanel.Config.MODIFIED_WARNING.set(true);
+		EntityEditorPanel.MODIFIED_WARNING.set(true);
 		EntityEditPanel.Config.INCLUDE_QUERY_INSPECTOR.set(true);
 		// Add a CTRL/⌘ modifier to the DELETE key shortcut for table panels
 		EntityTablePanel.ControlKeys.DELETE.defaultKeystroke().update(keyStroke ->

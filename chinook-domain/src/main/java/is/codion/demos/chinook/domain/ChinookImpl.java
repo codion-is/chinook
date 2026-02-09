@@ -414,7 +414,7 @@ public final class ChinookImpl extends DomainModel {
 						.orderBy(ascending(Track.NAME))
 						// Implement a custom condition for specifying
 						// tracks that are not in a given playlist
-						.condition(Track.NOT_IN_PLAYLIST, (c, v) -> """
+						.condition(Track.NOT_IN_PLAYLIST, (_, _) -> """
 										track.id NOT IN (
 												SELECT track_id
 												FROM chinook.playlisttrack
@@ -440,7 +440,7 @@ public final class ChinookImpl extends DomainModel {
 										Invoice.DATE.as()
 														.column()
 														.nullable(false)
-														.defaultValue(Invoice.DATE_DEFAULT_VALUE)
+														.defaultValue(Invoice.TODAY)
 														.dateTimePattern(LocaleDateTimePattern.builder()
 																		.delimiterDot()
 																		.yearFourDigits()
