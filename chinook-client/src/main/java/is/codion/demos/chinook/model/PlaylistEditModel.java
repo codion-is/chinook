@@ -23,6 +23,7 @@ import is.codion.demos.chinook.domain.api.Chinook.PlaylistTrack;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.domain.entity.Entity;
+import is.codion.framework.model.EntityPersistence;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 
 import java.util.Collection;
@@ -34,15 +35,19 @@ public final class PlaylistEditModel extends SwingEntityEditModel {
 
 	public PlaylistEditModel(EntityConnectionProvider connectionProvider) {
 		super(Playlist.TYPE, connectionProvider);
+		persistence().set(new PlaylistPersistence());
 	}
 
-	@Override
-	protected void delete(Collection<Entity> playlists, EntityConnection connection) {
-		// We delete all playlist tracks along
-		// with the playlist, within a transaction
-		transaction(connection, () -> {
-			connection.delete(PlaylistTrack.PLAYLIST_FK.in(playlists));
-			connection.delete(primaryKeys(playlists));
-		});
+	private static final class PlaylistPersistence implements EntityPersistence {
+
+		@Override
+		public void delete(Collection<Entity> playlists, EntityConnection connection) {
+			// We delete all playlist tracks along
+			// with the playlist, within a transaction
+			transaction(connection, () -> {
+				connection.delete(PlaylistTrack.PLAYLIST_FK.in(playlists));
+				connection.delete(primaryKeys(playlists));
+			});
+		}
 	}
 }
