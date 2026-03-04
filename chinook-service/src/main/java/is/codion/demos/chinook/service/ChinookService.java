@@ -42,7 +42,7 @@ final class ChinookService {
 	static final PropertyValue<Integer> PORT =
 					integerValue("chinook.service.port", 8089);
 
-	private final Javalin javalin = Javalin.create(config -> config.useVirtualThreads = true);
+	private final Javalin javalin;
 	private final ConnectionSupplier connectionSupplier = new ConnectionSupplier();
 
 	private final ArtistHandler artists = new ArtistHandler(connectionSupplier);
@@ -52,22 +52,25 @@ final class ChinookService {
 	private final GenreHandler genre = new GenreHandler(connectionSupplier);
 
 	ChinookService() {
-		javalin.get("/artists", artists::artists);
-		javalin.get("/artists/id/{id}", artists::byId);
-		javalin.get("/artists/name/{name}", artists::byName);
-		javalin.post("/artists", artists::insert);
-		javalin.get("/albums", albums::albums);
-		javalin.get("/albums/id/{id}", albums::byId);
-		javalin.get("/albums/title/{title}", albums::byTitle);
-		javalin.get("/albums/artist/name/{name}", albums::byArtistName);
-		javalin.post("/albums", albums::insert);
-		javalin.get("/tracks", tracks::tracks);
-		javalin.get("/tracks/id/{id}", tracks::byId);
-		javalin.get("/tracks/name/{name}", tracks::byName);
-		javalin.get("/tracks/artist/name/{name}", tracks::byArtistName);
-		javalin.post("/tracks", tracks::insert);
-		javalin.post("/mediatypes", mediaType::insert);
-		javalin.post("/genres", genre::insert);
+		javalin = Javalin.create(config -> {
+			config.concurrency.useVirtualThreads = true;
+			config.routes.get("/artists", artists::artists);
+			config.routes.get("/artists/id/{id}", artists::byId);
+			config.routes.get("/artists/name/{name}", artists::byName);
+			config.routes.post("/artists", artists::insert);
+			config.routes.get("/albums", albums::albums);
+			config.routes.get("/albums/id/{id}", albums::byId);
+			config.routes.get("/albums/title/{title}", albums::byTitle);
+			config.routes.get("/albums/artist/name/{name}", albums::byArtistName);
+			config.routes.post("/albums", albums::insert);
+			config.routes.get("/tracks", tracks::tracks);
+			config.routes.get("/tracks/id/{id}", tracks::byId);
+			config.routes.get("/tracks/name/{name}", tracks::byName);
+			config.routes.get("/tracks/artist/name/{name}", tracks::byArtistName);
+			config.routes.post("/tracks", tracks::insert);
+			config.routes.post("/mediatypes", mediaType::insert);
+			config.routes.post("/genres", genre::insert);
+		});
 	}
 
 	void start() {

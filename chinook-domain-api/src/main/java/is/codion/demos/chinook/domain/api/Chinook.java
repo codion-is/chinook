@@ -33,7 +33,7 @@ import is.codion.framework.domain.entity.attribute.Column;
 import is.codion.framework.domain.entity.attribute.DerivedValue;
 import is.codion.framework.domain.entity.attribute.ForeignKey;
 import is.codion.framework.domain.entity.condition.ConditionType;
-import is.codion.framework.domain.entity.exception.ValidationException;
+import is.codion.framework.domain.entity.exception.AttributeValidationException;
 import is.codion.plugin.jasperreports.JRReportType;
 import is.codion.plugin.jasperreports.JasperReports;
 
@@ -471,6 +471,9 @@ public interface Chinook {
 	// tag::emailValidator[]
 	final class EmailValidator implements EntityValidator, Serializable {
 
+		@Serial
+		private static final long serialVersionUID = 1;
+
 		private static final Pattern EMAIL_PATTERN = Pattern.compile("^(.+)@(.+)$");
 		private static final ResourceBundle BUNDLE = getBundle(Chinook.class.getName());
 
@@ -481,16 +484,16 @@ public interface Chinook {
 		}
 
 		@Override
-		public void validate(Entity entity, Attribute<?> attribute) {
+		public void validate(Entity entity, Attribute<?> attribute) throws AttributeValidationException {
 			EntityValidator.super.validate(entity, attribute);
 			if (attribute.equals(emailColumn)) {
 				validateEmail(entity.get(emailColumn));
 			}
 		}
 
-		private void validateEmail(String email) {
+		private void validateEmail(String email) throws AttributeValidationException {
 			if (!EMAIL_PATTERN.matcher(email).matches()) {
-				throw new ValidationException(emailColumn, email, BUNDLE.getString("invalid_email"));
+				throw new AttributeValidationException(emailColumn, email, BUNDLE.getString("invalid_email"));
 			}
 		}
 	}

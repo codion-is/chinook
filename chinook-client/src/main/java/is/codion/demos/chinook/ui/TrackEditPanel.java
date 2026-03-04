@@ -20,6 +20,7 @@ package is.codion.demos.chinook.ui;
 
 import is.codion.demos.chinook.model.TrackEditModel;
 import is.codion.framework.domain.entity.Entity;
+import is.codion.framework.domain.entity.exception.EntityValidationException;
 import is.codion.swing.common.model.component.list.FilterListSelection;
 import is.codion.swing.common.ui.key.KeyEvents;
 import is.codion.swing.framework.model.SwingEntityEditModel;
@@ -56,45 +57,46 @@ public final class TrackEditPanel extends EntityEditPanel {
 
 	@Override
 	protected void initializeUI() {
-		createSearchField(Track.ALBUM_FK);
-		createTextField(Track.NAME)
+		create().searchField(Track.ALBUM_FK)
+						.columns(20);
+		create().textField(Track.NAME)
 						.columns(12);
-		createComboBoxPanel(Track.MEDIATYPE_FK, this::createMediaTypeEditPanel)
+		create().comboBoxPanel(Track.MEDIATYPE_FK, this::createMediaTypeEditPanel)
 						.preferredWidth(160)
 						.includeAddButton(true)
 						.includeEditButton(true);
-		createComboBoxPanel(Track.GENRE_FK, this::createGenreEditPanel)
+		create().comboBoxPanel(Track.GENRE_FK, this::createGenreEditPanel)
 						.preferredWidth(160)
 						.includeAddButton(true)
 						.includeEditButton(true);
-		createTextFieldPanel(Track.COMPOSER)
+		create().textFieldPanel(Track.COMPOSER)
 						.columns(12);
 
 		component(Track.MILLISECONDS).set(new DurationPanelBuilder());
 
-		createIntegerField(Track.BYTES)
+		create().integerField(Track.BYTES)
 						.columns(6);
-		createIntegerSpinner(Track.RATING)
+		create().integerSpinner(Track.RATING)
 						.columns(2);
-		createTextField(Track.UNITPRICE)
+		create().textField(Track.UNITPRICE)
 						.columns(4);
-		createIntegerField(Track.PLAY_COUNT)
+		create().integerField(Track.PLAY_COUNT)
 						.columns(4);
 
 		JPanel genreMediaTypePanel = gridLayoutPanel(1, 2)
-						.add(createInputPanel(Track.GENRE_FK))
-						.add(createInputPanel(Track.MEDIATYPE_FK))
+						.add(create().inputPanel(Track.GENRE_FK))
+						.add(create().inputPanel(Track.MEDIATYPE_FK))
 						.build();
 
 		JPanel durationInputPanel = gridLayoutPanel(1, 2)
-						.add(createInputPanel(Track.BYTES))
+						.add(create().inputPanel(Track.BYTES))
 						.add(component(Track.MILLISECONDS).get())
 						.build();
 
 		JPanel unitPricePanel = flexibleGridLayoutPanel(1, 3)
-						.add(createInputPanel(Track.RATING))
-						.add(createInputPanel(Track.UNITPRICE))
-						.add(createInputPanel(Track.PLAY_COUNT))
+						.add(create().inputPanel(Track.RATING))
+						.add(create().inputPanel(Track.UNITPRICE))
+						.add(create().inputPanel(Track.PLAY_COUNT))
 						.build();
 
 		setLayout(flexibleGridLayout(4, 2));
@@ -138,7 +140,7 @@ public final class TrackEditPanel extends EntityEditPanel {
 						.enable(this);
 	}
 
-	private void decrementSelection() {
+	private void decrementSelection() throws EntityValidationException {
 		if (editModel().editor().modified().is()) {
 			updateAndDecrementSelectedIndexes.execute();
 		}
@@ -147,7 +149,7 @@ public final class TrackEditPanel extends EntityEditPanel {
 		}
 	}
 
-	private void incrementSelection() {
+	private void incrementSelection() throws EntityValidationException {
 		if (editModel().editor().modified().is()) {
 			updateAndIncrementSelectedIndexes.execute();
 		}

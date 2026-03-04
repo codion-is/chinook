@@ -1,9 +1,9 @@
 [versions]
-codion = "0.18.69"
+codion = "0.18.70"
 flatlaf = "3.7"
 h2 = "2.3.232"
-javalin = "6.7.0"
-jackson = "2.19.1"
+javalin = "7.0.1"
+jackson = "2.21.1"
 jasperreports = "7.0.3"
 jfreechart = "1.5.6"
 

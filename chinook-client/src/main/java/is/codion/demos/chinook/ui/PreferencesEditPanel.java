@@ -19,6 +19,7 @@
 package is.codion.demos.chinook.ui;
 
 import is.codion.demos.chinook.domain.api.Chinook.Preferences;
+import is.codion.framework.domain.entity.exception.EntityValidationException;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.ui.EntityEditPanel;
 
@@ -32,9 +33,9 @@ public final class PreferencesEditPanel extends EntityEditPanel {
 
 	@Override
 	protected void initializeUI() {
-		createSearchField(Preferences.CUSTOMER_FK)
+		create().searchField(Preferences.CUSTOMER_FK)
 						.columns(14);
-		createComboBox(Preferences.PREFERRED_GENRE_FK)
+		create().comboBox(Preferences.PREFERRED_GENRE_FK)
 						.preferredWidth(160);
 		component(Preferences.NEWSLETTER).set(new TriStateCheckBoxBuilder())
 						.altStateCycleOrder(true);
@@ -52,9 +53,14 @@ public final class PreferencesEditPanel extends EntityEditPanel {
 	private void updateNewsletter() {
 		// Only when we're editing an existing record
 		if (editModel().editor().exists().is()) {
-			updateCommand()
-							.confirm(false)
-							.execute();
+			try {
+				updateCommand()
+								.confirm(false)
+								.execute();
+			}
+			catch (EntityValidationException e) {
+				onValidationException(e);
+			}
 		}
 	}
 }

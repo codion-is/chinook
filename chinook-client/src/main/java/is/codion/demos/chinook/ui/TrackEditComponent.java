@@ -19,9 +19,8 @@
 package is.codion.demos.chinook.ui;
 
 import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.domain.entity.EntityDefinition;
 import is.codion.framework.domain.entity.attribute.ForeignKey;
-import is.codion.framework.model.EntitySearchModel;
+import is.codion.swing.framework.model.SwingEntityEditor;
 import is.codion.swing.framework.ui.component.DefaultEditComponent;
 import is.codion.swing.framework.ui.component.EntitySearchField;
 import is.codion.swing.framework.ui.component.EntitySearchField.SingleSelectionBuilder;
@@ -37,9 +36,8 @@ final class TrackEditComponent extends DefaultEditComponent<EntitySearchField, E
 
 	@Override
 	protected SingleSelectionBuilder searchField(ForeignKey foreignKey,
-																							 EntityDefinition entityDefinition,
-																							 EntitySearchModel searchModel) {
-		return (SingleSelectionBuilder) super.searchField(foreignKey, entityDefinition, searchModel)
+																							 SwingEntityEditor editor) {
+		return (SingleSelectionBuilder) super.searchField(foreignKey, editor)
 						.selector(new TrackSelector());
 	}
 }
