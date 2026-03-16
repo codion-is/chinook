@@ -53,7 +53,11 @@ jlink {
                 "is.codion.plugin.logback.proxy,is.codion.plugin.hikari.pool"
     )
 
-    addExtraDependencies("slf4j-api", "jetty-jakarta-servlet-api")
+    addExtraDependencies("slf4j-api")
+
+    mergedModule {
+        excludeRequires("jakarta.servlet")
+    }
 
     jpackage {
         if (OperatingSystem.current().isLinux) {

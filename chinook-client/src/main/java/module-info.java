@@ -32,6 +32,7 @@ module is.codion.demos.chinook.client {
 	requires com.formdev.flatlaf.extras;
 	requires org.apache.commons.logging;
 	requires com.github.librepdf.openpdf;
+	requires org.apache.commons.collections4;
 	requires is.codion.tools.swing.mcp;
 
 	exports is.codion.demos.chinook.ui;

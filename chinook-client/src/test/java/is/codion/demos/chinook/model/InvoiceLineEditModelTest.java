@@ -60,7 +60,7 @@ public final class InvoiceLineEditModelTest {
 			assertEquals(battery.get(Track.UNITPRICE), invoice.get(Invoice.TOTAL));
 
 			Entity orion = connection.selectSingle(Track.NAME.equalToIgnoreCase("orion"));
-			editModel.editor().defaults();
+			editModel.editor().values().defaults();
 			editModel.editor().value(InvoiceLine.INVOICE_FK).set(invoice);
 			editModel.editor().value(InvoiceLine.TRACK_FK).set(orion);
 			editModel.insert();

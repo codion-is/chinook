@@ -72,7 +72,8 @@ application {
         //A connection pool based on this user is created on startup
         "-Dcodion.server.connectionPoolUsers=scott:tiger",
         //Client logging disabled by default
-        "-Dcodion.server.clientLogging=false"
+        "-Dcodion.server.clientLogging=false",
+        "--add-modules=org.apache.commons.collections4",
     )
 }
 
@@ -94,7 +95,7 @@ jlink {
     addExtraDependencies("slf4j-api")
 
     mergedModule {
-        excludeRequires("jetty.servlet.api")
+        excludeRequires("jakarta.servlet")
     }
 
     forceMerge("kotlin")
