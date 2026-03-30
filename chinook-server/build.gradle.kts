@@ -65,6 +65,8 @@ application {
         "-Dcodion.server.admin.port=${serverAdminPort}",
         //The admin user credentials, used by the server monitor application
         "-Dcodion.server.admin.user=scott:tiger",
+        //Allow the server to provide its system properties via the admin interface
+        "-Dcodion.server.systemProperties=true",
         //Database configuration
         "-Dcodion.db.url=jdbc:h2:mem:h2db",
         "-Dcodion.db.initScripts=classpath:create_schema.sql",

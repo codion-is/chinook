@@ -21,7 +21,6 @@ package is.codion.demos.chinook.ui;
 import is.codion.demos.chinook.domain.api.Chinook.Preferences;
 import is.codion.framework.domain.entity.exception.EntityValidationException;
 import is.codion.swing.framework.model.SwingEntityEditModel;
-import is.codion.swing.framework.model.SwingEntityEditor;
 import is.codion.swing.framework.ui.EntityEditPanel;
 
 import static is.codion.swing.common.ui.layout.Layouts.flexibleGridLayout;
@@ -43,7 +42,7 @@ public final class PreferencesEditPanel extends EntityEditPanel {
 						.altStateCycleOrder(true);
 
 		// Automatically update without confirmation when newsletter is toggled
-		editModel().editor().value(Preferences.NEWSLETTER)
+		editor().value(Preferences.NEWSLETTER)
 						.edited().addListener(this::updateNewsletter);
 
 		setLayout(flexibleGridLayout(3, 1));
@@ -53,10 +52,9 @@ public final class PreferencesEditPanel extends EntityEditPanel {
 	}
 
 	private void updateNewsletter() {
-		SwingEntityEditor editor = editModel().editor();
 		// Only when we're editing an existing record
-		if (editor.exists().is() && // and newsletter is the only modified attribute
-						editor.modified().attributes().get().equals(singleton(Preferences.NEWSLETTER))) {
+		if (editor().exists().is() && // and newsletter is the only modified attribute
+						editor().modified().attributes().get().equals(singleton(Preferences.NEWSLETTER))) {
 			try {
 				updateCommand()
 								.confirm(false)

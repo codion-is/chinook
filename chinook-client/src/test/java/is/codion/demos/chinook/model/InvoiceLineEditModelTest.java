@@ -30,6 +30,7 @@ import is.codion.framework.db.local.LocalEntityConnectionProvider;
 import is.codion.framework.domain.entity.Entities;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.exception.EntityValidationException;
+import is.codion.swing.framework.model.SwingEntityEditor;
 
 import org.junit.jupiter.api.Test;
 
@@ -52,18 +53,19 @@ public final class InvoiceLineEditModelTest {
 			Entity battery = connection.selectSingle(Track.NAME.equalToIgnoreCase("battery"));
 
 			InvoiceLineEditModel editModel = new InvoiceLineEditModel(connectionProvider);
-			editModel.editor().value(InvoiceLine.INVOICE_FK).set(invoice);
-			editModel.editor().value(InvoiceLine.TRACK_FK).set(battery);
-			Entity invoiceLineBattery = editModel.insert();
+			SwingEntityEditor editor = editModel.editor();
+			editor.value(InvoiceLine.INVOICE_FK).set(invoice);
+			editor.value(InvoiceLine.TRACK_FK).set(battery);
+			Entity invoiceLineBattery = editor.insert();
 
 			invoice = connection.selectSingle(key(invoice.primaryKey()));
 			assertEquals(battery.get(Track.UNITPRICE), invoice.get(Invoice.TOTAL));
 
 			Entity orion = connection.selectSingle(Track.NAME.equalToIgnoreCase("orion"));
-			editModel.editor().values().defaults();
-			editModel.editor().value(InvoiceLine.INVOICE_FK).set(invoice);
-			editModel.editor().value(InvoiceLine.TRACK_FK).set(orion);
-			editModel.insert();
+			editor.values().defaults();
+			editor.value(InvoiceLine.INVOICE_FK).set(invoice);
+			editor.value(InvoiceLine.TRACK_FK).set(orion);
+			editor.insert();
 
 			invoice = connection.selectSingle(key(invoice.primaryKey()));
 			assertEquals(battery.get(Track.UNITPRICE).add(orion.get(Track.UNITPRICE)), invoice.get(Invoice.TOTAL));
@@ -72,14 +74,14 @@ public final class InvoiceLineEditModelTest {
 			theCallOfKtulu.set(Track.UNITPRICE, BigDecimal.valueOf(2));
 			theCallOfKtulu = connection.updateSelect(theCallOfKtulu);
 
-			editModel.editor().entity().set(invoiceLineBattery);
-			editModel.editor().value(InvoiceLine.TRACK_FK).set(theCallOfKtulu);
-			editModel.update();
+			editor.entity().set(invoiceLineBattery);
+			editor.value(InvoiceLine.TRACK_FK).set(theCallOfKtulu);
+			editor.update();
 
 			invoice = connection.selectSingle(key(invoice.primaryKey()));
 			assertEquals(orion.get(Track.UNITPRICE).add(theCallOfKtulu.get(Track.UNITPRICE)), invoice.get(Invoice.TOTAL));
 
-			editModel.delete();
+			editor.delete();
 
 			invoice = connection.selectSingle(key(invoice.primaryKey()));
 			assertEquals(orion.get(Track.UNITPRICE), invoice.get(Invoice.TOTAL));
