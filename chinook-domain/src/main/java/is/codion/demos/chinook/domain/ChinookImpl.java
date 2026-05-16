@@ -77,7 +77,7 @@ public final class ChinookImpl extends DomainModel {
 
 	public ChinookImpl() {
 		super(DOMAIN);
-		add(artist(), album(), employee(), customer(), genre(), preferences(), mediaType(),
+		add(artist(), artistTag(), album(), employee(), customer(), genre(), preferences(), mediaType(),
 						track(), invoice(), invoiceLine(), playlist(), playlistTrack(), artistRevenue());
 		add(Customer.REPORT, classPathReport(ChinookImpl.class, "customer_report.jasper"));
 		add(Track.RAISE_PRICE, new RaisePrice());
@@ -116,6 +116,30 @@ public final class ChinookImpl extends DomainModel {
 						.build();
 	}
 	// end::artist[]
+
+	// tag::artistTag[]
+	EntityDefinition artistTag() {
+		return ArtistTag.TYPE.as(
+										ArtistTag.ID.as()
+														.primaryKey()
+														.generator(identity()),
+										ArtistTag.ARTIST_ID.as()
+														.column()
+														.nullable(false),
+										ArtistTag.ARTIST_FK.as()
+														.foreignKey(),
+										ArtistTag.TAG.as()
+														.column()
+														.nullable(false)
+														.maximumLength(100),
+										ArtistTag.INSERT_TIME.as()
+														.column(INSERT_TIME),
+										ArtistTag.INSERT_USER.as()
+														.column(INSERT_USER))
+						.formatter(ArtistTag.TAG)
+						.build();
+	}
+	// end::artistTag[]
 
 	// tag::album[]
 	EntityDefinition album() {
@@ -648,6 +672,7 @@ public final class ChinookImpl extends DomainModel {
 												Collection<Long> invoiceIds) {
 			Collection<Entity> invoices =
 							connection.select(where(Invoice.ID.in(invoiceIds))
+											.attributes(Invoice.TOTAL, Invoice.CALCULATED_TOTAL)
 											.forUpdate()
 											.build());
 

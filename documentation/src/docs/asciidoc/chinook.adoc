@@ -122,6 +122,18 @@ This demo application is based on the Chinook music store sample database.
 
 *** <<_artisttablepanel, ArtistTablePanel>>
 
+* Detail editor
+
+*** <<_customereditmodel, CustomerEditModel>>
+
+*** <<_customereditpanel, CustomerEditPanel>>
+
+* Multiple detail editors
+
+*** <<_artisteditmodel, AristEditModel>>
+
+*** <<_artisteditpanel, ArtistEditPanel>>
+
 * Persistance layer used in a web service
 
 ** <<_service, ChinookService>>
@@ -221,6 +233,21 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 [source,java,options="nowrap"]
 ----
 include::{dir-source-client}/is/codion/demos/chinook/model/CustomerModel.java[lines=19..-1]
+----
+
+[#_customereditmodel]
+===== CustomerEditModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/demos/chinook/model/CustomerEditModel.java[lines=19..-1]
+----
+
+===== CustomerEditModelTest
+
+[source,java,options="nowrap"]
+----
+include::{dir-test-source-client}/is/codion/demos/chinook/model/CustomerEditModelTest.java[lines=19..-1]
 ----
 
 ==== UI
@@ -499,6 +526,16 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 
 ==== Model
 
+[#_artisteditmodel]
+===== ArtistEditModel
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/demos/chinook/model/ArtistEditModel.java[lines=19..-1]
+----
+
+===== ArtistTableModel
+
 [source,java,options="nowrap"]
 ----
 include::{dir-source-client}/is/codion/demos/chinook/model/ArtistTableModel.java[lines=19..-1]
@@ -506,6 +543,7 @@ include::{dir-source-client}/is/codion/demos/chinook/model/ArtistTableModel.java
 
 ==== UI
 
+[#_artisteditpanel]
 ===== ArtistEditPanel
 
 [source,java,options="nowrap"]
@@ -519,6 +557,31 @@ include::{dir-source-client}/is/codion/demos/chinook/ui/ArtistEditPanel.java[lin
 [source,java,options="nowrap"]
 ----
 include::{dir-source-client}/is/codion/demos/chinook/ui/ArtistTablePanel.java[lines=19..-1]
+----
+
+=== ArtistTag
+
+==== SQL
+
+[source,sql,options="nowrap"]
+----
+include::{dir-source-sql}/create_schema.sql[tags=artistTag]
+----
+
+==== Domain
+
+===== API
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=artistTag]
+----
+
+===== Implementation
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tags=artistTag]
 ----
 
 === Genre

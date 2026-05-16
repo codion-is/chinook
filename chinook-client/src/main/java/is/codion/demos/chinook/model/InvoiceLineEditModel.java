@@ -18,7 +18,6 @@
  */
 package is.codion.demos.chinook.model;
 
-import is.codion.common.reactive.observer.Observer;
 import is.codion.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.demos.chinook.domain.api.Chinook.InvoiceLine;
 import is.codion.demos.chinook.domain.api.Chinook.Track;
@@ -29,7 +28,6 @@ import is.codion.framework.model.EntityPersistence;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 
 import java.util.Collection;
-import java.util.Objects;
 
 import static is.codion.framework.db.EntityConnection.transaction;
 import static is.codion.framework.domain.entity.Entity.distinct;
@@ -41,19 +39,8 @@ public final class InvoiceLineEditModel extends SwingEntityEditModel {
 		super(InvoiceLine.TYPE, connectionProvider);
 		editor().persistence().set(new InvoiceLinePersistence());
 		// We populate the unit price when the track is edited
-		Observer<Entity> trackEdited = editor().value(InvoiceLine.TRACK_FK).edited();
-		trackEdited.when(Objects::nonNull)
-						.addConsumer(this::setUnitPrice);
-		trackEdited.when(Objects::isNull)
-						.addListener(this::clearUnitPrice);
-	}
-
-	private void setUnitPrice(Entity track) {
-		editor().value(InvoiceLine.UNITPRICE).set(track.get(Track.UNITPRICE));
-	}
-
-	private void clearUnitPrice() {
-		editor().value(InvoiceLine.UNITPRICE).clear();
+		editor().value(InvoiceLine.TRACK_FK).propagate(InvoiceLine.UNITPRICE,
+						track -> track == null ? null : track.get(Track.UNITPRICE));
 	}
 
 	private static final class InvoiceLinePersistence implements EntityPersistence {
