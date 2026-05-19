@@ -47,7 +47,7 @@ public final class ArtistEditModel extends SwingEntityEditModel {
 							.select(new TagSelect(i))
 							.present(present)
 							.name(TAG_PREFIX + i)
-							.caption(String.valueOf(i + 1))
+							.caption("(" + (i + 1) + ")")
 							.build());
 		}
 	}

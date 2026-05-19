@@ -14,12 +14,6 @@ java {
 configure(subprojects) {
     apply(plugin = "java")
 
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(25))
-        }
-    }
-
     dependencies {
         implementation(platform(rootProject.libs.codion.framework.bom))
     }

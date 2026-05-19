@@ -29,7 +29,6 @@ import is.codion.demos.chinook.domain.api.Chinook.Playlist.RandomPlaylistParamet
 import is.codion.demos.chinook.domain.api.Chinook.Track.RaisePriceParameters;
 import is.codion.demos.chinook.migration.MigrationManager;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.db.EntityConnection.Select;
 import is.codion.framework.domain.DomainModel;
 import is.codion.framework.domain.entity.Entities;
 import is.codion.framework.domain.entity.Entity;
@@ -536,7 +535,8 @@ public final class ChinookImpl extends DomainModel {
 										InvoiceLine.QUANTITY.as()
 														.column()
 														.nullable(false)
-														.defaultValue(1),
+														.defaultValue(1)
+														.minimum(1),
 										InvoiceLine.TOTAL.as()
 														.derived()
 														.from(InvoiceLine.QUANTITY, InvoiceLine.UNITPRICE)
@@ -673,8 +673,7 @@ public final class ChinookImpl extends DomainModel {
 			Collection<Entity> invoices =
 							connection.select(where(Invoice.ID.in(invoiceIds))
 											.attributes(Invoice.TOTAL, Invoice.CALCULATED_TOTAL)
-											.forUpdate()
-											.build());
+											.forUpdate());
 
 			connection.update(invoices.stream()
 							.map(UpdateTotals::updateTotal)
@@ -740,8 +739,7 @@ public final class ChinookImpl extends DomainModel {
 			return connection.select(Track.ID,
 							where(Track.GENRE_FK.in(genres))
 											.orderBy(ascending(Track.RANDOM))
-											.limit(noOfTracks)
-											.build());
+											.limit(noOfTracks));
 		}
 	}
 	// end::createRandomPlaylistFunction[]
@@ -750,15 +748,15 @@ public final class ChinookImpl extends DomainModel {
 	private static final class RaisePrice implements DatabaseFunction<EntityConnection, RaisePriceParameters, Collection<Entity>> {
 
 		@Override
-		public Collection<Entity> execute(EntityConnection entityConnection,
-																			RaisePriceParameters parameters) {
-			Select select = where(Track.ID.in(parameters.trackIds()))
-							.forUpdate()
-							.build();
-
-			return entityConnection.updateSelect(entityConnection.select(select).stream()
+		public Collection<Entity> execute(EntityConnection connection,
+		                                  RaisePriceParameters parameters) {
+			List<Entity> tracks = connection.select(where(Track.ID.in(parameters.trackIds()))
+											.attributes(Track.UNITPRICE)
+											.forUpdate()).stream()
 							.map(track -> raisePrice(track, parameters.priceIncrease()))
-							.toList());
+							.toList();
+
+			return connection.updateSelect(tracks);
 		}
 
 		private static Entity raisePrice(Entity track, BigDecimal priceIncrease) {
