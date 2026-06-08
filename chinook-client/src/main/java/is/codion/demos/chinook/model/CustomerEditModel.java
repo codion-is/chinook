@@ -28,6 +28,8 @@ import is.codion.swing.framework.model.SwingEntityEditor;
 
 import java.util.function.Predicate;
 
+import static is.codion.framework.db.EntityConnection.Select.where;
+
 public final class CustomerEditModel extends SwingEntityEditModel {
 
 	public CustomerEditModel(EntityConnectionProvider connectionProvider) {
@@ -40,6 +42,9 @@ public final class CustomerEditModel extends SwingEntityEditModel {
 		editor().detail().add(EditorLink.builder()
 						.editor(preferences)
 						.foreignKey(Preferences.CUSTOMER_FK)
+						.select(customer -> where(Preferences.CUSTOMER_FK.equalTo(customer))
+										.referenceDepth(Preferences.CUSTOMER_FK, 0)
+										.build())
 						.present(new PreferencesPresent())
 						.build());
 	}
