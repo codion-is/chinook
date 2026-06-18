@@ -107,13 +107,9 @@ public final class ConnectionSupplier implements Supplier<LocalEntityConnection>
 			super(Chinook.DOMAIN);
 			// Relies on the Chinook domain model
 			// being registered as a service
-			Entities entities = Domain.domains().getFirst().entities();
+			Domain chinook = Domain.domains().getFirst();
 			// Only add the entities required for this service
-			add(entities.definition(Genre.TYPE));
-			add(entities.definition(MediaType.TYPE));
-			add(entities.definition(Artist.TYPE));
-			add(entities.definition(Album.TYPE));
-			add(entities.definition(Track.TYPE));
+			addEntities(chinook, Genre.TYPE, MediaType.TYPE, Artist.TYPE, Album.TYPE, Track.TYPE);
 		}
 
 		@Override
