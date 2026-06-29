@@ -75,7 +75,7 @@ public final class ArtistEditModel extends SwingEntityEditModel {
 
 		@Override
 		public boolean test(Entity tag) {
-			return !tag.isNull(ArtistTag.TAG);
+			return tag.present(ArtistTag.TAG);
 		}
 	}
 }
