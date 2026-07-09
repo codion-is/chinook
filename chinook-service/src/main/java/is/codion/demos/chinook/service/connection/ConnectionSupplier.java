@@ -62,7 +62,7 @@ public final class ConnectionSupplier implements Supplier<LocalEntityConnection>
 					database.createConnectionPool(ConnectionPoolFactory.instance(), USER);
 
 	public ConnectionSupplier() {
-		connectionPool.setCollectCheckOutTimes(true);
+		connectionPool.collectCheckOutTimes(true);
 		LOG.info("Database: {}", database.url());
 		LOG.info("Connection pool: {}", connectionPool.user());
 		LOG.info("Domain: {}", domain.type().name());

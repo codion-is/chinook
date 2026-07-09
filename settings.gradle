@@ -6,6 +6,7 @@ rootProject.name = "chinook"
 
 include "chinook-domain-api"
 include "chinook-domain"
+include "chinook-domain-json"
 include "chinook-domain-generator"
 include "chinook-client"
 include "chinook-client-local"

@@ -20,6 +20,7 @@ package is.codion.demos.chinook.domain.api;
 
 import is.codion.common.db.operation.FunctionType;
 import is.codion.common.db.operation.ProcedureType;
+import is.codion.common.db.report.ReportType;
 import is.codion.common.utilities.TypeReference;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.domain.DomainType;
@@ -34,8 +35,6 @@ import is.codion.framework.domain.entity.attribute.DerivedValue;
 import is.codion.framework.domain.entity.attribute.ForeignKey;
 import is.codion.framework.domain.entity.condition.ConditionType;
 import is.codion.framework.domain.entity.exception.AttributeValidationException;
-import is.codion.plugin.jasperreports.JRReportType;
-import is.codion.plugin.jasperreports.JasperReports;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -49,12 +48,14 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import static is.codion.common.db.operation.FunctionType.functionType;
 import static is.codion.common.db.operation.ProcedureType.procedureType;
+import static is.codion.common.db.report.ReportType.reportType;
 import static is.codion.framework.domain.DomainType.domainType;
 import static java.util.Objects.requireNonNull;
 import static java.util.ResourceBundle.getBundle;
@@ -192,7 +193,7 @@ public interface Chinook {
 
 		ForeignKey SUPPORTREP_FK = TYPE.foreignKey("supportrep_fk", SUPPORTREP_ID, Employee.ID);
 
-		JRReportType REPORT = JasperReports.reportType("customer_report");
+		ReportType<Map<String, Object>, byte[]> REPORT = reportType("customer_report");
 	}
 	// end::customer[]
 

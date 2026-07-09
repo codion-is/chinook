@@ -16,6 +16,7 @@ dependencies {
     runtimeOnly(libs.h2)
 
     runtimeOnly(project(":chinook-domain"))
+    runtimeOnly(project(":chinook-domain-json"))
 
     //logging library, skipping the email stuff
     runtimeOnly(libs.codion.plugin.logback.proxy) {
@@ -91,7 +92,7 @@ jlink {
         "--ignore-signing-information",
         "--add-modules",
         "is.codion.framework.db.local,is.codion.dbms.h2,is.codion.plugin.hikari.pool," +
-                "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain,is.codion.framework.servlet"
+                "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain,is.codion.demos.chinook.domain.json,is.codion.framework.servlet"
     )
 
     addExtraDependencies("slf4j-api")

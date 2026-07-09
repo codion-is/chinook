@@ -8,6 +8,7 @@ plugins {
 
 dependencies {
     implementation(project(":chinook-client"))
+    implementation(project(":chinook-domain-json"))
 
     runtimeOnly(libs.codion.framework.db.http)
 }
@@ -39,7 +40,7 @@ jlink {
         "--no-header-files",
         "--no-man-pages",
         "--add-modules",
-        "jdk.localedata,is.codion.framework.db.http,is.codion.plugin.logback.proxy"
+        "jdk.localedata,is.codion.framework.db.http,is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain.json"
     )
 
     jpackage {

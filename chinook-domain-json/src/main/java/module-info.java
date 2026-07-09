@@ -17,17 +17,13 @@
  * Copyright (c) 2023 - 2026, Björn Darri Sigurðsson.
  */
 /**
- * Domain API.
+ * Domain JSON.
  */
-module is.codion.demos.chinook.domain.api {
-	requires is.codion.common.db;
-	requires is.codion.framework.db.core;
-	requires transitive is.codion.plugin.jasperreports;
-	requires org.apache.commons.logging;
-	requires net.sf.jasperreports.core;
+module is.codion.demos.chinook.domain.json {
+	requires is.codion.framework.domain;
+	requires is.codion.demos.chinook.domain.api;
+	requires is.codion.framework.json.domain;
 
-	exports is.codion.demos.chinook.domain.api;
-
-	//for accessing i18n resources
-	opens is.codion.demos.chinook.domain.api;
+	provides is.codion.framework.json.domain.EntityObjectMapperFactory
+					with is.codion.demos.chinook.domain.json.ChinookObjectMapperFactory;
 }

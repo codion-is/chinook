@@ -21,7 +21,7 @@ application {
     applicationDefaultJvmArgs = listOf(
         "-Xmx64m",
         "-Dcodion.client.connectionType=remote",
-        "-Dcodion.server.hostname=${serverHost}",
+        "-Dcodion.client.hostname=${serverHost}",
         "-Dcodion.server.registryPort=${serverRegistryPort}",
         "-Dcodion.client.trustStore=truststore.jks",
         "-Dcodion.client.trustStorePassword=crappypass",
