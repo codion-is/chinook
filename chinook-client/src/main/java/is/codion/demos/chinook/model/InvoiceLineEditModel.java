@@ -18,62 +18,17 @@
  */
 package is.codion.demos.chinook.model;
 
-import is.codion.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.demos.chinook.domain.api.Chinook.InvoiceLine;
-import is.codion.demos.chinook.domain.api.Chinook.Track;
+import is.codion.demos.chinook.model.common.InvoiceLineEditConfig;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.model.EntityPersistence;
 import is.codion.swing.framework.model.SwingEntityEditModel;
+import is.codion.swing.framework.model.SwingEntityEditor;
 
-import java.util.Collection;
-
-import static is.codion.framework.db.EntityConnection.transaction;
-import static is.codion.framework.domain.entity.Entity.distinct;
-import static is.codion.framework.domain.entity.Entity.primaryKeys;
-
-public final class InvoiceLineEditModel extends SwingEntityEditModel {
+public final class InvoiceLineEditModel extends SwingEntityEditModel
+				implements InvoiceLineEditConfig<SwingEntityEditor> {
 
 	public InvoiceLineEditModel(EntityConnection connection) {
 		super(InvoiceLine.TYPE, connection);
-		editor().persistence().set(new InvoiceLinePersistence());
-		// We populate the unit price when the track is edited
-		editor().value(InvoiceLine.TRACK_FK).propagate(InvoiceLine.UNITPRICE,
-						track -> track == null ? null : track.get(Track.UNITPRICE));
-	}
-
-	private static final class InvoiceLinePersistence implements EntityPersistence {
-
-		@Override
-		public Collection<Entity> insert(Collection<Entity> invoiceLines, EntityConnection connection) {
-			// Use a transaction to update the invoice totals when an invoice line is inserted
-			return transaction(connection, () -> updateTotals(connection.insertSelect(invoiceLines), connection));
-		}
-
-		@Override
-		public Collection<Entity> update(Collection<Entity> invoiceLines, EntityConnection connection) {
-			// Use a transaction to update the invoice totals when an invoice line is updated
-			return transaction(connection, () -> updateTotals(connection.updateSelect(invoiceLines), connection));
-		}
-
-		@Override
-		public void delete(Collection<Entity> invoiceLines, EntityConnection connection) {
-			// Use a transaction to update the invoice totals when an invoice line is deleted
-			transaction(connection, () -> {
-				connection.delete(primaryKeys(invoiceLines));
-				updateTotals(invoiceLines, connection);
-			});
-		}
-
-		// tag::updateTotals[]
-		private static Collection<Entity> updateTotals(Collection<Entity> invoiceLines, EntityConnection connection) {
-			// Get the IDs of the invoices that need their totals updated
-			Collection<Long> invoiceIds = distinct(InvoiceLine.INVOICE_ID, invoiceLines);
-			// Execute the UPDATE_TOTALS procedure
-			connection.execute(Invoice.UPDATE_TOTALS, invoiceIds);
-
-			return invoiceLines;
-		}
-		// end::updateTotals[]
+		configure();
 	}
 }

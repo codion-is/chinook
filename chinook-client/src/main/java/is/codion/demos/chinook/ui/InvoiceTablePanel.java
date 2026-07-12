@@ -89,7 +89,7 @@ public final class InvoiceTablePanel extends EntityTablePanel {
 						Entity.values(Invoice.ID, model().selection().items().get()));
 
 		return JasperReports.loadPrint(model().connection()
-						.report(Invoice.REPORT, reportParameters));
+						.report(Invoice.REPORT_PRINT, reportParameters));
 	}
 
 	private void viewReport(JasperPrint invoice) {

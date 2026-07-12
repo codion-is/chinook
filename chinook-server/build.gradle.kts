@@ -2,7 +2,7 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     id("org.beryx.jlink")
-    id("chinook.jasperreports.modules")
+    id("chinook.jasperreports.pdf.modules")
     id("com.github.breadmoirai.github-release")
 }
 
@@ -15,8 +15,12 @@ dependencies {
     runtimeOnly(libs.codion.dbms.h2)
     runtimeOnly(libs.h2)
 
-    runtimeOnly(project(":chinook-domain"))
+    runtimeOnly(project(":chinook-domain-reports"))
     runtimeOnly(project(":chinook-domain-json"))
+
+    runtimeOnly(libs.jasperreports.pdf) {
+        exclude(group = "net.sf.jasperreports")
+    }
 
     //logging library, skipping the email stuff
     runtimeOnly(libs.codion.plugin.logback.proxy) {
@@ -77,6 +81,8 @@ application {
         //Client logging disabled by default
         "-Dcodion.server.clientLogging=false",
         "--add-modules=org.apache.commons.collections4",
+        "--add-modules=org.apache.commons.logging",
+        "--add-modules=net.sf.jasperreports.pdf"
     )
 }
 
@@ -91,14 +97,14 @@ jlink {
         "--no-man-pages",
         "--ignore-signing-information",
         "--add-modules",
-        "is.codion.framework.db.local,is.codion.dbms.h2,is.codion.plugin.hikari.pool," +
-                "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain,is.codion.demos.chinook.domain.json,is.codion.framework.servlet"
+        "is.codion.framework.db.local,is.codion.dbms.h2,is.codion.plugin.hikari.pool,org.apache.commons.collections4,org.apache.commons.logging,net.sf.jasperreports.pdf," +
+                "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain.reports,is.codion.demos.chinook.domain.json,is.codion.framework.servlet"
     )
 
     addExtraDependencies("slf4j-api")
 
     mergedModule {
-        excludeRequires("jakarta.servlet")
+        excludeRequires("jakarta.servlet", "org.bouncycastle.provider", "org.bouncycastle.util", "org.bouncycastle.pkix")
     }
 
     forceMerge("kotlin")

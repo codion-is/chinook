@@ -54,12 +54,9 @@ import static is.codion.demos.chinook.domain.api.Chinook.*;
 import static is.codion.framework.db.EntityConnection.Select.where;
 import static is.codion.framework.domain.entity.OrderBy.ascending;
 import static is.codion.framework.domain.entity.attribute.Column.Generator.identity;
-import static is.codion.plugin.jasperreports.JRExport.SERIALIZED;
-import static is.codion.plugin.jasperreports.JasperReports.classPathReport;
-import static is.codion.plugin.jasperreports.JasperReports.export;
 
 // tag::chinook[]
-public final class ChinookImpl extends DomainModel {
+public class ChinookImpl extends DomainModel {
 
 	// tag::columnTemplates[]
 	private static final ColumnTemplate<Long> IDENTITY_KEY =
@@ -87,8 +84,6 @@ public final class ChinookImpl extends DomainModel {
 		super(DOMAIN);
 		add(artist(), artistTag(), album(), employee(), customer(), genre(), preferences(), mediaType(),
 						track(), invoice(), invoiceLine(), playlist(), playlistTrack(), artistRevenue());
-		add(Customer.REPORT, export(classPathReport(ChinookImpl.class, "customer_report.jasper"), SERIALIZED));
-		add(Invoice.REPORT, export(classPathReport(ChinookImpl.class, "invoice.jasper"), SERIALIZED));
 		add(Track.RAISE_PRICE, new RaisePrice());
 		add(Invoice.UPDATE_TOTALS, new UpdateTotals());
 		add(Playlist.RANDOM_PLAYLIST, new CreateRandomPlaylist(entities()));
