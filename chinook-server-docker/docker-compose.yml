@@ -8,7 +8,9 @@ services:
       - "4445:4445"  # Admin port
       - "8088:8088"  # HTTP servlet port
     environment:
-      - JAVA_OPTS=-Xmx512m
+      # The jlink launcher hardcodes its JVM args (incl. -Xmx512m) and ignores JAVA_OPTS; _JAVA_OPTIONS is the
+      # one env var the JVM applies last, so it's what actually overrides the baked heap. Adjust to taste.
+      - _JAVA_OPTIONS=-Xmx512m
     volumes:
       - ./logs:/app/logs
     restart: unless-stopped
