@@ -81,6 +81,7 @@ public final class ChinookImpl extends DomainModel {
 		add(artist(), artistTag(), album(), employee(), customer(), genre(), preferences(), mediaType(),
 						track(), invoice(), invoiceLine(), playlist(), playlistTrack(), artistRevenue());
 		add(Customer.REPORT, export(classPathReport(ChinookImpl.class, "customer_report.jasper"), SERIALIZED));
+		add(Invoice.REPORT, export(classPathReport(ChinookImpl.class, "invoice.jasper"), SERIALIZED));
 		add(Track.RAISE_PRICE, new RaisePrice());
 		add(Invoice.UPDATE_TOTALS, new UpdateTotals());
 		add(Playlist.RANDOM_PLAYLIST, new CreateRandomPlaylist(entities()));

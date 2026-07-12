@@ -355,6 +355,8 @@ public interface Chinook {
 		ProcedureType<EntityConnection, Collection<Long>> UPDATE_TOTALS = procedureType("chinook.update_totals");
 
 		DefaultValue<LocalDate> TODAY = LocalDate::now;
+
+		ReportType<Map<String, Object>, byte[]> REPORT = reportType("invoice_report");
 	}
 	// end::invoice[]
 
