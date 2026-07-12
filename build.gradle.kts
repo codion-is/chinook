@@ -8,6 +8,9 @@ plugins {
 configure(subprojects) {
     version = rootProject.libs.versions.codion.get()
 
+    if (name == "chinook-client-android") {
+        return@configure
+    }
     apply(plugin = "java")
 
     dependencies {

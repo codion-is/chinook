@@ -19,34 +19,16 @@
 package is.codion.demos.chinook.model;
 
 import is.codion.demos.chinook.domain.api.Chinook.Playlist;
-import is.codion.demos.chinook.domain.api.Chinook.PlaylistTrack;
+import is.codion.demos.chinook.model.common.PlaylistEditConfig;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.model.EntityPersistence;
 import is.codion.swing.framework.model.SwingEntityEditModel;
+import is.codion.swing.framework.model.SwingEntityEditor;
 
-import java.util.Collection;
-
-import static is.codion.framework.db.EntityConnection.transaction;
-import static is.codion.framework.domain.entity.Entity.primaryKeys;
-
-public final class PlaylistEditModel extends SwingEntityEditModel {
+public final class PlaylistEditModel extends SwingEntityEditModel
+				implements PlaylistEditConfig<SwingEntityEditor> {
 
 	public PlaylistEditModel(EntityConnection connection) {
 		super(Playlist.TYPE, connection);
-		editor().persistence().set(new PlaylistPersistence());
-	}
-
-	private static final class PlaylistPersistence implements EntityPersistence {
-
-		@Override
-		public void delete(Collection<Entity> playlists, EntityConnection connection) {
-			// We delete all playlist tracks along
-			// with the playlist, within a transaction
-			transaction(connection, () -> {
-				connection.delete(PlaylistTrack.PLAYLIST_FK.in(playlists));
-				connection.delete(primaryKeys(playlists));
-			});
-		}
+		configure();
 	}
 }

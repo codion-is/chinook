@@ -24,5 +24,4 @@ module is.codion.demos.chinook.service {
 	requires is.codion.framework.db.local;
 	requires is.codion.demos.chinook.domain;
 	requires com.fasterxml.jackson.databind;
-	requires org.apache.commons.collections4;
 }

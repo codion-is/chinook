@@ -19,40 +19,19 @@
 package is.codion.demos.chinook.model;
 
 import is.codion.demos.chinook.domain.api.Chinook.Album;
-import is.codion.demos.chinook.domain.api.Chinook.Track;
+import is.codion.demos.chinook.model.common.AlbumConfig;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.domain.entity.Entity;
+import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityEditor;
 import is.codion.swing.framework.model.SwingEntityModel;
+import is.codion.swing.framework.model.SwingEntityTableModel;
 
-import java.util.Collection;
-import java.util.Map;
-
-import static java.util.stream.Collectors.toSet;
-
-public final class AlbumModel extends SwingEntityModel {
+public final class AlbumModel extends SwingEntityModel
+				implements AlbumConfig<SwingEntityModel, SwingEntityEditModel, SwingEntityTableModel, SwingEntityEditor> {
 
 	public AlbumModel(EntityConnection connection) {
 		super(Album.TYPE, connection);
-		SwingEntityModel trackModel = new SwingEntityModel(new TrackTableModel(connection));
-		detail().add(trackModel);
-		SwingEntityEditor trackEditor = trackModel.editor();
-		trackEditor.comboBoxModels().initialize(Track.MEDIATYPE_FK, Track.GENRE_FK);
-		// We refresh albums when tracks are modified, to display the updated rating
-		trackEditor.events().after().insert().addConsumer(this::tracksInsertedOrDeleted);
-		trackEditor.events().after().delete().addConsumer(this::tracksInsertedOrDeleted);
-		trackEditor.events().after().update().addConsumer(this::tracksUpdated);
-	}
-
-	private void tracksInsertedOrDeleted(Collection<Entity> tracks) {
-		tableModel().refresh(Entity.keys(Track.ALBUM_FK, tracks));
-	}
-
-	private void tracksUpdated(Map<Entity, Entity> tracks) {
-		tableModel().refresh(tracks.keySet().stream()
-						// We only need to refresh albums for tracks which rating was modified
-						.filter(track -> track.modified(Track.RATING))
-						.map(track -> track.key(Track.ALBUM_FK))
-						.collect(toSet()));
+		detail().add(new SwingEntityModel(new TrackTableModel(connection)));
+		configure();
 	}
 }

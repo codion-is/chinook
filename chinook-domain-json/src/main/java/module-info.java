@@ -24,6 +24,8 @@ module is.codion.demos.chinook.domain.json {
 	requires is.codion.demos.chinook.domain.api;
 	requires is.codion.framework.json.domain;
 
+	exports is.codion.demos.chinook.domain.json;
+
 	provides is.codion.framework.json.domain.EntityObjectMapperFactory
 					with is.codion.demos.chinook.domain.json.ChinookObjectMapperFactory;
 }

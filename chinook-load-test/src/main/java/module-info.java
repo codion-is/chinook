@@ -24,5 +24,6 @@ module is.codion.demos.chinook.client.loadtest {
 	requires is.codion.tools.loadtest.ui;
 	requires is.codion.framework.db;
 	requires is.codion.demos.chinook.domain.api;
+	requires is.codion.demos.chinook.domain.reports;
 	requires is.codion.demos.chinook.client;
 }

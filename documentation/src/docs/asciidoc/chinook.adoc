@@ -5,6 +5,7 @@
 :root-dir: ../../../..
 :dir-source-domain-api: ../../../../chinook-domain-api/src/main/java
 :dir-source-domain: ../../../../chinook-domain/src/main/java
+:dir-source-client-common: ../../../../chinook-client-common/src/main/java
 :dir-source-client: ../../../../chinook-client/src/main/java
 :dir-source-loadtest: ../../../../chinook-load-test/src/main/java
 :dir-source-service: ../../../../chinook-service/src/main/java
@@ -309,11 +310,25 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 
 ==== Model
 
+===== InvoiceConfig
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client-common}/is/codion/demos/chinook/model/common/InvoiceConfig.java[lines=19..-1]
+----
+
 ===== InvoiceModel
 
 [source,java,options="nowrap"]
 ----
 include::{dir-source-client}/is/codion/demos/chinook/model/InvoiceModel.java[lines=19..-1]
+----
+
+===== InvoiceEditConfig
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client-common}/is/codion/demos/chinook/model/common/InvoiceEditConfig.java[lines=19..-1]
 ----
 
 [#_invoiceeditmodel]
@@ -388,6 +403,13 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 ----
 
 ==== Model
+
+===== InvoiceLineEditConfig
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client-common}/is/codion/demos/chinook/model/common/InvoiceLineEditConfig.java[lines=19..-1]
+----
 
 [#_invoicelineeditmodel]
 ===== InvoiceLineEditModel
@@ -733,6 +755,13 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 
 ==== Model
 
+===== AlbumConfig
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client-common}/is/codion/demos/chinook/model/common/AlbumConfig.java[lines=19..-1]
+----
+
 ===== AlbumModel
 
 [source,java,options="nowrap"]
@@ -917,6 +946,13 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 include::{dir-source-client}/is/codion/demos/chinook/model/PlaylistModel.java[lines=19..-1]
 ----
 
+===== PlaylistEditConfig
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client-common}/is/codion/demos/chinook/model/common/PlaylistEditConfig.java[lines=19..-1]
+----
+
 [#_playlisteditmodel]
 ===== PlaylistEditModel
 
@@ -991,6 +1027,13 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 ----
 
 ==== Model
+
+===== PlaylistTrackEditConfig
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client-common}/is/codion/demos/chinook/model/common/PlaylistTrackEditConfig.java[lines=19..-1]
+----
 
 [#_playlisttrackeditmodel]
 ===== PlaylistTrackEditModel

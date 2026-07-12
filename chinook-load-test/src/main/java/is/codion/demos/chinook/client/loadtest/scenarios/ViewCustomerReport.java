@@ -34,6 +34,6 @@ public final class ViewCustomerReport implements Performer<EntityConnection> {
 	public void perform(EntityConnection connection) throws Exception {
 		Map<String, Object> reportParameters = new HashMap<>();
 		reportParameters.put("CUSTOMER_IDS", List.of(randomCustomerId()));
-		connection.report(Customer.REPORT, reportParameters);
+		connection.report(Customer.REPORT_PRINT, reportParameters);
 	}
 }
