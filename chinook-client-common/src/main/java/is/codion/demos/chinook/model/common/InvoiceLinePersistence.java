@@ -16,7 +16,7 @@
  *
  * Copyright (c) 2004 - 2026, Björn Darri Sigurðsson.
  */
-package is.codion.demos.chinook.model;
+package is.codion.demos.chinook.model.common;
 
 import is.codion.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.demos.chinook.domain.api.Chinook.InvoiceLine;

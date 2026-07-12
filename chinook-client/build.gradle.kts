@@ -6,6 +6,8 @@ plugins {
 
 dependencies {
     implementation(project(":chinook-domain-api"))
+    implementation(project(":chinook-domain-reports"))
+    implementation(project(":chinook-client-common"))
 
     implementation(libs.codion.swing.framework.ui)
     implementation(libs.codion.plugin.flatlaf.themes)

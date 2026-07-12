@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Required for the HTTP EntityConnection to reach the Chinook EntityService. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- usesCleartextTraffic permits the plain-HTTP local-server mode (MainActivity's USE_CLOUD = false). Harmless
+         for the cloud (HTTPS) mode — it only *permits* cleartext, doesn't force it. Drop it for a production
+         HTTPS-only build. -->
+    <application
+            android:label="Chinook"
+            android:icon="@mipmap/ic_codion_launcher"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar"
+            android:usesCleartextTraffic="true">
+        <!-- adjustResize: the soft keyboard insets the app rather than panning the window up (which slides the top of
+             the app off the screen). The framework applies the IME insets (EntityApplicationView), so the content
+             compresses above the keyboard. Required by any Codion Android app with editable fields. -->
+        <activity
+                android:name=".MainActivity"
+                android:exported="true"
+                android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Hands the filled customer-report PDF to the device's PDF viewer: a content:// URI over the app's cache,
+             since a raw file:// URI is refused across app boundaries from API 24. See CustomerReport.kt. -->
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_paths"/>
+        </provider>
+    </application>
+
+</manifest>

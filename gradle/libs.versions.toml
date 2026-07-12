@@ -19,6 +19,7 @@ codion-framework-db-rmi = { module = "is.codion:codion-framework-db-rmi" }
 codion-framework-db-local = { module = "is.codion:codion-framework-db-local" }
 codion-framework-db-http = { module = "is.codion:codion-framework-db-http" }
 codion-framework-json-domain = { module = "is.codion:codion-framework-json-domain" }
+codion-framework-model = { module = "is.codion:codion-framework-model" }
 codion-tools-generator-model = { module = "is.codion:codion-tools-generator-model" }
 codion-swing-framework-ui = { module = "is.codion:codion-swing-framework-ui" }
 codion-tools-generator-ui = { module = "is.codion:codion-tools-generator-ui" }

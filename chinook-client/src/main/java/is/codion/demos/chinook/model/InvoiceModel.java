@@ -19,14 +19,16 @@
 package is.codion.demos.chinook.model;
 
 import is.codion.demos.chinook.domain.api.Chinook.InvoiceLine;
+import is.codion.demos.chinook.model.common.InvoiceConfig;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.model.ForeignKeyModelLink;
+import is.codion.swing.framework.model.SwingEntityEditModel;
+import is.codion.swing.framework.model.SwingEntityEditor;
 import is.codion.swing.framework.model.SwingEntityModel;
+import is.codion.swing.framework.model.SwingEntityTableModel;
 
-import java.util.Collection;
-
-public final class InvoiceModel extends SwingEntityModel {
+public final class InvoiceModel extends SwingEntityModel
+				implements InvoiceConfig<SwingEntityModel, SwingEntityEditModel, SwingEntityTableModel, SwingEntityEditor> {
 
 	public InvoiceModel(EntityConnection connection) {
 		super(new InvoiceEditModel(connection));
@@ -46,12 +48,6 @@ public final class InvoiceModel extends SwingEntityModel {
 						.active(true)
 						.build());
 
-		// We listen for invoice line modifications in order to refresh the
-		// associated invoices in the table model to display the updated total.
-		invoiceLineEditModel.editor().events().persisted().addConsumer(this::onInvoiceLinesModified);
-	}
-
-	private void onInvoiceLinesModified(Collection<Entity> invoiceLines) {
-		tableModel().refresh(Entity.keys(InvoiceLine.INVOICE_FK, invoiceLines));
+		configure();
 	}
 }
