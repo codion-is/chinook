@@ -79,7 +79,7 @@ public final class CustomerTablePanel extends EntityTablePanel {
 		reportParameters.put("CUSTOMER_IDS", customerIDs);
 
 		return JasperReports.loadPrint(model().connection()
-						.report(Customer.REPORT, reportParameters));
+						.report(Customer.REPORT_PRINT, reportParameters));
 	}
 
 	private void viewReport(JasperPrint customerReport) {

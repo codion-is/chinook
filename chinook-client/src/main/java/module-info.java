@@ -26,6 +26,8 @@ module is.codion.demos.chinook.client {
 	requires is.codion.plugin.flatlaf.intellij.themes;
 
 	requires is.codion.demos.chinook.domain.api;
+	requires is.codion.demos.chinook.domain.reports;
+	requires is.codion.demos.chinook.chinook.client.common;
 	requires net.sf.jasperreports.core;
 	requires net.sf.jasperreports.pdf;
 	requires org.jfree.jfreechart;
@@ -40,6 +42,4 @@ module is.codion.demos.chinook.client {
 
 	provides is.codion.common.utilities.resource.Resources
 					with is.codion.demos.chinook.i18n.ChinookResources;
-	provides is.codion.framework.model.EntityPersistence.Factory
-					with is.codion.demos.chinook.model.ChinookPersistenceFactory;
 }
