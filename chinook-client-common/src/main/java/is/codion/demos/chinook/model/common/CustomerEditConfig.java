@@ -1,0 +1,59 @@
+/*
+ * This file is part of Codion Chinook Demo.
+ *
+ * Codion Chinook Demo is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Codion Chinook Demo is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Codion Chinook Demo.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Copyright (c) 2026, Björn Darri Sigurðsson.
+ */
+package is.codion.demos.chinook.model.common;
+
+import is.codion.demos.chinook.domain.api.Chinook.Customer;
+import is.codion.demos.chinook.domain.api.Chinook.Preferences;
+import is.codion.framework.domain.entity.Entity;
+import is.codion.framework.model.EditorLink;
+import is.codion.framework.model.EntityEditModel;
+import is.codion.framework.model.EntityEditor;
+
+import java.util.function.Predicate;
+
+import static is.codion.framework.db.EntityConnection.Select.where;
+
+public interface CustomerEditConfig<R extends EntityEditor<R>> extends EntityEditModel<R> {
+
+	default void configure() {
+		editor().comboBoxModels().initialize(Customer.SUPPORTREP_FK);
+		// Set a detail editor, in order to edit customer preferences alongside the customer
+		R preferences = editor().create(Preferences.TYPE);
+		preferences.value(Preferences.PREFERRED_GENRE_FK).persist().set(false);
+		preferences.comboBoxModels().initialize(Preferences.PREFERRED_GENRE_FK);
+		editor().detail().add(EditorLink.builder()
+						.editor(preferences)
+						.foreignKey(Preferences.CUSTOMER_FK)
+						.select(customer -> where(Preferences.CUSTOMER_FK.equalTo(customer))
+										.referenceDepth(Preferences.CUSTOMER_FK, 0)
+										.build())
+						.present(new PreferencesPresent())
+						.build());
+	}
+
+	final class PreferencesPresent implements Predicate<Entity> {
+
+		@Override
+		public boolean test(Entity preferences) {
+			// Preferences without both preferred genre and newsletter are deleted
+			return preferences.present(Preferences.PREFERRED_GENRE_FK) ||
+							preferences.present(Preferences.NEWSLETTER);
+		}
+	}
+}
