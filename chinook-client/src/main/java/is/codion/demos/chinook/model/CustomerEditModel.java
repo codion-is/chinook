@@ -19,43 +19,16 @@
 package is.codion.demos.chinook.model;
 
 import is.codion.demos.chinook.domain.api.Chinook.Customer;
-import is.codion.demos.chinook.domain.api.Chinook.Preferences;
+import is.codion.demos.chinook.model.common.CustomerEditConfig;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.domain.entity.Entity;
-import is.codion.framework.model.EditorLink;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityEditor;
 
-import java.util.function.Predicate;
-
-import static is.codion.framework.db.EntityConnection.Select.where;
-
-public final class CustomerEditModel extends SwingEntityEditModel {
+public final class CustomerEditModel extends SwingEntityEditModel
+				implements CustomerEditConfig<SwingEntityEditor> {
 
 	public CustomerEditModel(EntityConnection connection) {
 		super(Customer.TYPE, connection);
-		editor().comboBoxModels().initialize(Customer.SUPPORTREP_FK);
-		// Set a detail editor, in order to edit customer preferences alongside the customer
-		SwingEntityEditor preferences = new SwingEntityEditor(Preferences.TYPE, connection);
-		preferences.value(Preferences.PREFERRED_GENRE_FK).persist().set(false);
-		preferences.comboBoxModels().initialize(Preferences.PREFERRED_GENRE_FK);
-		editor().detail().add(EditorLink.builder()
-						.editor(preferences)
-						.foreignKey(Preferences.CUSTOMER_FK)
-						.select(customer -> where(Preferences.CUSTOMER_FK.equalTo(customer))
-										.referenceDepth(Preferences.CUSTOMER_FK, 0)
-										.build())
-						.present(new PreferencesPresent())
-						.build());
-	}
-
-	private static final class PreferencesPresent implements Predicate<Entity> {
-
-		@Override
-		public boolean test(Entity preferences) {
-			// Preferences without both preferred genre and newsletter are deleted
-			return preferences.present(Preferences.PREFERRED_GENRE_FK) ||
-							preferences.present(Preferences.NEWSLETTER);
-		}
+		configure();
 	}
 }

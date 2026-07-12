@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     implementation(project(":chinook-domain-api"))
+    implementation(project(":chinook-domain-reports"))
     implementation(project(":chinook-client"))
 
     implementation(libs.codion.tools.loadtest.ui)

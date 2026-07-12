@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Exposes the cacheDir/reports directory (where CustomerReport.kt writes the filled PDF) to the FileProvider,
+     so its content:// URI can be granted to an external PDF viewer. -->
+<paths>
+    <cache-path name="reports" path="reports/"/>
+</paths>

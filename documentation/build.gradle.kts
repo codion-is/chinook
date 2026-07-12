@@ -5,8 +5,9 @@ plugins {
 version = libs.versions.codion.get()
 
 tasks.asciidoctor {
-    dependsOn(rootProject.subprojects.map { it.tasks.build })
-    rootProject.subprojects.forEach { subproject ->
+    val documented = rootProject.subprojects.filter { it.plugins.hasPlugin("java") }
+    dependsOn(documented.map { it.tasks.build })
+    documented.forEach { subproject ->
         inputs.file(subproject.buildFile)
         inputs.files(subproject.sourceSets.main.get().allSource)
         inputs.files(subproject.sourceSets.test.get().allSource)

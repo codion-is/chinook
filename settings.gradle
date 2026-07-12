@@ -1,3 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
@@ -6,12 +14,15 @@ rootProject.name = "chinook"
 
 include "chinook-domain-api"
 include "chinook-domain"
+include "chinook-domain-reports"
 include "chinook-domain-json"
 include "chinook-domain-generator"
 include "chinook-client"
+include "chinook-client-common"
 include "chinook-client-local"
 include "chinook-client-remote"
 include "chinook-client-http"
+include "chinook-client-android"
 include "chinook-load-test"
 include "chinook-load-test-remote"
 include "chinook-load-test-http"
@@ -24,6 +35,7 @@ include "documentation"
 
 dependencyResolutionManagement {
     repositories {
+        google()
         mavenCentral()
         mavenLocal()
     }
