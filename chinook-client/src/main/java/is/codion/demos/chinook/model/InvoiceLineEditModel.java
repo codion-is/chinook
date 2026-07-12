@@ -18,32 +18,17 @@
  */
 package is.codion.demos.chinook.model;
 
-import is.codion.common.reactive.observer.Observer;
 import is.codion.demos.chinook.domain.api.Chinook.InvoiceLine;
-import is.codion.demos.chinook.domain.api.Chinook.Track;
+import is.codion.demos.chinook.model.common.InvoiceLineEditConfig;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.domain.entity.Entity;
 import is.codion.swing.framework.model.SwingEntityEditModel;
+import is.codion.swing.framework.model.SwingEntityEditor;
 
-import java.util.Objects;
-
-public final class InvoiceLineEditModel extends SwingEntityEditModel {
+public final class InvoiceLineEditModel extends SwingEntityEditModel
+				implements InvoiceLineEditConfig<SwingEntityEditor> {
 
 	public InvoiceLineEditModel(EntityConnection connection) {
 		super(InvoiceLine.TYPE, connection);
-		// We populate the unit price when the track is edited
-		Observer<Entity> trackEdited = editor().value(InvoiceLine.TRACK_FK).edited();
-		trackEdited.when(Objects::nonNull)
-						.addConsumer(this::setUnitPrice);
-		trackEdited.when(Objects::isNull)
-						.addListener(this::clearUnitPrice);
-	}
-
-	private void setUnitPrice(Entity track) {
-		editor().value(InvoiceLine.UNITPRICE).set(track.get(Track.UNITPRICE));
-	}
-
-	private void clearUnitPrice() {
-		editor().value(InvoiceLine.UNITPRICE).clear();
+		configure();
 	}
 }
