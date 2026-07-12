@@ -33,7 +33,7 @@ import is.codion.framework.json.domain.EntityObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 // tag::procedureFunction[]
-public final class ChinookObjectMapperFactory extends AbstractEntityObjectMapperFactory {
+public class ChinookObjectMapperFactory extends AbstractEntityObjectMapperFactory {
 
 	public ChinookObjectMapperFactory() {
 		super(Chinook.DOMAIN);
@@ -45,8 +45,14 @@ public final class ChinookObjectMapperFactory extends AbstractEntityObjectMapper
 		objectMapper.parameter(Invoice.UPDATE_TOTALS).set(new TypeReference<>() {});
 		objectMapper.parameter(Track.RAISE_PRICE).set(RaisePriceParameters.class);
 		objectMapper.parameter(Playlist.RANDOM_PLAYLIST).set(RandomPlaylistParameters.class);
-		objectMapper.parameter(Customer.REPORT).set(new TypeReference<>() {});
-		objectMapper.returnType(Customer.REPORT).set(new TypeReference<>() {});
+		objectMapper.parameter(Customer.REPORT_PDF).set(new TypeReference<>() {});
+		objectMapper.returnType(Customer.REPORT_PDF).set(new TypeReference<>() {});
+		objectMapper.parameter(Customer.REPORT_PRINT).set(new TypeReference<>() {});
+		objectMapper.returnType(Customer.REPORT_PRINT).set(new TypeReference<>() {});
+		objectMapper.parameter(Invoice.REPORT_PDF).set(new TypeReference<>() {});
+		objectMapper.returnType(Invoice.REPORT_PDF).set(new TypeReference<>() {});
+		objectMapper.parameter(Invoice.REPORT_PRINT).set(new TypeReference<>() {});
+		objectMapper.returnType(Invoice.REPORT_PRINT).set(new TypeReference<>() {});
 		objectMapper.returnType(Track.RAISE_PRICE).set(new TypeReference<>() {});
 		objectMapper.returnType(Playlist.RANDOM_PLAYLIST).set(Entity.class);
 
