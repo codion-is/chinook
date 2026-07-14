@@ -20,8 +20,8 @@ application {
         "-Xmx64m",
         "-Dcodion.db.url=jdbc:h2:mem:h2db",
         "-Dcodion.db.initScripts=$scriptPaths",
-        "-Dcodion.domain.generator.domainPackage=is.codion.demos.chinook.domain",
-        "-Dcodion.domain.generator.user=sa",
+        "-Dcodion.tools.generator.domainPackage=is.codion.demos.chinook.domain",
+        "-Dcodion.tools.generator.user=sa",
         "-Dsun.awt.disablegrab=true"
     )
 }
