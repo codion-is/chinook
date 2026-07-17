@@ -3,3 +3,5 @@ build/
 logs/
 out/
 .claude/
+.mcp.json
+local.properties
