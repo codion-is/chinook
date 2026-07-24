@@ -329,7 +329,6 @@ public final class ChinookImpl extends DomainModel {
 														.foreignKey(),
 										Preferences.NEWSLETTER.as()
 														.column())
-						.caption("Preferences")
 						.build();
 	}
 	// end::preferences[]

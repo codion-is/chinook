@@ -22,7 +22,7 @@
 module is.codion.demos.chinook.client {
 	requires is.codion.swing.common.ui;
 	requires is.codion.swing.framework.ui;
-	requires is.codion.plugin.flatlaf;
+	requires is.codion.plugin.flatlaf.themes;
 	requires is.codion.plugin.flatlaf.intellij.themes;
 
 	requires is.codion.demos.chinook.domain.api;
