@@ -31,7 +31,7 @@ import is.codion.demos.chinook.client.loadtest.scenarios.ViewGenre;
 import is.codion.demos.chinook.client.loadtest.scenarios.ViewInvoice;
 import is.codion.demos.chinook.domain.api.Chinook;
 import is.codion.demos.chinook.model.ChinookAppModel;
-import is.codion.framework.db.EntityConnectionProvider;
+import is.codion.framework.db.EntityConnection;
 import is.codion.tools.loadtest.LoadTest;
 import is.codion.tools.loadtest.Scenario;
 import is.codion.tools.loadtest.model.LoadTestModel;
@@ -48,7 +48,7 @@ public final class ChinookLoadTest {
 	private static final User UNIT_TEST_USER =
 					User.parse(System.getProperty("codion.test.user", "scott:tiger"));
 
-	private static final Collection<Scenario<EntityConnectionProvider>> SCENARIOS = List.of(
+	private static final Collection<Scenario<EntityConnection>> SCENARIOS = List.of(
 					scenario(new ViewGenre(), 10),
 					scenario(new ViewCustomerReport(), 2),
 					scenario(new ViewInvoice(), 10),
@@ -60,27 +60,24 @@ public final class ChinookLoadTest {
 					scenario(new RandomPlaylist(), 1),
 					scenario(new InsertDeleteInvoice(), 3));
 
-	private static final class ConnectionProviderFactory implements Function<User, EntityConnectionProvider> {
+	private static final class ConnectionFactory implements Function<User, EntityConnection> {
 
 		@Override
-		public EntityConnectionProvider apply(User user) {
-			EntityConnectionProvider connectionProvider = EntityConnectionProvider.builder()
+		public EntityConnection apply(User user) {
+			return EntityConnection.builder()
 							.domain(Chinook.DOMAIN)
 							.clientType("Chinook")
 							.clientVersion(ChinookAppModel.VERSION)
 							.user(user)
 							.build();
-			connectionProvider.connection();
-
-			return connectionProvider;
 		}
 	}
 
 	public static void main(String[] args) {
-		LoadTest<EntityConnectionProvider> loadTest =
+		LoadTest<EntityConnection> loadTest =
 						LoadTest.builder()
-										.createApplication(new ConnectionProviderFactory())
-										.closeApplication(EntityConnectionProvider::close)
+										.createApplication(new ConnectionFactory())
+										.closeApplication(EntityConnection::close)
 										.scenarios(SCENARIOS)
 										.user(UNIT_TEST_USER)
 										.build();

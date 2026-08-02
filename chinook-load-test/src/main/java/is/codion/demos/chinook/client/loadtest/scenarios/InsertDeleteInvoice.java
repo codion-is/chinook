@@ -23,7 +23,6 @@ import is.codion.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.demos.chinook.domain.api.Chinook.InvoiceLine;
 import is.codion.demos.chinook.domain.api.Chinook.Track;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.db.EntityConnectionProvider;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.tools.loadtest.Scenario.Performer;
 
@@ -39,12 +38,10 @@ import static is.codion.framework.db.EntityConnection.transaction;
 import static is.codion.framework.domain.entity.Entity.primaryKeys;
 import static java.util.stream.Collectors.toSet;
 
-public final class InsertDeleteInvoice implements Performer<EntityConnectionProvider> {
+public final class InsertDeleteInvoice implements Performer<EntityConnection> {
 
 	@Override
-	public void perform(EntityConnectionProvider connectionProvider) throws Exception {
-		EntityConnection connection = connectionProvider.connection();
-
+	public void perform(EntityConnection connection) throws Exception {
 		Entity customer = connection.selectSingle(Customer.ID.equalTo(randomCustomerId()));
 		Entity invoice = connection.insertSelect(connection.entities().entity(Invoice.TYPE)
 						.with(Invoice.CUSTOMER_FK, customer)

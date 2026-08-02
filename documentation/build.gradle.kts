@@ -2,7 +2,7 @@ plugins {
     id("org.asciidoctor.jvm.convert") version "4.0.4"
 }
 
-version = libs.versions.codion.get().replace("-SNAPSHOT", "")
+version = libs.versions.codion.get()
 
 tasks.asciidoctor {
     dependsOn(rootProject.subprojects.map { it.tasks.build })

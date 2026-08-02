@@ -10,10 +10,7 @@ dependencies {
     implementation(libs.codion.swing.framework.ui)
     implementation(libs.codion.plugin.flatlaf.themes)
     implementation(libs.codion.plugin.flatlaf.intellij.themes)
-    implementation(libs.flatlaf.extras) {
-        // https://github.com/weisJ/jsvg/issues/134
-        exclude(group = "com.github.weisj", module = "jsvg")
-    }
+    implementation(libs.flatlaf.extras)
     implementation(libs.codion.tools.swing.mcp)
 
     implementation(libs.jasperreports.pdf) {
@@ -31,7 +28,7 @@ dependencies {
 
 tasks.register<WriteProperties>("writeVersion") {
     destinationFile = file("${temporaryDir.absolutePath}/version.properties")
-    property("version", libs.versions.codion.get().replace("-SNAPSHOT", ""))
+    property("version", libs.versions.codion.get())
 }
 
 tasks.processResources {
