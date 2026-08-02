@@ -5,25 +5,16 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.4.0"
 }
 
-// Matches gradle/libs.versions.toml `codion` and the codion-android-* libs published to mavenLocal.
-val codionVersion = "0.18.80"
-
 android {
     namespace = "is.codion.demos.chinook.android"
     compileSdk = 35
 
     defaultConfig {
         applicationId = "is.codion.demos.chinook.android"
-        minSdk = 26 // java.time native from 26, avoids desugaring
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
-        versionName = codionVersion
-    }
-
-    compileOptions {
-        // Built-in Kotlin derives jvmTarget from targetCompatibility.
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        versionName = version.toString()
     }
 
     buildTypes {
@@ -34,12 +25,17 @@ android {
 }
 
 // The chinook project's daemon runs JDK 26, which AGP 9.0 doesn't support (its jlink-based JdkImageTransform
-// fails). Pin this module's Java/Kotlin toolchain to 17 so AGP runs its tooling on a supported JDK.
+// fails). Pin this module's Java/Kotlin toolchain to 21 so AGP runs its tooling on a supported JDK.
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 dependencies {
+    // The codion-* catalog entries carry no version of their own, the BOM supplies them. The root build applies it
+    // to every other module, but has to skip this one — AGP creates the configurations it would attach to only once
+    // this script is evaluated — so it is applied here instead.
+    implementation(platform(libs.codion.framework.bom))
+
     implementation(compose.runtime)
     implementation(compose.foundation)
     implementation(compose.material3)
@@ -50,10 +46,10 @@ dependencies {
     implementation(project(":chinook-domain"))
     implementation(project(":chinook-domain-json"))
     implementation(project(":chinook-client-common"))
-    implementation("is.codion:codion-android-framework-ui:$codionVersion")
-    implementation("is.codion:codion-framework-db-http:${codionVersion}")
-    implementation("is.codion:codion-framework-db-local:${codionVersion}")
-    implementation("is.codion:codion-dbms-h2:${codionVersion}")
+    implementation(libs.codion.android.framework.ui)
+    implementation(libs.codion.framework.db.http)
+    implementation(libs.codion.framework.db.local)
+    implementation(libs.codion.dbms.h2)
     runtimeOnly(libs.h2)
 }
 
