@@ -22,6 +22,7 @@ codion-framework-json-domain = { module = "is.codion:codion-framework-json-domai
 codion-framework-model = { module = "is.codion:codion-framework-model" }
 codion-tools-generator-model = { module = "is.codion:codion-tools-generator-model" }
 codion-swing-framework-ui = { module = "is.codion:codion-swing-framework-ui" }
+codion-android-framework-ui = { module = "is.codion:codion-android-framework-ui", version.ref = "codion" }
 codion-tools-generator-ui = { module = "is.codion:codion-tools-generator-ui" }
 codion-tools-jul-classpath = { module = "is.codion:codion-tools-jul-classpath" }
 codion-plugin-jasperreports = { module = "is.codion:codion-plugin-jasperreports" }
