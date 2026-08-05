@@ -18,21 +18,20 @@
  */
 package is.codion.demos.chinook.client.loadtest.scenarios;
 
+import is.codion.demos.chinook.domain.api.Chinook;
+import is.codion.demos.chinook.domain.api.Chinook.Genre;
 import is.codion.framework.db.EntityConnection;
 import is.codion.tools.loadtest.Scenario.Performer;
 
-import static is.codion.demos.chinook.client.loadtest.scenarios.LoadTestUtil.RANDOM;
+public final class ClientLogin implements Performer<EntityConnection> {
 
-public final class LogoutLogin implements Performer<EntityConnection> {
-
-	@Override
 	public void perform(EntityConnection connection) {
-		try {
-			connection.close();
-			Thread.sleep(RANDOM.nextInt(1500));
-			//an operation re-establishes the connection, which is what this scenario measures
-			connection.user();
+		try (EntityConnection login = EntityConnection.builder()
+						.domain(Chinook.DOMAIN)
+						.clientType("LoadTestLogin")
+						.user(connection.user())
+						.build()) {
+			login.select(Genre.ID.isNull());
 		}
-		catch (InterruptedException ignored) {/*ignored*/}
 	}
 }

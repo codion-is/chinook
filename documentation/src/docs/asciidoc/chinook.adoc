@@ -1142,7 +1142,7 @@ include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios
 
 [source,java,options="nowrap"]
 ----
-include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/LogoutLogin.java[lines=19..-1]
+include::{dir-source-loadtest}/is/codion/demos/chinook/client/loadtest/scenarios/ClientLogin.java[lines=19..-1]
 ----
 
 [source,java,options="nowrap"]

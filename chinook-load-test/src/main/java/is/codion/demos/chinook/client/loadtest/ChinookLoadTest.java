@@ -19,9 +19,9 @@
 package is.codion.demos.chinook.client.loadtest;
 
 import is.codion.common.utilities.user.User;
+import is.codion.demos.chinook.client.loadtest.scenarios.ClientLogin;
 import is.codion.demos.chinook.client.loadtest.scenarios.InsertDeleteAlbum;
 import is.codion.demos.chinook.client.loadtest.scenarios.InsertDeleteInvoice;
-import is.codion.demos.chinook.client.loadtest.scenarios.LogoutLogin;
 import is.codion.demos.chinook.client.loadtest.scenarios.RaisePrices;
 import is.codion.demos.chinook.client.loadtest.scenarios.RandomPlaylist;
 import is.codion.demos.chinook.client.loadtest.scenarios.UpdateTotals;
@@ -55,7 +55,7 @@ public final class ChinookLoadTest {
 					scenario(new ViewAlbum(), 10),
 					scenario(new UpdateTotals(), 1),
 					scenario(new InsertDeleteAlbum(), 3),
-					scenario(new LogoutLogin(), 1),
+					scenario(new ClientLogin(), 1),
 					scenario(new RaisePrices(), 1),
 					scenario(new RandomPlaylist(), 1),
 					scenario(new InsertDeleteInvoice(), 3));
