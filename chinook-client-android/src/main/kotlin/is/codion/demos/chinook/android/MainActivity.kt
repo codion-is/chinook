@@ -16,8 +16,8 @@ import `is`.codion.android.framework.ui.*
 import `is`.codion.common.db.database.Database
 import `is`.codion.common.utilities.user.User
 import `is`.codion.demos.chinook.domain.api.Chinook.*
-import `is`.codion.framework.db.EntityConnectionProvider
-import `is`.codion.framework.db.EntityConnectionProvider.CLIENT_CONNECTION_TYPE
+import `is`.codion.framework.db.EntityConnection
+import `is`.codion.framework.db.EntityConnection.CLIENT_CONNECTION_TYPE
 import `is`.codion.framework.db.http.HttpEntityConnection
 import java.io.File
 
@@ -30,7 +30,7 @@ private const val USE_HTTP = true
 
 //private const val HTTP_HOSTNAME = "chinook-server-latest.onrender.com"
 //private const val HTTP_PORT = 443
-//private const val HTTP_HOSTNAME = "10.145.78.254" // the dev machine on the LAN — adjust to your network
+//private const val HTTP_HOSTNAME = "10.167.2.63" // the dev machine on the LAN — adjust to your network
 private const val HTTP_HOSTNAME = "192.168.1.18" // the dev machine on the LAN — adjust to your network
 private const val HTTP_PORT = 8088
 
@@ -41,13 +41,13 @@ private const val DATABASE_NAME = "chinook"
 // the onCreate partial-seed guard. Set in onCreate, before the connection is established.
 private lateinit var seededMarker: File
 
-// Turns a connected provider into the application — Album (master) with its Tracks (detail). Run off the UI thread
+// Turns the connection into the application — Album (master) with its Tracks (detail). Run off the UI thread
 // by EntityApplication's ViewModel; no Activity/Context capture (the ViewModel outlives it).
-private fun buildApplicationView(connectionProvider: EntityConnectionProvider): EntityApplicationView<AndroidEntityApplicationModel> {
-    // First launch: force the connect + seed synchronously here (on the ViewModel's background thread, before any
-    // async table refresh), then mark the DB fully seeded — so a mid-seed process kill can't leave a half-populated
-    // file the next launch mistakes for ready (see the partial-seed guard in onCreate). A no-op once already seeded.
-    connectionProvider.connection()
+private fun buildApplicationView(connection: EntityConnection): EntityApplicationView<AndroidEntityApplicationModel> {
+    // First launch: the connection is established when built, so by the time we get here the seed (H2's INIT_SCRIPTS)
+    // has run synchronously on the ViewModel's background thread, before any async table refresh. Mark the DB fully
+    // seeded — a mid-seed process kill must not leave a half-populated file the next launch mistakes for ready (see
+    // the partial-seed guard in onCreate). A no-op once already seeded.
     if (!USE_HTTP) {
         if (!seededMarker.exists()) {
             seededMarker.createNewFile()
@@ -56,19 +56,19 @@ private fun buildApplicationView(connectionProvider: EntityConnectionProvider): 
     EntityEditView.Config.MODIFIED_WARNING.set(true);
     // Models — mirror ChinookAppModel: three roots, each with its own detail tree.
     //   Album → Track,  Playlist → PlaylistTrack,  Customer → Invoice → InvoiceLine.
-    val albumModel = AlbumModel(connectionProvider)
+    val albumModel = AlbumModel(connection)
     val trackModel = albumModel.detail().get(Track.TYPE);
 
-    val playlistModel = AndroidEntityModel(PlaylistEditModel(connectionProvider))
-    val playlistTrackModel = AndroidEntityModel(PlaylistTrackEditModel(connectionProvider))
+    val playlistModel = AndroidEntityModel(PlaylistEditModel(connection))
+    val playlistTrackModel = AndroidEntityModel(PlaylistTrackEditModel(connection))
     // PlaylistTrack references both Playlist and Track, so pin the foreign key (mirrors PlaylistModel).
     playlistModel.detail().add(playlistTrackModel, PlaylistTrack.PLAYLIST_FK)
 
-    val customerModel = AndroidEntityModel(CustomerEditModel(connectionProvider))
-    val invoiceModel = InvoiceModel(connectionProvider)
+    val customerModel = AndroidEntityModel(CustomerEditModel(connection))
+    val invoiceModel = InvoiceModel(connection)
     customerModel.detail().add(invoiceModel) // Invoice.CUSTOMER_FK auto-detected
 
-    val applicationModel = AndroidEntityApplicationModel(connectionProvider, listOf(albumModel, playlistModel, customerModel))
+    val applicationModel = AndroidEntityApplicationModel(connection, listOf(albumModel, playlistModel, customerModel))
 
     // Views — mirror ChinookAppPanel: one EntityView per model, wired into the same master/detail tree. The navigator
     // renders one at a time, moved through via the top-level root tabs + breadcrumb + drill buttons + sibling tabs.
@@ -167,7 +167,7 @@ class MainActivity : FragmentActivity() {
             HttpEntityConnection.SECURE.set(false)
             HttpEntityConnection.PORT.set(HTTP_PORT)
         } else {
-            CLIENT_CONNECTION_TYPE.set(EntityConnectionProvider.CONNECTION_TYPE_LOCAL)
+            CLIENT_CONNECTION_TYPE.set(EntityConnection.CONNECTION_TYPE_LOCAL)
             // Persistent H2 file DB under the app's no-backup storage (kept out of Android auto-backup, so a reinstall /
             // new device re-seeds fresh instead of silently restoring a stale DB). H2 runs INIT_SCRIPTS only when the
             // .mv.db is absent, then reuses the file as-is — first launch seeds from the bundled chinook schema+data
