@@ -5,14 +5,14 @@ import `is`.codion.android.framework.model.AndroidEntityEditor
 import `is`.codion.android.framework.model.AndroidEntityModel
 import `is`.codion.android.framework.model.AndroidEntityTableModel
 import `is`.codion.demos.chinook.model.common.InvoiceConfig
-import `is`.codion.framework.db.EntityConnectionProvider
+import `is`.codion.framework.db.EntityConnection
 
-class InvoiceModel(connectionProvider: EntityConnectionProvider) :
-    AndroidEntityModel(InvoiceEditModel(connectionProvider)),
+class InvoiceModel(connection: EntityConnection) :
+    AndroidEntityModel(InvoiceEditModel(connection)),
     InvoiceConfig<AndroidEntityModel, AndroidEntityEditModel, AndroidEntityTableModel, AndroidEntityEditor> {
 
     init {
-        detail().add(AndroidEntityModel(InvoiceLineEditModel(connectionProvider))) // todo mirror swing model setup
+        detail().add(AndroidEntityModel(InvoiceLineEditModel(connection))) // todo mirror swing model setup
         configure()
     }
 }
