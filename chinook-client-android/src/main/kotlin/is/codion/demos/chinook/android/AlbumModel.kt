@@ -7,14 +7,14 @@ import `is`.codion.android.framework.model.AndroidEntityTableModel
 import `is`.codion.demos.chinook.domain.api.Chinook.Album
 import `is`.codion.demos.chinook.domain.api.Chinook.Track
 import `is`.codion.demos.chinook.model.common.AlbumConfig
-import `is`.codion.framework.db.EntityConnectionProvider
+import `is`.codion.framework.db.EntityConnection
 
-class AlbumModel(connectionProvider: EntityConnectionProvider) :
-    AndroidEntityModel(Album.TYPE, connectionProvider),
+class AlbumModel(connection: EntityConnection) :
+    AndroidEntityModel(Album.TYPE, connection),
     AlbumConfig<AndroidEntityModel, AndroidEntityEditModel, AndroidEntityTableModel, AndroidEntityEditor> {
 
     init {
-        detail().add(AndroidEntityModel(Track.TYPE, connectionProvider))
+        detail().add(AndroidEntityModel(Track.TYPE, connection))
         configure()
     }
 }
