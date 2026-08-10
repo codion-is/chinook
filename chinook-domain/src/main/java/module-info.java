@@ -22,7 +22,7 @@
 module is.codion.demos.chinook.domain {
 	requires is.codion.common.db;
 	requires is.codion.common.rmi;
-	requires is.codion.framework.db.core;
+	requires is.codion.framework.db;
 	requires is.codion.framework.db.local;
 	requires transitive is.codion.demos.chinook.domain.api;
 

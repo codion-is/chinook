@@ -1,5 +1,5 @@
 [versions]
-codion = "0.18.82"
+codion = "0.18.83"
 flatlaf = "3.7.2"
 h2 = "2.3.232"
 javalin = "7.2.2"
@@ -14,7 +14,7 @@ codion-dbms-h2 = { module = "is.codion:codion-dbms-h2" }
 codion-tools-loadtest-ui = { module = "is.codion:codion-tools-loadtest-ui" }
 codion-framework-domain = { module = "is.codion:codion-framework-domain" }
 codion-framework-domain-test = { module = "is.codion:codion-framework-domain-test" }
-codion-framework-db-core = { module = "is.codion:codion-framework-db-core" }
+codion-framework-db = { module = "is.codion:codion-framework-db" }
 codion-framework-db-rmi = { module = "is.codion:codion-framework-db-rmi" }
 codion-framework-db-local = { module = "is.codion:codion-framework-db-local" }
 codion-framework-db-http = { module = "is.codion:codion-framework-db-http" }

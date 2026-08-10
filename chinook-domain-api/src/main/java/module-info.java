@@ -21,7 +21,7 @@
  */
 module is.codion.demos.chinook.domain.api {
 	requires is.codion.common.db;
-	requires is.codion.framework.db.core;
+	requires is.codion.framework.db;
 	requires transitive is.codion.plugin.jasperreports;
 	requires org.apache.commons.logging;
 	requires net.sf.jasperreports.core;

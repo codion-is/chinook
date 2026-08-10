@@ -22,7 +22,7 @@
 module is.codion.demos.chinook.client.loadtest {
 	requires is.codion.common.model;
 	requires is.codion.tools.loadtest.ui;
-	requires is.codion.framework.db.core;
+	requires is.codion.framework.db;
 	requires is.codion.demos.chinook.domain.api;
 	requires is.codion.demos.chinook.client;
 }

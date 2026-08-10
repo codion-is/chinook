@@ -105,7 +105,7 @@ public final class InvoiceEditPanel extends EntityEditPanel {
 						.add(cityPostalCodeStateCountryPanel)
 						.build();
 
-		invoiceLinePanel.setBorder(createTitledBorder(editModel().entities().definition(InvoiceLine.TYPE).caption()));
+		invoiceLinePanel.setBorder(createTitledBorder(model().entities().definition(InvoiceLine.TYPE).caption()));
 		invoiceLinePanel.initialize();
 
 		setLayout(borderLayout());
@@ -140,7 +140,7 @@ public final class InvoiceEditPanel extends EntityEditPanel {
 			// We use the TableSelector, provided by EntitySearchField,
 			// configuring the visible table columns, the sorting and size
 			TableSelector selector = EntitySearchField.tableSelector(searchField);
-			selector.table().columnModel().visible().set(Customer.LASTNAME, Customer.FIRSTNAME, Customer.EMAIL);
+			selector.table().columns().visible().set(Customer.LASTNAME, Customer.FIRSTNAME, Customer.EMAIL);
 			selector.table().model().sort().ascending(Customer.LASTNAME, Customer.FIRSTNAME);
 			selector.preferredSize(new Dimension(500, 300));
 

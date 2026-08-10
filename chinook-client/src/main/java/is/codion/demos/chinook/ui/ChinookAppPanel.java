@@ -95,7 +95,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 	private AnalyticsPanel analyticsPanel;
 
 	public ChinookAppPanel(ChinookAppModel applicationModel) {
-		super(applicationModel, createPanels(applicationModel), createLookupPanelBuilders());
+		super(applicationModel, createPanels(applicationModel), createLookupPanels());
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 						new PlaylistPanel((PlaylistModel) applicationModel.models().get(Playlist.TYPE)));
 	}
 
-	private static List<EntityPanel.Builder> createLookupPanelBuilders() {
+	private static List<EntityPanel.Builder> createLookupPanels() {
 		EntityPanel.Builder genrePanelBuilder = EntityPanel.builder()
 						.entityType(Genre.TYPE)
 						.panel(ChinookAppPanel::createGenrePanel);
@@ -210,7 +210,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 
 	private void displayAnalytics() {
 		if (analyticsPanel == null) {
-			analyticsPanel = new AnalyticsPanel(applicationModel().analytics());
+			analyticsPanel = new AnalyticsPanel(model().analytics());
 		}
 		if (!analyticsPanel.isShowing()) {
 			analyticsPanel.model().refresh();
@@ -219,7 +219,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 							.owner(this)
 							.title(bundle.getString("analytics"))
 							.modal(false)
-							.onClosed(e -> analyticsPanel.model().clear())
+							.onClosed(_ -> analyticsPanel.model().clear())
 							.show();
 		}
 	}
@@ -246,7 +246,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		}
 	}
 
-	public static void main(String[] args) throws CancelException {
+	static void main() throws CancelException {
 		String language = UserPreferences.get(LANGUAGE_PREFERENCES_KEY, Locale.getDefault().getLanguage());
 		Locale.setDefault(LANGUAGE_IS.equals(language) ? LOCALE_IS : LOCALE_EN);
 		UIManager.put("PasswordField.showRevealButton", true);

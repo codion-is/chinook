@@ -44,14 +44,14 @@ public final class PlaylistTrackTablePanel extends EntityTablePanel {
 						.includeEditAttributeControl(false)
 						.includeEditControl(false));
 		// Hide the playlist column
-		table().columnModel().visible(PlaylistTrack.PLAYLIST_FK).set(false);
+		table().columns().visible(PlaylistTrack.PLAYLIST_FK).set(false);
 	}
 
 	@Override
 	protected void setupControls() {
 		// Modify the ADD control so that it is only enabled when a playlist is selected
 		control(ControlKeys.ADD).update(control -> control.copy()
-						.enabled(tableModel().editor().value(PlaylistTrack.PLAYLIST_FK).present())
+						.enabled(model().editor().value(PlaylistTrack.PLAYLIST_FK).present())
 						.build());
 	}
 
