@@ -22,10 +22,11 @@ import is.codion.common.db.database.Database;
 import is.codion.common.db.pool.ConnectionPoolFactory;
 import is.codion.common.db.pool.ConnectionPoolWrapper;
 import is.codion.common.rmi.server.Authenticator;
-import is.codion.common.rmi.server.RemoteClient;
+import is.codion.common.rmi.server.RemoteSession;
 import is.codion.common.rmi.server.exception.LoginException;
 import is.codion.common.rmi.server.exception.ServerAuthenticationException;
 import is.codion.common.utilities.user.User;
+import is.codion.demos.chinook.domain.api.Chinook;
 import is.codion.framework.db.EntityConnection;
 import is.codion.framework.domain.Domain;
 import is.codion.framework.domain.DomainModel;
@@ -81,16 +82,16 @@ public final class ChinookAuthenticator implements Authenticator {
 	 */
 	@Override
 	public Optional<String> clientType() {
-		return Optional.of("Chinook");
+		return Optional.of(Chinook.DOMAIN.name());
 	}
 
 	@Override
-	public RemoteClient login(RemoteClient client) throws LoginException {
-		authenticateUser(client.request().user());
+	public RemoteSession login(RemoteSession session) throws LoginException {
+		authenticateUser(session.request().user());
 
-		//Create a new RemoteClient based on the one received
+		//Create a new RemoteSession based on the one received
 		//but with the actual database user
-		return client.withDatabaseUser(databaseUser);
+		return session.withDatabaseUser(databaseUser);
 	}
 
 	@Override

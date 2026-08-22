@@ -380,6 +380,11 @@ include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java
 include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=invoiceLineTotal]
 ----
 
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=quantityValidator]
+----
+
 ===== Implementation
 
 [source,java,options="nowrap"]
@@ -1102,6 +1107,38 @@ include::{dir-source-sql}/create_schema.sql[tags=user]
 [source,java,options="nowrap"]
 ----
 include::{dir-source-domain}/is/codion/demos/chinook/server/ChinookAuthenticator.java[lines=19..-1]
+----
+
+[#_session_context]
+== Session context
+
+Authenticating against the application instead of the database, as <<#_chinookauthenticator,ChinookAuthenticator>>
+does, leaves the database with a single shared user doing everyone's work. Whatever the database would like to
+do with the real identity - an audit trigger recording who changed a price, a view showing a sales
+representative only their own customers - no longer has anything to go on.
+
+A `SessionContext` puts the identity back on the connection, where SQL can read it. The server applies it
+each time a connection is handed to a client and removes it again on the way back, which with a connection
+pool means on every check out, so it is worth keeping cheap.
+
+Note that this is only needed for what the database can not be told more directly: the client's user,
+application and host are set as JDBC client info by the server on its own, where the database supports it.
+H2 supports none of it, hence the session variable below.
+
+[#_chinooksessioncontext]
+=== ChinookSessionContext
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain}/is/codion/demos/chinook/server/ChinookSessionContext.java[lines=19..-1]
+----
+
+[#_chinooksessioncontexttest]
+=== ChinookSessionContextTest
+
+[source,java,options="nowrap"]
+----
+include::{dir-test-source-domain}/is/codion/demos/chinook/server/ChinookSessionContextTest.java[lines=19..-1]
 ----
 
 [#_domain_unit_test]
