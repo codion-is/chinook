@@ -26,7 +26,7 @@ import java.io.File
 // Flip this when testing: true = the public Render cloud server (HTTPS on 443; Render terminates TLS at the edge
 // and forwards to the server's HTTP port 8088), false = a local LAN dev server (plain HTTP). Local mode needs
 // android:usesCleartextTraffic in the manifest (it's set) and LOCAL_HOSTNAME pointing at the dev machine's IP.
-private const val USE_HTTP = true
+private const val USE_HTTP = false
 
 //private const val HTTP_HOSTNAME = "chinook-server-latest.onrender.com"
 //private const val HTTP_PORT = 443
@@ -54,6 +54,7 @@ private fun buildApplicationView(connection: EntityConnection): EntityApplicatio
         }
     }
     EntityEditView.Config.MODIFIED_WARNING.set(true);
+    EntityEditView.Config.REMEMBER_TOGGLE.set(true);
     // Models — mirror ChinookAppModel: three roots, each with its own detail tree.
     //   Album → Track,  Playlist → PlaylistTrack,  Customer → Invoice → InvoiceLine.
     val albumModel = AlbumModel(connection)
@@ -87,6 +88,7 @@ private fun buildApplicationView(connection: EntityConnection): EntityApplicatio
             // link), RATING (default 5) and PLAY_COUNT (default 0) carry default values — so the form still inserts.
             attributes(Track.NAME, Track.RATING, Track.MEDIATYPE_FK, Track.MILLISECONDS, Track.UNITPRICE)
             component(Track.RATING) { value, definition -> RatingStars(value, definition) }
+            choiceButtons(Track.MEDIATYPE_FK, true)
         },
         table = EntityTableView(trackModel.tableModel()) {
             // Reduce the many Track columns to a focused mobile set, in this order.
@@ -107,8 +109,35 @@ private fun buildApplicationView(connection: EntityConnection): EntityApplicatio
     val customerView = EntityView(
         customerModel,
         edit = EntityEditView(customerModel.editModel()) {
-            detail(Preferences.CUSTOMER_FK) {
-                attributes(Preferences.NEWSLETTER, Preferences.PREFERRED_GENRE_FK)
+            group("Name & company") {
+                attributes(
+                    Customer.LASTNAME,
+                    Customer.FIRSTNAME,
+                    Customer.COMPANY,
+                )
+            }
+            group("Address") {
+                attributes(
+                    Customer.ADDRESS,
+                    Customer.CITY,
+                    Customer.STATE,
+                    Customer.COUNTRY,
+                    Customer.POSTALCODE
+                )
+            }
+            group("Phone & email") {
+                attributes(
+                    Customer.PHONE,
+                    Customer.EMAIL,
+                    Customer.FAX
+                )
+            }
+            group("Other") {
+                attributes(Customer.SUPPORTREP_FK)
+                detail(Preferences.CUSTOMER_FK) { attributes(
+                    Preferences.NEWSLETTER,
+                    Preferences.PREFERRED_GENRE_FK
+                ) }
             }
         },
         // A custom table action (Config.control) — "Customer report…", enabled while customers are selected, filling a
