@@ -76,10 +76,8 @@ private fun buildApplicationView(connection: EntityConnection): EntityApplicatio
     // Album.RATING is a read-only average (a subquery over its tracks), so it has no edit-form override; the table
     // shows it as a compact star meter via the table view's per-attribute renderer seam.
     val albumView = EntityView(albumModel, table = EntityTableView(albumModel.tableModel()) {
-        renderer(Album.RATING) { value, definition -> RatingStarsCell(value, definition) }
+        renderer(Album.RATING) { value, _ -> RatingStarsCell(value) }
     })
-    // Track.RATING (1–10): tappable stars in the edit form (component seam) and a star meter in the table (renderer
-    // seam) — the editor writes the value, the renderer only displays it. Same RatingStars* pair, two seams.
     val trackView = EntityView(
         trackModel,
         edit = EntityEditView(trackModel.editModel()) {
@@ -87,13 +85,13 @@ private fun buildApplicationView(connection: EntityConnection): EntityApplicatio
             // omitted required columns stay covered by the model: ALBUM_FK is supplied by the master (Album→Track detail
             // link), RATING (default 5) and PLAY_COUNT (default 0) carry default values — so the form still inserts.
             attributes(Track.NAME, Track.RATING, Track.MEDIATYPE_FK, Track.MILLISECONDS, Track.UNITPRICE)
-            component(Track.RATING) { value, definition -> RatingStars(value, definition) }
-            choiceButtons(Track.MEDIATYPE_FK, true)
+            choiceButtons(Track.MEDIATYPE_FK)
+            slider(Track.RATING)
         },
         table = EntityTableView(trackModel.tableModel()) {
             // Reduce the many Track columns to a focused mobile set, in this order.
             attributes(Track.NAME, Track.ALBUM_FK, Track.RATING, Track.UNITPRICE)
-            renderer(Track.RATING) { value, definition -> RatingStarsCell(value, definition) }
+            renderer(Track.RATING) { value, _ -> RatingStarsCell(value) }
         },
     )
     albumView.detail().add(trackView)
