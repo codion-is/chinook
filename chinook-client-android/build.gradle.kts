@@ -1,13 +1,16 @@
 plugins {
-    // AGP 9.0 has built-in Kotlin support, so org.jetbrains.kotlin.android is not applied.
-    id("com.android.application") version "9.0.0"
-    id("org.jetbrains.compose") version "1.9.3"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.4.0"
+    // AGP 9 has built-in Kotlin support, so org.jetbrains.kotlin.android is not applied.
+    id("com.android.application") version "9.1.0"
+    // The compose compiler, versioned with Kotlin. Not org.jetbrains.compose: this app is Android-only, and its Compose
+    // artifacts come from the compose-bom that codion-android-framework-ui exports, as they do in that library itself.
+    id("org.jetbrains.kotlin.plugin.compose") version "2.4.10"
 }
 
 android {
     namespace = "is.codion.demos.chinook.android"
-    compileSdk = 35
+    // 37 because codion-android-framework-ui's AAR now declares minCompileSdk=37, which AGP enforces at
+    // checkDebugAarMetadata. Unrelated to minSdk below: this is only what the app compiles against.
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "is.codion.demos.chinook.android"
@@ -24,7 +27,7 @@ android {
     }
 }
 
-// The chinook project's daemon runs JDK 26, which AGP 9.0 doesn't support (its jlink-based JdkImageTransform
+// The chinook project's daemon runs JDK 26, which AGP 9 doesn't support (its jlink-based JdkImageTransform
 // fails). Pin this module's Java/Kotlin toolchain to 21 so AGP runs its tooling on a supported JDK.
 kotlin {
     jvmToolchain(21)
@@ -36,12 +39,18 @@ dependencies {
     // this script is evaluated — so it is applied here instead.
     implementation(platform(libs.codion.framework.bom))
 
-    implementation(compose.runtime)
-    implementation(compose.foundation)
-    implementation(compose.material3)
-    implementation("androidx.activity:activity-compose:1.10.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("androidx.fragment:fragment:1.8.5")
+    // Deliberately versionless: codion-android-framework-ui api-exports androidx.compose:compose-bom (scope=import in
+    // its POM), so the app resolves the same Compose set the library was built against without repeating the number.
+    // Declared rather than inherited because this app imports all four directly.
+    implementation("androidx.compose.runtime:runtime")
+    implementation("androidx.compose.foundation:foundation")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui")
+    // Outside the BOM's scope (it covers androidx.compose.* only), so these carry their own versions. Used directly:
+    // setContent, SystemBarStyle and enableEdgeToEdge from activity; FragmentActivity from fragment, which
+    // BiometricPrompt needs as its host.
+    implementation("androidx.activity:activity-compose:1.13.0")
+    implementation("androidx.fragment:fragment:1.9.0")
 
     implementation(project(":chinook-domain"))
     implementation(project(":chinook-domain-json"))
