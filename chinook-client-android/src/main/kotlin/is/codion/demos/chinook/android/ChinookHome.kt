@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import `is`.codion.android.framework.model.AndroidEntityApplicationModel
 import `is`.codion.android.framework.ui.CodionLogo
 import `is`.codion.android.framework.ui.EntityApplicationView
 import `is`.codion.android.framework.ui.EntityView
@@ -40,7 +39,7 @@ private val CARD_ACCENTS = listOf(
  * root returns here.
  */
 @Composable
-fun ChinookHome(application: EntityApplicationView<AndroidEntityApplicationModel>) {
+fun ChinookHome(application: EntityApplicationView<ChinookApplicationModel>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
