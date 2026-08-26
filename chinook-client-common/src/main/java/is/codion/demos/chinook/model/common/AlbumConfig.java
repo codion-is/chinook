@@ -19,6 +19,7 @@
 package is.codion.demos.chinook.model.common;
 
 import is.codion.demos.chinook.domain.api.Chinook.Track;
+import is.codion.framework.db.EntityConnection;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.model.EntityEditModel;
 import is.codion.framework.model.EntityEditor;
@@ -34,13 +35,17 @@ public interface AlbumConfig<M extends EntityModel<M, E, T, R>, E extends Entity
 				T extends EntityTableModel<E, R>, R extends EntityEditor<R>> extends EntityModel<M, E, T, R> {
 
 	default void configure() {
-		R trackEditor = detail().get(Track.TYPE).editor();
+		M trackModel = createTrackModel(connection());
+		detail().add(trackModel);
+		R trackEditor = trackModel.editor();
 		trackEditor.comboBoxModels().initialize(Track.MEDIATYPE_FK, Track.GENRE_FK);
 		// We refresh albums when tracks are modified, to display the updated rating
 		trackEditor.events().after().insert().addConsumer(this::tracksInsertedOrDeleted);
 		trackEditor.events().after().delete().addConsumer(this::tracksInsertedOrDeleted);
 		trackEditor.events().after().update().addConsumer(this::tracksUpdated);
 	}
+
+	M createTrackModel(EntityConnection connection);
 
 	private void tracksInsertedOrDeleted(Collection<Entity> tracks) {
 		tableModel().refresh(Entity.keys(Track.ALBUM_FK, tracks));
