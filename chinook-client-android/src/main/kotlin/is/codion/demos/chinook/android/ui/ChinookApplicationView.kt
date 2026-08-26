@@ -1,7 +1,9 @@
-package `is`.codion.demos.chinook.android
+package `is`.codion.demos.chinook.android.ui
 
 import `is`.codion.android.framework.model.AndroidEntityModel
 import `is`.codion.android.framework.ui.*
+import `is`.codion.demos.chinook.android.model.ChinookApplicationModel
+import `is`.codion.demos.chinook.android.model.ChinookConnection
 import `is`.codion.demos.chinook.domain.api.Chinook.*
 import `is`.codion.framework.db.EntityConnection
 
