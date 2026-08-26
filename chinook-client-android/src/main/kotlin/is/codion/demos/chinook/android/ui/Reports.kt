@@ -1,4 +1,4 @@
-package `is`.codion.demos.chinook.android
+package `is`.codion.demos.chinook.android.ui
 
 import android.content.ActivityNotFoundException
 import android.content.Context
