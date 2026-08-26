@@ -40,6 +40,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The InvoiceLine detail wiring, which {@link is.codion.demos.chinook.model.common.InvoiceConfig} now owns on
+ * behalf of every client — so what is exercised here is shared code, whatever this test happens to instantiate.
+ */
 public final class InvoiceModelTest {
 
 	@Test
