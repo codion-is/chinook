@@ -1,10 +1,7 @@
 package `is`.codion.demos.chinook.android
 
 import `is`.codion.android.framework.model.AndroidEntityModel
-import `is`.codion.android.framework.ui.EntityApplicationView
-import `is`.codion.android.framework.ui.EntityEditView
-import `is`.codion.android.framework.ui.EntityTableView
-import `is`.codion.android.framework.ui.EntityView
+import `is`.codion.android.framework.ui.*
 import `is`.codion.demos.chinook.domain.api.Chinook.*
 import `is`.codion.framework.db.EntityConnection
 
@@ -37,6 +34,10 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
             // Application-wide form defaults, set before the first EntityEditView.Config is built.
             EntityEditView.Config.MODIFIED_WARNING.set(true)
             EntityEditView.Config.REMEMBER_TOGGLE.set(true)
+            // A delete the database refuses shows the records doing the refusing, instead of reporting a failure
+            // there is nothing to be done about — Customer → Invoice → InvoiceLine is a two-level cascade to try it
+            // on. Off by default (as in Swing), so an app opts in.
+            ReferentialIntegrityErrorHandling.HANDLING.set(ReferentialIntegrityErrorHandling.DEPENDENCIES)
         }
 
         private fun entityViews(model: ChinookApplicationModel): List<EntityView> {
@@ -120,8 +121,8 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
                         attributes(Customer.SUPPORTREP_FK)
                         // Edit the customer's Preferences (a one-to-one detail) inline on the customer form —
                         // persisted in the same transaction. The detail editor is registered by the shared
-                        // CustomerEditConfig (via EntityEditor.create); here we just project which of its fields
-                        // appear, mirroring the Swing CustomerEditPanel's preferences section.
+                        // CustomerEditConfig; here we just project which of its fields appear,
+                        // mirroring the Swing CustomerEditPanel's preferences section.
                         detail(Preferences.CUSTOMER_FK) {
                             attributes(
                                 Preferences.NEWSLETTER,
@@ -135,18 +136,32 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
                 // The Android counterpart of the Swing CustomerTablePanel PRINT control, reached from the action
                 // bar's actions overflow.
                 table = EntityTableView(customerModel.tableModel()) {
-                    control(customerReportControl(customerModel.tableModel()))
+                    // Reports are filled server-side and returned as PDF bytes, so they exist only over HTTP — the
+                    // on-device database has no server to fill them and this client carries no JasperReports. See Reports.kt.
+                    if (ChinookConnection.HTTP) {
+                        control(customerReportControl(customerModel.tableModel()))
+                    }
                 },
             ) { splitInLandscape = true }
 
             val invoiceModel = customerModel.detail().get(Invoice.TYPE)
-            // A custom table action (Config.control) on the invoice table — "Invoice…", printing the selected
-            // invoices (Invoice.REPORT_PDF, filled server-side) and opening them in the device's PDF viewer, one
-            // page per invoice.
+            // "Invoice…" (Invoice.REPORT_PDF, filled server-side) opening in the device's PDF viewer, offered from
+            // both of this view's actions overflows — the table's over the selected invoices, one page each, and the
+            // form's over the one record it is on. The same report, gated differently: see Reports.kt.
             val invoiceView = EntityView(
                 invoiceModel,
+                // The same invoice report as a form action (Config.control), so an invoice can be printed from the
+                // record you are looking at and not only from the table — enabled once it exists, an uninserted
+                // invoice having no id to fill a report against.
+                edit = EntityEditView(invoiceModel.editModel()) {
+                    if (ChinookConnection.HTTP) {
+                        control(invoiceReportControl(invoiceModel.editModel()))
+                    }
+                },
                 table = EntityTableView(invoiceModel.tableModel()) {
-                    control(invoiceReportControl(invoiceModel.tableModel()))
+                    if (ChinookConnection.HTTP) {
+                        control(invoiceReportControl(invoiceModel.tableModel()))
+                    }
                 },
             )
             invoiceView.detail().add(EntityView(invoiceModel.detail().get(InvoiceLine.TYPE)))
