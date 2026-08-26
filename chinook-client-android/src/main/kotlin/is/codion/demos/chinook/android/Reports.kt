@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
+import `is`.codion.android.framework.model.AndroidEntityEditModel
 import `is`.codion.android.framework.model.AndroidEntityTableModel
 import `is`.codion.android.framework.ui.Control
 import `is`.codion.android.framework.ui.observeAsState
@@ -38,7 +39,7 @@ import java.io.File
 // time; the connection is resolved later, on the IO dispatcher, because connection() reconnects (network I/O) if it
 // went stale (a server restart while the app sits open), which would crash if done on the main thread.
 private class ReportRequest(
-	val tableModel: AndroidEntityTableModel,
+	val connection: () -> EntityConnection,
 	val title: String,
 	val fileName: String,
 	val fetch: (EntityConnection) -> ByteArray,
@@ -66,12 +67,18 @@ private fun reportControl(
 		.enabled(selection.empty().not())
 		.command {
 			val ids = Entity.values<Long>(idColumn, selection.items().get())
-			reportRequest.set(ReportRequest(tableModel, caption.removeSuffix("…"), fileName) { connection ->
+			reportRequest.set(ReportRequest(tableModel::connection, caption.removeSuffix("…"), fileName) { connection ->
 				fetch(connection, ids)
 			})
 		}
 		.build()
 }
+
+// The three report actions below are offered ONLY over HTTP (ChinookConnection.HTTP), which is why the call sites
+// register them conditionally rather than always. The reports are filled server-side and returned as PDF bytes, so an
+// HTTP client needs neither JasperReports nor the .jasper files - which is what makes them viable on a phone at all.
+// The on-device H2 connection has no server to fill them: it would have to do it in-process, and this client carries
+// neither the library nor the reports. Better an action that is absent offline than one that is present and fails.
 
 /** The "Customer report…" table action — a customer report over the selected customers (Customer.REPORT_PDF). */
 internal fun customerReportControl(tableModel: AndroidEntityTableModel): Control =
@@ -84,6 +91,29 @@ internal fun invoiceReportControl(tableModel: AndroidEntityTableModel): Control 
 	reportControl(tableModel, "Invoice…", "invoice.pdf", Invoice.ID) { connection, ids ->
 		connection.report(Invoice.REPORT_PDF, mapOf<String, Any>("INVOICE_IDS" to ids))
 	}
+
+/**
+ * The "Invoice…" **form** action — the same printable invoice, for the record the form is on, reached from the edit
+ * view's actions overflow (`EntityEditView.Config.control`) rather than the table's.
+ *
+ * Where the table action gates on the selection, this gates on the editor's `entity().exists()`, since
+ * an invoice that has not been inserted yet has no id to fill a report against and nothing worth printing. That
+ * difference — selection for a table, editor state for a form — is the whole of what distinguishes the two.
+ */
+internal fun invoiceReportControl(editModel: AndroidEntityEditModel): Control {
+	val entity = editModel.editor().entity()
+	return Control.builder()
+		.caption("Invoice…")
+		.enabled(entity.exists())
+		.command {
+			// Read on the main thread, as the table action reads its selection: an in-memory get, no round trip.
+			val id = entity.get().get(Invoice.ID)
+			reportRequest.set(ReportRequest(editModel::connection, "Invoice", "invoice.pdf") { connection ->
+				connection.report(Invoice.REPORT_PDF, mapOf<String, Any>("INVOICE_IDS" to listOf(id)))
+			})
+		}
+		.build()
+}
 
 /**
  * Fills the requested report off the main thread, writes the PDF to a shareable cache file and opens it in the
@@ -102,7 +132,7 @@ internal fun ReportLauncher() {
 		try {
 			//connection() is resolved here, on IO, not at tap time: it reconnects (network I/O) if the connection
 			//went stale, which would be a NetworkOnMainThreadException if done on the main thread.
-			val pdf = withContext(Dispatchers.IO) { current.fetch(current.tableModel.connection()) }
+			val pdf = withContext(Dispatchers.IO) { current.fetch(current.connection()) }
 			val uri = withContext(Dispatchers.IO) { writeReport(context, current.fileName, pdf) }
 			context.startActivity(
 				Intent(Intent.ACTION_VIEW).apply {
