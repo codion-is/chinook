@@ -1,4 +1,4 @@
-package `is`.codion.demos.chinook.android
+package `is`.codion.demos.chinook.android.model
 
 import `is`.codion.android.framework.model.AndroidEntityApplicationModel
 import `is`.codion.android.framework.model.AndroidEntityModel
