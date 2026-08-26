@@ -1,4 +1,4 @@
-package `is`.codion.demos.chinook.android
+package `is`.codion.demos.chinook.android.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,6 +22,7 @@ import `is`.codion.android.framework.ui.CodionLogo
 import `is`.codion.android.framework.ui.EntityApplicationView
 import `is`.codion.android.framework.ui.EntityView
 import `is`.codion.android.framework.ui.observeAsState
+import `is`.codion.demos.chinook.android.model.ChinookApplicationModel
 
 // A per-card accent — one colour per root, cycled. Saturated 600–800 tones so white avatar text reads on both the
 // light and dark CodionTheme. Only the avatar is coloured; text stays theme-driven, so nothing fights the surface.

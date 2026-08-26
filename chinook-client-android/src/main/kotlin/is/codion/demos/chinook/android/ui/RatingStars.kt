@@ -1,4 +1,4 @@
-package `is`.codion.demos.chinook.android
+package `is`.codion.demos.chinook.android.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
