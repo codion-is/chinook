@@ -12,7 +12,10 @@ class InvoiceModel(connection: EntityConnection) :
     InvoiceConfig<AndroidEntityModel, AndroidEntityEditModel, AndroidEntityTableModel, AndroidEntityEditor> {
 
     init {
-        detail().add(AndroidEntityModel(InvoiceLineEditModel(connection))) // todo mirror swing model setup
         configure()
+    }
+
+    override fun createInvoiceLineModel(connection: EntityConnection): AndroidEntityModel {
+        return AndroidEntityModel(InvoiceLineEditModel(connection))
     }
 }
