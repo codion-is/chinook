@@ -18,10 +18,8 @@
  */
 package is.codion.demos.chinook.model;
 
-import is.codion.demos.chinook.domain.api.Chinook.InvoiceLine;
 import is.codion.demos.chinook.model.common.InvoiceConfig;
 import is.codion.framework.db.EntityConnection;
-import is.codion.framework.model.ForeignKeyModelLink;
 import is.codion.swing.framework.model.SwingEntityEditModel;
 import is.codion.swing.framework.model.SwingEntityEditor;
 import is.codion.swing.framework.model.SwingEntityModel;
@@ -32,22 +30,18 @@ public final class InvoiceModel extends SwingEntityModel
 
 	public InvoiceModel(EntityConnection connection) {
 		super(new InvoiceEditModel(connection));
-
-		InvoiceLineEditModel invoiceLineEditModel = new InvoiceLineEditModel(connection);
-
-		SwingEntityModel invoiceLineModel = new SwingEntityModel(invoiceLineEditModel);
-		detail().add(ForeignKeyModelLink.builder()
-						.model(invoiceLineModel)
-						.foreignKey(InvoiceLine.INVOICE_FK)
-						// Prevents accidentally adding a new invoice line to the previously selected invoice,
-						// since the selected foreign key value persists when the master selection is cleared by default.
-						.clearValueOnEmptySelection(true)
-						// Usually the UI is responsible for activating the detail model link for the currently
-						// active (or visible) detail panel, but since the InvoiceLine panel is embedded in the
-						// InvoiceEditPanel, we simply activate the link here.
-						.active(true)
-						.build());
-
 		configure();
+	}
+
+	@Override
+	public SwingEntityModel createInvoiceLineModel(EntityConnection connection) {
+		return new SwingEntityModel(new InvoiceLineEditModel(connection));
+	}
+
+	@Override
+	public boolean invoiceLineLinkActive() {
+		// The InvoiceLine panel is embedded in the InvoiceEditPanel rather than being a detail
+		// panel the UI navigates to, so there is nothing to activate the link on our behalf.
+		return true;
 	}
 }

@@ -14,7 +14,10 @@ class AlbumModel(connection: EntityConnection) :
     AlbumConfig<AndroidEntityModel, AndroidEntityEditModel, AndroidEntityTableModel, AndroidEntityEditor> {
 
     init {
-        detail().add(AndroidEntityModel(Track.TYPE, connection))
         configure()
+    }
+
+    override fun createTrackModel(connection: EntityConnection): AndroidEntityModel {
+        return AndroidEntityModel(Track.TYPE, connection);
     }
 }
