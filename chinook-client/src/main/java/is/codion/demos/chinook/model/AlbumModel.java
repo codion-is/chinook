@@ -31,7 +31,11 @@ public final class AlbumModel extends SwingEntityModel
 
 	public AlbumModel(EntityConnection connection) {
 		super(Album.TYPE, connection);
-		detail().add(new SwingEntityModel(new TrackTableModel(connection)));
 		configure();
+	}
+
+	@Override
+	public SwingEntityModel createTrackModel(EntityConnection connection) {
+		return new SwingEntityModel(new TrackTableModel(connection));
 	}
 }
