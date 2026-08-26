@@ -13,6 +13,9 @@ import androidx.fragment.app.FragmentActivity
 import `is`.codion.android.framework.ui.CodionTheme
 import `is`.codion.android.framework.ui.EntityApplication
 import `is`.codion.common.utilities.user.User
+import `is`.codion.demos.chinook.android.model.ChinookConnection
+import `is`.codion.demos.chinook.android.ui.ChinookApplicationView
+import `is`.codion.demos.chinook.android.ui.ReportLauncher
 import `is`.codion.demos.chinook.domain.api.Chinook.DOMAIN
 
 // The application is ChinookApplicationView / ChinookApplicationModel, mirroring the Swing ChinookAppPanel /
