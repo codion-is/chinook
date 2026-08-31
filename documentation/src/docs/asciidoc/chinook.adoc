@@ -316,6 +316,13 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 include::{dir-source-client}/is/codion/demos/chinook/model/InvoiceModel.java[lines=19..-1]
 ----
 
+===== InvoiceModelTest
+
+[source,java,options="nowrap"]
+----
+include::{dir-test-source-client}/is/codion/demos/chinook/model/InvoiceModelTest.java[lines=19..-1]
+----
+
 [#_invoiceeditmodel]
 ===== InvoiceEditModel
 
