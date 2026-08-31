@@ -35,7 +35,7 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
         init {
             // Application-wide form defaults, set before the first EntityEditView.Config is built.
             EntityEditView.Config.MODIFIED_WARNING.set(true)
-            EntityEditView.Config.REMEMBER_TOGGLE.set(true)
+            EntityEditView.Config.PERSIST_TOGGLE.set(true)
             // A delete the database refuses shows the records doing the refusing, instead of reporting a failure
             // there is nothing to be done about — Customer → Invoice → InvoiceLine is a two-level cascade to try it
             // on. Off by default (as in Swing), so an app opts in.
@@ -55,7 +55,12 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
         // table shows it as a compact star meter via the table view's per-attribute renderer seam.
         private fun albumView(model: ChinookApplicationModel): EntityView {
             val albumModel = model.albumModel
-            val albumView = EntityView(albumModel, table = EntityTableView(albumModel.tableModel()) {
+            val albumView = EntityView(
+                albumModel,
+                edit = EntityEditView(albumModel.editModel()) {
+                    photo(Album.COVER, gallery = true, settings = true)
+                },
+                table = EntityTableView(albumModel.tableModel()) {
                 renderer(Album.RATING) { value, _ -> RatingStarsCell(value) }
             })
             albumView.detail().add(trackView(albumModel.detail().get(Track.TYPE)))
@@ -66,17 +71,14 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
         private fun trackView(trackModel: AndroidEntityModel) = EntityView(
             trackModel,
             edit = EntityEditView(trackModel.editModel()) {
-                // Reduce the kitchen-sink Track form to the essentials, in this order (the mobile projection
-                // lever). The omitted required columns stay covered by the model: ALBUM_FK is supplied by the
-                // master (Album→Track detail link), RATING (default 5) and PLAY_COUNT (default 0) carry default
-                // values — so the form still inserts.
-                attributes(Track.NAME, Track.RATING, Track.MEDIATYPE_FK, Track.MILLISECONDS, Track.UNITPRICE)
+                group("Main") {
+                    attributes(Track.ALBUM_FK, Track.NAME, Track.GENRE_FK, Track.UNITPRICE)
+                }
+                remaining("Other")
                 choiceButtons(Track.MEDIATYPE_FK)
                 slider(Track.RATING)
             },
             table = EntityTableView(trackModel.tableModel()) {
-                // Reduce the many Track columns to a focused mobile set, in this order.
-                attributes(Track.NAME, Track.ALBUM_FK, Track.RATING, Track.UNITPRICE)
                 renderer(Track.RATING) { value, _ -> RatingStarsCell(value) }
             },
         )
@@ -161,6 +163,7 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
                     }
                 },
                 table = EntityTableView(invoiceModel.tableModel()) {
+                    hidden(Invoice.INSERT_TIME, Invoice.INSERT_USER)
                     if (ChinookConnection.HTTP) {
                         control(invoiceReportControl(invoiceModel.tableModel()))
                     }
