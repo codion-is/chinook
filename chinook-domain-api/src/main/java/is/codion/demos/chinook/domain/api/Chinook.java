@@ -466,6 +466,20 @@ public interface Chinook {
 	}
 	// end::customerFormatter[]
 
+	// tag::invoiceFormatter[]
+	final class InvoiceFormatter
+					implements EntityFormatter {
+
+		@Serial
+		private static final long serialVersionUID = 1;
+
+		@Override
+		public String apply(Entity invoice) {
+			return "Invoice [" + invoice.formatted(Invoice.ID) + "]";
+		}
+	}
+	// end::invoiceFormatter[]
+
 	// tag::coverFormat[]
 	final class CoverFormat extends Format {
 

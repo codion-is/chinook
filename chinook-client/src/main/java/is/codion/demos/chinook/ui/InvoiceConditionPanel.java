@@ -25,9 +25,11 @@ import is.codion.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.attribute.Attribute;
 import is.codion.framework.model.EntityConditionModel;
+import is.codion.framework.model.EntitySearchModel;
 import is.codion.framework.model.ForeignKeyConditionModel;
 import is.codion.swing.common.ui.Utilities;
 import is.codion.swing.common.ui.component.Components;
+import is.codion.swing.common.ui.component.multi.MultiInput;
 import is.codion.swing.common.ui.component.table.ConditionPanel;
 import is.codion.swing.common.ui.component.table.ConditionPanel.ConditionView;
 import is.codion.swing.common.ui.component.table.FilterTableColumnModel;
@@ -46,7 +48,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
-import java.awt.event.InputEvent;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.time.LocalDate;
 import java.time.Month;
@@ -62,8 +64,7 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static is.codion.swing.common.ui.component.Components.borderLayoutPanel;
-import static is.codion.swing.common.ui.component.Components.flexibleGridLayoutPanel;
+import static is.codion.swing.common.ui.component.Components.*;
 import static is.codion.swing.common.ui.component.table.ConditionPanel.ConditionView.ADVANCED;
 import static is.codion.swing.common.ui.component.table.FilterTableConditionPanel.filterTableConditionPanel;
 import static is.codion.swing.common.ui.control.Control.command;
@@ -203,36 +204,46 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 
 		private static final class CustomerConditionPanel extends ConditionPanel<Entity> {
 
-			private final EntitySearchField searchField;
+			private final MultiInput<EntitySearchField, Entity> customers;
 
 			private CustomerConditionPanel(ForeignKeyConditionModel conditionModel, SwingEntityTableModel tableModel) {
 				super(conditionModel);
 				setLayout(new BorderLayout());
 				setBorder(createTitledBorder(createEmptyBorder(),
 								tableModel.entityDefinition().attributes().definition(Invoice.CUSTOMER_FK).caption()));
-				searchField = EntitySearchField.builder()
-								.model(conditionModel.inSearchModel().orElseThrow())
-								.multiSelection()
-								.columns(25)
+				// A customer found is added with Enter, clearing the search field for the next,
+				// the members button displaying the customers added
+				customers = multiInput()
+								.component(EntitySearchField.builder()
+												.model(EntitySearchModel.builder()
+																.entityType(conditionModel.attribute().referencedType())
+																.connection(tableModel.connection())
+																.build())
+												.columns(25)
+												.buildValue())
+								// The component is linked to the IN operand
+								.link(conditionModel.operands().in())
+								.caption(conditionModel.caption().orElse(null))
 								.build();
-				add(searchField, BorderLayout.CENTER);
+				add(customers, BorderLayout.CENTER);
 			}
 
 			@Override
 			public Collection<JComponent> components() {
-				return List.of(searchField);
+				return List.of(customers);
 			}
 
 			@Override
 			public void requestInputFocus() {
-				searchField.requestFocusInWindow();
+				customers.requestFocusInWindow();
 			}
 
 			@Override
 			protected void onViewChanged(ConditionView conditionView) {}
 
 			private boolean isFocused() {
-				return searchField.hasFocus();
+				// The search field or the members button
+				return customers.isAncestorOf(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner());
 			}
 		}
 
@@ -250,14 +261,14 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 							.listener(this::updateCondition)
 							.editable(false)
 							.columns(3)
-							.horizontalAlignment(SwingConstants.LEFT)
+							.horizontalAlignment(SwingConstants.TRAILING)
 							.keyEvent(KeyEvents.builder()
 											.keyCode(KeyEvent.VK_UP)
-											.modifiers(InputEvent.CTRL_DOWN_MASK)
+											.modifiers(KeyEvents.MENU_SHORTCUT_MASK)
 											.action(command(this::incrementYear)))
 							.keyEvent(KeyEvents.builder()
 											.keyCode(KeyEvent.VK_DOWN)
-											.modifiers(InputEvent.CTRL_DOWN_MASK)
+											.modifiers(KeyEvents.MENU_SHORTCUT_MASK)
 											.action(command(this::decrementYear)))
 							.buildValue();
 

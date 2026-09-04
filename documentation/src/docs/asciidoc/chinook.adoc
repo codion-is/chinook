@@ -292,6 +292,11 @@ include::{dir-source-sql}/create_schema.sql[tags=invoice]
 include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=invoice]
 ----
 
+[source,java,options="nowrap"]
+----
+include::{dir-source-domain-api}/is/codion/demos/chinook/domain/api/Chinook.java[tags=invoiceFormatter]
+----
+
 ===== Implementation
 
 [source,java,options="nowrap"]

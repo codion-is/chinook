@@ -88,7 +88,7 @@ public final class TrackTablePanel extends EntityTablePanel {
 						.control(Control.builder()
 										.command(this::raisePriceOfSelected)
 										.caption(BUNDLE.getString("raise_price") + "...")
-										.enabled(model().selection().empty().not()))
+										.enabled(model().selection().present()))
 						// and a separator
 						.separator()
 						// and add all the default controls
@@ -108,9 +108,7 @@ public final class TrackTablePanel extends EntityTablePanel {
 		return Dialogs.input()
 						.component(bigDecimalField()
 										.nullable(false)
-										.minimum(0)
-										// Silently prevent invalid input
-										.silentValidation(true))
+										.minimum(0))
 						.owner(this)
 						.title(BUNDLE.getString("amount"))
 						// The field is not nullable so the amount is never null
