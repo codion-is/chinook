@@ -64,7 +64,7 @@ private fun reportControl(
 	val selection = tableModel.selection()
 	return Control.builder()
 		.caption(caption)
-		.enabled(selection.empty().not())
+		.enabled(selection.present())
 		.command {
 			val ids = Entity.values<Long>(idColumn, selection.items().get())
 			reportRequest.set(ReportRequest(tableModel::connection, caption.removeSuffix("…"), fileName) { connection ->
