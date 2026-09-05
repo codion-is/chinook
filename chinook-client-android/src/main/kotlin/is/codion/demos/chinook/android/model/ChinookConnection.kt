@@ -1,7 +1,7 @@
 package `is`.codion.demos.chinook.android.model
 
 import android.content.Context
-import `is`.codion.android.framework.ui.DeviceDatabase
+import `is`.codion.android.dbms.h2.DeviceDatabase
 import `is`.codion.framework.db.EntityConnection.CLIENT_CONNECTION_TYPE
 import `is`.codion.framework.db.http.HttpEntityConnection
 
@@ -41,7 +41,7 @@ object ChinookConnection {
             HttpEntityConnection.SECURE.set(false)
             HttpEntityConnection.PORT.set(PORT)
         } else {
-            database.configure(context)
+            database.configure(context.noBackupFilesDir)
         }
     }
 
