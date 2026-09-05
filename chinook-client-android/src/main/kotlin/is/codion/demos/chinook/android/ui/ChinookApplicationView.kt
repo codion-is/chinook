@@ -58,7 +58,7 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
             val albumView = EntityView(
                 albumModel,
                 edit = EntityEditView(albumModel.editModel()) {
-                    photo(Album.COVER, gallery = true, settings = true)
+                    photo(Album.COVER, gallery = true, settings = true, prefix = "album_cover")
                 },
                 table = EntityTableView(albumModel.tableModel()) {
                 renderer(Album.RATING) { value, _ -> RatingStarsCell(value) }
@@ -79,6 +79,7 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
                 slider(Track.RATING)
             },
             table = EntityTableView(trackModel.tableModel()) {
+                summaries = true
                 renderer(Track.RATING) { value, _ -> RatingStarsCell(value) }
             },
         )

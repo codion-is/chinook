@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentActivity
-import `is`.codion.android.framework.ui.CodionTheme
+import `is`.codion.android.common.ui.CodionTheme
 import `is`.codion.android.framework.ui.EntityApplication
 import `is`.codion.common.utilities.user.User
 import `is`.codion.demos.chinook.android.model.ChinookConnection
