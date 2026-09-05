@@ -18,10 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import `is`.codion.android.framework.ui.CodionLogo
+import `is`.codion.android.common.ui.icon.CodionLogo
+import `is`.codion.android.common.ui.observeAsState
 import `is`.codion.android.framework.ui.EntityApplicationView
 import `is`.codion.android.framework.ui.EntityView
-import `is`.codion.android.framework.ui.observeAsState
 import `is`.codion.demos.chinook.android.model.ChinookApplicationModel
 
 // A per-card accent — one colour per root, cycled. Saturated 600–800 tones so white avatar text reads on both the
