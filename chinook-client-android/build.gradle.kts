@@ -58,7 +58,8 @@ dependencies {
     implementation(libs.codion.android.framework.ui)
     implementation(libs.codion.framework.db.http)
     implementation(libs.codion.framework.db.local)
-    implementation(libs.codion.dbms.h2)
+    // The on-device database (DeviceDatabase) with the H2 dialect; the driver is the app's, as with any Codion dbms module.
+    implementation(libs.codion.android.dbms.h2)
     runtimeOnly(libs.h2)
 }
 
