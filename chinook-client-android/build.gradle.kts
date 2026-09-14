@@ -1,6 +1,6 @@
 plugins {
     // AGP 9 has built-in Kotlin support, so org.jetbrains.kotlin.android is not applied.
-    id("com.android.application") version "9.1.0"
+    id("com.android.application") version "9.1.1"
     // The compose compiler, versioned with Kotlin. Not org.jetbrains.compose: this app is Android-only, and its Compose
     // artifacts come from the compose-bom that codion-android-framework-ui exports, as they do in that library itself.
     id("org.jetbrains.kotlin.plugin.compose") version "2.4.10"
