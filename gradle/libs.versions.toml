@@ -1,5 +1,5 @@
 [versions]
-codion = "0.18.86"
+codion = "0.18.87"
 flatlaf = "3.7.2"
 h2 = "2.5.250"
 javalin = "7.2.3"
