@@ -61,7 +61,7 @@ application {
         "-Dcodion.server.http.serialization=true",
         "-Dcodion.server.http.secure=false",
         "-Dcodion.server.http.port=${serverHttpPort}",
-        "-Dcodion.server.http.useVirtualThreads=true",
+        "-Dcodion.server.http.virtualThreads=true",
         //The port for the admin interface, used by the server monitor
         "-Dcodion.server.admin.port=${serverAdminPort}",
         //The admin user credentials, used by the server monitor application
@@ -73,7 +73,7 @@ application {
         "-Dcodion.db.initScripts=classpath:create_schema.sql",
         "-Dcodion.db.countQueries=true",
         //A connection pool based on this user is created on startup
-        "-Dcodion.server.connectionPoolUsers=scott:tiger",
+        "-Dcodion.server.pool.users=scott:tiger",
         //Client logging disabled by default
         "-Dcodion.server.clientLogging=false",
         "--add-modules=org.apache.commons.collections4",

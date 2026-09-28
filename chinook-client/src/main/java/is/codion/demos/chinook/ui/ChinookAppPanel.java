@@ -255,7 +255,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		icons.put("plus", ChinookAppPanel.class.getResource("plus.svg"));
 		icons.put("minus", ChinookAppPanel.class.getResource("minus.svg"));
 		icons.put("graph-pie", ChinookAppPanel.class.getResource("graph-pie.svg"));
-		Completion.COMPLETION_MODE.set(Completion.Mode.AUTOCOMPLETE);
+		Completion.MODE.set(Completion.Mode.AUTOCOMPLETE);
 		EntityApplicationPanel.CACHE_ENTITY_PANELS.set(true);
 		EntityApplicationPanel.SQL_TRACING.set(true);
 		EntityPanel.Config.TOOLBAR_CONTROLS.set(true);
@@ -275,7 +275,7 @@ public final class ChinookAppPanel extends EntityApplicationPanel<ChinookAppMode
 		FilterTableCellRenderer.NUMERICAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
 		FilterTableCellRenderer.TEMPORAL_HORIZONTAL_ALIGNMENT.set(SwingConstants.CENTER);
 		FilterTableHeaderRenderer.FOCUSED_COLUMN_INDICATOR.set(true);
-		ValidationIndicator.INDICATOR_CLASS.set(FlatValidationIndicator.class.getName());
+		ValidationIndicator.IMPLEMENTATION.set(FlatValidationIndicator.class.getName());
 		CalendarPanel.WEEK_NUMBERS.set(true);
 		ReferentialIntegrityErrorHandling.HANDLING
 						.set(ReferentialIntegrityErrorHandling.DISPLAY_DEPENDENCIES);
