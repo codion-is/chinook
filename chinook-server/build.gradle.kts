@@ -90,6 +90,9 @@ jlink {
         "--no-header-files",
         "--no-man-pages",
         "--ignore-signing-information",
+        // The Bouncy Castle modules, via the servlet SSL support, each contain an OSGI-INF
+        // resource directory, which jlink rejects as a split package since JDK 27
+        "--exclude-resources=**/OSGI-INF/**",
         "--add-modules",
         "is.codion.framework.db.local,is.codion.dbms.h2,com.h2database,is.codion.plugin.hikari.pool," +
                 "is.codion.plugin.logback.proxy,is.codion.demos.chinook.domain,is.codion.demos.chinook.domain.json,is.codion.framework.servlet"
