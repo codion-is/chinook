@@ -19,7 +19,7 @@ configure(subprojects) {
 
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(27))
+            languageVersion.set(JavaLanguageVersion.of(26))
         }
     }
 
