@@ -24,7 +24,7 @@ import is.codion.common.utilities.item.Item;
 import is.codion.demos.chinook.domain.api.Chinook.Invoice;
 import is.codion.framework.domain.entity.Entity;
 import is.codion.framework.domain.entity.attribute.Attribute;
-import is.codion.framework.model.EntityConditionModel;
+import is.codion.framework.model.EntityConditions;
 import is.codion.framework.model.EntitySearchModel;
 import is.codion.framework.model.ForeignKeyConditionModel;
 import is.codion.swing.common.ui.Utilities;
@@ -35,7 +35,6 @@ import is.codion.swing.common.ui.component.table.ConditionPanel.ConditionView;
 import is.codion.swing.common.ui.component.table.FilterTableColumnModel;
 import is.codion.swing.common.ui.component.table.FilterTableConditionPanel;
 import is.codion.swing.common.ui.component.table.TableConditionPanel;
-import is.codion.swing.common.ui.component.text.NumberField;
 import is.codion.swing.common.ui.component.value.ComponentValue;
 import is.codion.swing.common.ui.control.Controls;
 import is.codion.swing.common.ui.key.KeyEvents;
@@ -61,7 +60,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static is.codion.swing.common.ui.component.Components.*;
@@ -86,15 +84,14 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 
 	InvoiceConditionPanel(SwingEntityTableModel tableModel,
 												Map<Attribute<?>, ConditionPanel<?>> conditionPanels,
-												FilterTableColumnModel<Attribute<?>> columns,
-												Consumer<TableConditionPanel<Attribute<?>>> onPanelInitialized) {
-		super(tableModel.query().condition(),
+												FilterTableColumnModel<Attribute<?>> columns) {
+		super(tableModel.query().conditions(),
 						attribute -> columns.get(attribute).getHeaderValue().toString());
 		setLayout(new BorderLayout());
-		tableModel.query().condition().persist().add(Invoice.DATE);
+		tableModel.query().conditions().persist().add(Invoice.DATE);
 		this.simpleConditionPanel = new SimpleConditionPanel(tableModel);
-		this.advancedConditionPanel = filterTableConditionPanel(tableModel.query().condition(),
-						conditionPanels, columns, onPanelInitialized);
+		this.advancedConditionPanel = filterTableConditionPanel(tableModel.query().conditions(),
+						conditionPanels, columns);
 		view().link(advancedConditionPanel.view());
 	}
 
@@ -105,26 +102,26 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 	}
 
 	@Override
-	public Map<Attribute<?>, ConditionPanel<?>> panels() {
+	public Map<Attribute<?>, ConditionPanel<?>> get() {
 		Map<Attribute<?>, ConditionPanel<?>> conditionPanels =
-						new HashMap<>(advancedConditionPanel.panels());
-		conditionPanels.putAll(simpleConditionPanel.panels());
+						new HashMap<>(advancedConditionPanel.get());
+		conditionPanels.putAll(simpleConditionPanel.get());
 
 		return conditionPanels;
 	}
 
 	@Override
 	public Map<Attribute<?>, ConditionPanel<?>> selectable() {
-		return view().is(ADVANCED) ? advancedConditionPanel.selectable() : simpleConditionPanel.panels();
+		return view().is(ADVANCED) ? advancedConditionPanel.selectable() : simpleConditionPanel.get();
 	}
 
 	@Override
-	public ConditionPanel<?> panel(Attribute<?> attribute) {
+	public ConditionPanel<?> get(Attribute<?> attribute) {
 		if (view().isNot(ADVANCED)) {
-			return simpleConditionPanel.panel(attribute);
+			return simpleConditionPanel.get(attribute);
 		}
 
-		return advancedConditionPanel.panel(attribute);
+		return advancedConditionPanel.get(attribute);
 	}
 
 	@Override
@@ -143,10 +140,10 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 			case ADVANCED:
 				add(advancedConditionPanel, BorderLayout.CENTER);
 				if (simpleConditionPanel.customerConditionPanel.isFocused()) {
-					advancedConditionPanel.panel(Invoice.CUSTOMER_FK).requestInputFocus();
+					advancedConditionPanel.get(Invoice.CUSTOMER_FK).requestInputFocus();
 				}
 				else if (simpleConditionPanel.dateConditionPanel.isFocused()) {
-					advancedConditionPanel.panel(Invoice.DATE).requestInputFocus();
+					advancedConditionPanel.get(Invoice.DATE).requestInputFocus();
 				}
 				break;
 			default:
@@ -164,9 +161,9 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 		private SimpleConditionPanel(SwingEntityTableModel tableModel) {
 			super(new BorderLayout());
 			setBorder(createEmptyBorder(5, 5, 5, 5));
-			EntityConditionModel condition = tableModel.query().condition();
-			customerConditionPanel = new CustomerConditionPanel(condition.get(Invoice.CUSTOMER_FK), tableModel);
-			dateConditionPanel = new DateConditionPanel(condition.get(Invoice.DATE));
+			EntityConditions conditions = tableModel.query().conditions();
+			customerConditionPanel = new CustomerConditionPanel(conditions.get(Invoice.CUSTOMER_FK), tableModel);
+			dateConditionPanel = new DateConditionPanel(conditions.get(Invoice.DATE));
 			dateConditionPanel.yearValue.addListener(tableModel.items()::refresh);
 			dateConditionPanel.monthValue.addListener(tableModel.items()::refresh);
 			conditionPanels.put(Invoice.CUSTOMER_FK, customerConditionPanel);
@@ -182,13 +179,13 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 							.build(), BorderLayout.CENTER);
 		}
 
-		private Map<Attribute<?>, ConditionPanel<?>> panels() {
+		private Map<Attribute<?>, ConditionPanel<?>> get() {
 			return conditionPanels;
 		}
 
-		private ConditionPanel<?> panel(Attribute<?> attribute) {
+		private ConditionPanel<?> get(Attribute<?> attribute) {
 			requireNonNull(attribute);
-			ConditionPanel<?> conditionPanel = panels().get(attribute);
+			ConditionPanel<?> conditionPanel = get().get(attribute);
 			if (conditionPanel == null) {
 				throw new IllegalStateException("No condition panel available for " + attribute);
 			}
@@ -249,9 +246,11 @@ final class InvoiceConditionPanel extends TableConditionPanel<Attribute<?>> {
 
 		private static final class DateConditionPanel extends ConditionPanel<LocalDate> {
 
-			private final ComponentValue<NumberField<Integer>, Integer> yearValue = Components.integerField()
+			private final ComponentValue<JSpinner, Integer> yearValue = Components.integerSpinner()
+							.range(LocalDate.now().getYear() - 10 , LocalDate.now().getYear())
 							.value(LocalDate.now().getYear())
 							.listener(this::updateCondition)
+							.groupingUsed(false)
 							.focusable(false)
 							.columns(4)
 							.horizontalAlignment(SwingConstants.CENTER)
