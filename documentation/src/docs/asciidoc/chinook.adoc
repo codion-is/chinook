@@ -414,6 +414,22 @@ include::{dir-source-domain}/is/codion/demos/chinook/domain/ChinookImpl.java[tag
 include::{dir-source-client}/is/codion/demos/chinook/model/InvoiceLineEditModel.java[lines=19..-1]
 ----
 
+[#_chinookpersistencefactory]
+===== ChinookPersistenceFactory
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/demos/chinook/model/ChinookPersistenceFactory.java[lines=19..-1]
+----
+
+[#_invoicelinepersistence]
+===== InvoiceLinePersistence
+
+[source,java,options="nowrap"]
+----
+include::{dir-source-client}/is/codion/demos/chinook/model/InvoiceLinePersistence.java[lines=19..-1]
+----
+
 ===== InvoiceLineEditModelTest
 
 [source,java,options="nowrap"]

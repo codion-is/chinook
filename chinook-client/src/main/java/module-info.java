@@ -40,4 +40,6 @@ module is.codion.demos.chinook.client {
 
 	provides is.codion.common.utilities.resource.Resources
 					with is.codion.demos.chinook.i18n.ChinookResources;
+	provides is.codion.framework.model.EntityPersistence.Factory
+					with is.codion.demos.chinook.model.ChinookPersistenceFactory;
 }
