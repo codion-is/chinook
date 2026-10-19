@@ -63,14 +63,14 @@ private fun reportControl(
 ): Control {
 	val selection = tableModel.selection()
 	return Control.builder()
-		.caption(caption)
-		.enabled(selection.present())
 		.command {
 			val ids = Entity.values<Long>(idColumn, selection.items().get())
 			reportRequest.set(ReportRequest(tableModel::connection, caption.removeSuffix("…"), fileName) { connection ->
 				fetch(connection, ids)
 			})
 		}
+		.caption(caption)
+		.enabled(selection.present())
 		.build()
 }
 
@@ -103,8 +103,6 @@ internal fun invoiceReportControl(tableModel: AndroidEntityTableModel): Control 
 internal fun invoiceReportControl(editModel: AndroidEntityEditModel): Control {
 	val entity = editModel.editor().entity()
 	return Control.builder()
-		.caption("Invoice…")
-		.enabled(entity.exists())
 		.command {
 			// Read on the main thread, as the table action reads its selection: an in-memory get, no round trip.
 			val id = entity.get().get(Invoice.ID)
@@ -112,6 +110,8 @@ internal fun invoiceReportControl(editModel: AndroidEntityEditModel): Control {
 				connection.report(Invoice.REPORT_PDF, mapOf<String, Any>("INVOICE_IDS" to listOf(id)))
 			})
 		}
+		.caption("Invoice…")
+		.enabled(entity.exists())
 		.build()
 }
 
