@@ -61,7 +61,7 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
                     photo(Album.COVER, gallery = true, settings = true, prefix = "album_cover")
                 },
                 table = EntityTableView(albumModel.tableModel()) {
-                renderer(Album.RATING) { value, _ -> RatingStarsCell(value) }
+                renderer(Album.RATING) { value, _, _ -> RatingStarsCell(value) }
             })
             albumView.detail().add(trackView(albumModel.detail().get(Track.TYPE)))
 
@@ -80,7 +80,7 @@ class ChinookApplicationView private constructor(model: ChinookApplicationModel)
             },
             table = EntityTableView(trackModel.tableModel()) {
                 summaries = true
-                renderer(Track.RATING) { value, _ -> RatingStarsCell(value) }
+                renderer(Track.RATING) { value, _, _ -> RatingStarsCell(value) }
             },
         )
 
