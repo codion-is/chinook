@@ -194,7 +194,7 @@ public interface Chinook {
 
 		ForeignKey SUPPORTREP_FK = TYPE.foreignKey("supportrep_fk", SUPPORTREP_ID, Employee.ID);
 
-		ReportType<Map<String, Object>, byte[]> REPORT = reportType("customer_report");
+		ReportType<Map<String, ?>, byte[]> REPORT = reportType("customer_report");
 	}
 	// end::customer[]
 
@@ -357,7 +357,7 @@ public interface Chinook {
 
 		DefaultValue<LocalDate> TODAY = LocalDate::now;
 
-		ReportType<Map<String, Object>, byte[]> REPORT = reportType("invoice_report");
+		ReportType<Map<String, ?>, byte[]> REPORT = reportType("invoice_report");
 	}
 	// end::invoice[]
 
