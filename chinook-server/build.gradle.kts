@@ -2,7 +2,6 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     id("org.beryx.jlink")
-    id("chinook.jasperreports.modules")
     id("com.github.breadmoirai.github-release")
 }
 

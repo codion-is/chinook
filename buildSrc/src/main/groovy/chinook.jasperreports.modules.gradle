@@ -1,9 +1,0 @@
-// extra-java-module-info configuration for core jasper reports library dependencies
-plugins {
-    id "org.gradlex.extra-java-module-info"
-}
-
-extraJavaModuleInfo {
-    automaticModule("commons-collections:commons-collections", "commons.collections")
-    automaticModule("commons-beanutils:commons-beanutils", "commons.beanutils")
-}

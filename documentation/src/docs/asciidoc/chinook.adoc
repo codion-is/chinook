@@ -1489,15 +1489,6 @@ include::{root-dir}/buildSrc/build.gradle.kts[tag=**]
 ----
 ====
 
-.chinook.jasperreports.modules.gradle
-[%collapsible]
-====
-[source,groovy,options="nowrap"]
-----
-include::{root-dir}/buildSrc/src/main/groovy/chinook.jasperreports.modules.gradle[]
-----
-====
-
 .chinook.jasperreports.pdf.modules.gradle
 [%collapsible]
 ====
@@ -1741,7 +1732,7 @@ include::{root-dir}/chinook-service-load-test/build.gradle.kts[tag=**]
 [#_distribution]
 == Distribution
 
-This section covers the distribution setup for the Chinook application, demonstrating how to create native installers and custom runtime images using jlink and jpackage. The configuration leverages the https://github.com/beryx/badass-jlink-plugin[Badass JLink Plugin] and custom module handling to create multiple distribution variants from a single codebase.
+This section covers the distribution setup for the Chinook application, which creates several distribution variants from a single codebase, custom runtime images via jlink and native installers via jpackage, using the https://github.com/beryx/badass-jlink-plugin[Badass JLink Plugin].
 
 === Overview
 
@@ -1752,155 +1743,33 @@ The Chinook project creates several distribution variants:
 * **Load test distributions**: Performance testing tools for different connection types
 * **Service distribution**: REST API server
 
-Each distribution is carefully configured to include only the necessary dependencies and modules, resulting in optimized runtime images.
+Each distribution is configured to include only the necessary dependencies and modules, resulting in optimized runtime images.
 
-=== Key Plugins and Tools
+=== Key Plugins
 
 ==== Badass JLink Plugin
 
-The https://github.com/beryx/badass-jlink-plugin[Badass JLink Plugin] (`org.beryx.jlink`) is the cornerstone of the distribution setup. It solves the fundamental problem that jlink cannot work with automatic modules by taking a pragmatic approach: **combining all non-modular dependencies into a single merged module**.
+The https://github.com/beryx/badass-jlink-plugin[Badass JLink Plugin] (`org.beryx.jlink`) is the cornerstone of the distribution setup. jlink only links explicit modules, so the plugin takes a pragmatic approach: **it combines the non-modular dependencies, automatic modules included, into a single merged module** with a generated module descriptor, which jlink then links along with the rest.
 
 NOTE: Applying the Badass JLink Plugin automatically applies the Application plugin, providing access to `mainClass`, `applicationDefaultJvmArgs`, and other application configuration properties.
 
-Key capabilities:
+The tasks Chinook uses:
 
-* **Custom Runtime Images**: Creates optimized Java runtime images containing only required modules
-* **Native Installers**: Generates platform-specific installers (.msi, .deb, .dmg) via jpackage
-* **Automatic Module Handling**: Converts non-modular JARs into explicit modules automatically
-* **Cross-Platform Builds**: Support for targeting multiple platforms from a single build
-* **Dependency Management**: Handles complex modular and non-modular dependency graphs
+* `jlink` - Creates a custom runtime image containing only the required modules
+* `jlinkZip` - Zips the runtime image
+* `jpackage` - Creates a platform-specific installer (.msi, .deb, .dmg) from the runtime image
 
-==== Extra-Java-Module-Info Plugin
+==== Extra Java Module Info Plugin
 
-The https://github.com/gradlex-org/extra-java-module-info[Extra Java Module Info Plugin] (`org.gradlex.extra-java-module-info`) addresses a fundamental limitation: **adding proper module information to libraries that lack it**. This enables Gradle to place these dependencies on the module path during compilation, testing, and execution.
+The https://github.com/gradlex-org/extra-java-module-info[Extra Java Module Info Plugin] (`org.gradlex.extra-java-module-info`) adds module information to libraries lacking it. Once applied, it refuses a dependency which is neither a module nor given module information, so each plain jar in the build, one with neither a `module-info.class` nor an `Automatic-Module-Name` in its manifest, needs an entry.
 
-**Core Problem Solved:**
+Chinook needs a single entry, for Adobe's `xmpcore`, a plain jar the JasperReports PDF exporter, `jasperreports-pdf`, depends on, using `automaticModule()`, which gives a plain jar a module name, making it an automatic module.
 
-Many legacy libraries either:
-- Have no module information at all (plain JARs)
-- Are automatic modules (unreliable `Automatic-Module-Name`)
-- Have broken or incomplete `module-info.class` files
-
-**Plugin Capabilities:**
-
-* **Module Transformation**: Converts non-modular JARs to explicit modules with full `module-info.class`
-* **Dependency Resolution**: Properly handles `requires`, `exports`, `opens` directives
-* **Service Provider Integration**: Automatically converts `META-INF/services` to `provides...with` declarations
-* **Split Package Resolution**: Merges JARs or removes packages to resolve conflicts
-* **Automatic Module Enhancement**: Upgrades automatic modules to full modules
-
-===== Chinook's Implementation
-
-Chinook implements this through custom Gradle plugins in `buildSrc` that demonstrate advanced techniques:
-
-**chinook.jasperreports.modules.gradle** - Core Dependencies:
-
-[source,groovy,options="nowrap"]
-----
-include::{root-dir}/buildSrc/src/main/groovy/chinook.jasperreports.modules.gradle[]
-----
-
-**Key Techniques Shown:**
-- **Simple Module Definition**: `module("coords", "module.name")` for basic conversion
-- **Dependency Mapping**: Converting Maven coordinates to module names
-
-**chinook.jasperreports.pdf.modules.gradle** - Advanced Patterns:
+The entry lives in a convention plugin in `buildSrc`, applied by the client side modules, where the reports are exported to PDF:
 
 [source,groovy,options="nowrap"]
 ----
 include::{root-dir}/buildSrc/src/main/groovy/chinook.jasperreports.pdf.modules.gradle[]
-----
-
-**Advanced Techniques Demonstrated:**
-
-**Critical JasperReports Pattern:**
-
-[source,groovy]
-----
-module("net.sf.jasperreports:jasperreports-pdf", "net.sf.jasperreports.pdf") {
-    exports("net.sf.jasperreports.export.pdf")
-    // ... other exports
-}
-----
-
-WARNING: The most important technique here is converting `jasperreports-pdf` from an automatic module to a **closed explicit module**. This prevents the Badass JLink Plugin's merged module from overwriting `jasperreports_extension.properties` files, which would cause incredibly hard to debug runtime errors.
-
-**Advanced Configuration Methods:**
-
-* **`exports("package")`** - Explicitly controls package visibility
-* **`requires("module")`** - Declares module dependencies
-* **`exportAllPackages()`** - Exports all packages found in the JAR
-* **`requireAllDefinedDependencies()`** - Auto-generates requires from metadata
-
-===== Plugin Configuration Options
-
-**Basic Module Definition:**
-
-[source,groovy]
-----
-extraJavaModuleInfo {
-    module("commons-beanutils:commons-beanutils", "org.apache.commons.beanutils") {
-        exports("org.apache.commons.beanutils")
-        requires("java.sql")
-        requires("java.desktop")
-        requiresTransitive("org.apache.commons.logging")
-    }
-}
-----
-
-**Automatic Module Creation:**
-
-[source,groovy]
-----
-automaticModule("commons-logging:commons-logging", "org.apache.commons.logging")
-----
-
-**Advanced Features:**
-
-* **Split Package Resolution**: `mergeJar("other-coordinates")` or `removePackage("problematic.package")`
-* **Service Provider Control**: `ignoreServiceProvider("service.interface", "impl.class")`
-* **Broken Module Fixes**: `patchRealModule()` and `preserveExisting()`
-* **Classifier Support**: Handle JARs with classifiers like `"artifact|linux-x86_64"`
-
-===== Best Practices from Chinook
-
-. **Convention Plugin Approach**: Apply via buildSrc for consistent multi-project configuration
-. **Conservative Exports**: Use `closeModule()` and explicit `exports()` instead of `exportAllPackages()`
-. **Service Provider Awareness**: Let the plugin auto-convert `META-INF/services` to `provides...with`
-. **Automatic to Explicit**: Convert problematic automatic modules to explicit modules for better control
-. **Split Package Prevention**: Address split packages early to avoid runtime issues
-
-===== Common Use Cases
-
-**Legacy Library Integration:**
-
-[source,groovy]
-----
-module("old-library:old-library", "old.library") {
-    exportAllPackages()
-    requireAllDefinedDependencies()
-}
-----
-
-**JavaFX Libraries (Common Pattern):**
-
-[source,groovy]
-----
-module("javafx-library:javafx-library", "javafx.library") {
-    requires("javafx.controls")
-    requires("javafx.fxml")
-    exports("com.library.javafx")
-}
-----
-
-**Fixing Broken Modules:**
-
-[source,groovy]
-----
-module("broken:library", "broken.library") {
-    patchRealModule()  // Overwrite existing module-info.class
-    requires("missing.dependency")
-}
 ----
 
 === Configuration-Only Modules
@@ -1919,69 +1788,42 @@ Each configuration module:
 . Adds connection-specific dependencies
 . Configures jlink/jpackage for that specific use case
 
-=== JLink Configuration Techniques
+=== JLink Configuration
 
 ==== Common JLink Options
 
-All distributions use these optimization options:
+The local client's configuration:
 
 [source,kotlin,options="nowrap"]
 ----
 include::{root-dir}/chinook-client-local/build.gradle.kts[tags=jlinkBasic]
 ----
 
-Standard optimization options:
+All distributions reduce the image size with:
 
-* `--strip-debug` - Removes debug information to reduce image size
-* `--no-header-files` - Excludes C header files (reduces size)
-* `--no-man-pages` - Excludes manual pages (reduces size)
+* `--strip-debug` - Removes debug information
+* `--no-header-files` - Excludes C header files
+* `--no-man-pages` - Excludes manual pages
 
-==== Advanced Module Management
+Along with:
 
-The server distribution demonstrates sophisticated techniques:
+* `--add-modules` - Explicitly includes runtime-only modules not detected by dependency analysis
+* `--include-locales` - Includes only the given locales from the `jdk.localedata` module, English and Icelandic for the clients
+* `addExtraDependencies("slf4j-api")` - Treats the jars whose names start with `slf4j-api` as dependencies of the merged module
+
+==== Server Options
+
+The server adds a few options to the common ones:
 
 [source,kotlin,options="nowrap"]
 ----
 include::{root-dir}/chinook-server/build.gradle.kts[tags=jlinkAdvanced]
 ----
 
-===== Key Configuration Methods
-
-**`addExtraDependencies(String... jarPrefixes)`**
-
-Treats JARs matching given prefixes as dependencies of the merged module. Essential for libraries that don't declare all their dependencies:
-
-* **Use case**: Libraries using JavaFX often don't specify JavaFX dependencies (removed from JDK in Java 11)
-* **Chinook usage**: `addExtraDependencies("slf4j-api")` handles SLF4J's missing runtime dependencies
-
-**`forceMerge(String... jarPrefixes)`**
-
-Forces modular JARs to be treated as non-modular and included in the merged module:
-
-* **Use case**: Resolves split package conflicts or cyclic dependencies
-* **Chinook usage**: `forceMerge("kotlin")` handles Kotlin's split packages across multiple runtime JARs
-
-**`mergedModule.excludeRequires(String... modules)`**
-
-Removes specific module requirements from the generated merged module descriptor:
-
-* **Use case**: Eliminates problematic or unnecessary module dependencies
-* **Chinook usage**: `excludeRequires("jetty.servlet.api")` removes conflicting Jetty requirements
-
-**Advanced jlink Options**
-
-* `--ignore-signing-information` - Bypasses JAR signature verification (essential when dependencies contain signed JARs)
-* `--add-modules` - Explicitly includes runtime-only modules not detected by dependency analysis
-
-===== How the Plugin Works
-
-The plugin implements a sophisticated module merging strategy:
-
-. **Identifies non-modular JARs** in the dependency graph
-. **Combines them into a single merged module** with generated module descriptor
-. **Creates delegating modules** for each original non-modular dependency
-. **Resolves cyclic dependencies** by automatically detecting and merging problematic modular JARs
-. **Generates optimized module graph** suitable for jlink processing
+* `--ignore-signing-information` - Links the signed modular jars among the dependencies, the Bouncy Castle ones, which jlink otherwise refuses
+* `--exclude-resources` - Excludes the resources matching the pattern from the image
+* `mergedModule { excludeRequires("jakarta.servlet") }` - Removes `requires jakarta.servlet` from the merged module's generated descriptor
+* `forceMerge("kotlin")` - Merges the Kotlin standard library, which Javalin brings along, into the merged module, although it is a module
 
 ==== Resource Handling
 
@@ -1994,13 +1836,9 @@ include::{root-dir}/chinook-server/build.gradle.kts[tags=resourceCopy]
 
 This ensures resources like `logback.xml`, `truststore.jks`, and `keystore.jks` are available in the runtime image.
 
-==== Signed JAR Handling
-
-When dependencies contain signed JARs, the `--ignore-signing-information` option is used (see the advanced jlink configuration above).
-
 === JPackage Configuration
 
-The jpackage integration creates professional, platform-specific installers from the jlink runtime images.
+The jpackage integration creates platform-specific installers from the jlink runtime images.
 
 ==== Platform-Specific Installers
 
@@ -2011,37 +1849,18 @@ Each platform gets appropriate installer configuration:
 include::{root-dir}/chinook-server/build.gradle.kts[tags=jpackagePlatforms]
 ----
 
-**Platform-Specific Features:**
+* **Linux**: Creates a .deb package with a desktop shortcut
+* **Windows**: Creates an .msi installer with Start menu and desktop shortcuts, and console output for the server
+* **macOS**: Creates a .dmg disk image
 
-* **Linux**: Creates .deb packages with desktop shortcuts and menu integration
-* **Windows**: Creates .msi installers with Start menu integration, desktop shortcuts, and console output for server applications
-* **macOS**: Creates .dmg disk images with drag-and-drop installation
+The configuration options used:
 
-**Key Configuration Options:**
-
-* `installerType` - Specifies installer format (msi, deb, dmg, rpm, etc.)
+* `installerType` - Specifies installer format (msi, deb, dmg)
 * `installerOptions` - Platform-specific installer options (--win-menu, --linux-shortcut, etc.)
 * `imageOptions` - Runtime image options (--win-console for server applications)
 * `icon` - Platform-specific application icons (.ico, .png, .icns)
 
-==== Advanced JPackage Features
-
-**Application Metadata:**
-
-* `appVersion` - Application version for installer metadata
-* `vendor` - Vendor name for installer properties
-* `installerName` / `imageName` - Control application naming
-
-**Resource Management:**
-
-* `resourceDir` - Custom resources for installer customization
-* `outputDir` - Consolidated output directory for both images and installers
-
-**Cross-Platform Considerations:**
-
-* **Single Platform**: jpackage can only create installers for the platform it runs on
-* **CI/CD Integration**: Use GitHub Actions or similar for multi-platform builds
-* **Target Platform**: Use `targetPlatformName` when combined with jlink's `targetPlatform` method
+NOTE: jpackage can only create installers for the platform it runs on.
 
 ==== Dynamic Naming Strategy
 
@@ -2102,7 +1921,7 @@ Key aspects:
 
 === Server Distribution Configuration
 
-The server distribution demonstrates advanced techniques:
+The complete server distribution configuration:
 
 [source,kotlin,options="nowrap"]
 ----
@@ -2114,7 +1933,7 @@ Notable configurations:
 * `--ignore-signing-information` for signed dependencies
 * Console output on Windows with `--win-console`
 * Includes both `keystore.jks` and serialization filter patterns
-* Force merges Kotlin modules
+* Force merges the Kotlin standard library
 
 === GitHub Release Integration
 
@@ -2126,135 +1945,3 @@ include::{root-dir}/chinook-client-local/build.gradle.kts[tags=githubRelease]
 ----
 
 This automatically uploads both the jlink ZIP and native installers to GitHub releases when the `githubAccessToken` property is provided.
-
-=== Troubleshooting Distribution Issues
-
-==== Module Resolution Problems
-
-**Module Not Found Errors:**
-
-. **Check modularity**: Use `jar --describe-module <jar-file>` to verify if dependency is modular
-. **Add missing dependencies**: Use `addExtraDependencies("jar-prefix")` for libraries with undeclared dependencies
-. **Include runtime modules**: Add runtime-only modules explicitly with `--add-modules`
-. **Examine module graph**: Run `suggestMergedModuleInfo` task to see recommended module descriptor
-
-**Cyclic Dependency Issues:**
-
-. The plugin automatically detects and resolves most cycles by merging problematic modular JARs
-. Use `forceMerge("jar-prefix")` to manually force modular JARs into the merged module
-. Check the plugin's console output for automatic cycle resolution messages
-
-==== Dependency and Resource Conflicts
-
-**"Duplicate Resource" Errors:**
-
-. **JasperReports Pattern**: Convert automatic modules to full modules to prevent resource file overwrites
-. **Custom Exclusions**: Use `excludeResources` patterns in `mergedModule` block
-. **Split Package Issues**: Use `forceMerge()` to consolidate conflicting packages
-
-**Missing Runtime Resources:**
-
-. **Resource Copy Strategy**: Use `prepareMergedJarsDir` task customization to copy resources
-. **Module Accessibility**: Ensure module-info.java has proper `opens` directives for reflection access
-. **Classpath Resources**: Verify resources are in the correct module location
-
-**Signed JAR Issues:**
-
-. **Signature Verification**: Use `--ignore-signing-information` option for signed dependencies
-. **Mixed Signatures**: Consider the impact on security when bypassing signature verification
-
-==== Platform and Build Issues
-
-**Cross-Platform Builds:**
-
-. **Target Platform Limitations**: jpackage can only create installers for the current platform
-. **JDK Compatibility**: Ensure target platform JDK versions match source platform requirements
-. **Path Separators**: Use platform-neutral path handling in custom scripts
-
-**Performance and Size Issues:**
-
-. **Image Size**: Use `--strip-debug`, `--no-header-files`, `--no-man-pages` for smaller images
-. **Module Selection**: Review included modules with `jdeps` to identify unnecessary dependencies
-. **Compression**: Consider jlink's `--compress` option (levels 0-2)
-
-**JVM and Application Issues:**
-
-. **Memory Settings**: Configure appropriate JVM memory settings for target environments
-. **Environment Variables**: Use Mustache syntax `{{VAR_NAME}}` for environment variable substitution
-. **Path Resolution**: Use `{{BIN_DIR}}` placeholder for relative path calculations
-
-==== Common Plugin Configuration Mistakes
-
-**Incorrect Module Names:**
-
-. Verify `moduleName` matches your module-info.java declaration
-. Ensure `mergedModuleName` doesn't conflict with existing modules
-
-**Application Configuration Issues:**
-
-. Verify `mainClass` and `mainModule` are correctly configured
-
-**Resource Directory Issues:**
-
-. Check that custom resource directories exist before plugin execution
-. Verify resource copying happens in the correct task lifecycle phase
-
-=== Best Practices and Lessons Learned
-
-==== Development and Configuration
-
-. **Start Simple**: Begin with basic jlink configuration and gradually add complexity
-. **Use Suggested Module Info**: Run `suggestMergedModuleInfo` task to understand plugin recommendations
-. **Separate Concerns**: Use configuration-only modules (like Chinook's client variants) for different distribution types
-. **Document Module Requirements**: Clearly document why each module is included and any special handling
-
-==== Dependency Management
-
-. **Handle Non-Modular Dependencies Early**: Use extra-java-module-info plugin to convert automatic modules
-. **Address Split Packages**: Use `forceMerge()` for libraries with package conflicts (like Kotlin runtime)
-. **Minimize Dependencies**: Regularly review and remove unnecessary dependencies to reduce image size
-. **Test Dependency Changes**: Verify that dependency updates don't break module resolution
-
-==== Performance and Size Optimization
-
-. **Standard Optimization**: Always use `--strip-debug`, `--no-header-files`, `--no-man-pages`
-. **Compression**: Consider `--compress` option for further size reduction (trade-off with startup time)
-. **Module Selection**: Use `jdeps` to analyze and eliminate unnecessary module dependencies
-. **Resource Cleanup**: Remove unused resources and files from the final image
-
-==== Build and Release Management
-
-. **Dynamic Naming**: Include version and platform in image names for easy identification
-. **Automated Testing**: Create tests that verify each distribution variant works correctly
-. **CI/CD Integration**: Use GitHub Actions or similar for multi-platform builds
-. **Artifact Management**: Organize build outputs clearly and consistently
-
-==== Platform Considerations
-
-. **Test on Target Platforms**: Don't rely solely on cross-compilation; test actual installers
-. **Platform-Specific Resources**: Provide appropriate icons and resources for each platform
-. **Installation Paths**: Consider platform conventions for installation directories
-. **Security Implications**: Understand the impact of `--ignore-signing-information` on security
-
-==== Resource and Configuration Management
-
-. **Centralized Resources**: Use `prepareMergedJarsDir` customization for resource copying
-. **Environment Variables**: Use Mustache syntax for flexible configuration
-. **Path Handling**: Use plugin-provided placeholders like `{{BIN_DIR}}` for portable scripts
-. **Configuration Files**: Ensure application configuration files are properly included
-
-==== Advanced Techniques (Chinook-Specific Insights)
-
-. **JasperReports Pattern**: Convert automatic modules to explicit modules to prevent resource conflicts
-. **Hybrid Module Systems**: Combine entity framework patterns with raw JDBC using appropriate module boundaries
-. **Connection Abstraction**: Use configuration modules to provide different connection types (local, RMI, HTTP)
-. **Service Layer Modularity**: Separate domain, service, and client layers for maximum flexibility
-
-==== Troubleshooting Strategy
-
-. **Incremental Debugging**: Isolate issues by temporarily removing complex dependencies
-. **Plugin Diagnostics**: Use plugin's diagnostic output to understand automatic decisions
-. **Module Graph Analysis**: Understand the final module graph structure and dependency flow
-. **Build Reproducibility**: Ensure builds are reproducible across different environments
-
-The Chinook distribution setup demonstrates that while creating modular Java applications with native installers requires careful configuration, the Badass JLink Plugin's sophisticated dependency management combined with proper module design patterns make it achievable even with complex dependencies like JasperReports, Kotlin runtimes, and multi-tier architectures.

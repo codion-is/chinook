@@ -1,25 +1,9 @@
-// Additional extra-java-module-info configuration for client side jasper reports dependencies,
-// including the pdf export module, with a necessary jlink plugin related trick
+// extra-java-module-info configuration for the client side jasper reports dependencies,
+// giving xmpcore, a plain jar the pdf export module depends on, a module name
 plugins {
-    id("chinook.jasperreports.modules")
+    id("org.gradlex.extra-java-module-info")
 }
 
 extraJavaModuleInfo {
-    // We transform the jasperreports-pdf automatic module into a full fledged module,
-    // otherwise the jlink plugin combines the contents of that jar with the jasperreports
-    // core jar in the so-called merged module, overwriting the jasperreports_extension.properties
-    // file from the core jar, causing errors that are *incredibly* hard to debug.
-    module("net.sf.jasperreports:jasperreports-pdf", "net.sf.jasperreports.pdf") {
-        exportAllPackages()
-        requires("net.sf.jasperreports.core")
-        requires("java.desktop")
-        requires("org.apache.commons.logging")
-        requires("com.github.librepdf.openpdf")
-    }
-
-    knownModule("commons-logging:commons-logging", "org.apache.commons.logging")
-    knownModule("com.github.librepdf:openpdf", "com.github.librepdf.openpdf")
-
-    automaticModule("org.eclipse.jdt:ecj", "org.eclipse.jdt.ecj")
     automaticModule("com.adobe.xmp:xmpcore", "com.adobe.xmp.xmpcore")
 }
